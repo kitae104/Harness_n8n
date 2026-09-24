@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2일차 4교시 프로젝트 기획 — AI 앱과 n8n으로 만드는 나만의 업무 자동화 서비스</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/lecture.css">
+<link rel="stylesheet" href="../assets/css/lesson.css">
+</head>
+<body class="lecture-mode">
+<main class="wrap" data-lesson-id="d2-p4" data-type="activity">
+
+  <nav class="crumb"><a href="../index.html">목차</a> › 2일차 › 4교시 (13:00~13:50)</nav>
+
+  <header class="page-head">
+    <h1>프로젝트 기획</h1>
+    <p class="sub">내 업무 하나를 골라 입력–처리–출력 설계서 한 장으로 정리하고, AI Studio 주문서로 옮깁니다</p>
+  </header>
+
+  <section class="sec" id="objectives" data-section="objectives">
+    <h2 class="sec-title">학습목표</h2>
+    <ul>
+      <li>내 업무 중 앱 + 자동화로 바꿀 한 가지를 고릅니다.</li>
+      <li>설계서 양식(서비스 이름·사용자·입력·처리·출력·전후 비교)을 채웁니다.</li>
+      <li>설계서를 AI Studio 주문서로 옮기는 방법을 압니다.</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="concept" data-section="concept" data-minutes="10">
+    <h2 class="sec-title">왜 설계부터 하나</h2>
+    <p>이틀 동안 만든 민원 접수 서비스는 <b>입력</b>(앱 화면의 칸) → <b>처리</b>(n8n 노드) → <b>출력</b>(시트·메일·알림·앱 회신) 세 칸으로 설명됩니다.
+       내 업무도 이 세 칸에 맞춰 적으면, 무엇을 AI Studio에 주문하고 어떤 노드를 이을지가 한눈에 보입니다. 설계 없이 앱부터 만들면 칸 이름이 자꾸 바뀌어 n8n 연결이 어긋납니다(1일차 5교시에서 본 "연결 약속").</p>
+
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>칸</th><th>민원 접수 서비스</th><th>질문</th></tr></thead>
+        <tbody>
+          <tr><td>입력</td><td>이름, 연락처, 이메일, 종류, 상세설명</td><td>누가 무엇을 적나?</td></tr>
+          <tr><td>처리</td><td>접수번호 → 시트 기록 → AI 안내문, 담당자 메일, 캘린더</td><td>받은 뒤 무엇을 해야 하나?</td></tr>
+          <tr><td>출력</td><td>앱에 접수번호·안내문, 메일, 캘린더, 텔레그램</td><td>누가 어디서 결과를 보나?</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note concept">
+      <b>한 문장 요약</b>
+      작게 시작합니다. 입력 5칸 이하, 이틀 동안 배운 노드만, 민원 접수 완성본을 고쳐 쓸 수 있는 것.
+    </div>
+  </section>
+
+  <section class="sec" id="activity" data-section="activity">
+    <h2 class="sec-title">활동</h2>
+    <ol class="steps">
+      <li><span class="step-title">주제 고르기 (5분)</span>
+        1일차 1교시에 칠판에 묶어 둔 "자동화 희망 업무"에서 하나를 고릅니다. 내 업무가 "신청·보고를 받는 일"이면 접수형(현장점검·행사 신청), "글을 정리하는 일"이면 정리형(회의록·지침 Q&amp;A)입니다.
+        <div class="tbl-wrap">
+          <table class="tbl">
+            <thead><tr><th>예시</th><th>입력</th><th>처리 → 출력</th></tr></thead>
+            <tbody>
+              <tr><td>현장점검 보고 앱(접수형)</td><td>점검장소, 점검결과(양호/보수필요), 특이사항, 점검자</td><td>시트 기록 → 보수필요면 Gemini 조치 요약 → 팀장 메일, 텔레그램 부서방 알림</td></tr>
+              <tr><td>교육·행사 신청 접수 앱(접수형)</td><td>이름, 연락처, 소속, 신청 프로그램</td><td>시트 기록 → 확정 메일, 캘린더 일정</td></tr>
+              <tr><td>회의록 정리 앱(정리형)</td><td>회의명, 참석자, 회의 메모</td><td>Gemini 요약 → 참석자 메일, 시트 보관</td></tr>
+              <tr><td>부서 지침 Q&amp;A 앱(정리형)</td><td>질문</td><td>Gemini가 공개된 지침 요약을 바탕으로 답변 → 앱에 표시</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><b>5분 안에 못 정했으면 "현장점검 보고 앱"을 그대로 고릅니다.</b> 설계서와 예시 완성본이 모두 준비되어 있어 가장 빨리 끝납니다.</p>
+        <div class="note tip">
+          <b>오늘 크기에 맞는지</b>
+          아래에 해당하면 줄입니다. 내부 시스템(새올·온나라 등)과 연결 → 시트로 대신합니다. 로그인·결재 → 빼고 담당자 메일로 대신합니다. 사진·파일 → 빼고 글 칸으로 적습니다. 화면 두 개 이상 → 입력 화면 하나만. 입력 칸 6개 이상 → 꼭 필요한 5개만.
+        </div>
+        <span class="hint">정리형(회의록·Q&amp;A)은 앱에 접수번호 대신 AI가 쓴 요약·답변을 보여 줍니다. 주문서 [눌렀을 때]의 마지막 줄을 "응답 JSON의 '안내문'을 보여 줘"로 바꾸고, n8n은 2일차 1교시 AI 가지 방식을 씁니다. 실제 회의 내용·내부 지침 원문은 넣지 않고 가상 예시로 연습합니다.</span>
+      </li>
+
+      <li><span class="step-title">팀 정하기 (3분)</span>
+        개인 또는 2~3인 팀으로 합니다. 팀이면 아래 순서로 정합니다.
+        <ol>
+          <li><b>누구 업무로 할지:</b> 팀원 중 한 사람의 업무 하나</li>
+          <li><b>누구 계정으로 만들지:</b> 1일차부터 n8n·구글·텔레그램 연결을 모두 해 둔 사람 한 명 — 이 사람이 "만드는 사람"이고, 컴퓨터는 이 사람 것 한 대만 씁니다</li>
+          <li><b>나머지 역할:</b> "읽어 주는 사람"은 교안·주문서를 읽어 주고 칸 이름 철자를 확인합니다. "발표 준비하는 사람"은 7교시 발표 순서를 적고 캡처를 챙깁니다. 2인 팀은 한 사람이 둘을 함께 맡습니다</li>
+        </ol>
+        <span class="hint">계정을 오가며 만들면 연결이 꼬입니다. 앱과 워크플로우는 만드는 사람 계정에만 만듭니다.</span>
+      </li>
+
+      <li><span class="step-title">설계서 쓰기 (12분)</span>
+        인쇄본 <a href="../print/forms/design-sheet.html">설계서 양식</a>에 손으로 씁니다. 인쇄본이 없으면 화면의 양식은 보기만 하고, 메모장(또는 한글)에 아래 여섯 줄을 적고 채웁니다. 오른쪽 "작성 예(현장점검 보고 앱)"를 보며 같은 모양으로 씁니다.
+        <pre class="code-block">서비스 이름:
+누가 쓰나:
+입력:
+처리:
+출력:
+전→후:</pre>
+        <div class="note warn">
+          <b>개인정보 주의</b>
+          설계서와 예시 값에 실제 민원인·직원의 이름, 실제 사건 내용, 내부 문서 원문을 쓰지 않습니다. "홍길동", "OO동"처럼 가상 값으로 씁니다.
+        </div>
+        <span class="hint">입력 칸 이름은 짧고 띄어쓰기 없이 씁니다(예: <code>점검장소</code>). 이 이름이 앱, 시트 머리글, n8n에서 그대로 쓰입니다.</span>
+        <p>여섯 칸이 모두 채워지면 성공입니다.</p>
+      </li>
+
+      <li><span class="step-title">강사 검토 받기 (기다리는 동안 5단계 먼저)</span>
+        손을 들어 강사·보조강사에게 설계서를 보여 줍니다. 기다리는 동안 5단계를 먼저 해도 됩니다. 검토 기준은 설계서 아래 "스스로 점검" 다섯 가지와 같습니다.
+        <ol>
+          <li>입력 칸이 5개 이하인가</li>
+          <li>처리 단계가 배운 노드로 되는가</li>
+          <li>민원 접수 완성본의 어디를 고쳐 쓰면 되는가</li>
+          <li>가상 데이터만 쓰는가</li>
+          <li>전후 비교를 한 문장으로 말할 수 있는가</li>
+        </ol>
+        <p>검토에서 "크다"는 말을 들으면 처리 단계를 하나씩 빼서 가장 중요한 것 하나만 남깁니다. 설계서의 "강사 확인" 칸에 표시를 받으면 성공입니다.</p>
+      </li>
+
+      <li><span class="step-title">설계서를 주문서로 옮기기 (7분)</span>
+        <ol>
+          <li>아래 상자의 글을 모두 복사해 메모장(또는 한글)에 붙여 넣습니다. 메모장에 글이 보이면 성공입니다.</li>
+          <li>메모장에서 <code>{</code>와 <code>}</code>로 둘러싸인 자리를 설계서 내용으로 바꾸고, 중괄호는 지웁니다. <kbd>Ctrl</kbd>+<kbd>F</kbd>로 <code>{</code>를 찾았을 때 하나도 없으면 성공입니다.</li>
+          <li>메모장을 바탕 화면에 <code>내주문서.txt</code>로 저장합니다. 5교시 첫 단계에서 이 파일을 엽니다.</li>
+        </ol>
+        <pre class="code-block">{누가 쓰나}이(가) 쓰는 "{서비스 이름}" 웹 앱을 만들어 줘. 화면의 모든 글자는 한국어로 써 줘.
+
+[화면]
+- 맨 위 제목: {서비스 이름}
+- 입력 칸 (5개 이하)
+  1. {입력 칸 1} (안내 글: 예) {가상 예시})
+  2. {입력 칸 2} — {고르는 목록이면 선택지를 쉼표로}
+  3. {입력 칸 3}
+- 맨 아래 "{보내기 버튼 이름}" 버튼
+- 글자는 크게, 버튼은 크고 누르기 쉽게, 휴대폰 화면에서도 보기 좋게
+
+[{보내기 버튼 이름}을 눌렀을 때]
+- 빈 칸이 있으면 어느 칸이 비었는지 알려 줘.
+- 코드 맨 위에 WEBHOOK_URL 이라는 상수를 만들고 값은 빈 문자열("")로 둬.
+- WEBHOOK_URL이 비어 있으면 "아직 연결되지 않았습니다."를 보여 줘.
+- 비어 있지 않으면 입력한 값을 JSON으로 WEBHOOK_URL에 POST 방식으로 보내. JSON의 키 이름은 한글 그대로 {입력 칸 이름들} 으로 해.
+- 응답 JSON의 "접수번호"와 "메시지"를 완료 화면에 크게 보여 주고, "새로 입력" 버튼으로 처음 화면에 돌아가게 해.
+
+[넣지 말 것]
+- 로그인, 회원가입, 데이터베이스, Gemini(AI) 기능은 넣지 마.
+- 실제 사람의 이름이나 연락처를 예시로 넣지 마.</pre>
+        <span class="hint">현장점검 보고 앱을 골랐다면 채울 필요 없이 <a href="../prompts/d2-p5-field-inspection-app.md">현장점검 주문서</a>를 그대로 씁니다.</span>
+        <div class="note mistake" data-section="mistakes">
+          <b>자주 하는 실수</b>
+          <p><b>증상</b> 주문서의 칸 이름과 설계서의 칸 이름이 조금씩 달라요(예: <code>점검 장소</code>와 <code>점검장소</code>)<br>
+             <b>원인</b> 옮겨 적다 띄어쓰기가 바뀌었어요<br>
+             <b>해결</b> 설계서의 칸 이름을 그대로 옮겨 쓰세요. 5교시에 n8n이 이 이름으로 값을 찾습니다</p>
+        </div>
+      </li>
+    </ol>
+    <div class="note planb">
+      <b>못 끝냈을 때</b>
+      설계서가 반만 되었으면 "입력"과 "처리" 두 칸만 채우고 5교시로 넘어갑니다. 주문서를 못 채웠으면 5교시 첫 단계에서 현장점검 주문서로 앱을 만들고 칸 이름만 내 것으로 바꿔 달라고 요청합니다.
+    </div>
+  </section>
+
+  <section class="sec" id="summary" data-section="summary">
+    <h2 class="sec-title">정리</h2>
+    <ul>
+      <li>내 업무 서비스를 입력–처리–출력 설계서 한 장으로 정리했습니다.</li>
+      <li>칸 이름은 앱·시트·n8n이 함께 쓰는 약속이므로 설계서의 표기를 그대로 씁니다.</li>
+      <li>다음: 5교시에는 이 주문서로 앱을 만들고, 민원 접수 완성본을 고쳐 내 워크플로우를 만듭니다.</li>
+    </ul>
+  </section>
+
+  <nav class="pager">
+    <a href="d2-p3.html">← 3교시 앱 배포·공유·보안</a>
+    <a href="d2-p5.html">5교시 프로젝트 제작 ① →</a>
+  </nav>
+
+</main>
+</body>
+</html>

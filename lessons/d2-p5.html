@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2일차 5교시 프로젝트 제작 ① — AI 앱과 n8n으로 만드는 나만의 업무 자동화 서비스</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/lecture.css">
+<link rel="stylesheet" href="../assets/css/lesson.css">
+</head>
+<body class="lecture-mode">
+<main class="wrap" data-lesson-id="d2-p5" data-type="activity">
+
+  <nav class="crumb"><a href="../index.html">목차</a> › 2일차 › 5교시 (14:00~14:50)</nav>
+
+  <header class="page-head">
+    <h1>프로젝트 제작 ①</h1>
+    <p class="sub">설계서대로 앱 화면을 만들고, 민원 접수 완성본을 고쳐 내 워크플로우를 만듭니다</p>
+  </header>
+
+  <section class="sec" id="objectives" data-section="objectives">
+    <h2 class="sec-title">학습목표</h2>
+    <ul>
+      <li>설계서를 바탕으로 프롬프트 템플릿을 고쳐 내 앱 화면을 만듭니다.</li>
+      <li>기존 완성 파일을 복사·변형해 내 워크플로우를 구성합니다.</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="concept" data-section="concept" data-minutes="10">
+    <h2 class="sec-title">처음부터 만들지 않고 고쳐 씁니다</h2>
+    <p>이틀 동안 만든 민원 접수 서비스는 대부분의 "접수형" 업무에 그대로 쓸 수 있는 뼈대입니다. 내 서비스는 이 뼈대에서 <b>칸 이름과 문구만</b> 바꾸면 됩니다.
+       오늘 예시는 4교시 설계서의 "현장점검 보고 앱"입니다. 이 교시 끝에 예시 완성본이 있으니, 내 주제가 비슷하면 그것을 가져와 고쳐도 됩니다.</p>
+
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>민원 접수 (1일차 7교시)</th><th>현장점검 보고 (예시)</th><th>내 서비스</th></tr></thead>
+        <tbody>
+          <tr><td><code class="val">민원 받기</code> (경로 <code>minwon</code>)</td><td><code class="val">점검 받기</code> (경로 <code>field-check</code>)</td><td>경로를 <b>새 영어 단어</b>로</td></tr>
+          <tr><td><code class="val">민원 정리</code>: 이름·연락처·이메일·종류·상세설명</td><td><code class="val">점검 정리</code>: 점검장소·점검결과·특이사항·점검자</td><td>설계서의 입력 칸 이름</td></tr>
+          <tr><td>시트 <code>민원대장 연습</code></td><td>시트 <code>점검대장 연습</code></td><td>새 시트 문서</td></tr>
+          <tr><td><code class="val">오늘 접수 조회</code> → <code class="val">접수번호 만들기</code></td><td>같음(정리 노드 이름만 바꿈)</td><td>같음</td></tr>
+          <tr><td><code class="val">시트에 기록</code> → <code class="val">앱에 답하기</code></td><td>같음(열과 응답 문구만 바꿈)</td><td>같음</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note concept">
+      <b>한 문장 요약</b>
+      칸 이름은 설계서 → 앱 → 시트 머리글 → 정리 노드까지 <b>똑같이</b> 씁니다. 이것만 지키면 나머지는 민원 접수 때와 같습니다.
+    </div>
+    <div class="note tip">
+      <b>용어 다시 보기</b>
+      <ul>
+        <li><dfn>Webhook</dfn>: 외부 앱이 n8n을 부르는 주소(초인종)</li>
+        <li><dfn>Test URL</dfn>: 만드는 중에 시험할 때 쓰는 주소 / <dfn>Production URL</dfn>: 게시한 뒤 앱에 넣는 진짜 주소</li>
+        <li><dfn><code class="val">Publish</code></dfn>: 워크플로우를 게시해 주소가 항상 동작하게 하는 버튼(고친 뒤에는 다시 누름)</li>
+        <li><dfn>CORS</dfn>: 다른 주소의 앱이 n8n을 불러도 되는지 정하는 허락 규칙(<code class="val">Allowed Origins (CORS)</code> = <code>*</code>)</li>
+        <li><dfn>표현식</dfn>: <code>{{ }}</code> 안에 써서 앞 노드의 값을 가져오는 문장</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec" id="activity" data-section="activity">
+    <h2 class="sec-title">활동</h2>
+    <div class="note tip">
+      <b>진행 방법</b>
+      팀이면 앱 담당은 1단계, n8n 담당은 2~3단계를 동시에 합니다. 개인이면 차례로 합니다. 막히면 해당 교시 교안(링크)을 다시 봅니다.
+    </div>
+    <ol class="steps">
+      <li><span class="step-title">앱 화면 만들기 (10분)</span>
+        4교시에 채운 주문서를 AI Studio에 붙여 넣어 <b>새 앱</b>을 만듭니다(<code>aistudio.google.com/apps</code>, 1일차 4교시와 같은 방법).
+        미리보기에서 칸 이름이 설계서와 같은지, 보내기 버튼을 누르면 "아직 연결되지 않았습니다."가 뜨는지 확인합니다.
+        <span class="hint">예시 주문서: <a href="../prompts/d2-p5-field-inspection-app.md">현장점검 보고 앱 주문서</a>. 화면이 마음에 들지 않으면 1일차 5교시의 수정 요청 문장을 씁니다.</span>
+      </li>
+
+      <li><span class="step-title">새 시트 만들기 (5분)</span>
+        <code>sheets.new</code>로 새 구글 시트를 만들고 이름을 <code>(서비스 이름) 연습</code>으로 바꿉니다(예: <code>점검대장 연습</code>).
+        1행에 <b>입력 칸 이름</b> + <code>등록일</code>, <code>접수번호</code>, <code>처리상태</code>를 한 칸씩 적습니다.
+        <pre class="code-block">점검장소	점검결과	특이사항	점검자	등록일	접수번호	처리상태</pre>
+        <span class="hint">위는 예시입니다. 앞 네 칸을 내 입력 칸 이름으로 바꿔 적습니다. 띄어쓰기 없이, 설계서와 똑같이 씁니다.</span>
+      </li>
+
+      <li><span class="step-title">워크플로우 고쳐 만들기 (20분)</span>
+        이 교시 끝 "완성본 가져오기"로 <b>현장점검 예시</b>를 가져오거나, n8n에서 1일차 7교시 민원 접수 워크플로우를 열어 오른쪽 위 <code class="val">…</code> → 복제(<code class="val">Duplicate</code>)합니다. <!-- FACT-CHECK: F203 -->
+        그다음 아래 표의 곳만 고칩니다.
+        <div class="tbl-wrap">
+          <table class="tbl">
+            <thead><tr><th>노드</th><th>고칠 곳</th></tr></thead>
+            <tbody>
+              <tr><td>받기(Webhook)</td><td><code class="val">Path</code>를 새 영어 단어로(예: <code>field-check</code>). 민원 접수와 같은 <code>minwon</code>을 쓰면 충돌합니다. <code class="val">Allowed Origins (CORS)</code> <code>*</code>, <code class="val">Respond</code>는 그대로</td></tr>
+              <tr><td>정리(Edit Fields)</td><td>다섯 줄을 지우고 내 입력 칸 이름으로 다시 만들기: 왼쪽 이름 = 칸 이름, 오른쪽 값 = <code>{{ $json.body['칸 이름'] }}</code></td></tr>
+              <tr><td><code class="val">오늘 접수 조회</code></td><td><code class="val">Document</code>를 새 시트로</td></tr>
+              <tr><td><code class="val">접수번호 만들기</code></td><td>정리 노드 이름을 바꿨다면 한 줄 표현식 안의 <code>$('민원 정리')</code>를 새 이름으로(예: <code>$('점검 정리')</code>)</td></tr>
+              <tr><td><code class="val">시트에 기록</code></td><td><code class="val">Document</code>를 새 시트로, 열 목록을 다시 불러와 칸마다 <code>{{ $json.칸 이름 }}</code>, <code>등록일</code>·<code>접수번호</code>·<code>처리상태</code>는 1일차 7교시와 같게</td></tr>
+              <tr><td><code class="val">앱에 답하기</code></td><td><code>메시지</code> 문구만 내 서비스에 맞게(예: "점검 보고가 접수되었습니다")</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>메일·캘린더·AI·텔레그램 가지는 6교시에 붙입니다. 지금은 <b>받기 → 시트 기록 → 앱에 답하기</b>까지만 완성합니다.</p>
+        <div class="note mistake" data-section="mistakes">
+          <b>자주 하는 실수</b>
+          <p><b>증상</b> 시트에 줄은 생기는데 칸이 비어 있어요<br>
+             <b>원인</b> 앱이 보내는 칸 이름, 정리 노드의 이름, 시트 머리글 중 하나가 달라요<br>
+             <b>해결</b> 세 곳의 칸 이름을 나란히 적어 한 글자씩 비교하세요. 띄어쓰기가 가장 흔한 원인입니다</p>
+        </div>
+      </li>
+
+      <li><span class="step-title">연결하고 한 번 보내 보기 (5분)</span>
+        1일차 6교시와 같은 순서입니다: 앱에 <code>WEBHOOK_URL</code>로 Test URL 넣기 → 시험 → <code class="val">Publish</code> → Production URL로 바꾸기. 자세한 단계는 <a href="d1-p6.html#practice">1일차 6교시 따라하기</a> 2~3단계와 8~9단계를 봅니다.
+        <p>앱에서 가상 값을 보내 시트에 한 줄이 생기고 앱에 접수번호가 보이면 이 교시의 목표를 이룬 것입니다.</p>
+        <div class="note warn">
+          <b>개인정보 주의</b>
+          내 업무 서비스라도 실습에는 가상 값만 넣습니다. 실제 적용은 3교시 점검표를 거친 뒤 부서에서 합니다.
+        </div>
+      </li>
+    </ol>
+
+    <div class="note tip">
+      <b>빨리 끝났다면</b>
+      6교시 내용(If·AI·메일·텔레그램 붙이기)을 먼저 해도 되고, 선택 실습을 해 봐도 됩니다:
+      <a href="opt-pdf.html">PDF 공문 요약 앱</a>, <a href="opt-voice.html">음성 입력 민원 접수</a>.
+    </div>
+  </section>
+
+  <section class="sec" id="summary" data-section="summary">
+    <h2 class="sec-title">정리</h2>
+    <ul>
+      <li>민원 접수 완성본의 칸 이름·경로·시트·문구만 바꿔 내 서비스를 만들었습니다.</li>
+      <li>칸 이름은 설계서 → 앱 → 시트 → 정리 노드까지 똑같이 씁니다.</li>
+      <li>다음: 6교시에는 연결을 마무리하고 메일·AI·알림을 붙인 뒤 발표를 준비합니다.</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="import" data-section="import">
+    <h2 class="sec-title">완성본 가져오기(Import) — 현장점검 예시 기본형</h2>
+    <p>내 주제가 현장점검과 비슷하면 이 예시를 가져와 칸 이름만 고쳐 써도 됩니다.</p>
+    <ol class="steps">
+      <li><span class="step-title">파일 내려받기</span>
+        <a class="dl" href="../workflows/d2-p5.json" download>예시 워크플로우 내려받기 <span class="dl-name">d2-p5.json</span></a>
+      </li>
+      <li><span class="step-title">n8n에서 가져오기</span>
+        <code class="val">Create workflow</code> → 오른쪽 위 <code class="val">…</code> → <code class="val">Import</code> → <code class="val">From file</code>. 노드 여섯 개가 보이면 성공입니다.
+      </li>
+      <li><span class="step-title">자격 증명 다시 연결하기</span>
+        <code class="val">오늘 접수 조회</code>와 <code class="val">시트에 기록</code>을 열어 <code class="val">Credential</code> 칸에서 내 구글 시트 <dfn>자격 증명</dfn>(n8n이 내 계정을 대신 쓰도록 맡겨 둔 열쇠)을 고릅니다.
+      </li>
+      <li><span class="step-title">자리표시자 바꾸기</span>
+        같은 두 노드의 <code class="val">Document</code>: 왼쪽 목록을 <code class="val">From list</code>로 바꾸고 2단계에서 만든 새 시트(<code>여기에_본인_시트_ID</code> 대신), <code class="val">Sheet</code>: 내 탭 이름.
+      </li>
+      <li><span class="step-title">Publish하고 앱에 주소 넣기</span>
+        <code class="val">Publish</code> → 확인 창의 <code class="val">Publish</code>. <code class="val">점검 받기</code>의 Production URL을 1일차 6교시 9단계 순서로 내 앱의 <code>WEBHOOK_URL</code>에 넣습니다. 앱에서 보내 시트에 줄이 생기면 복구 완료입니다.
+      </li>
+    </ol>
+  </section>
+
+  <nav class="pager">
+    <a href="d2-p4.html">← 4교시 프로젝트 기획</a>
+    <a href="d2-p6.html">6교시 프로젝트 제작 ② →</a>
+  </nav>
+
+</main>
+</body>
+</html>

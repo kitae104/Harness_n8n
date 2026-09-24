@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2일차 6교시 프로젝트 제작 ② — AI 앱과 n8n으로 만드는 나만의 업무 자동화 서비스</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/lecture.css">
+<link rel="stylesheet" href="../assets/css/lesson.css">
+</head>
+<body class="lecture-mode">
+<main class="wrap" data-lesson-id="d2-p6" data-type="activity">
+
+  <nav class="crumb"><a href="../index.html">목차</a> › 2일차 › 6교시 (15:00~15:50)</nav>
+
+  <header class="page-head">
+    <h1>프로젝트 제작 ②</h1>
+    <p class="sub">처음부터 끝까지 시험하고, 막히면 점검 순서표로 원인을 좁히고, 시간이 남으면 기능을 더합니다</p>
+  </header>
+
+  <section class="sec" id="objectives" data-section="objectives">
+    <h2 class="sec-title">학습목표</h2>
+    <ul>
+      <li>내 앱과 워크플로우를 연결해 처음부터 끝까지 테스트합니다.</li>
+      <li>막히면 점검 순서표에 따라 원인을 스스로 좁힙니다.</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="concept" data-section="concept" data-minutes="10">
+    <h2 class="sec-title">왜 순서대로 점검하나</h2>
+    <p>앱과 n8n 사이에는 확인할 곳이 여러 군데 있습니다. "안 돼요"에서 멈추지 않으려면 <b>늘 같은 순서로</b> 하나씩 확인합니다.
+       이 순서는 이틀 동안 겪은 실수를 모은 것입니다. 앞에서부터 확인하면 대부분 세 번째 안에 원인이 나옵니다.</p>
+
+    <div class="note tip">
+      <b>용어 다시 보기</b>
+      <ul>
+        <li><dfn>Webhook</dfn>: 외부 앱이 n8n을 부르는 주소 / <dfn>Respond to Webhook</dfn>: 부른 쪽에 답장을 보내는 노드</li>
+        <li><dfn>Test URL</dfn>: 만드는 중에 시험할 때 쓰는 주소 / <dfn>Production URL</dfn>: 게시한 뒤 앱에 넣는 진짜 주소</li>
+        <li><dfn><code class="val">Publish</code></dfn>: 워크플로우를 게시해 주소가 항상 동작하게 하는 버튼</li>
+        <li><dfn>CORS</dfn>: 다른 주소의 앱이 n8n을 불러도 되는지 정하는 허락 규칙</li>
+        <li><dfn>자격 증명</dfn>: n8n이 내 계정을 대신 쓰도록 맡겨 둔 열쇠 / <dfn>표현식</dfn>: <code>{{ }}</code> 안에 써서 앞 노드의 값을 가져오는 문장</li>
+        <li><dfn>API 키</dfn>: Gemini 같은 서비스를 쓸 수 있게 해 주는 비밀 번호표</li>
+      </ul>
+    </div>
+
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>순서</th><th>확인할 것</th><th>어디서</th><th>배운 곳</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>고친 뒤 다시 <code class="val">Publish</code>했나?</td><td>n8n 위쪽 버튼</td><td>1일차 3교시</td></tr>
+          <tr><td>2</td><td>앱의 <code>WEBHOOK_URL</code>이 <code>/webhook/</code>으로 된 Production URL인가?</td><td>AI Studio <code class="val">Code</code> 탭</td><td>1일차 6교시</td></tr>
+          <tr><td>3</td><td>받기 노드의 <code class="val">Allowed Origins (CORS)</code>가 <code>*</code>인가?</td><td>받기(Webhook) 설정</td><td>1일차 3·6교시</td></tr>
+          <tr><td>4</td><td>받기 노드의 <code class="val">Respond</code>가 <code class="val">Using 'Respond to Webhook' Node</code>인가?</td><td>받기(Webhook) 설정</td><td>1일차 7교시</td></tr>
+          <tr><td>5</td><td>시트 노드의 자격 증명·문서·탭이 맞고, 칸 이름이 앱·정리 노드·시트 머리글에서 같은가?</td><td>시트 노드, 시트 1행</td><td>1일차 6교시, 2일차 5교시</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>어디서 멈췄는지는 n8n 위쪽 <code class="val">Executions</code>에서 방금 실행을 열면 빨간 노드로 보입니다. 실행 기록이 아예 없으면 1~3번 문제(앱이 n8n에 닿지 못함)입니다.</p>
+
+
+    <div class="note concept">
+      <b>한 문장 요약</b>
+      먼저 "보내면 시트에 쌓이고 번호가 돌아온다"를 완성하고, 그다음에 기능을 더합니다. 기능을 더할 때마다 다시 Publish하고 한 번 보내 봅니다.
+    </div>
+  </section>
+
+  <section class="sec" id="activity" data-section="activity">
+    <h2 class="sec-title">활동</h2>
+    <ol class="steps">
+      <li><span class="step-title">처음부터 끝까지 시험하기 (10분)</span>
+        앱에서 가상 값으로 세 번 보냅니다. 매번 아래를 확인합니다.
+        <ul>
+          <li>앱에 접수번호가 보이나요? 두 번째는 <code>…-002</code>로 늘어나나요?</li>
+          <li>시트에 한 줄씩 쌓이고 칸이 모두 채워졌나요?</li>
+          <li>n8n <code class="val">Executions</code>에 실행 기록이 세 줄 생겼나요?</li>
+        </ul>
+        <div class="note warn">
+          <b>개인정보 주의</b>
+          내 업무 서비스라도 실제 사람 이름·연락처·실제 사건을 넣지 않습니다. 발표 캡처에도 가상 값만 보이게 합니다.
+        </div>
+      </li>
+
+      <li><span class="step-title">막히면 점검 순서표로 좁히기</span>
+        위 표의 1번부터 차례로 확인합니다. 한 번에 하나만 고치고, 고칠 때마다 다시 <code class="val">Publish</code> → 앱에서 한 번 보내기를 합니다.
+        <div class="note mistake" data-section="mistakes">
+          <b>자주 하는 실수</b>
+          <p><b>증상</b> 여러 곳을 한꺼번에 고쳤더니 무엇 때문에 된 건지(또는 안 되는지) 모르겠어요<br>
+             <b>원인</b> 고칠 때마다 시험하지 않았어요<br>
+             <b>해결</b> 점검 순서표 한 줄 → 고치기 → Publish → 한 번 보내기. 이 순서를 지키세요</p>
+          <p><b>증상</b> 5번까지 다 맞는데 앱에 "접수하지 못했습니다"가 떠요<br>
+             <b>원인</b> 브라우저가 앱에서 n8n을 직접 부르는 것을 막는 경우예요<br>
+             <b>해결</b> 1일차 6교시 3단계의 "막히면" 박스 문장(서버 쪽 호출)을 AI Studio에 보내세요</p>
+        </div>
+      </li>
+
+      <li><span class="step-title">기능 더하기 (20분, 설계서의 "처리·출력"대로)</span>
+        기본 흐름이 되면 설계서에 적은 처리·출력을 하나씩 붙입니다. 붙이는 방법은 이미 배운 교시와 같습니다.
+        <div class="tbl-wrap">
+          <table class="tbl">
+            <thead><tr><th>더할 기능</th><th>붙이는 곳</th><th>따라 할 교안</th></tr></thead>
+            <tbody>
+              <tr><td>담당자·팀장 메일</td><td><code class="val">시트에 기록</code>에서 새 가지</td><td>2일차 1교시 5단계</td></tr>
+              <tr><td>조건에 따라 나누기(예: 보수필요일 때만)</td><td>가지 앞에 If</td><td>2일차 2교시 1~2단계</td></tr>
+              <tr><td>AI 요약·안내문</td><td>Basic LLM Chain + Gemini, 주문 문장만 내 업무로</td><td>2일차 1교시 2~3단계</td></tr>
+              <tr><td>캘린더 일정</td><td><code class="val">시트에 기록</code>에서 새 가지</td><td>2일차 1교시 6~7단계</td></tr>
+              <tr><td>텔레그램 부서방 알림</td><td><code class="val">시트에 기록</code>에서 맨 아래 가지</td><td>2일차 2교시 10~11단계</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>현장점검 예시에서는 <code class="val">보수필요인가?</code>(If) → <code class="val">AI 조치 요약</code> → <code class="val">팀장 메일</code>과 <code class="val">텔레그램 알림</code>을 붙였습니다. 이 교시 끝 예시 완성본에서 모양을 볼 수 있습니다.</p>
+        <span class="hint">가지를 붙일 때마다 앱에 답하는 가지가 캔버스 맨 위에 있는지 봅니다(n8n은 위쪽 가지부터 실행). AI 주문 문장에는 "비용·법령·업체 이름은 지어내지 않습니다"를 꼭 넣습니다.</span>
+      </li>
+
+      <li><span class="step-title">선택 실습을 하려면</span>
+        기본 흐름과 기능 하나가 다 되었고 시간이 남으면 선택 실습을 해도 됩니다. 수료 뒤 혼자 해도 되도록 교안과 완성본이 준비되어 있습니다.
+        <ul>
+          <li><a href="opt-pdf.html">PDF 공문 요약 앱</a> — 파일을 올리면 Gemini가 요약해 메일·텔레그램으로 보냄</li>
+          <li><a href="opt-voice.html">음성 입력 민원 접수</a> — 민원 접수 앱에 "음성으로 입력" 버튼 더하기(n8n은 그대로)</li>
+        </ul>
+      </li>
+
+      <li><span class="step-title">발표 준비 (마지막 5분)</span>
+        7교시 발표에 쓸 화면 세 장을 캡처해 둡니다: ① 앱 화면(입력과 완료), ② n8n 워크플로우 전체, ③ 결과(시트·메일·알림 중 하나).
+        캡처에 가상 값만 보이는지, 이메일 주소·API 키·Webhook 주소가 가려졌는지 확인합니다.
+      </li>
+    </ol>
+  </section>
+
+  <section class="sec" id="summary" data-section="summary">
+    <h2 class="sec-title">정리</h2>
+    <ul>
+      <li>막히면 점검 순서표(Publish → 주소 → CORS → 응답 방식 → 시트·칸 이름)를 앞에서부터 확인합니다.</li>
+      <li>기능은 하나씩 붙이고, 붙일 때마다 Publish하고 한 번 보냅니다.</li>
+      <li>다음: 7교시에는 서비스를 발표하고 부서 적용 로드맵을 씁니다.</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="import" data-section="import">
+    <h2 class="sec-title">완성본 가져오기(Import) — 현장점검 예시 확장형</h2>
+    <p>현장점검 예시의 확장형(보수필요일 때 AI 조치 요약 → 팀장 메일, 텔레그램 알림)입니다. 내 서비스에 기능을 붙일 때 모양을 참고합니다.</p>
+    <div class="note warn">
+      <b>먼저: 5교시 예시를 Publish했다면</b>
+      5교시에 가져온 현장점검 예시 워크플로우를 열어 <code class="val">Publish</code> 옆 목록에서 <code class="val">Unpublish</code>를 누릅니다. 같은 경로(<code>field-check</code>)는 하나만 동작합니다.
+    </div>
+    <ol class="steps">
+      <li><span class="step-title">파일 내려받기</span>
+        <a class="dl" href="../workflows/d2-p6.json" download>예시 워크플로우 내려받기 <span class="dl-name">d2-p6.json</span></a>
+      </li>
+      <li><span class="step-title">n8n에서 가져오기</span>
+        <code class="val">Create workflow</code> → 오른쪽 위 <code class="val">…</code> → <code class="val">Import</code> → <code class="val">From file</code>. 노드 열한 개가 보이면 성공입니다.
+      </li>
+      <li><span class="step-title">자격 증명 다시 연결하기</span>
+        <ul>
+          <li><code class="val">오늘 접수 조회</code>, <code class="val">시트에 기록</code> — 구글 시트용</li>
+          <li><code class="val">Google Gemini Chat Model</code> — Gemini API 키</li>
+          <li><code class="val">팀장 메일</code> — Gmail용</li>
+          <li><code class="val">텔레그램 알림</code> — 텔레그램 봇 토큰(없으면 이 노드를 지웁니다)</li>
+        </ul>
+      </li>
+      <li><span class="step-title">자리표시자 바꾸기</span>
+        <ul>
+          <li>시트 노드 두 개의 <code class="val">Document</code>: <code class="val">From list</code>로 바꾸고 내 시트(<code>여기에_본인_시트_ID</code> 대신)</li>
+          <li><code class="val">팀장 메일</code>의 <code class="val">To</code>: <code>본인이메일@example.com</code> → 내 Gmail 주소</li>
+          <li><code class="val">텔레그램 알림</code>의 <code class="val">Chat ID</code>: <code>여기에_본인_채팅_ID</code> → 내 chat id</li>
+          <li>Gemini <code class="val">Model</code>: <code>models/gemini-3.8-flash</code> 다시 고르기</li>
+        </ul>
+      </li>
+      <li><span class="step-title">Publish하고 보내 보기</span>
+        <code class="val">Publish</code>를 누르고, 앱의 <code>WEBHOOK_URL</code>에 <code class="val">점검 받기</code>의 Production URL이 들어 있는지 확인합니다. 점검결과를 "보수필요"로 보내 팀장 메일에 AI 조치 요약이 오면 성공입니다.
+      </li>
+    </ol>
+  </section>
+
+  <nav class="pager">
+    <a href="d2-p5.html">← 5교시 프로젝트 제작 ①</a>
+    <a href="d2-p7.html">7교시 발표·피드백 →</a>
+  </nav>
+
+</main>
+</body>
+</html>

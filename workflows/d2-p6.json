@@ -1,0 +1,430 @@
+{
+  "name": "d2-p6 현장점검 보고 앱 — 확장형(예시)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "field-check",
+        "options": {
+          "allowedOrigins": "*"
+        },
+        "responseMode": "responseNode"
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d2p5-hook",
+      "name": "점검 받기",
+      "webhookId": "4c7e1b30-8a2f-4d5e-9b10-0d25a2e50001"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "s1",
+              "name": "점검장소",
+              "value": "={{ $json.body['점검장소'] }}",
+              "type": "string"
+            },
+            {
+              "id": "s2",
+              "name": "점검결과",
+              "value": "={{ $json.body['점검결과'] }}",
+              "type": "string"
+            },
+            {
+              "id": "s3",
+              "name": "특이사항",
+              "value": "={{ $json.body['특이사항'] }}",
+              "type": "string"
+            },
+            {
+              "id": "s4",
+              "name": "점검자",
+              "value": "={{ $json.body['점검자'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        260,
+        0
+      ],
+      "id": "d2p5-clean",
+      "name": "점검 정리"
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "여기에_본인_시트_ID"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "시트1"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        520,
+        0
+      ],
+      "id": "d2p5-read",
+      "name": "오늘 접수 조회",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ Object.assign({}, $('점검 정리').first().json, { \"접수번호\": $now.toFormat('yyyy-MMdd') + '-' + String($('오늘 접수 조회').all().filter(i => String(i.json['접수번호'] || '').startsWith($now.toFormat('yyyy-MMdd'))).length + 1).padStart(3, '0'), \"처리상태\": \"접수\" }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        780,
+        0
+      ],
+      "id": "d2p5-number",
+      "name": "접수번호 만들기",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "여기에_본인_시트_ID"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "시트1"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "점검장소": "={{ $json.점검장소 }}",
+            "점검결과": "={{ $json.점검결과 }}",
+            "특이사항": "={{ $json.특이사항 }}",
+            "점검자": "={{ $json.점검자 }}",
+            "등록일": "={{ $now.toFormat('yyyy-MM-dd') }}",
+            "접수번호": "={{ $json.접수번호 }}",
+            "처리상태": "={{ $json.처리상태 }}"
+          },
+          "schema": [
+            {
+              "id": "점검장소",
+              "displayName": "점검장소",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "점검결과",
+              "displayName": "점검결과",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "특이사항",
+              "displayName": "특이사항",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "점검자",
+              "displayName": "점검자",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "등록일",
+              "displayName": "등록일",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "접수번호",
+              "displayName": "접수번호",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "처리상태",
+              "displayName": "처리상태",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            }
+          ],
+          "matchingColumns": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "cellFormat": "RAW"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1040,
+        0
+      ],
+      "id": "d2p5-sheet",
+      "name": "시트에 기록"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"접수번호\": \"{{ $json.접수번호 }}\",\n  \"메시지\": \"점검 보고가 접수되었습니다\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1300,
+        -220
+      ],
+      "id": "d2p5-respond",
+      "name": "앱에 답하기"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 3,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json['점검결과'] }}",
+              "rightValue": "보수필요",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1300,
+        40
+      ],
+      "id": "d2p6-if",
+      "name": "보수필요인가?"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=당신은 시설 관리 부서의 선임 주무관입니다.\n아래 현장점검 결과를 보고 팀장에게 올릴 '조치 요약'을 작성해 주세요.\n\n[작성 규칙]\n- 3~5문장, 존댓말로 작성합니다.\n- 무엇이 문제인지, 먼저 해야 할 조치 한두 가지를 적습니다.\n- 비용·법령·업체 이름은 지어내지 않습니다.\n\n[점검 결과]\n- 접수번호: {{ $json.접수번호 }}\n- 점검장소: {{ $json.점검장소 }}\n- 점검결과: {{ $json.점검결과 }}\n- 특이사항: {{ $json.특이사항 }}\n- 점검자: {{ $json.점검자 }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        1560,
+        0
+      ],
+      "id": "d2p6-ai",
+      "name": "AI 조치 요약"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.8-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        1560,
+        200
+      ],
+      "id": "d1-gemini-model",
+      "name": "Google Gemini Chat Model"
+    },
+    {
+      "parameters": {
+        "sendTo": "본인이메일@example.com",
+        "subject": "=[보수필요] 현장점검 {{ $('시트에 기록').first().json.접수번호 }} {{ $('시트에 기록').first().json.점검장소 }}",
+        "emailType": "text",
+        "message": "=팀장님께,\n\n보수가 필요한 현장점검 결과가 접수되었습니다.\n\n- 접수번호: {{ $('시트에 기록').first().json.접수번호 }}\n- 점검장소: {{ $('시트에 기록').first().json.점검장소 }}\n- 점검자: {{ $('시트에 기록').first().json.점검자 }}\n- 특이사항: {{ $('시트에 기록').first().json.특이사항 }}\n\n[AI 조치 요약 — 초안이므로 확인 후 활용]\n{{ $json.text }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1820,
+        0
+      ],
+      "id": "d2p6-mail",
+      "name": "팀장 메일"
+    },
+    {
+      "parameters": {
+        "chatId": "여기에_본인_채팅_ID",
+        "text": "=현장점검 보고가 접수되었습니다\n접수번호: {{ $json.접수번호 }}\n장소: {{ $json.점검장소 }}\n결과: {{ $json.점검결과 }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1300,
+        300
+      ],
+      "id": "d2p6-tg",
+      "name": "텔레그램 알림"
+    }
+  ],
+  "connections": {
+    "점검 받기": {
+      "main": [
+        [
+          {
+            "node": "점검 정리",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "점검 정리": {
+      "main": [
+        [
+          {
+            "node": "오늘 접수 조회",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "오늘 접수 조회": {
+      "main": [
+        [
+          {
+            "node": "접수번호 만들기",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "접수번호 만들기": {
+      "main": [
+        [
+          {
+            "node": "시트에 기록",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "시트에 기록": {
+      "main": [
+        [
+          {
+            "node": "앱에 답하기",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "보수필요인가?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "텔레그램 알림",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "보수필요인가?": {
+      "main": [
+        [
+          {
+            "node": "AI 조치 요약",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "AI 조치 요약": {
+      "main": [
+        [
+          {
+            "node": "팀장 메일",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI 조치 요약",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Seoul"
+  }
+}

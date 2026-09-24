@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>나만의 업무 서비스 설계서 — AI 앱과 n8n으로 만드는 나만의 업무 자동화 서비스</title>
+<link rel="stylesheet" href="../../assets/css/style.css">
+<link rel="stylesheet" href="../../assets/css/lecture.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+</head>
+<body class="lecture-mode">
+<main class="wrap">
+
+  <header class="page-head">
+    <h1>나만의 업무 서비스 설계서</h1>
+    <p class="sub">2일차 4교시 · 입력–처리–출력 한 장 설계 (인쇄해서 손으로 써도 됩니다)</p>
+  </header>
+
+  <section class="sec">
+    <h2 class="sec-title">작성자</h2>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <tbody>
+          <tr><th>팀(또는 개인)</th><td>&nbsp;</td><th>부서</th><td>&nbsp;</td></tr>
+          <tr><th>만드는 사람(계정)</th><td>&nbsp;</td><th>읽어 주는 사람 / 발표 준비</th><td>&nbsp;</td></tr>
+          <tr><th>강사 확인</th><td colspan="3">□ 크기 적당 &nbsp; □ 배운 노드로 가능 &nbsp; □ 가상 데이터 &nbsp; (서명)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note warn">
+      <b>개인정보 주의</b>
+      설계서와 예시 값에는 실제 민원인·직원의 이름과 연락처를 쓰지 않습니다. 예시가 필요하면 홍길동, 010-1234-5678 같은 가상 값을 씁니다.
+    </div>
+  </section>
+
+  <section class="sec">
+    <h2 class="sec-title">설계서</h2>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>항목</th><th>내 서비스</th><th>작성 예 (현장점검 보고 앱)</th></tr></thead>
+        <tbody>
+          <tr><th>서비스 이름</th><td>&nbsp;<br>&nbsp;</td><td>현장점검 보고 앱</td></tr>
+          <tr><th>누가 쓰나</th><td>&nbsp;<br>&nbsp;</td><td>시설과 점검 담당자 6명</td></tr>
+          <tr><th>입력(앱 화면)<br><small>칸은 5개 이하</small></th><td>&nbsp;<br>&nbsp;<br>&nbsp;</td><td>점검장소, 점검결과(양호/보수필요), 특이사항, 점검자</td></tr>
+          <tr><th>처리(n8n)<br><small>배운 노드로</small></th><td>&nbsp;<br>&nbsp;<br>&nbsp;</td><td>시트 기록 → "보수필요"면 Gemini가 조치 요약 작성 → 팀장 메일</td></tr>
+          <tr><th>출력(알림·회신)</th><td>&nbsp;<br>&nbsp;</td><td>텔레그램 부서방 알림, 앱에 접수번호 표시</td></tr>
+          <tr><th>자동화 전 → 후</th><td>&nbsp;<br>&nbsp;</td><td>수기 보고서 작성 30분 → 현장에서 2분 입력</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sec">
+    <h2 class="sec-title">스스로 점검 (강사 검토 기준과 같음)</h2>
+    <ol>
+      <li>입력 칸이 5개 이하인가요? (많으면 앱이 복잡해지고 오늘 안에 못 만듭니다)</li>
+      <li>처리 단계가 이틀 동안 배운 노드(시트, 메일, 캘린더, Gemini, If, 텔레그램, 접수번호)로 되나요?</li>
+      <li>민원 접수 완성본의 어느 부분을 고쳐 쓰면 되는지 말할 수 있나요?</li>
+      <li>실습에 가상 데이터만 쓰나요? 실제 적용은 3교시 점검표를 거친 뒤인가요?</li>
+      <li>"자동화 전 → 후"를 시간이나 횟수로 한 문장에 말할 수 있나요?</li>
+    </ol>
+  </section>
+
+</main>
+</body>
+</html>
