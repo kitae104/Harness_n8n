@@ -43,6 +43,10 @@
 | D30 | Gemini 모델 (2회차) | 기존 교안의 `models/gemini-2.5-flash`는 신규 사용자에게 제한됨(F42). 교안·JSON은 `models/gemini-3.8-flash`(대안 `models/gemini-3.5-flash-lite`), Google Gemini Chat Model typeVersion 1.1. Cloud 화면에 `Use Gateway credits`가 보이면 `Use my own credential`을 고른다(D23 유지) |
 | D31 | Gmail 안내 문구 (2회차) | Gmail 노드는 `options.appendAttribution: false`로 n8n 안내 문구를 끈다(F66) |
 | D32 | d1-p2 설계 (2회차) | 50분 복습은 **모두 같은 완성본(d1-p2.json)을 Import**해 자격 증명 연결 → 실행 → 표현식·샘플 값 고쳐 보기로 진행(수준 차이 흡수). 캘린더는 d2-p1에서 다루므로 제외. 샘플 민원은 가상 데이터(홍길동·010-1234-5678)로 교체 |
+| D33 | AI Studio 계정 (3회차) | AI Studio는 **만 18세 이상 나이 확인된 개인 구글 계정** 기준(F2). 기관(Workspace) 계정은 막힐 수 있음 → 준비물 안내(d1-p1)에 반영 |
+| D34 | 앱 주소 자리 (3회차) | d1-p4 프롬프트에서 코드 맨 위에 빈 `WEBHOOK_URL` 상수를 미리 만든다. d1-p6에서는 그 자리에 Production URL을 넣으라는 짧은 요청만 한다. 보내는 JSON 키는 data-contract의 한글 키 |
+| D35 | CORS 값 (3회차) | 앱이 n8n을 부르는 origin은 공식 문서로 확인되지 않음(F4) → 수업에서는 Allowed Origins `*` 유지. 좁히려면 n8n 실행 기록의 `headers.origin` 값을 쓴다(d2-p3). 브라우저 호출이 막히면 "n8n 호출을 서버 쪽 코드에서 하도록 바꿔줘"(F80) |
+| D36 | 이름이 겹치는 버튼 (3회차) | AI Studio에도 `Publish`(앱 게시)가 있다. n8n `Publish`와 혼동되므로 d1 교시에서는 AI Studio Publish를 언급하지 않고, d2-p3에서 구분해 다룬다 |
 | D27 | 작성 순서 | 시간표 순서가 아닌 `lessons.json`의 `authoring_order`를 따른다(d1-p1·opt-voice가 d2-p2.json을 참조하므로) |
 
 ## 미결정

@@ -38,7 +38,7 @@ Claude 세션은 이 확인을 대신할 수 없다. 확인 결과를 사용자�
 |---|---|
 | d1-p3 | 교안 그대로 따라 해 보기: Webhook(GET, `hello`) → Respond to Webhook(JSON, 표현식) → Test URL을 주소창에 `?이름=홍길동` 붙여 호출 → Publish → Production URL 호출. 확인할 표기: 노드 검색 결과(F55), HTTP Method 기본값·Path(F56), Respond With/Response Body/Expression(F57), 한글 쿼리 `이름`(F58), Webhook 노드 위쪽 Test URL/Production URL 선택 위치. 오류 문구 두 개(F50)가 교안과 같은지, Test URL 대기 시간이 2분(120초)인지(F21) |
 | d1-p2 | 교안 그대로 Import → 시트(sheets.new, 머리글 6칸)·Gmail·Gemini 연결 → Execute workflow → 표현식·샘플 값 고쳐 보기가 **40분 안에** 끝나는지. `models/gemini-3.8-flash`가 새 API 키 계정 목록에 보이는지(F42), Gemini 자격 증명 저장 흐름(F73), `Use Gateway credits` 표시 여부(F71), 한국어 계정 새 시트 탭 이름 `시트1`(F72), Gmail 안내 문구가 빠지는지(F66) |
-| d1-p4 | 플랜 B(n8n Form / Gemini 캔버스) 경로가 실제로 동작 |
+| d1-p4 | 템플릿(`prompts/d1-p4-minwon-app.md`)을 붙여 3회 생성 → 3회 모두 칸 5개·종류 목록·접수하기·`WEBHOOK_URL` 생성(F76 한국어 프롬프트). 보내기 버튼 표기, `Apps` 목록 자동 저장(F77), 생성 소요 시간, 수강생 20명 동시 생성 시 한도(F7). 플랜 B(n8n Form / Gemini Canvas, F44·F45) 동작 |
 | d1-p7 | 같은 날 여러 건 접수 시 접수번호 순번(NNN)이 겹치지 않음 |
 | d2-p2 | 조회용 GET Webhook에 한글 쿼리 키(`접수번호`)가 문제없이 전달됨 |
 | d2-p3 | 공유 링크를 다른 계정(로그인 안 한 상태 포함)에서 열었을 때의 동작 |
@@ -67,6 +67,21 @@ Claude 세션은 이 확인을 대신할 수 없다. 확인 결과를 사용자�
 - [ ] Gemini 자격 증명 창에 `Use Gateway credits`가 뜨는지, 체험 크레딧 금액과 지원 모델
 - [ ] Sheets `From list`/`From List` 대소문자
 - [ ] Gmail 메일 끝 n8n 안내 문구가 `appendAttribution:false`로 빠지는지
+
+## fact-checker가 넘긴 직접 시험 항목 (3회차, AI Studio)
+
+- [ ] F4: 미리보기·공유 URL·게시 주소 각각에서 n8n Test URL로 POST → 성공 여부와 `headers.origin` 값 기록. 실패 시 콘솔에서 CSP/CORS 구분, 서버 쪽 호출 요청(F80) 시험 → **d1-p6 근거**
+- [ ] F76: 한국어 프롬프트로 생성·수정, 화면 글자 한국어 여부, 음성 입력 한국어
+- [ ] F77: 되돌리기/체크포인트 버튼 표기와 동작, 새로고침 후 유지, Apps 목록 자동 저장
+- [ ] F8: 일부러 코드를 망가뜨려 오류 화면·자동 수정 버튼 표기 캡처 → **d1-p5 근거**
+- [ ] F7: 한 교시 분량(생성 1 + 수정 5~10) 부하, 한도 메시지 문구 캡처(하루 한도는 태평양 시간 자정 초기화)
+- [ ] F3: 로그아웃(시크릿 창)으로 공유 URL 열기 — 로그인 필요 여부, 공개 범위 선택지 표기 → **d2-p3 근거**
+- [ ] F1·F79: 왼쪽 메뉴 Build 항목, Share·Publish 위치, ZIP 다운로드 버튼 캡처
+- [ ] F6: 개인 계정으로 Starter Tier Publish 시험
+- [ ] F9·F10: Chrome에서 마이크 음성 인식, PDF 업로드 후 n8n 전송·파일 크기 한도 → **opt 교시 근거**
+- [ ] F11: 교육망 PC에서 개발자 도구 Network 탭으로 막히는 주소 수집(초기 목록: aistudio.google.com, ai.studio/*.ai.studio, *.run.app, *.usercontent.goog, accounts.google.com, generativelanguage.googleapis.com, esm.sh, cdn.jsdelivr.net, gemini.google.com, *.app.n8n.cloud)
+- [ ] F44·F45: n8n Form 한글 필드 이름, Canvas에서 n8n 호출 가능 여부
+- [ ] F2: 기관(학교) 계정에서 AI Studio 차단 여부
 
 ## 확인 기록
 
