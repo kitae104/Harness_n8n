@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>〔교시 제목〕 — AI 앱과 n8n으로 만드는 나만의 업무 자동화 서비스</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/lecture.css">
+<link rel="stylesheet" href="../assets/css/lesson.css">
+</head>
+<body class="lecture-mode">
+<!--
+  lab(따라 하는 실습) 템플릿. lessons/{교시 id}.html 로 복사해서 쓴다.
+  바꿀 곳: d0-p0 → 교시 id(data-lesson-id, 캡처 id), 〔…〕 → 실제 내용, 내려받기 링크 → lessons.json workflow.file
+  규칙: docs/writing-guide.md / 점검: python scripts/verify.py {교시 id}
+-->
+<main class="wrap" data-lesson-id="d0-p0" data-type="lab">
+
+  <nav class="crumb"><a href="../index.html">목차</a> › 〔1일차〕 › 〔3교시〕</nav>
+
+  <header class="page-head">
+    <h1>〔교시 제목〕</h1>
+    <p class="sub">〔한 줄 부제 — 이번 시간에 무엇이 달라지나〕</p>
+  </header>
+
+  <section class="sec" id="objectives" data-section="objectives">
+    <h2 class="sec-title">학습목표</h2>
+    <ul>
+      <li>〔lessons.json objectives 1〕</li>
+      <li>〔lessons.json objectives 2〕</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="concept" data-section="concept" data-minutes="10">
+    <h2 class="sec-title">왜 이 단계가 필요한가</h2>
+    <p>〔비유 하나로 시작합니다. 예: <dfn>Webhook</dfn>(외부 앱이 n8n을 부르는 주소)은 가게 문 앞의 초인종과 같습니다.〕</p>
+    <div class="note concept">
+      <b>한 문장 요약</b>
+      〔이 단계가 없으면 어떤 불편이 생기는지 한 문장〕
+    </div>
+  </section>
+
+  <section class="sec" id="practice" data-section="practice">
+    <h2 class="sec-title">따라하기</h2>
+    <ol class="steps">
+      <li><span class="step-title">〔단계 제목 — 화면 하나에서 하는 일〕</span>
+        〔누를 곳은 <code class="val">화면 표기 그대로</code> 씁니다.〕
+        <figure class="capture" id="fig-d0-p0-1">
+          <div class="capture-cap">[그림 0-0-1] 〔그림 제목〕</div>
+          <div class="capture-guide">〔촬영 안내: 무엇을, 어디를 강조해 찍을지〕</div>
+        </figure>
+        <p>〔확인 문장: ○○가 보이면 성공입니다.〕</p>
+      </li>
+      <li><span class="step-title">〔다음 단계〕</span>
+        〔설명〕
+      </li>
+    </ol>
+    <div class="note mistake" data-section="mistakes">
+      <b>자주 하는 실수</b>
+      <p><b>증상</b> 〔수강생 화면에 보이는 현상〕<br>
+         <b>원인</b> 〔왜 그런지〕<br>
+         <b>해결</b> 〔어떻게 고치는지〕</p>
+    </div>
+  </section>
+
+  <section class="sec" id="summary" data-section="summary">
+    <h2 class="sec-title">정리</h2>
+    <ul>
+      <li>〔오늘 만든 것 1〕</li>
+      <li>〔오늘 만든 것 2〕</li>
+      <li>〔다음 교시와의 연결〕</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="import" data-section="import">
+    <h2 class="sec-title">완성본 가져오기(Import)</h2>
+    <p>따라오다 막혔다면 이 파일을 받아 내 n8n에 가져오면 이 교시 끝 상태에서 이어 갈 수 있습니다.</p>
+    <ol class="steps">
+      <li><span class="step-title">파일 내려받기</span>
+        <a class="dl" href="../workflows/_template.json" download>워크플로우 내려받기 <span class="dl-name">_template.json</span></a>
+      </li>
+      <li><span class="step-title">n8n에서 가져오기</span>〔Import 메뉴 위치 — fact-check 확인 후 기재〕</li>
+      <li><span class="step-title">자격 증명 다시 연결하기</span>
+        가져온 파일에는 <dfn>자격 증명</dfn>(n8n이 내 구글·텔레그램 계정을 대신 쓰도록 맡겨 둔 열쇠)이 들어 있지 않습니다. 〔<code class="val">노드 이름</code>〕 노드를 열어 내 자격 증명을 다시 고르세요.
+      </li>
+      <li><span class="step-title">활성화하고 주소 다시 넣기</span>
+        워크플로우를 <dfn>활성화</dfn>(켜 두어 주소가 항상 동작하게 함)한 뒤 <b>내</b> <dfn><code class="val">Production URL</code></dfn>(워크플로우를 켜 둔 뒤 앱에 넣는 진짜 주소)을 앱에 다시 넣습니다.
+      </li>
+    </ol>
+  </section>
+
+  <nav class="pager">
+    <a href="../index.html">← 목차</a>
+  </nav>
+
+</main>
+</body>
+</html>

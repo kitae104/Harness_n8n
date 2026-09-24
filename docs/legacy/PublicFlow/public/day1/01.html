@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="../assets/img/n8n-logo.svg">
+<title>01 첫 워크플로우 — 공무원을 위한 n8n</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/lecture.css">
+</head>
+<body class="lecture-mode">
+<main class="wrap">
+
+  <nav class="crumb"><a href="../index.html">목차</a> › 1일차 › 01</nav>
+
+  <header class="page-head">
+    <h1>01 첫 워크플로우</h1>
+    <p class="sub">n8n에서 무언가를 만들고 실행해봅니다</p>
+  </header>
+
+  <section class="sec" id="why">
+    <h2 class="sec-title">왜 이게 필요한가</h2>
+    <ul class="bullets">
+      <li>자동화는 결국 <b>언제(트리거)</b> + <b>무엇을(노드)</b>, 두 조각의 조합일 뿐입니다</li>
+      <li>오늘 만드는 결과물은 글자 한 줄이 전부지만, 8강 완성될 민원 접수 시스템도 뼈대는 똑같습니다</li>
+      <li>목적은 화려한 결과가 아니라 <b>트리거+노드라는 기본 조합에 손을 익히는 것</b>입니다</li>
+    </ul>
+    <div class="note tip">
+      <b>1일차 = 워크플로우 1개를 8번에 걸쳐 키움</b>
+      매 시간 노드를 하나씩 얹어 나가면, 8강 끝에는 민원을 접수해 시트에 기록하고 메일을 보내고 캘린더에 마감을 잡고 AI가 안내문까지 쓰는 시스템이 완성됩니다.
+    </div>
+  </section>
+
+  <section class="sec" id="goal">
+    <h2 class="sec-title">이번 시간에 만들 것</h2>
+    <p><code class="val">실행</code> 버튼을 누르면 <code class="val">인사말</code>이라는 값이 만들어지는, 가장 단순한 워크플로우를 만듭니다.</p>
+    <figure class="capture" id="fig-d1-01-1">
+      <div class="capture-cap">[그림 1-1] 완성 — <code class="val">수동 실행</code> → <code class="val">값 만들기</code></div>
+      <img src="../assets/img/fig-d1-01-1.png" alt="완성된 모습">
+    </figure>
+    <p class="hint">두 노드 이름은 아래 따라하기에서 직접 바꿉니다. 노드 이름 아래 흐리게 적힌 <code class="val">manual</code> 표시는 신경 쓰지 않아도 됩니다.</p>
+  </section>
+
+  <section class="sec" id="steps">
+    <h2 class="sec-title">따라하기</h2>
+    <p class="hint">n8n에 아직 접속해보지 않았다면
+      <a href="../prep/day1.html#n8n-access">준비물 ③ n8n 접속 준비</a>를 먼저 확인하세요.</p>
+    <ol class="steps">
+      <li><span class="step-title">새 워크플로우 만들기</span>
+        오른쪽 위 <code class="val">Create workflow</code> 클릭
+        <span class="hint">왼쪽 메뉴 <code class="val">Personal</code>(<code class="val">Overview</code>) → 목록 화면</span>
+        <figure class="capture" id="fig-d1-01-2">
+          <div class="capture-cap">[그림 1-2] <code class="val">Create workflow</code> 버튼 위치</div>
+          <img src="../assets/img/fig-d1-01-2.png" alt="워크플로우 목록 화면의 Create workflow 버튼">
+        </figure>
+      </li>
+      <li><span class="step-title">트리거 추가하기</span>
+        <code class="val">Add first step…</code> → <code class="val">Trigger manually</code> 선택
+        <span class="hint">목록 순서: Trigger manually → On app event → On a schedule → On webhook call</span>
+        <figure class="capture" id="fig-d1-01-3">
+          <div class="capture-cap">[그림 1-3] 맨 위 <code class="val">Trigger manually</code></div>
+          <img src="../assets/img/fig-d1-01-3.png" alt="트리거 고르기 패널">
+        </figure>
+      </li>
+      <li><span class="step-title">트리거 이름 바꾸기</span>
+        제목 더블클릭 → <code class="val">수동 실행</code>으로 변경
+        <span class="hint">앞으로 이 노드는 항상 "수동 실행"</span>
+      </li>
+      <li><span class="step-title">Set 노드 붙이기</span>
+        노드 오른쪽 <code class="val">+</code> → <code class="val">Edit Fields (Set)</code> 선택
+      </li>
+      <li><span class="step-title">필드 추가하기</span>
+        <code class="val">Fields to Set</code>에 빈 줄 없으면 <code class="val">Add Field</code> 클릭
+      </li>
+      <li><span class="step-title">값 채우기</span>
+        <code class="val">name</code> = <code class="val">인사말</code> / <code class="val">value</code> = <code class="val">안녕하세요, 홍길동님</code>
+        <span class="hint">자료형 String 유지, Include Other Input Fields 끔</span>
+        <figure class="capture" id="fig-d1-01-4">
+          <div class="capture-cap">[그림 1-4] 이름·값 입력 완료</div>
+          <img src="../assets/img/fig-d1-01-4.png" alt="이름과 값을 채운 모습">
+        </figure>
+        <span class="hint">INPUT "No input data" + 빨간 Execute previous nodes = 정상(미실행 상태)</span>
+        <span class="hint">Options "No properties" = 정상(추가 설정 없음)</span>
+      </li>
+      <li><span class="step-title">노드 이름 바꾸기</span>
+        제목 더블클릭 → <code class="val">값 만들기</code>로 변경
+        <span class="hint">노드 이름 = 설명서</span>
+      </li>
+    </ol>
+  </section>
+
+  <section class="sec" id="verify">
+    <h2 class="sec-title">실행하고 확인하기</h2>
+    <ul class="bullets">
+      <li><code class="val">Execute workflow</code> 클릭 → 노드마다 초록 체크</li>
+      <li><code class="val">값 만들기</code> 클릭 → <code class="val">인사말: 안녕하세요, 홍길동님</code> 확인 = 성공</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="trouble">
+    <h2 class="sec-title">안 될 때</h2>
+    <ul class="bullets">
+      <li><b>실행 버튼이 없음</b> — 트리거 노드 없음 → 2단계 확인</li>
+      <li><b>노드가 안 이어짐</b> — 오른쪽 동그라미를 다음 노드 왼쪽으로 드래그</li>
+      <li><b>필드 입력 칸이 없음</b> — <code class="val">Add Field</code>로 빈 줄 생성</li>
+      <li><b>값이 비어 보임</b> — name/value 칸 순서 확인(위: 이름, 아래: 값)</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="quiz">
+    <h2 class="sec-title">확인 문제</h2>
+    <div class="quiz-item">
+      <p class="quiz-q"><span class="qtype">객관식</span>Q1. n8n에서 모든 자동화를 이루는 두 가지 기본 조각은?</p>
+      <ol class="quiz-choices">
+        <li>변수와 함수</li>
+        <li>트리거와 노드</li>
+        <li>시트와 메일</li>
+        <li>서버와 클라이언트</li>
+      </ol>
+      <details class="quiz-answer"><summary>정답 확인</summary>
+        <p class="quiz-a"><b>정답: ②</b> 트리거(언제 시작할지)와 노드(무엇을 할지)의 조합이 모든 자동화의 기본 단위입니다.</p>
+      </details>
+    </div>
+    <div class="quiz-item">
+      <p class="quiz-q"><span class="qtype">객관식</span>Q2. <code class="val">값 만들기</code> 노드에서 이름 칸과 값 칸에 알맞은 자료형·설정은?</p>
+      <ol class="quiz-choices">
+        <li>자료형을 Number로 바꾸고 Include Other Input Fields를 켠다</li>
+        <li>자료형은 String 그대로 두고 Include Other Input Fields는 끈다</li>
+        <li>자료형을 Boolean으로 바꾸고 이름 칸은 비워둔다</li>
+        <li>값 칸을 표현식 모드로 강제 전환해야 한다</li>
+      </ol>
+      <details class="quiz-answer"><summary>정답 확인</summary>
+        <p class="quiz-a"><b>정답: ②</b> 이번 강의에서는 자료형을 <code class="val">String</code> 그대로 두고, <code class="val">Include Other Input Fields</code> 스위치도 꺼진 채로 둡니다.</p>
+      </details>
+    </div>
+    <div class="quiz-item">
+      <p class="quiz-q"><span class="qtype">단답형</span>Q3. 실행 버튼을 눌렀을 때 <code class="val">값 만들기</code> 노드가 만들어야 하는 필드 이름과 값은 각각 무엇인가요?</p>
+      <details class="quiz-answer"><summary>정답 확인</summary>
+        <p class="quiz-a"><b>정답:</b> 이름 = <code class="val">인사말</code>, 값 = <code class="val">안녕하세요, 홍길동님</code></p>
+      </details>
+    </div>
+  </section>
+
+  <section class="sec" id="download">
+    <h2 class="sec-title">이번 단계 워크플로우 받기</h2>
+    <p>따라오다 막혔다면 이 파일을 받아 n8n에서 불러오면 이어서 진행할 수 있습니다.</p>
+    <a class="dl" href="../downloads/day1-01.json" download>
+      워크플로우 내려받기 <span class="dl-name">day1-01.json</span>
+    </a>
+  </section>
+
+  <nav class="pager">
+    <a href="../prep/day1.html">← 준비물</a>
+    <a href="02.html">02 데이터 흐름과 표현식 →</a>
+  </nav>
+
+</main>
+</body>
+</html>

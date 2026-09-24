@@ -1,0 +1,100 @@
+/* ══════════════════════════════════════════════════════════
+   이 과정(AI 앱 + n8n) 확장 스타일
+
+   기존 사이트(kitae-n8n.vercel.app)의 style.css·lecture.css 위에 얹는다.
+   불러오는 순서: style.css → lecture.css → lesson.css
+   색·글꼴은 style.css의 :root 토큰을 그대로 쓰고, 여기서는 새 부품만 정의한다.
+   흑백 인쇄에서도 구분되도록 박스는 "제목 글자 + 테두리 모양"으로 구분한다.
+   ══════════════════════════════════════════════════════════ */
+
+:root {
+  --concept:      #2f5d8a;   /* 개념 블록 */
+  --concept-soft: #eaf1f8;
+  --mistake:      #b3261e;   /* 자주 하는 실수 */
+  --mistake-soft: #fdeceb;
+  --planb:        #5b6470;   /* 막혔을 때 */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --concept:      #8ab6e0;
+    --concept-soft: #1c2733;
+    --mistake:      #ff8a80;
+    --mistake-soft: #3a1f1d;
+    --planb:        #aab4bf;
+  }
+}
+
+/* ── 학습목표 ─────────────────────────────────────────── */
+section[data-section="objectives"] ul { margin: .4rem 0 0; padding-left: 1.2rem; }
+section[data-section="objectives"] li { margin: .15rem 0; }
+
+/* ── 개념 블록: 이중선 ─────────────────────────────────── */
+section[data-section="concept"] .sec-title::after {
+  content: "10분";
+  margin-left: .4rem;
+  padding: .05rem .45rem;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+.note.concept {
+  border: 3px double var(--concept);
+  background: var(--concept-soft);
+}
+
+/* ── 자주 하는 실수: 굵은 실선 ─────────────────────────── */
+.note.mistake {
+  border: 2px solid var(--mistake);
+  border-left-width: 6px;
+  background: var(--mistake-soft);
+}
+.note.mistake > b:first-child::before { content: "⚠ "; }
+
+/* ── 막혔을 때(플랜 B): 점선 ───────────────────────────── */
+.note.planb {
+  border: 2px dashed var(--planb);
+  background: var(--paper-2);
+}
+
+/* ── 용어 풀이 ─────────────────────────────────────────── */
+dfn {
+  font-style: normal;
+  font-weight: 700;
+  border-bottom: 1px dotted var(--ink-2);
+}
+
+/* ── 인쇄 교재 표지·목차 (scripts/build.py가 생성) ─────────── */
+.textbook-cover { text-align: center; padding: 30vh 0 0; }
+.textbook-cover h1 { font-size: 2.2em; }
+.textbook-toc ol { padding-left: 1.2rem; }
+
+/* ── 인쇄: 교시별 페이지 나눔 + 흑백 대비 ─────────────────── */
+@media print {
+  :root {
+    --concept: #000; --concept-soft: #fff;
+    --mistake: #000; --mistake-soft: #fff;
+    --planb: #000;
+  }
+  @page { size: A4; margin: 16mm 15mm; }
+  body.lecture-mode { font-size: 11pt; }
+  /* 교시마다 새 페이지 */
+  main.wrap[data-lesson-id] { break-before: page; }
+  main.wrap[data-lesson-id]:first-of-type { break-before: auto; }
+  .textbook-cover, .textbook-toc { break-after: page; }
+  /* 박스·그림·표는 중간에서 자르지 않음 */
+  .note, figure.capture, table, pre, .quiz-item { break-inside: avoid; }
+  h2, h3, .step-title { break-after: avoid; }
+  /* 색 대신 모양으로 구분: 배경 제거, 테두리·제목 유지 */
+  .note, .note.tip, .note.warn { background: #fff !important; }
+  .note.tip  { border: 1px solid #000; border-left: 4px solid #000; }
+  .note.warn { border: 1px solid #000; border-left: 4px dotted #000; }
+  .note > b:first-child { text-decoration: underline; }
+  code.val { border: 1px solid #000; background: #fff; }
+  ol.steps > li::before { background: #fff; color: #000; border: 1.5px solid #000; }
+  .capture-guide { background: #fff; border: 1px dashed #000; color: #000; }
+  details.quiz-answer { display: none; }  /* 정답은 인쇄하지 않음 */
+  a.dl::after { content: " (" attr(href) ")"; font-size: .85em; }
+}

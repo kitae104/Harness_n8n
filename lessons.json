@@ -4,13 +4,35 @@
     "type": "lab = 따라 하는 실습 교시 / activity = 시연·기획·발표 등 활동 교시. verify.py가 type별 필수 섹션을 다르게 검사한다(docs/writing-guide.md 2절)",
     "workflow": "file = 이 교시 Import 안내가 가리키는 JSON, role = own(이 교시가 만드는 파일) | reference(다른 교시 파일을 가져다 씀), builds_on = 누적 체인의 직전 교시 id",
     "deliverables": "html/json/prompts/other 경로. verify.py가 존재 여부를 검사한다",
-    "status": "todo → drafting → review → done. done은 verify 통과 + 리뷰 반영 후에만"
+    "status": "todo → drafting(작성 중) → review(verify 통과, learner-reviewer 반영) → instructor-check(강사 수동 확인 대기: docs/instructor-checklist.md) → done",
+    "legacy_refs": "참고할 기존 교안(docs/legacy/PublicFlow/) 경로. 기존 'P1~P4'는 2일차 프로젝트, 새 'd2-p1'은 2일차 1교시로 서로 다르다",
+    "authoring_order": "권장 작성 순서. d1-p1·opt-voice는 d2-p2.json을 참조하므로 핵심 체인 뒤에 쓴다"
   },
   "course": {
     "title": "AI 앱과 n8n으로 만드는 나만의 업무 자동화 서비스",
     "spec": "docs/proposal.md",
-    "decisions": "docs/decisions.md"
+    "decisions": "docs/decisions.md",
+    "legacy": "docs/legacy/PublicFlow/ (https://github.com/kitae104/PublicFlow, https://kitae-n8n.vercel.app)",
+    "data_contract": "docs/data-contract.md"
   },
+  "authoring_order": [
+    "d1-p3",
+    "d1-p2",
+    "d1-p4",
+    "d1-p5",
+    "d1-p6",
+    "d1-p7",
+    "d2-p1",
+    "d2-p2",
+    "d1-p1",
+    "d2-p3",
+    "d2-p4",
+    "d2-p5",
+    "d2-p6",
+    "d2-p7",
+    "opt-pdf",
+    "opt-voice"
+  ],
   "lessons": [
     {
       "id": "d1-p1",
@@ -25,9 +47,15 @@
         "실습에는 가상 데이터만 쓴다는 원칙과 이틀간의 진행 방식을 안다",
         "사전조사한 자동화 희망 업무를 한 문장으로 공유한다"
       ],
-      "workflow": { "file": "workflows/d2-p2.json", "role": "reference", "builds_on": null },
+      "workflow": {
+        "file": "workflows/d2-p2.json",
+        "role": "reference",
+        "builds_on": null
+      },
       "deliverables": {
-        "html": ["lessons/d1-p1.html"],
+        "html": [
+          "lessons/d1-p1.html"
+        ],
         "json": [],
         "prompts": [],
         "other": []
@@ -37,9 +65,19 @@
         "시연 대상이 최종 완성본 workflows/d2-p2.json 임이 본문에 명시되어 있다",
         "개인정보 원칙(가상 데이터만 사용, 실제 민원·공문 입력 금지)이 별도 박스로 안내되어 있다",
         "이틀 로드맵(그림 0 또는 표)과 교시별 완성본 JSON으로 따라잡는 방법이 소개되어 있다",
-        "사전조사 공유 활동의 진행 방법(시간, 발표 형식)이 적혀 있다"
+        "사전조사 공유 활동의 진행 방법(시간, 발표 형식)이 적혀 있다",
+        "강사가 n8n Cloud에 Import해 실행을 확인했다(instructor-check 단계, docs/instructor-checklist.md)"
       ],
-      "source_refs": ["7절 1일차 1교시", "2절 역할 분담", "11절 개인정보"],
+      "source_refs": [
+        "7절 1일차 1교시",
+        "2절 역할 분담",
+        "11절 개인정보"
+      ],
+      "legacy_refs": [
+        "docs/legacy/PublicFlow/public/index.html",
+        "docs/legacy/PublicFlow/public/prep/day1.html",
+        "docs/legacy/PublicFlow/public/prep/n8n-setup.html"
+      ],
       "status": "todo"
     },
     {
@@ -55,20 +93,41 @@
         "구글 시트 기록, Gmail 발송, Gemini 안내문 생성을 한 워크플로우로 실행한다",
         "완성본 JSON을 가져오기(Import)하고 자격 증명을 다시 연결할 수 있다"
       ],
-      "workflow": { "file": "workflows/d1-p2.json", "role": "own", "builds_on": null },
+      "workflow": {
+        "file": "workflows/d1-p2.json",
+        "role": "own",
+        "builds_on": null
+      },
       "deliverables": {
-        "html": ["lessons/d1-p2.html"],
-        "json": ["workflows/d1-p2.json"],
+        "html": [
+          "lessons/d1-p2.html"
+        ],
+        "json": [
+          "workflows/d1-p2.json"
+        ],
         "prompts": [],
         "other": []
       },
       "acceptance_criteria": [
         "verify.py d1-p2 가 통과한다",
-        "workflows/d1-p2.json 에 트리거·구글 시트·Gmail·Gemini 노드가 각 1개 이상 있다",
+        "workflows/d1-p2.json 에 트리거·구글 시트·Gmail·AI 안내문 작성(Google Gemini Chat Model 연결) 노드가 각 1개 이상 있다",
         "표현식 예시가 2개 이상이며 각각 어떤 값을 가져오는지 풀이가 있다",
-        "완성본 가져오기 안내가 교시 앞부분(수준 맞추기)과 끝부분 두 곳에 있다"
+        "완성본 가져오기 안내가 교시 앞부분(수준 맞추기)과 끝부분 두 곳에 있다",
+        "workflows/d1-p2.json 의 Gemini 처리는 'AI 안내문 작성'(Basic LLM Chain, @n8n/n8n-nodes-langchain.chainLlm) + 'Google Gemini Chat Model'(lmChatGoogleGemini) 하위 노드 구성이다(기존 교안과 같음)",
+        "강사가 n8n Cloud에 Import해 실행을 확인했다(instructor-check 단계, docs/instructor-checklist.md)"
       ],
-      "source_refs": ["7절 1일차 2교시", "8-3 n8n 핵심 복습"],
+      "source_refs": [
+        "7절 1일차 2교시",
+        "8-3 n8n 핵심 복습"
+      ],
+      "legacy_refs": [
+        "docs/legacy/PublicFlow/public/day1/01.html",
+        "docs/legacy/PublicFlow/public/day1/02.html",
+        "docs/legacy/PublicFlow/public/day1/03.html",
+        "docs/legacy/PublicFlow/public/day1/04.html",
+        "docs/legacy/PublicFlow/public/day1/06.html",
+        "docs/legacy/PublicFlow/public/downloads/day1-06.json"
+      ],
       "status": "todo"
     },
     {
@@ -84,10 +143,18 @@
         "Respond to Webhook 노드로 앱에 답을 돌려줄 수 있다",
         "Allowed Origins(CORS)를 설정하고 브라우저에서 호출해 응답을 확인한다"
       ],
-      "workflow": { "file": "workflows/d1-p3.json", "role": "own", "builds_on": null },
+      "workflow": {
+        "file": "workflows/d1-p3.json",
+        "role": "own",
+        "builds_on": null
+      },
       "deliverables": {
-        "html": ["lessons/d1-p3.html"],
-        "json": ["workflows/d1-p3.json"],
+        "html": [
+          "lessons/d1-p3.html"
+        ],
+        "json": [
+          "workflows/d1-p3.json"
+        ],
         "prompts": [],
         "other": []
       },
@@ -96,9 +163,18 @@
         "workflows/d1-p3.json 은 누적 체인과 무관한 독립 연습용이며, Webhook → Respond to Webhook 구조이고 Webhook 노드 응답 방식이 Respond to Webhook 노드 사용으로 설정되어 있다",
         "Webhook 실습 체크리스트의 1번 항목이 CORS(Allowed Origins) 설정이다",
         "Test URL → 테스트, 활성화 → Production URL 사용 순서가 번호 단계로 제시되어 있다",
-        "브라우저에서 호출하는 방법이 코드 작성 없이(복사·붙여넣기만으로) 안내되어 있다"
+        "브라우저에서 호출하는 방법이 코드 작성 없이(복사·붙여넣기만으로) 안내되어 있다",
+        "Webhook 경로가 docs/data-contract.md 표와 일치한다",
+        "강사가 n8n Cloud에 Import해 실행을 확인했다(instructor-check 단계, docs/instructor-checklist.md)"
       ],
-      "source_refs": ["7절 1일차 3교시", "2절 제약과 해결책", "8-3 Webhook"],
+      "source_refs": [
+        "7절 1일차 3교시",
+        "2절 제약과 해결책",
+        "8-3 Webhook"
+      ],
+      "legacy_refs": [
+        "docs/legacy/PublicFlow/public/day1/08.html"
+      ],
       "status": "todo"
     },
     {
@@ -115,9 +191,13 @@
       ],
       "workflow": null,
       "deliverables": {
-        "html": ["lessons/d1-p4.html"],
+        "html": [
+          "lessons/d1-p4.html"
+        ],
         "json": [],
-        "prompts": ["prompts/d1-p4-minwon-app.md"],
+        "prompts": [
+          "prompts/d1-p4-minwon-app.md"
+        ],
         "other": []
       },
       "acceptance_criteria": [
@@ -125,9 +205,15 @@
         "프롬프트 템플릿이 prompts/ 파일로 분리되어 있고, 교안에는 그 전문이 복사 가능한 형태로 실려 있다",
         "생성 결과가 매번 조금씩 다르다는 점과 무료 사용량 한도 주의가 안내되어 있다",
         "AI Studio 접속이 막혔을 때의 플랜 B(n8n Form 또는 Gemini 캔버스) 박스가 있다",
-        "AI Studio 관련 서술 중 docs/fact-check.md 에서 '확인'되지 않은 항목이 없다"
+        "AI Studio 관련 서술 중 docs/fact-check.md 에서 '확인'되지 않은 항목이 없다",
+        "프롬프트 템플릿을 강사가 AI Studio에서 실제로 시험하고 검증 기록을 채웠다(instructor-check 단계)"
       ],
-      "source_refs": ["7절 1일차 4교시", "8-3 AI 앱 빌더 활용", "2절 대체·보완 도구"],
+      "source_refs": [
+        "7절 1일차 4교시",
+        "8-3 AI 앱 빌더 활용",
+        "2절 대체·보완 도구"
+      ],
+      "legacy_refs": [],
       "status": "todo"
     },
     {
@@ -143,18 +229,28 @@
       ],
       "workflow": null,
       "deliverables": {
-        "html": ["lessons/d1-p5.html"],
+        "html": [
+          "lessons/d1-p5.html"
+        ],
         "json": [],
-        "prompts": ["prompts/d1-p5-edit-requests.md", "prompts/d1-p5-error-routine.md"],
+        "prompts": [
+          "prompts/d1-p5-edit-requests.md",
+          "prompts/d1-p5-error-routine.md"
+        ],
         "other": []
       },
       "acceptance_criteria": [
         "verify.py d1-p5 가 통과한다",
         "수정 요청 문장의 나쁜 예·좋은 예가 3쌍 이상 있다",
         "오류 대처 루틴이 번호 단계로 제시되고 반복 연습 과제가 2회 이상 있다",
-        "오류 문구를 찾는 위치(화면의 어디를 보면 되는지)가 캡처 자리와 함께 안내되어 있다"
+        "오류 문구를 찾는 위치(화면의 어디를 보면 되는지)가 캡처 자리와 함께 안내되어 있다",
+        "프롬프트 템플릿을 강사가 AI Studio에서 실제로 시험하고 검증 기록을 채웠다(instructor-check 단계)"
       ],
-      "source_refs": ["7절 1일차 5교시", "11절 AI Studio 사용 시 주의"],
+      "source_refs": [
+        "7절 1일차 5교시",
+        "11절 AI Studio 사용 시 주의"
+      ],
+      "legacy_refs": [],
       "status": "todo"
     },
     {
@@ -168,20 +264,41 @@
         "앱에 n8n Production URL을 넣어 접수 데이터를 보낼 수 있다",
         "받은 데이터가 구글 시트에 한 줄로 기록되는 것을 확인한다"
       ],
-      "workflow": { "file": "workflows/d1-p6.json", "role": "own", "builds_on": null },
+      "workflow": {
+        "file": "workflows/d1-p6.json",
+        "role": "own",
+        "builds_on": null
+      },
       "deliverables": {
-        "html": ["lessons/d1-p6.html"],
-        "json": ["workflows/d1-p6.json"],
-        "prompts": ["prompts/d1-p6-connect-webhook.md"],
+        "html": [
+          "lessons/d1-p6.html"
+        ],
+        "json": [
+          "workflows/d1-p6.json"
+        ],
+        "prompts": [
+          "prompts/d1-p6-connect-webhook.md"
+        ],
         "other": []
       },
       "acceptance_criteria": [
         "verify.py d1-p6 이 통과한다",
         "workflows/d1-p6.json 은 누적 체인의 시작으로 Webhook(POST) → 구글 시트 기록 구조다",
         "앱이 보내는 필드 이름과 시트 열 이름의 대응표가 있다",
-        "앱에 넣는 주소는 Production URL이며, 활성화 후 넣는다는 순서가 명시되어 있다"
+        "앱에 넣는 주소는 Production URL이며, 활성화 후 넣는다는 순서가 명시되어 있다",
+        "Webhook 경로·필드 이름·시트 열·응답 키가 docs/data-contract.md 와 일치한다",
+        "강사가 n8n Cloud에 Import해 실행을 확인했다(instructor-check 단계, docs/instructor-checklist.md)",
+        "프롬프트 템플릿을 강사가 AI Studio에서 실제로 시험하고 검증 기록을 채웠다(instructor-check 단계)"
       ],
-      "source_refs": ["7절 1일차 6교시", "8-3 앱–자동화 연동"],
+      "source_refs": [
+        "7절 1일차 6교시",
+        "8-3 앱–자동화 연동"
+      ],
+      "legacy_refs": [
+        "docs/legacy/PublicFlow/public/day1/08.html",
+        "docs/legacy/PublicFlow/public/downloads/day1-08.json",
+        "docs/legacy/PublicFlow/public/day1/03.html"
+      ],
       "status": "todo"
     },
     {
@@ -196,20 +313,40 @@
         "Respond to Webhook으로 접수번호를 앱에 돌려주고 화면에 표시한다",
         "1일차에 만든 전체 흐름을 그림으로 정리한다"
       ],
-      "workflow": { "file": "workflows/d1-p7.json", "role": "own", "builds_on": "d1-p6" },
+      "workflow": {
+        "file": "workflows/d1-p7.json",
+        "role": "own",
+        "builds_on": "d1-p6"
+      },
       "deliverables": {
-        "html": ["lessons/d1-p7.html"],
-        "json": ["workflows/d1-p7.json"],
-        "prompts": ["prompts/d1-p7-show-receipt.md"],
+        "html": [
+          "lessons/d1-p7.html"
+        ],
+        "json": [
+          "workflows/d1-p7.json"
+        ],
+        "prompts": [
+          "prompts/d1-p7-show-receipt.md"
+        ],
         "other": []
       },
       "acceptance_criteria": [
         "verify.py d1-p7 이 통과한다",
         "workflows/d1-p7.json 은 d1-p6 의 모든 노드를 포함하고 접수번호 생성과 Respond to Webhook 이 추가되어 있다",
         "접수번호 형식이 glossary 표기(YYYY-MMDD-NNN, 예 2026-0922-017)와 일치한다",
-        "1일차 정리에 오전·오후 산출물을 잇는 흐름 그림 또는 표가 있다"
+        "1일차 정리에 오전·오후 산출물을 잇는 흐름 그림 또는 표가 있다",
+        "Webhook 경로·필드 이름·시트 열·응답 키가 docs/data-contract.md 와 일치한다",
+        "강사가 n8n Cloud에 Import해 실행을 확인했다(instructor-check 단계, docs/instructor-checklist.md)",
+        "프롬프트 템플릿을 강사가 AI Studio에서 실제로 시험하고 검증 기록을 채웠다(instructor-check 단계)"
       ],
-      "source_refs": ["7절 1일차 7교시", "9-1 산출물", "10절 그림 1"],
+      "source_refs": [
+        "7절 1일차 7교시",
+        "9-1 산출물",
+        "10절 그림 1"
+      ],
+      "legacy_refs": [
+        "docs/legacy/PublicFlow/public/downloads/day1-08.json"
+      ],
       "status": "todo"
     },
     {
@@ -224,20 +361,43 @@
         "처리 마감일을 구글 캘린더에 등록한다",
         "Gemini로 민원인 안내문을 만들어 앱 화면에 함께 표시한다"
       ],
-      "workflow": { "file": "workflows/d2-p1.json", "role": "own", "builds_on": "d1-p7" },
+      "workflow": {
+        "file": "workflows/d2-p1.json",
+        "role": "own",
+        "builds_on": "d1-p7"
+      },
       "deliverables": {
-        "html": ["lessons/d2-p1.html"],
-        "json": ["workflows/d2-p1.json"],
-        "prompts": ["prompts/d2-p1-show-notice.md"],
+        "html": [
+          "lessons/d2-p1.html"
+        ],
+        "json": [
+          "workflows/d2-p1.json"
+        ],
+        "prompts": [
+          "prompts/d2-p1-show-notice.md"
+        ],
         "other": []
       },
       "acceptance_criteria": [
         "verify.py d2-p1 이 통과한다",
-        "workflows/d2-p1.json 은 d1-p7 의 모든 노드를 포함하고 Gmail·구글 캘린더·Gemini 노드가 추가되어 있다",
+        "workflows/d2-p1.json 은 d1-p7 의 모든 노드를 포함하고 Gmail·구글 캘린더·Gemini(AI 안내문 작성 + Google Gemini Chat Model) 노드가 추가되어 있다",
         "Gmail 수신 주소는 {본인 이메일} 자리표시로만 안내되어 있다",
-        "Gemini 안내문 프롬프트가 교안에 실려 있고 개인정보를 넣지 말라는 주의가 있다"
+        "Gemini 안내문 프롬프트가 교안에 실려 있고 개인정보를 넣지 말라는 주의가 있다",
+        "workflows/d2-p1.json 의 Gemini 안내문은 'AI 안내문 작성'(Basic LLM Chain, @n8n/n8n-nodes-langchain.chainLlm) + 'Google Gemini Chat Model'(lmChatGoogleGemini) 하위 노드 구성이다(기존 교안과 같음). 응답에 '안내문' 키가 추가된다(docs/data-contract.md)",
+        "Webhook 경로·필드 이름·시트 열·응답 키가 docs/data-contract.md 와 일치한다",
+        "강사가 n8n Cloud에 Import해 실행을 확인했다(instructor-check 단계, docs/instructor-checklist.md)",
+        "프롬프트 템플릿을 강사가 AI Studio에서 실제로 시험하고 검증 기록을 채웠다(instructor-check 단계)"
       ],
-      "source_refs": ["7절 2일차 1교시", "8-3 앱–자동화 연동"],
+      "source_refs": [
+        "7절 2일차 1교시",
+        "8-3 앱–자동화 연동"
+      ],
+      "legacy_refs": [
+        "docs/legacy/PublicFlow/public/day1/04.html",
+        "docs/legacy/PublicFlow/public/day1/05.html",
+        "docs/legacy/PublicFlow/public/day1/06.html",
+        "docs/legacy/PublicFlow/public/downloads/day1-08.json"
+      ],
       "status": "todo"
     },
     {
@@ -252,20 +412,43 @@
         "텔레그램으로 접수 알림을 보낸다",
         "접수번호로 처리 상태를 조회하는 GET Webhook과 조회 화면을 만든다"
       ],
-      "workflow": { "file": "workflows/d2-p2.json", "role": "own", "builds_on": "d2-p1" },
+      "workflow": {
+        "file": "workflows/d2-p2.json",
+        "role": "own",
+        "builds_on": "d2-p1"
+      },
       "deliverables": {
-        "html": ["lessons/d2-p2.html"],
-        "json": ["workflows/d2-p2.json"],
-        "prompts": ["prompts/d2-p2-status-lookup.md"],
+        "html": [
+          "lessons/d2-p2.html"
+        ],
+        "json": [
+          "workflows/d2-p2.json"
+        ],
+        "prompts": [
+          "prompts/d2-p2-status-lookup.md"
+        ],
         "other": []
       },
       "acceptance_criteria": [
         "verify.py d2-p2 가 통과한다",
         "workflows/d2-p2.json 은 d2-p1 의 모든 노드를 포함하고 If·Telegram 노드와 조회용 GET Webhook → 시트 조회 → Respond to Webhook 흐름이 추가되어 있다",
         "d2-p2 체크리스트에 조회용 GET Webhook의 CORS(Allowed Origins) 설정 항목이 있다",
-        "이 교시 결과가 과정 전체의 최종 완성본이며 d1-p1 시연에 쓰인다는 점이 강사 메모에 있다"
+        "이 교시 결과가 과정 전체의 최종 완성본이며 d1-p1 시연에 쓰인다는 점이 강사 메모에 있다",
+        "Webhook 경로·필드 이름·시트 열·응답 키가 docs/data-contract.md 와 일치한다",
+        "강사가 n8n Cloud에 Import해 실행을 확인했다(instructor-check 단계, docs/instructor-checklist.md)",
+        "프롬프트 템플릿을 강사가 AI Studio에서 실제로 시험하고 검증 기록을 채웠다(instructor-check 단계)"
       ],
-      "source_refs": ["7절 2일차 2교시", "8-3 앱–자동화 연동", "9-1 산출물"],
+      "source_refs": [
+        "7절 2일차 2교시",
+        "8-3 앱–자동화 연동",
+        "9-1 산출물"
+      ],
+      "legacy_refs": [
+        "docs/legacy/PublicFlow/public/day1/07.html",
+        "docs/legacy/PublicFlow/public/day2/p2.html",
+        "docs/legacy/PublicFlow/public/downloads/day1-08.json",
+        "docs/legacy/PublicFlow/public/downloads/day2-p2.json"
+      ],
       "status": "todo"
     },
     {
@@ -283,10 +466,14 @@
       ],
       "workflow": null,
       "deliverables": {
-        "html": ["lessons/d2-p3.html"],
+        "html": [
+          "lessons/d2-p3.html"
+        ],
         "json": [],
         "prompts": [],
-        "other": ["print/forms/security-checklist.html"]
+        "other": [
+          "print/forms/security-checklist.html"
+        ]
       },
       "acceptance_criteria": [
         "verify.py d2-p3 이 통과한다",
@@ -294,7 +481,14 @@
         "Cloud Run 배포는 소개만 하고 실습하지 않는다는 점이 명시되어 있다",
         "공유 링크·비밀값 관련 서술이 docs/fact-check.md 에서 확인된 내용과 일치한다"
       ],
-      "source_refs": ["7절 2일차 3교시", "8-3 배포·보안·운영", "11절 개인정보"],
+      "source_refs": [
+        "7절 2일차 3교시",
+        "8-3 배포·보안·운영",
+        "11절 개인정보"
+      ],
+      "legacy_refs": [
+        "docs/legacy/PublicFlow/public/prep/n8n-setup.html"
+      ],
       "status": "todo"
     },
     {
@@ -311,18 +505,30 @@
       ],
       "workflow": null,
       "deliverables": {
-        "html": ["lessons/d2-p4.html"],
+        "html": [
+          "lessons/d2-p4.html"
+        ],
         "json": [],
-        "prompts": ["prompts/d2-p4-design-to-prompt.md"],
-        "other": ["print/forms/design-sheet.html"]
+        "prompts": [
+          "prompts/d2-p4-design-to-prompt.md"
+        ],
+        "other": [
+          "print/forms/design-sheet.html"
+        ]
       },
       "acceptance_criteria": [
         "verify.py d2-p4 가 통과한다",
         "설계서 예시로 '현장점검 보고 앱'이 제안서 10절 표와 같은 내용으로 채워져 있다",
         "개인 또는 2~3인 팀 구성 방법과 강사 검토 기준이 적혀 있다",
-        "주제를 못 정한 수강생을 위한 예시 목록(현장점검·행사 신청·회의록·지침 Q&A)이 있다"
+        "주제를 못 정한 수강생을 위한 예시 목록(현장점검·행사 신청·회의록·지침 Q&A)이 있다",
+        "프롬프트 템플릿을 강사가 AI Studio에서 실제로 시험하고 검증 기록을 채웠다(instructor-check 단계)"
       ],
-      "source_refs": ["7절 2일차 4교시", "10절 설계서 양식", "9-3 산출물"],
+      "source_refs": [
+        "7절 2일차 4교시",
+        "10절 설계서 양식",
+        "9-3 산출물"
+      ],
+      "legacy_refs": [],
       "status": "todo"
     },
     {
@@ -336,20 +542,39 @@
         "설계서를 바탕으로 프롬프트 템플릿을 고쳐 내 앱 화면을 만든다",
         "기존 완성 파일을 복사·변형해 내 워크플로우를 구성한다"
       ],
-      "workflow": { "file": "workflows/d2-p5.json", "role": "own", "builds_on": null },
+      "workflow": {
+        "file": "workflows/d2-p5.json",
+        "role": "own",
+        "builds_on": null
+      },
       "deliverables": {
-        "html": ["lessons/d2-p5.html"],
-        "json": ["workflows/d2-p5.json"],
-        "prompts": ["prompts/d2-p5-field-inspection-app.md"],
+        "html": [
+          "lessons/d2-p5.html"
+        ],
+        "json": [
+          "workflows/d2-p5.json"
+        ],
+        "prompts": [
+          "prompts/d2-p5-field-inspection-app.md"
+        ],
         "other": []
       },
       "acceptance_criteria": [
         "verify.py d2-p5 가 통과한다",
         "workflows/d2-p5.json 은 설계서 예시 '현장점검 보고 앱'의 기본형(Webhook → 시트 기록 → 접수번호 회신)이다",
         "민원 접수 완성본을 내 업무용으로 바꿀 때 고칠 곳(필드·시트 열·메일 문구) 목록이 있다",
-        "진행이 빠른 수강생에게 선택 실습(opt-pdf, opt-voice) 링크를 안내한다"
+        "진행이 빠른 수강생에게 선택 실습(opt-pdf, opt-voice) 링크를 안내한다",
+        "Webhook 경로·필드 이름·시트 열·응답 키가 docs/data-contract.md 와 일치한다",
+        "강사가 n8n Cloud에 Import해 실행을 확인했다(instructor-check 단계, docs/instructor-checklist.md)",
+        "프롬프트 템플릿을 강사가 AI Studio에서 실제로 시험하고 검증 기록을 채웠다(instructor-check 단계)"
       ],
-      "source_refs": ["7절 2일차 5교시", "10절 설계서 양식"],
+      "source_refs": [
+        "7절 2일차 5교시",
+        "10절 설계서 양식"
+      ],
+      "legacy_refs": [
+        "docs/legacy/PublicFlow/public/downloads/day1-08.json"
+      ],
       "status": "todo"
     },
     {
@@ -363,10 +588,18 @@
         "내 앱과 워크플로우를 연결해 처음부터 끝까지 테스트한다",
         "막히면 점검 순서표에 따라 원인을 스스로 좁힌다"
       ],
-      "workflow": { "file": "workflows/d2-p6.json", "role": "own", "builds_on": "d2-p5" },
+      "workflow": {
+        "file": "workflows/d2-p6.json",
+        "role": "own",
+        "builds_on": "d2-p5"
+      },
       "deliverables": {
-        "html": ["lessons/d2-p6.html"],
-        "json": ["workflows/d2-p6.json"],
+        "html": [
+          "lessons/d2-p6.html"
+        ],
+        "json": [
+          "workflows/d2-p6.json"
+        ],
         "prompts": [],
         "other": []
       },
@@ -374,9 +607,19 @@
         "verify.py d2-p6 이 통과한다",
         "workflows/d2-p6.json 은 d2-p5 의 모든 노드를 포함하고 '보수필요'면 Gemini 조치 요약 → 팀장 메일, 텔레그램 부서방 알림이 추가되어 있다",
         "연동이 안 될 때의 점검 순서표(활성화 → Production URL → CORS → 응답 방식 → 시트 권한)가 있다",
-        "선택 실습(PDF 요약·음성 입력)을 이 시간에 진행하는 방법이 안내되어 있다"
+        "선택 실습(PDF 요약·음성 입력)을 이 시간에 진행하는 방법이 안내되어 있다",
+        "workflows/d2-p6.json 의 Gemini 조치 요약은 'AI 안내문 작성'(Basic LLM Chain, @n8n/n8n-nodes-langchain.chainLlm) + 'Google Gemini Chat Model'(lmChatGoogleGemini) 하위 노드 구성이다(기존 교안과 같음)",
+        "Webhook 경로·필드 이름·시트 열·응답 키가 docs/data-contract.md 와 일치한다",
+        "강사가 n8n Cloud에 Import해 실행을 확인했다(instructor-check 단계, docs/instructor-checklist.md)"
       ],
-      "source_refs": ["7절 2일차 6교시", "10절 설계서 양식"],
+      "source_refs": [
+        "7절 2일차 6교시",
+        "10절 설계서 양식"
+      ],
+      "legacy_refs": [
+        "docs/legacy/PublicFlow/public/day2/p3.html",
+        "docs/legacy/PublicFlow/public/downloads/day2-p3.json"
+      ],
       "status": "todo"
     },
     {
@@ -392,10 +635,14 @@
       ],
       "workflow": null,
       "deliverables": {
-        "html": ["lessons/d2-p7.html"],
+        "html": [
+          "lessons/d2-p7.html"
+        ],
         "json": [],
         "prompts": [],
-        "other": ["print/forms/roadmap.html"]
+        "other": [
+          "print/forms/roadmap.html"
+        ]
       },
       "acceptance_criteria": [
         "verify.py d2-p7 이 통과한다",
@@ -403,7 +650,11 @@
         "상호 피드백 양식과 적용 로드맵 양식이 있다",
         "부서 적용 전 점검 항목이 d2-p3 점검표와 연결되어 있다"
       ],
-      "source_refs": ["7절 2일차 7교시", "8-3 프로젝트"],
+      "source_refs": [
+        "7절 2일차 7교시",
+        "8-3 프로젝트"
+      ],
+      "legacy_refs": [],
       "status": "todo"
     },
     {
@@ -417,19 +668,41 @@
         "앱에서 PDF 공문을 올리면 n8n이 받아 Gemini로 요약한다",
         "요약을 메일과 텔레그램으로 보낸다"
       ],
-      "workflow": { "file": "workflows/opt-pdf.json", "role": "own", "builds_on": null },
+      "workflow": {
+        "file": "workflows/opt-pdf.json",
+        "role": "own",
+        "builds_on": null
+      },
       "deliverables": {
-        "html": ["lessons/opt-pdf.html"],
-        "json": ["workflows/opt-pdf.json"],
-        "prompts": ["prompts/opt-pdf-upload-app.md"],
+        "html": [
+          "lessons/opt-pdf.html"
+        ],
+        "json": [
+          "workflows/opt-pdf.json"
+        ],
+        "prompts": [
+          "prompts/opt-pdf-upload-app.md"
+        ],
         "other": []
       },
       "acceptance_criteria": [
         "verify.py opt-pdf 가 통과한다",
         "실습용 PDF는 가상 공문(assets/ 안의 예시 파일)만 사용하도록 안내되어 있다",
-        "혼자 따라 할 수 있도록 강사 없이도 막히지 않는 수준의 단계와 완성본 JSON이 있다"
+        "혼자 따라 할 수 있도록 강사 없이도 막히지 않는 수준의 단계와 완성본 JSON이 있다",
+        "workflows/opt-pdf.json 의 Gemini 요약은 'AI 안내문 작성'(Basic LLM Chain, @n8n/n8n-nodes-langchain.chainLlm) + 'Google Gemini Chat Model'(lmChatGoogleGemini) 하위 노드 구성이다(기존 교안과 같음)",
+        "Webhook 경로·필드 이름·시트 열·응답 키가 docs/data-contract.md 와 일치한다",
+        "강사가 n8n Cloud에 Import해 실행을 확인했다(instructor-check 단계, docs/instructor-checklist.md)",
+        "프롬프트 템플릿을 강사가 AI Studio에서 실제로 시험하고 검증 기록을 채웠다(instructor-check 단계)"
       ],
-      "source_refs": ["6절 선택", "8-3 파일·음성 기능 확장", "9-2 산출물"],
+      "source_refs": [
+        "6절 선택",
+        "8-3 파일·음성 기능 확장",
+        "9-2 산출물"
+      ],
+      "legacy_refs": [
+        "docs/legacy/PublicFlow/public/day2/p1.html",
+        "docs/legacy/PublicFlow/public/downloads/day2-p1.json"
+      ],
       "status": "todo"
     },
     {
@@ -443,19 +716,34 @@
         "민원 접수 앱에 '음성으로 입력' 버튼을 추가한다",
         "말한 내용이 텍스트로 바뀌어 기존 워크플로우로 접수되는 것을 확인한다"
       ],
-      "workflow": { "file": "workflows/d2-p2.json", "role": "reference", "builds_on": null },
+      "workflow": {
+        "file": "workflows/d2-p2.json",
+        "role": "reference",
+        "builds_on": null
+      },
       "deliverables": {
-        "html": ["lessons/opt-voice.html"],
+        "html": [
+          "lessons/opt-voice.html"
+        ],
         "json": [],
-        "prompts": ["prompts/opt-voice-input.md"],
+        "prompts": [
+          "prompts/opt-voice-input.md"
+        ],
         "other": []
       },
       "acceptance_criteria": [
         "verify.py opt-voice 가 통과한다",
         "n8n 워크플로우는 바꾸지 않고 앱만 바꾼다는 점이 명시되어 있다",
-        "마이크 권한 허용 방법과 권한이 막혔을 때의 대처가 안내되어 있다"
+        "마이크 권한 허용 방법과 권한이 막혔을 때의 대처가 안내되어 있다",
+        "강사가 n8n Cloud에 Import해 실행을 확인했다(instructor-check 단계, docs/instructor-checklist.md)",
+        "프롬프트 템플릿을 강사가 AI Studio에서 실제로 시험하고 검증 기록을 채웠다(instructor-check 단계)"
       ],
-      "source_refs": ["6절 선택", "8-3 파일·음성 기능 확장", "9-2 산출물"],
+      "source_refs": [
+        "6절 선택",
+        "8-3 파일·음성 기능 확장",
+        "9-2 산출물"
+      ],
+      "legacy_refs": [],
       "status": "todo"
     }
   ]

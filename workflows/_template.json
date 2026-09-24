@@ -1,0 +1,45 @@
+{
+  "name": "견본 — Webhook 받고 답하기 (규칙 예시, 교시 산출물 아님)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "hello",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "id": "tpl-webhook",
+      "name": "앱에서 받기",
+      "webhookId": "00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"메시지\": \"잘 받았습니다\", \"이름\": $json.body.이름 } }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [260, 0],
+      "id": "tpl-respond",
+      "name": "앱에 답하기"
+    }
+  ],
+  "connections": {
+    "앱에서 받기": {
+      "main": [
+        [
+          { "node": "앱에 답하기", "type": "main", "index": 0 }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

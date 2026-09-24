@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="../assets/img/n8n-logo.svg">
+<title>P3 AI 민원 자동 분류·답변 초안 — 공무원을 위한 n8n</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/lecture.css">
+</head>
+<body class="lecture-mode">
+<main class="wrap">
+
+  <nav class="crumb"><a href="../index.html">목차</a> › 2일차 › P3</nav>
+
+  <header class="page-head">
+    <h1>P3 AI 민원 자동 분류·답변 초안</h1>
+    <p class="sub">AI가 분류하고 초안을 씁니다</p>
+  </header>
+
+  <section class="sec" id="why">
+    <h2 class="sec-title">왜 이게 필요한가</h2>
+    <ul class="bullets">
+      <li>민원이 한 건 들어오면 담당자가 하는 일: <b>담당 판단</b>(어느 과 일인가) → <b>긴급도 판단</b>(얼마나 급한가) → <b>답변 작성</b>(정중한 답변 초안)</li>
+      <li>앞의 두 가지는 판단이고 마지막은 글쓰기지만, 셋 다 AI가 초벌로 해낼 수 있음 — 중요한 건 AI가 <b>결정</b>하는 게 아니라 <b>초안</b>을 낸다는 점</li>
+      <li>해결: 민원을 접수하면 AI가 담당부서·긴급도·답변초안 세 가지를 한 번에 만들어 시트에 남김 — 민원 원문 옆에 AI 초안이 나란히 쌓임</li>
+    </ul>
+    <div class="note tip">
+      <b>새로 배우는 것</b> — <b>두 칸 앞의 값 가져오기</b>. 노드를 이어 붙이면 앞 값이 사라진다고 배웠는데, 이번에는 그 사라진 값을 이름으로 직접 불러오는 표현식을 씁니다.
+    </div>
+  </section>
+
+  <section class="sec" id="goal">
+    <h2 class="sec-title">이번 시간에 만들 것</h2>
+    <p>폼으로 접수된 민원을 AI가 담당부서와 긴급도로 분류하고 답변 초안까지 작성해, 민원 원문과 함께 시트에 기록하는 워크플로우를 만듭니다.</p>
+    <div class="note warn">
+      <b>시트에 새 탭 하나 필요</b> — 1일차 시트에 <code class="val">분류결과</code> 탭 추가(1단계에서 진행)
+    </div>
+    <figure class="capture" id="fig-d2-p3-1">
+      <div class="capture-cap">[그림 P3-1] 완성 — 노드 셋에 <code class="val">Google Gemini Chat Model</code>이 아래로 매달린 형태</div>
+      <img src="../assets/img/fig-d2-p3-1.png" alt="완성된 모습">
+    </figure>
+    <p class="hint">마지막 노드에서 <b>두 곳의 값을 동시에</b> 씀 — AI 분류 결과와 폼의 민원 원문</p>
+  </section>
+
+  <section class="sec" id="steps">
+    <h2 class="sec-title">따라하기</h2>
+    <ol class="steps">
+      <li><span class="step-title">시트에 분류결과 탭 만들기</span>
+        1일차 시트 맨 아래 탭줄에서 <code class="val">+</code> → 탭 이름 <code class="val">분류결과</code>로 변경
+        <p>1행에 세 칸 순서대로: <code class="val">민원내용</code> · <code class="val">AI분류결과</code> · <code class="val">접수일시</code></p>
+        <figure class="capture" id="fig-d2-p3-2">
+          <div class="capture-cap">[그림 P3-2] 1행 A·B·C에 머리글 세 개를 넣은 <code class="val">분류결과</code> 탭</div>
+          <img src="../assets/img/fig-d2-p3-2.png" alt="1행에 머리글 세 개를 넣은 분류결과 탭">
+        </figure>
+      </li>
+
+      <li><span class="step-title">새 워크플로우 만들기</span>
+        이름을 <code class="val">P3 AI 민원 자동 분류</code>로
+      </li>
+
+      <li><span class="step-title">폼 트리거 추가하기</span>
+        <p>
+          <code class="val">Form Title</code> → <code class="val">민원 내용 입력</code><br>
+          <code class="val">Form Description</code> → <code class="val">분류할 민원 내용을 입력하세요.</code>
+        </p>
+        <p>필드 하나: <code class="val">Label</code> = <code class="val">민원내용</code>(띄어쓰기 없이), <code class="val">Element Type</code> = <code class="val">Textarea</code>, 필수 켜기</p>
+      </li>
+
+      <li><span class="step-title">AI 분류 노드 추가하기</span>
+        <code class="val">+</code> → <code class="val">Basic LLM Chain</code> → <code class="val">Source for Prompt</code> = <code class="val">Define below</code>
+<pre class="code-block">당신은 민원 분류 담당 공무원입니다.
+아래 민원 내용을 읽고 다음을 작성하세요.
+
+1) 담당부서: [도로교통과 / 환경위생과 / 복지정책과 / 건축과 / 기타] 중 하나
+2) 긴급도: [높음 / 보통 / 낮음] 중 하나
+3) 답변초안: 민원인에게 보낼 정중한 답변 초안 (3~4문장, 존댓말)
+
+아래 형식 그대로만 출력하세요.
+담당부서:
+긴급도:
+답변초안:
+
+[민원 내용]
+{{ $json.민원내용 }}</pre>
+        <div class="note">
+          <b>"형식 그대로만 출력하세요"가 중요한 이유</b> — 없으면 AI가 인사말·설명을 덧붙여 시트가 지저분해짐
+        </div>
+      </li>
+
+      <li><span class="step-title">Gemini 모델 붙이고 모델 이름 고르기</span>
+        아래쪽 <code class="val">+</code> → <code class="val">Google Gemini Chat Model</code> → 자격증명 재사용 → <code class="val">models/gemini-2.5-flash</code> 직접 선택
+      </li>
+
+      <li><span class="step-title">시트 기록 노드 추가하기</span>
+        <code class="val">+</code> → <code class="val">Google Sheets</code> → <code class="val">Append Row in Sheet</code>
+        <p><code class="val">Document</code> = 1일차 시트, <code class="val">Sheet</code> = <code class="val">분류결과</code> 탭</p>
+        <p><code class="val">Mapping Column Mode</code> = <code class="val">Map Each Column Manually</code></p>
+      </li>
+
+      <li><span class="step-title">세 칸 채우기 — 이번 시간의 핵심</span>
+        세 칸 각각 표현식 전환 후:
+        <p>
+          <code class="val">민원내용</code> → <code class="val">{{ $('민원 내용 입력').item.json.민원내용 }}</code><br>
+          <code class="val">AI분류결과</code> → <code class="val">{{ $json.text }}</code><br>
+          <code class="val">접수일시</code> → <code class="val">{{ $now.toFormat('yyyy-MM-dd HH:mm') }}</code>
+        </p>
+        <div class="note warn">
+          <b>왜 첫 칸만 다른가</b>
+          <code class="val">AI 분류·답변</code> 노드를 지나면 민원 원문이 사라짐. <code class="val">$('민원 내용 입력')</code>로 몇 칸 앞 노드의 값을 이름으로 직접 불러옴. <b>노드 이름 철자가 한 글자라도 다르면 실패.</b>
+        </div>
+        <figure class="capture" id="fig-d2-p3-3">
+          <div class="capture-cap">[그림 P3-3] 세 칸 모두 <code class="val">fx</code>가 붙고, 칸 아래 회색 글씨로 실제 들어갈 값이 미리 보입니다</div>
+          <img src="../assets/img/fig-d2-p3-3.png" alt="세 칸에 표현식을 입력한 시트 노드">
+        </figure>
+      </li>
+
+      <li><span class="step-title">노드 이름 정리하기</span>
+        <p><code class="val">민원 내용 입력</code> · <code class="val">AI 분류·답변</code> · <code class="val">분류 결과 기록</code></p>
+        <span class="hint">폼 트리거 이름은 바꾸지 마세요 — 앞 단계 표현식이 이 이름을 가리킵니다.</span>
+      </li>
+    </ol>
+  </section>
+
+  <section class="sec" id="verify">
+    <h2 class="sec-title">실행하고 확인하기</h2>
+    <ul class="bullets">
+      <li><code class="val">Execute workflow</code> → 임시 폼 주소에서 민원 내용 제출</li>
+      <li><code class="val">분류결과</code> 탭에 새 줄: 민원 원문 + AI 분류 결과 + 오늘 날짜시각 = 성공</li>
+      <li>서로 다른 민원을 몇 번 더 제출해 담당부서가 달라지는지 확인</li>
+    </ul>
+    <div class="note tip">
+      <b>B열이 답답해 보이면</b>
+      AI 결과 세 줄이 한 칸 안에 들어가 있어서 줄이 두껍게 보입니다. 시트에서 B열
+      너비를 넓히고 <b>서식 → 텍스트 줄바꿈 → 자동 줄바꿈</b>으로 바꾸면 세 줄이
+      가지런히 보입니다. 자동화와는 상관없는 보기 설정입니다.
+    </div>
+  </section>
+
+  <section class="sec" id="trouble">
+    <h2 class="sec-title">안 될 때</h2>
+    <ul class="bullets">
+      <li><b>민원내용 칸이 비어 있음</b> — <code class="val">{{ $('민원 내용 입력').item.json.민원내용 }}</code>인지, 폼 트리거 이름이 정확한지 확인</li>
+      <li><b>"노드를 찾을 수 없다" 오류</b> — <code class="val">$('...')</code> 안 이름과 실제 노드 제목 일치 확인</li>
+      <li><b>칸이 전부 비어 있음</b> — 세 칸 각각 표현식 전환 확인</li>
+      <li><b>값이 엉뚱한 칸에 들어감</b> — <code class="val">분류결과</code> 탭 머리글 철자 확인</li>
+      <li><b>AI 결과에 인사말 잔뜩</b> — 프롬프트의 "형식 그대로만 출력하세요" 줄 확인</li>
+      <li><b>Sheet 목록에 분류결과 탭 안 보임</b> — 브라우저 새로고침 후 재확인</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="quiz">
+    <h2 class="sec-title">확인 문제</h2>
+    <div class="quiz-item">
+      <p class="quiz-q"><span class="qtype">객관식</span>Q1. <code class="val">{{ $('민원 내용 입력').item.json.민원내용 }}</code> 표현식이 필요한 이유는?</p>
+      <ol class="quiz-choices">
+        <li>시트 자격증명 문제 때문에</li>
+        <li><code class="val">AI 분류·답변</code> 노드를 지나면서 민원 원문이 사라졌기 때문에</li>
+        <li>폼 필드 이름이 한글이라서</li>
+        <li>표현식은 항상 이 형태로 써야 하기 때문에</li>
+      </ol>
+      <details class="quiz-answer"><summary>정답 확인</summary>
+        <p class="quiz-a"><b>정답: ②</b> <code class="val">$('노드 이름')</code>으로 몇 칸 앞 노드의 값을 이름으로 직접 불러올 수 있습니다.</p>
+      </details>
+    </div>
+    <div class="quiz-item">
+      <p class="quiz-q"><span class="qtype">객관식</span>Q2. 프롬프트에 "아래 형식 그대로만 출력하세요"를 넣는 이유는?</p>
+      <ol class="quiz-choices">
+        <li>AI 응답 속도를 높이기 위해</li>
+        <li>인사말·설명이 붙지 않게 해 시트에 깔끔하게 쌓기 위해</li>
+        <li>긴급도를 자동으로 계산하기 위해</li>
+        <li>자격증명 오류를 막기 위해</li>
+      </ol>
+      <details class="quiz-answer"><summary>정답 확인</summary>
+        <p class="quiz-a"><b>정답: ②</b> 이 문장이 없으면 AI가 인사말이나 부가 설명을 붙여 시트가 지저분해집니다.</p>
+      </details>
+    </div>
+    <div class="quiz-item">
+      <p class="quiz-q"><span class="qtype">단답형</span>Q3. <code class="val">$('민원 내용 입력')</code>이 정상 동작하려면 어떤 조건이 지켜져야 하나요?</p>
+      <details class="quiz-answer"><summary>정답 확인</summary>
+        <p class="quiz-a"><b>정답:</b> 폼 트리거 노드의 제목이 정확히 <code class="val">민원 내용 입력</code>이어야 합니다 — 철자가 한 글자라도 다르면 실행이 실패합니다.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="sec" id="download">
+    <h2 class="sec-title">이번 프로젝트 워크플로우 받기</h2>
+    <p>따라오다 막혔다면 이 파일을 받아 n8n에서 불러오면 이어서 진행할 수 있습니다.</p>
+    <div class="note warn">
+      <b>불러온 뒤 반드시 확인하세요</b>
+      이 파일에는 자격증명이 들어 있지 않습니다. 불러온 뒤
+      <code class="val">Google Gemini Chat Model</code>과
+      <code class="val">분류 결과 기록</code> 두 노드를 각각 열어 자격증명을 다시
+      골라야 합니다. 그리고 <code class="val">분류 결과 기록</code>의
+      <code class="val">Document</code> 칸에는
+      <code class="val">여기에_본인_시트_ID</code> 자리표시자가 들어 있으므로 본인
+      시트로 바꿔야 합니다. 탭 이름은 <code class="val">분류결과</code>로 들어 있으니,
+      <b>시트에 그 이름의 탭과 머리글 세 개를 먼저 만들어두어야</b> 합니다.
+    </div>
+    <a class="dl" href="../downloads/day2-p3.json" download>
+      워크플로우 내려받기 <span class="dl-name">day2-p3.json</span>
+    </a>
+  </section>
+
+  <nav class="pager">
+    <a href="p2.html">← P2 매일 아침 민원 브리핑 봇</a>
+    <a href="p4.html">P4 날씨 알리미 →</a>
+  </nav>
+
+</main>
+</body>
+</html>

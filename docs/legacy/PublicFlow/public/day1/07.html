@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="../assets/img/n8n-logo.svg">
+<title>07 조건에 따라 나누기 — 공무원을 위한 n8n</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/lecture.css">
+</head>
+<body class="lecture-mode">
+<main class="wrap">
+
+  <nav class="crumb"><a href="../index.html">목차</a> › 1일차 › 07</nav>
+
+  <header class="page-head">
+    <h1>07 조건에 따라 나누기</h1>
+    <p class="sub">민원 종류로 담당자를 가릅니다</p>
+  </header>
+
+  <section class="sec" id="why">
+    <h2 class="sec-title">왜 이게 필요한가</h2>
+    <ul class="bullets">
+      <li>쓰레기 무단투기는 환경 담당, 도로 파임은 도로 담당처럼 민원 종류마다 담당이 다르지만, 지금까지 만든 워크플로우는 모든 민원을 똑같이 처리한다</li>
+      <li>실제 업무에서 담당을 가르는 판단은 의외로 단순함 — <b>종류 칸 하나만</b> 보면 됨</li>
+      <li>해결: <b>IF 노드</b>로 조건이 맞으면 이쪽 길, 아니면 저쪽 길로 자동 분기</li>
+    </ul>
+    <div class="note">
+      <b>여기서부터 워크플로우가 "판단"을 합니다</b>
+      지금까지 만든 노드들은 시키는 일을 순서대로 했을 뿐이지만, IF 노드는 처음으로 들어온 값을 보고 갈 길을 스스로 고릅니다.
+    </div>
+  </section>
+
+  <section class="sec" id="goal">
+    <h2 class="sec-title">이번 시간에 만들 것</h2>
+    <p>민원이 '생활' 관련인지 아닌지를 조건으로 나누어, 담당자에게 서로 다른 경로로 전달되게 만듭니다.</p>
+    <figure class="capture" id="fig-d1-07-1">
+      <div class="capture-cap">[그림 7-1] 완성 — <code class="val">생활인가?</code>에서 <code class="val">true</code>·<code class="val">false</code> 두 갈래</div>
+      <img src="../assets/img/fig-d1-07-1.png" alt="완성된 모습">
+    </figure>
+  </section>
+
+  <section class="sec" id="steps">
+    <h2 class="sec-title">따라하기</h2>
+    <ol class="steps">
+      <li><span class="step-title">If 노드 추가하기</span>
+        <code class="val">샘플 민원</code> 오른쪽 <code class="val">+</code> → <code class="val">If</code>
+      </li>
+      <li><span class="step-title">조건 입력하기</span>
+        왼쪽 값 표현식 전환 → <code class="val">{{ $json.종류 }}</code>, 연산자 <code class="val">String</code> → <code class="val">is equal to</code>, 오른쪽 값은 글자 그대로 <code class="val">생활</code>
+        <figure class="capture" id="fig-d1-07-2">
+          <div class="capture-cap">[그림 7-2] If 노드 조건 입력 화면 — 자료형별로 묶인 연산자 목록</div>
+          <img src="../assets/img/fig-d1-07-2.png" alt="If 노드 조건 입력 화면">
+        </figure>
+      </li>
+      <li><span class="step-title">노드 이름 바꾸기</span>
+        <code class="val">생활인가?</code>로 변경
+      </li>
+      <li><span class="step-title">두 개의 출력 확인하기</span>
+        위쪽 = true(참), 아래쪽 = false(거짓)
+      </li>
+      <li><span class="step-title">참 출력에 담당자 메일 연결하기</span>
+        위쪽 <code class="val">+</code> → <code class="val">Gmail</code>(04강 자격증명 재사용)
+        <p>
+          <code class="val">To</code> = 본인 이메일(글자 그대로)<br>
+          <code class="val">Subject</code> = <code class="val">[생활 관련] 민원</code><br>
+          <code class="val">Message</code> = 표현식, <code class="val">생활 관련 민원: {{ $json.이름 }}</code>
+        </p>
+        노드 이름 → <code class="val">생활 담당자</code>
+      </li>
+      <li><span class="step-title">거짓 출력에 담당자 메일 연결하기</span>
+        아래쪽 <code class="val">+</code> → <code class="val">Gmail</code>
+        <p>
+          <code class="val">To</code> = 본인 이메일<br>
+          <code class="val">Subject</code> = <code class="val">[일반] 민원</code><br>
+          <code class="val">Message</code> = 표현식, <code class="val">일반 민원: {{ $json.이름 }}</code>
+        </p>
+        노드 이름 → <code class="val">일반 담당자</code>
+        <figure class="capture" id="fig-d1-07-3">
+          <div class="capture-cap">[그림 7-3] <code class="val">true</code>·<code class="val">false</code> 두 출력에 각각 담당자 메일 노드를 붙인 모습</div>
+          <img src="../assets/img/fig-d1-07-3.png" alt="true·false 두 출력에 각각 담당자 메일 노드를 붙인 모습">
+        </figure>
+      </li>
+    </ol>
+    <div class="note">
+      <b>두 담당자 주소가 같아도 괜찮은 이유</b>
+      실습에서는 두 노드 모두 본인 주소로 두는 편이 낫습니다. 제목만 보고 어느 갈래를 탔는지 바로 비교할 수 있습니다.
+    </div>
+  </section>
+
+  <section class="sec" id="verify">
+    <h2 class="sec-title">실행하고 확인하기</h2>
+    <ul class="bullets">
+      <li><code class="val">종류</code>가 지금 <code class="val">생활</code> → <code class="val">Execute workflow</code> → <code class="val">[생활 관련] 민원</code>만 도착</li>
+      <li><code class="val">종류</code>를 <code class="val">음식물</code>로 바꿔 재실행 → <code class="val">[일반] 민원</code> 도착 = 성공, 확인 후 다시 <code class="val">생활</code>로 되돌림</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="trouble">
+    <h2 class="sec-title">안 될 때</h2>
+    <ul class="bullets">
+      <li><b>항상 [일반] 민원만 도착</b> — 왼쪽 값 Expression 모드 확인</li>
+      <li><b>메일이 두 통 다 옴</b> — 각 출력에 다른 노드가 연결됐는지 확인</li>
+      <li><b>값 비교 안 됨</b> — 오른쪽 값에 따옴표 없이 <code class="val">생활</code>만 입력했는지 확인</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="quiz">
+    <h2 class="sec-title">확인 문제</h2>
+    <div class="quiz-item">
+      <p class="quiz-q"><span class="qtype">객관식</span>Q1. If 노드에서 출력 연결점 중 조건이 참(true)일 때 나가는 자리는 어느 쪽인가요?</p>
+      <ol class="quiz-choices">
+        <li>위쪽</li>
+        <li>아래쪽</li>
+        <li>왼쪽</li>
+        <li>둘 다 동시에</li>
+      </ol>
+      <details class="quiz-answer"><summary>정답 확인</summary>
+        <p class="quiz-a"><b>정답: ①</b> 위쪽이 참(true), 아래쪽이 거짓(false)일 때 나가는 자리입니다.</p>
+      </details>
+    </div>
+    <div class="quiz-item">
+      <p class="quiz-q"><span class="qtype">객관식</span>Q2. 조건 왼쪽 값을 표현식(Expression) 모드로 바꾸지 않으면 어떤 문제가 생기나요?</p>
+      <ol class="quiz-choices">
+        <li>워크플로우가 실행되지 않는다</li>
+        <li><code class="val">{{ $json.종류 }}</code>라는 글자 자체와 비교하게 되어 항상 다르다고 판단한다</li>
+        <li>노드가 자동으로 삭제된다</li>
+        <li>메일이 두 통 발송된다</li>
+      </ol>
+      <details class="quiz-answer"><summary>정답 확인</summary>
+        <p class="quiz-a"><b>정답: ②</b> 표현식 모드가 아니면 실제 값이 아니라 글자 그대로를 비교하므로 조건이 항상 거짓으로 판단됩니다.</p>
+      </details>
+    </div>
+    <div class="quiz-item">
+      <p class="quiz-q"><span class="qtype">단답형</span>Q3. 이번 시간에 만든 If 노드의 이름은 무엇이며, 무엇과 무엇을 비교하나요?</p>
+      <details class="quiz-answer"><summary>정답 확인</summary>
+        <p class="quiz-a"><b>정답:</b> <code class="val">생활인가?</code> — <code class="val">{{ $json.종류 }}</code>와 글자 <code class="val">생활</code>이 같은지 비교합니다.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="sec" id="download">
+    <h2 class="sec-title">이번 단계 워크플로우 받기</h2>
+    <p>따라오다 막혔다면 이 파일을 받아 n8n에서 불러오면 이어서 진행할 수 있습니다.</p>
+    <div class="note warn">
+      <b>불러온 뒤 반드시 확인하세요</b>
+      이 파일에는 자격증명이 들어 있지 않습니다. 불러온 뒤 <code class="val">시트에 기록</code>·
+      <code class="val">접수 메일 보내기</code>·<code class="val">처리 마감 일정</code>·
+      <code class="val">Google Gemini Chat Model</code>·<code class="val">생활 담당자</code>·
+      <code class="val">일반 담당자</code> 여섯 노드를 각각 열어 자격증명을 다시 골라야
+      합니다(Gemini는 구글 로그인 화면이 아니라 API 키를 새로 입력하는 화면입니다).
+      <code class="val">시트에 기록</code>의 <code class="val">Document</code> 칸에는
+      <code class="val">여기에_본인_시트_ID</code> 자리표시자가 들어 있습니다.
+      <code class="val">본인이메일@example.com</code> 자리표시자는 <b>네 군데</b>에 들어
+      있습니다 — <code class="val">샘플 민원</code>의 <code class="val">이메일</code> 값,
+      <code class="val">처리 마감 일정</code>의 <code class="val">Calendar</code> 칸, 그리고
+      <code class="val">생활 담당자</code>·<code class="val">일반 담당자</code> 두 노드의
+      <code class="val">To</code> 칸입니다. 네 곳 모두 본인 주소로 바꿔야 이번 강의의 갈래
+      확인이 됩니다. 시트 탭 이름은 <code class="val">시트1</code>로 들어 있으니 본인 시트의
+      탭 이름이 다르면 목록에서 다시 골라야 합니다.
+    </div>
+    <a class="dl" href="../downloads/day1-07.json" download>
+      워크플로우 내려받기 <span class="dl-name">day1-07.json</span>
+    </a>
+  </section>
+
+  <nav class="pager">
+    <a href="06.html">← 06 AI 안내문 자동 생성</a>
+    <a href="08.html">08 입력 폼으로 실제 접수받기 →</a>
+  </nav>
+
+</main>
+</body>
+</html>

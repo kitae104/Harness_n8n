@@ -11,7 +11,8 @@
 2. **일반 개념은 한글로 쓴다**(워크플로우, 표현식, 접수번호, 공유 링크).
 3. **"웹훅"은 예외 없이 금지한다.** 첫 등장 때는 "Webhook(외부 앱이 n8n을 부르는 주소)"처럼 쉬운 말 풀이를 붙인다.
 4. 풀이는 **교시마다 첫 등장 때 다시** 붙인다. 수강생이 교시를 건너뛰어 들어올 수 있기 때문이다.
-5. `<code>`, `<pre>`, `<kbd>` 안(주소, JSON, 표현식)은 검사하지 않는다. n8n 주소에 들어가는 소문자 `/webhook/`는 괜찮다.
+5. `<pre>`, `<kbd>`, **class 없는** `<code>` 안(주소, JSON, 표현식)은 검사하지 않는다. n8n 주소에 들어가는 소문자 `/webhook/`는 괜찮다.
+   화면 라벨을 표시하는 `<code class="val">` 안은 **검사한다**(기존 교안 CSS 관례).
 6. 금지 변형 검사는 **대소문자를 구분**한다.
 
 ## 표기 기준
@@ -26,7 +27,7 @@
 | `Respond to Webhook` | `Respond To Webhook` `respond to webhook` `응답 노드` | 앱에 "잘 받았어요, 접수번호는 ○○예요"라고 답장을 보내는 노드 | Y |
 | `Test URL` | `테스트 URL` `테스트 주소` `Test Url` `test URL` `테스트URL` | 만드는 중에 한 번씩 시험할 때 쓰는 주소. 시험 버튼을 누른 동안만 동작 | Y |
 | `Production URL` | `프로덕션 URL` `운영 URL` `운영 주소` `실제 URL` `Prod URL` `Production Url` `production URL` | 워크플로우를 켜 둔 뒤 앱에 넣는 진짜 주소 | Y |
-| `CORS` | `코스` `cors` `Cors` | 다른 주소에서 온 앱이 n8n을 불러도 되는지 정하는 허락 규칙 | Y |
+| `CORS` | `cors` `Cors` `코어스` | 다른 주소에서 온 앱이 n8n을 불러도 되는지 정하는 허락 규칙 | Y |
 | `Allowed Origins` ❓ | `allowed origins` `Allowed origins` `허용 오리진` | CORS 허락 목록을 적는 Webhook 노드 옵션 이름. 한글로는 "허용 출처" | N |
 | `허용 출처` | `허용출처` `허가 출처` | Allowed Origins의 우리말 풀이 | N |
 | `활성화` ❓ | `액티브` `엑티브` `활성 화` | 워크플로우를 켜서 Production URL이 항상 동작하게 하는 것 | Y |
@@ -38,6 +39,8 @@
 | `Gmail` | `지메일` `G메일` `gmail` | 구글 메일 | N |
 | `구글 캘린더` | `구글캘린더` `구글 달력` | Google Calendar. 노드 이름은 `Google Calendar` | N |
 | `Gemini` | `제미나이` `제미니` `재미나이` `gemini` | 구글의 AI. 글을 읽고 써 주는 도우미 | N |
+| `Google Gemini Chat Model` | `Gemini Chat Model` `구글 제미나이 챗 모델` | `AI 안내문 작성` 노드 아래에 붙이는 Gemini 두뇌 노드(기존 교안과 같은 구성) | N |
+| `Basic LLM Chain` | `LLM 체인` `Basic LLM chain` | AI에게 글쓰기를 시키는 노드. 교안에서는 `AI 안내문 작성`으로 이름을 바꿔 씀 | N |
 | `Google AI Studio` | `구글 AI 스튜디오` `AI스튜디오` `에이아이 스튜디오` `AI studio` `Ai Studio` | 문장으로 앱 화면을 만들어 주는 구글의 무료 도구. 줄여서 `AI Studio` | Y |
 | `Build 모드` | `빌드 모드` `빌드모드` `build 모드` `Build모드` | AI Studio에서 앱을 만드는 화면 | N |
 | `프롬프트` | `프롬트` `프럼프트` | AI에게 시키는 일을 적은 문장 | Y |
@@ -59,5 +62,25 @@
 |---|---|---|---|
 | 접수번호 | `YYYY-MMDD-NNN` | `2026-0922-017` | 연도 4자리 - 월일 4자리 - 그날 순번 3자리(001부터). 제안서 그림 1과 동일 |
 | 교시 id | `d{일차}-p{교시}`, 선택 실습 `opt-{이름}` | `d1-p3`, `opt-pdf` | 파일명과 같다 |
-| 강사 시연 n8n 서버 | `https://kitae104.work` | — | 가정값, 변경 예정 → `docs/decisions.md` |
+| 강사 시연 n8n | n8n Cloud(강사 계정) | — | 수강생도 n8n Cloud 무료 체험(개인 계정). 버전 고정 불가 → 교육 1주 전 최종 확인 |
 | Gmail 수신 주소 자리표시 | `{본인 이메일}` | — | 실제 주소를 교안에 쓰지 않는다 |
+
+## 자리표시자 (수강생이 자기 값으로 바꾸는 자리)
+
+기존 교안(PublicFlow) 관례를 따른다. Import 안내에는 그 JSON에 들어 있는 자리표시자를 **모두** 적는다.
+
+| 쓰는 곳 | 자리표시자 | 뜻 |
+|---|---|---|
+| 워크플로우 JSON | `여기에_본인_시트_ID` | 구글 시트 문서 ID |
+| 워크플로우 JSON | `여기에_본인_채팅_ID` | 텔레그램 chat id |
+| 워크플로우 JSON | `본인이메일@example.com` | Gmail 받는 사람, 캘린더 |
+| 교안 본문·프롬프트 | `{본인 이메일}` | 수강생 본인 이메일 |
+| 프롬프트 | `{Production URL}` | 수강생 본인 n8n의 Production URL |
+| 프롬프트 | `{조회용 Production URL}` | d2-p2 GET Webhook 주소 |
+
+## 기존 교안과의 표기 차이
+
+| 항목 | 기존 교안(PublicFlow) | 이 과정 |
+|---|---|---|
+| Credential | 자격증명 | 자격 증명 (사용자 지시, 2026-09-24) |
+| 교시 이름 | 01~08강, P1~P4(프로젝트) | d1-p1~d2-p7(교시). "P1"과 "d2-p1"은 다른 것 |

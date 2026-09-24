@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="../assets/img/n8n-logo.svg">
+<title>05 캘린더 일정 자동 생성 — 공무원을 위한 n8n</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/lecture.css">
+</head>
+<body class="lecture-mode">
+<main class="wrap">
+
+  <nav class="crumb"><a href="../index.html">목차</a> › 1일차 › 05</nav>
+
+  <header class="page-head">
+    <h1>05 캘린더 일정 자동 생성</h1>
+    <p class="sub">3일 뒤 처리 마감을 잡습니다</p>
+  </header>
+
+  <section class="sec" id="why">
+    <h2 class="sec-title">왜 이게 필요한가</h2>
+    <ul class="bullets">
+      <li>민원에는 접수일로부터 며칠 이내라는 처리 기한이 있지만, 그 날짜를 계산해 적어두는 일은 사람이 합니다 — 월말·주말이 끼면 헷갈리고 바빨 날은 깜박합니다</li>
+      <li>기한을 넘기면 민원인에게도 담당자에게도 곱란해지는데, 그 이유는 대개 <b>일을 안 해서가 아니라 잊어서</b>입니다</li>
+      <li>해결: 접수와 동시에 3일 뒤 날짜를 계산해 캘린더에 자동 등록하고, 구글 캘린더의 기본 알림까지 그대로 받음</li>
+    </ul>
+    <div class="note">
+      <b><code class="val">$now.plus(3,'days')</code>가 날짜 계산을 기계에 맡깁니다</b>
+      사람이 손으로 "오늘부터 3일 뒤"를 세다 보면 오늘을 포함할지 말지부터 헷갈립니다. 이 표현식은 월이 바뀌든 해가 바뀌든 틀리지 않습니다.
+    </div>
+  </section>
+
+  <section class="sec" id="goal">
+    <h2 class="sec-title">이번 시간에 만들 것</h2>
+    <p>민원이 접수된 날짜로부터 3일 뒤를 처리 마감일로 계산해 캘린더에 자동 등록하는 단계를 추가합니다.</p>
+    <figure class="capture" id="fig-d1-05-1">
+      <div class="capture-cap">[그림 5-1] 완성 — <code class="val">샘플 민원</code>에서 세 갈래로 갈라진 캔버스</div>
+      <img src="../assets/img/fig-d1-05-1.png" alt="완성된 모습">
+    </figure>
+  </section>
+
+  <section class="sec" id="steps">
+    <h2 class="sec-title">따라하기</h2>
+    <ol class="steps">
+      <li><span class="step-title">Google Calendar 노드 추가하기</span>
+        <code class="val">샘플 민원</code> 오른쪽 <code class="val">+</code> → <code class="val">Google Calendar</code>
+      </li>
+      <li><span class="step-title">자격증명 연결하기</span>
+        <code class="val">Sign in with Google</code> → 같은 계정 선택 → 허용 → <code class="val">Google Calendar account</code> 생성
+      </li>
+      <li><span class="step-title">Resource·Operation 확인하기</span>
+        기본값 <code class="val">Event</code>·<code class="val">Create</code> 그대로
+      </li>
+      <li><span class="step-title">캘린더 고르기</span>
+        <code class="val">Calendar</code> → 목록에서 본인 캘린더 선택
+      </li>
+      <li><span class="step-title">Start 입력하기</span>
+        표현식 전환 후 <code class="val">{{ $now.plus(3,'days').toISO() }}</code>
+      </li>
+      <li><span class="step-title">End 입력하기</span>
+        표현식 전환 후 <code class="val">{{ $now.plus(3,'days').plus(1,'hour').toISO() }}</code>
+        <span class="hint">Start·End 두 칸 각각 따로 전환 필요</span>
+      </li>
+      <li><span class="step-title">일정 제목(Summary) 추가하기</span>
+        <code class="val">Additional Fields</code> <code class="val">+</code> → <code class="val">Summary</code> → 표현식 전환 → <code class="val">민원 처리 마감 - {{ $json.이름 }}</code>
+        <figure class="capture" id="fig-d1-05-2">
+          <div class="capture-cap">[그림 5-2] 설정을 마친 Google Calendar 노드</div>
+          <img src="../assets/img/fig-d1-05-2.png" alt="여기까지 설정을 마친 Google Calendar 노드">
+        </figure>
+      </li>
+      <li><span class="step-title">노드 이름 바꾸기</span>
+        <code class="val">처리 마감 일정</code>으로 변경
+      </li>
+    </ol>
+    <div class="note">
+      <b>세 표현식의 의미</b>
+      <code class="val">$now</code> = 지금 시각, <code class="val">.plus(3,'days')</code> = 3일 더하기,
+      <code class="val">.toISO()</code> = 캘린더가 알아듣는 날짜 형식으로 변환
+    </div>
+  </section>
+
+  <section class="sec" id="verify">
+    <h2 class="sec-title">실행하고 확인하기</h2>
+    <ul class="bullets">
+      <li><code class="val">Execute workflow</code> → 캘린더에서 <b>3일 뒤 날짜</b> 확인</li>
+      <li><code class="val">민원 처리 마감 - 김기태</code> 1시간짜리 일정 = 성공</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="trouble">
+    <h2 class="sec-title">안 될 때</h2>
+    <ul class="bullets">
+      <li><b>일정이 안 보임</b> — 3일 뒤 날짜/맞는 캘린더인지 확인</li>
+      <li><b>Calendar 목록이 비어 있음</b> — 자격증명 연결 재확인</li>
+      <li><b>날짜·시간 오류</b> — Start·End 각각 Expression 전환 + <code class="val">.toISO()</code> 확인</li>
+      <li><b>Summary가 <code class="val">{{ $json.이름 }}</code> 그대로 나옴</b> — 표현식 전환 확인</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="quiz">
+    <h2 class="sec-title">확인 문제</h2>
+    <div class="quiz-item">
+      <p class="quiz-q"><span class="qtype">객관식</span>Q1. <code class="val">$now.plus(3,'days').toISO()</code>에서 <code class="val">.toISO()</code>가 하는 역할은?</p>
+      <ol class="quiz-choices">
+        <li>3일을 더한다</li>
+        <li>계산 결과를 구글 캘린더가 알아듣는 날짜 형식으로 바꾼다</li>
+        <li>시간대를 한국으로 바꾼다</li>
+        <li>알림을 설정한다</li>
+      </ol>
+      <details class="quiz-answer"><summary>정답 확인</summary>
+        <p class="quiz-a"><b>정답: ②</b> <code class="val">.toISO()</code>가 없으면 캘린더가 값을 날짜로 인식하지 못합니다.</p>
+      </details>
+    </div>
+    <div class="quiz-item">
+      <p class="quiz-q"><span class="qtype">객관식</span>Q2. <code class="val">Start</code>·<code class="val">End</code> 표현식 전환은 어떻게 해야 하나요?</p>
+      <ol class="quiz-choices">
+        <li>둘 중 하나만 전환하면 나머지도 자동 적용된다</li>
+        <li>두 칸을 각각 따로 전환해야 한다</li>
+        <li>전환할 필요 없이 바로 입력하면 된다</li>
+        <li>노드를 새로 만들어야 한다</li>
+      </ol>
+      <details class="quiz-answer"><summary>정답 확인</summary>
+        <p class="quiz-a"><b>정답: ②</b> 한 칸에서 누른 표현식 전환은 다른 칸까지 적용되지 않으므로 각각 따로 전환해야 합니다.</p>
+      </details>
+    </div>
+    <div class="quiz-item">
+      <p class="quiz-q"><span class="qtype">단답형</span>Q3. 이번 시간에 계산한 처리 마감 일정의 <code class="val">End</code>는 <code class="val">Start</code>보다 얼마나 뒤인가요?</p>
+      <details class="quiz-answer"><summary>정답 확인</summary>
+        <p class="quiz-a"><b>정답:</b> 1시간 뒤 — <code class="val">$now.plus(3,'days').plus(1,'hour').toISO()</code>로 계산합니다.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="sec" id="download">
+    <h2 class="sec-title">이번 단계 워크플로우 받기</h2>
+    <p>따라오다 막혔다면 이 파일을 받아 n8n에서 불러오면 이어서 진행할 수 있습니다.</p>
+    <div class="note warn">
+      <b>불러온 뒤 반드시 확인하세요</b>
+      이 파일에는 자격증명이 들어 있지 않습니다. 불러온 뒤 <code class="val">시트에 기록</code>·
+      <code class="val">접수 메일 보내기</code>·<code class="val">처리 마감 일정</code> 세
+      노드를 각각 열어 자격증명을 다시 골라야 합니다. <code class="val">시트에 기록</code>의
+      <code class="val">Document</code> 칸과 <code class="val">처리 마감 일정</code>의
+      <code class="val">Calendar</code> 칸에는 각각 <code class="val">여기에_본인_시트_ID</code>·
+      <code class="val">본인이메일@example.com</code> 자리표시자가 들어 있고,
+      <code class="val">샘플 민원</code> 노드의 <code class="val">이메일</code> 값에도 같은
+      <code class="val">본인이메일@example.com</code> 자리표시자가 들어 있으므로 모두 본인
+      값으로 바꿔야 합니다. 시트 탭 이름은 <code class="val">시트1</code>로 들어 있으니
+      본인 시트의 탭 이름이 다르면 목록에서 다시 골라야 합니다.
+    </div>
+    <a class="dl" href="../downloads/day1-05.json" download>
+      워크플로우 내려받기 <span class="dl-name">day1-05.json</span>
+    </a>
+  </section>
+
+  <nav class="pager">
+    <a href="04.html">← 04 이메일 자동 발송</a>
+    <a href="06.html">06 AI 안내문 자동 생성 →</a>
+  </nav>
+
+</main>
+</body>
+</html>

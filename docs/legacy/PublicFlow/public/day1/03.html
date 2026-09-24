@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="../assets/img/n8n-logo.svg">
+<title>03 구글 시트에 자동 기록 — 공무원을 위한 n8n</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/lecture.css">
+</head>
+<body class="lecture-mode">
+<main class="wrap">
+
+  <nav class="crumb"><a href="../index.html">목차</a> › 1일차 › 03</nav>
+
+  <header class="page-head">
+    <h1>03 구글 시트에 자동 기록</h1>
+    <p class="sub">만든 데이터를 시트에 쌓습니다</p>
+  </header>
+
+  <section class="sec" id="why">
+    <h2 class="sec-title">왜 이게 필요한가</h2>
+    <ul class="bullets">
+      <li>전화 받으면 메모지에 적고 → 접수 대장에 손으로 옮김 → 오타·누락 발생</li>
+      <li>대장은 <b>내 컴퓨터 안에만</b> 있어 현황 공유 어려움</li>
+      <li>해결: 접수와 동시에 구글 시트에 저절로 한 줄 쌓임 → 오타·누락 없음, 링크만으로 현황 공유</li>
+    </ul>
+    <div class="note warn">
+      <b>이번 시간부터 밖깥 서비스와 연결</b>
+      <p>구글 시트에 쓰려면 <b>자격증명</b>(n8n이 내 구글 계정을 써도 된다는 허락)이 필요합니다. 한 번 만들면 4·5강에서는 다시 만들 필요 없습니다.</p>
+      <p>n8n을 클라우드로 쓰면 구글 로그인 버튼만, 설치형은
+         <code class="val">Client ID</code>·<code class="val">Client Secret</code>을 먼저 넣어야 합니다.
+         <a href="../prep/n8n-setup.html#google-oauth">n8n을 쓰는 두 가지 방법 — 구글 연결 항목</a>을 미리 확인하세요.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="goal">
+    <h2 class="sec-title">이번 시간에 만들 것</h2>
+    <p>샘플 민원 데이터 → 구글 시트에 한 줄씩 자동 적재</p>
+    <div class="note warn">
+      <b>구글 계정과 시트 필요</b>
+      준비물 ① 구글 계정, 시트 준비를 먼저 확인하세요(<a href="../prep/day1.html#google-account">준비물</a>).
+    </div>
+    <figure class="capture" id="fig-d1-03-1">
+      <div class="capture-cap">[그림 3-1] 완성 — <code class="val">수동 실행</code> → <code class="val">샘플 민원</code> → <code class="val">시트에 기록</code></div>
+      <img src="../assets/img/fig-d1-03-1.png" alt="완성된 모습">
+    </figure>
+    <p class="hint"><code class="val">샘플 민원</code>은 <b>07강까지 재사용</b> — 필드 이름 기억해두기</p>
+  </section>
+
+  <section class="sec" id="steps">
+    <h2 class="sec-title">따라하기</h2>
+    <ol class="steps">
+      <li><span class="step-title">기존 노드 두 개 지우기</span>
+        <code class="val">값 만들기</code>·<code class="val">값 가져오기</code> 선택 후 <code class="val">Delete</code>
+      </li>
+      <li><span class="step-title">샘플 민원 노드 추가하기</span>
+        <code class="val">수동 실행</code> 오른쪽 <code class="val">+</code> → <code class="val">Edit Fields (Set)</code> → 이름을 <code class="val">샘플 민원</code>으로
+      </li>
+      <li><span class="step-title">필드 5개 채우기</span>
+        <p>
+          <code class="val">이름</code> = <code class="val">김기태</code><br>
+          <code class="val">연락처</code> = <code class="val">010-1111-2222</code><br>
+          <code class="val">이메일</code> = 본인 Gmail 주소<br>
+          <code class="val">종류</code> = <code class="val">생활</code><br>
+          <code class="val">상세설명</code> = <code class="val">집 앞에 쓰레기가 무단 투기되어 있습니다.</code>
+        </p>
+        <span class="hint"><code class="val">이메일</code>은 본인 실제 Gmail 주소 — 04강부터 발송됨</span>
+      </li>
+      <li><span class="step-title">Google Sheets 노드 추가하기</span>
+        <code class="val">샘플 민원</code> 오른쪽 <code class="val">+</code> → <code class="val">Google Sheets</code>
+      </li>
+      <li><span class="step-title">자격증명 연결하기</span>
+        <code class="val">Credential</code> → <code class="val">Sign in with Google</code> → 개인 계정 선택 → 허용
+        <span class="hint">설치형은 <code class="val">or setup manually</code> → <a href="../prep/n8n-setup.html#google-oauth">Client ID·Secret 입력</a></span>
+        <figure class="capture" id="fig-d1-03-2">
+          <div class="capture-cap">[그림 3-2] <code class="val">Sign in with Google</code> 버튼</div>
+          <img src="../assets/img/fig-d1-03-2.png" alt="Credential 항목의 Sign in with Google 버튼">
+        </figure>
+        <figure class="capture" id="fig-d1-03-3">
+          <div class="capture-cap">[그림 3-3] 구글 계정 선택 화면</div>
+          <img src="../assets/img/fig-d1-03-3.png" alt="구글 계정 선택 화면">
+        </figure>
+        <figure class="capture" id="fig-d1-03-4">
+          <div class="capture-cap">[그림 3-4] 만들어진 <code class="val">Google Sheets account</code> 자격증명</div>
+          <img src="../assets/img/fig-d1-03-4.png" alt="만들어진 Google Sheets account 자격증명">
+        </figure>
+        <div class="note warn">
+          <b>기관 계정(@korea.kr 등)은 막혀 있을 수 있음</b> — 오류 나면 개인 Gmail로 재시도
+        </div>
+      </li>
+      <li><span class="step-title">Resource·Operation 설정하기</span>
+        <code class="val">Resource</code> = <code class="val">Sheet Within Document</code>(기본값),
+        <code class="val">Operation</code> = <code class="val">Append Row</code>로 변경
+      </li>
+      <li><span class="step-title">시트 고르기</span>
+        <code class="val">Document</code> → <code class="val">Choose…</code> → 준비물 시트 선택
+      </li>
+      <li><span class="step-title">탭 고르기</span>
+        <code class="val">Sheet</code> → 탭 선택(<code class="val">시트1</code> 등)
+      </li>
+      <li><span class="step-title">칸 매핑하기</span>
+        여섯 칸 각각 표현식 전환 후 입력:
+        <p>
+          <code class="val">이름</code> = <code class="val">{{ $json.이름 }}</code><br>
+          <code class="val">연락처</code> = <code class="val">{{ $json.연락처 }}</code><br>
+          <code class="val">이메일</code> = <code class="val">{{ $json.이메일 }}</code><br>
+          <code class="val">종류</code> = <code class="val">{{ $json.종류 }}</code><br>
+          <code class="val">상세설명</code> = <code class="val">{{ $json.상세설명 }}</code><br>
+          <code class="val">등록일</code> = <code class="val">{{ $now.toFormat('yyyy-MM-dd') }}</code>
+        </p>
+        <figure class="capture" id="fig-d1-03-5">
+          <div class="capture-cap">[그림 3-5] 여섯 칸 모두 <code class="val">Expression</code> 모드로 전환된 매핑 패널</div>
+          <img src="../assets/img/fig-d1-03-5.png" alt="여섯 칸이 각각 Expression 모드로 전환된 매핑 패널">
+        </figure>
+        <span class="hint">여섯 칸 모두 왼쪽에 <code class="val">fx</code> 표시 확인</span>
+      </li>
+      <li><span class="step-title">노드 이름 바꾸기</span>
+        <code class="val">시트에 기록</code>으로 변경
+      </li>
+    </ol>
+  </section>
+
+  <section class="sec" id="verify">
+    <h2 class="sec-title">실행하고 확인하기</h2>
+    <ul class="bullets">
+      <li><code class="val">Execute workflow</code> → 구글 시트 새로고침</li>
+      <li>2행에 입력값 확인, <code class="val">등록일</code>에 오늘 날짜 = 성공</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="trouble">
+    <h2 class="sec-title">안 될 때</h2>
+    <ul class="bullets">
+      <li><b>Document 목록이 비어 있음</b> — 자격증명 연결 재확인</li>
+      <li><b>값이 엉뚱한 칸에 들어감</b> — 시트 머리글 철자(이름·연락처·이메일·종류·상세설명·등록일) 확인</li>
+      <li><b>일부 칸에 <code class="val">{{ $json.이름 }}</code> 그대로 들어감</b> — 그 칸의 표현식 전환 스위치 확인</li>
+      <li><b>권한 오류</b> — 기관 계정 대신 개인 구글 계정으로 재연결</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="quiz">
+    <h2 class="sec-title">확인 문제</h2>
+    <div class="quiz-item">
+      <p class="quiz-q"><span class="qtype">객관식</span>Q1. 구글 시트 노드의 <code class="val">Operation</code>을 무엇으로 바꿔야 한 줄을 추가할 수 있나요?</p>
+      <ol class="quiz-choices">
+        <li>Get Row(s)</li>
+        <li>Append Row</li>
+        <li>Delete Row</li>
+        <li>Update Row</li>
+      </ol>
+      <details class="quiz-answer"><summary>정답 확인</summary>
+        <p class="quiz-a"><b>정답: ②</b> <code class="val">Append Row</code>가 시트 맨 아래에 새 줄을 덧붙이는 동작입니다.</p>
+      </details>
+    </div>
+    <div class="quiz-item">
+      <p class="quiz-q"><span class="qtype">객관식</span>Q2. 칸 매핑 시 <code class="val">{{ $now.toFormat('yyyy-MM-dd') }}</code>를 입력하기 전에 반드시 해야 하는 것은?</p>
+      <ol class="quiz-choices">
+        <li>구글 계정 재로그인</li>
+        <li>해당 칸을 표현식(Expression) 모드로 전환</li>
+        <li>시트 탭 새로 만들기</li>
+        <li>워크플로우 이름 변경</li>
+      </ol>
+      <details class="quiz-answer"><summary>정답 확인</summary>
+        <p class="quiz-a"><b>정답: ②</b> 표현식 전환 스위치를 누르지 않으면 입력한 글자가 계산식이 아니라 그대로 시트에 들어갑니다.</p>
+      </details>
+    </div>
+    <div class="quiz-item">
+      <p class="quiz-q"><span class="qtype">단답형</span>Q3. 이번 강의에서 새로 만든 로그인 단계(자격증명)의 이름은 무엇이며, 이것이 하는 역할은 무엇인가요?</p>
+      <details class="quiz-answer"><summary>정답 확인</summary>
+        <p class="quiz-a"><b>정답:</b> 자격증명 — n8n이 내 구글 계정(구글 시트 등)을 대신 사용해도 된다는 허락을 저장해둔 것입니다.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="sec" id="download">
+    <div class="note warn">
+      <b>불러온 뒤 반드시 확인하세요</b>
+      이 파일에는 자격증명이 들어 있지 않습니다. 불러온 뒤 <code class="val">시트에 기록</code>
+      노드를 열어 자격증명을 다시 골라야 합니다. <code class="val">Document</code> 칸에는
+      <code class="val">여기에_본인_시트_ID</code>라는 자리표시자가, <code class="val">샘플
+      민원</code> 노드의 <code class="val">이메일</code> 값에는
+      <code class="val">본인이메일@example.com</code>이라는 자리표시자가 들어 있으므로 각각
+      본인 시트·본인 주소로 바꿔야 합니다. 시트 탭 이름은 <code class="val">시트1</code>로
+      들어 있으니, 본인 시트의 탭 이름이 다르면 <code class="val">Sheet</code> 목록에서
+      다시 골라야 합니다.
+    </div>
+    <a class="dl" href="../downloads/day1-03.json" download>
+      워크플로우 내려받기 <span class="dl-name">day1-03.json</span>
+    </a>
+  </section>
+
+  <nav class="pager">
+    <a href="02.html">← 02 데이터 흐름과 표현식</a>
+    <a href="04.html">04 이메일 자동 발송 →</a>
+  </nav>
+
+</main>
+</body>
+</html>
