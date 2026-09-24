@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>실제 적용 전 개인정보·보안 점검표 — AI 앱과 n8n으로 만드는 나만의 업무 자동화 서비스</title>
+<link rel="stylesheet" href="../../assets/css/style.css">
+<link rel="stylesheet" href="../../assets/css/lecture.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+</head>
+<body class="lecture-mode">
+<main class="wrap">
+
+  <header class="page-head">
+    <h1>실제 적용 전 개인정보·보안 점검표</h1>
+    <p class="sub">2일차 3교시 · 교육에서 만든 서비스를 부서에서 쓰기 전에 하나씩 확인합니다 (인쇄해서 표시해도 됩니다)</p>
+  </header>
+
+  <section class="sec">
+    <h2 class="sec-title">서비스</h2>
+    <div class="tbl-wrap">
+      <table class="tbl"><tbody>
+        <tr><th>서비스 이름</th><td>&nbsp;</td><th>점검한 날</th><td>&nbsp;</td></tr>
+      </tbody></table>
+    </div>
+  </section>
+
+  <section class="sec">
+    <h2 class="sec-title">A. 누가 볼 수 있나 (앱 공유)</h2>
+    <ol>
+      <li>□ 공유 링크는 필요한 사람에게만, <b>보기 권한</b>으로 주었다.</li>
+      <li>□ 공유받은 사람은 <b>앱 코드를 볼 수 있다</b>는 것을 안다. 코드에 비밀값·실제 개인정보·내부 문서가 없다(<code class="val">Code</code> 탭에서 확인).</li>
+      <li>□ 앱 코드에 든 n8n 주소(Production URL)는 공유받은 사람도 볼 수 있다. 주소가 알려지면 누구나 요청을 보낼 수 있고, Allowed Origins(CORS)로는 막지 못한다. <b>실제 운영 전 인증 방법을 기관 보안 담당과 정한다.</b></li>
+      <li>□ 공유 앱에서 쓰는 AI 사용량은 모두 <b>만든 사람(내 계정)</b> 한도에서 빠진다.</li>
+    </ol>
+  </section>
+
+  <section class="sec">
+    <h2 class="sec-title">B. 비밀값</h2>
+    <ol>
+      <li>□ API 키·봇 토큰·비밀번호를 앱 코드나 주문 문장(프롬프트)에 쓰지 않았다. AI Studio는 <code class="val">Settings</code> → <code class="val">Secrets</code>, n8n은 자격 증명(Credential)에 넣었다.</li>
+      <li>□ 워크플로우 JSON을 남에게 줄 때 노드에 직접 적은 주소·chat id·이메일·개인정보가 없다(자격 증명의 키 값은 JSON에 들어가지 않는다).</li>
+      <li>□ 키가 노출된 것 같으면 발급한 곳에서 키를 지우고 새로 만든다.</li>
+    </ol>
+  </section>
+
+  <section class="sec">
+    <h2 class="sec-title">C. 개인정보가 남는 곳</h2>
+    <ol>
+      <li>□ n8n 실행 기록에는 입력한 이름·연락처가 그대로 남고, 요금제에 따라 정해진 기간 보관된다(체험·Starter 기준 7일). 운영 때는 워크플로우 <code class="val">Settings</code>에서 <code class="val">Save successful production executions</code>를 <code class="val">Do not save</code>로 바꾸는 것을 검토한다(시험이 끝난 뒤).</li>
+      <li>□ 구글 시트·Gmail·캘린더·텔레그램에도 같은 내용이 남는다. 보관 기간과 삭제 담당을 정했다.</li>
+      <li>□ AI 안내문·요약을 위해 이름·민원 내용이 Gemini(구글)로 보내진다는 것을 안다. 꼭 필요한 칸만 보낸다.</li>
+      <li>□ n8n Cloud는 유럽연합(EU) 지역 서버에 데이터를 둔다. <b>국외 보관을 포함해 기관 개인정보 담당과 협의한다.</b></li>
+      <li>□ 민원인에게 수집·이용 동의를 받는다(앱의 동의 칸 문구를 기관 양식에 맞춘다).</li>
+    </ol>
+  </section>
+
+  <section class="sec">
+    <h2 class="sec-title">D. 운영 환경과 승인</h2>
+    <ol>
+      <li>□ <b>기관 보안 담당·개인정보 담당과 협의한 뒤 적용한다.</b> 협의 전에는 가상 데이터로만 시범 운영한다.</li>
+      <li>□ 교육용 n8n Cloud 체험 계정·개인 구글 계정은 운영에 쓰지 않는다. 운영 환경(기관 설치형 n8n 또는 승인된 서비스)을 전산 담당과 정한다.</li>
+      <li>□ 기관 설치형 n8n 무료판의 사용 조건(Sustainable Use License)을 법무·전산 부서가 확인했다.</li>
+      <li>□ 동시에 접수하면 접수번호가 겹칠 수 있다. 운영 전에 보완 방법을 정했다.</li>
+      <li>□ AI가 쓴 안내문·요약은 초안이다. 사람이 확인한 뒤 보내는 절차를 정했다.</li>
+    </ol>
+  </section>
+
+  <section class="sec">
+    <h2 class="sec-title">E. 교육이 끝난 뒤 정리</h2>
+    <ol>
+      <li>□ 필요 없는 앱은 AI Studio 왼쪽 <code class="val">Apps</code> 목록에서 지웠다.</li>
+      <li>□ 필요한 워크플로우는 <code class="val">…</code> → <code class="val">Export JSON</code>으로 내려받고, 나머지는 <code class="val">Unpublish</code> 또는 삭제했다.</li>
+      <li>□ 연습 시트·메일·캘린더 일정·텔레그램 봇을 정리했다.</li>
+    </ol>
+  </section>
+
+</main>
+</body>
+</html>

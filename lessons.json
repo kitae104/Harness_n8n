@@ -491,7 +491,7 @@
       "legacy_refs": [
         "docs/legacy/PublicFlow/public/prep/n8n-setup.html"
       ],
-      "status": "todo"
+      "status": "instructor-check"
     },
     {
       "id": "d2-p4",
@@ -531,7 +531,7 @@
         "9-3 산출물"
       ],
       "legacy_refs": [],
-      "status": "todo"
+      "status": "instructor-check"
     },
     {
       "id": "d2-p5",
@@ -577,7 +577,7 @@
       "legacy_refs": [
         "docs/legacy/PublicFlow/public/downloads/day1-08.json"
       ],
-      "status": "todo"
+      "status": "instructor-check"
     },
     {
       "id": "d2-p6",
@@ -610,7 +610,7 @@
         "workflows/d2-p6.json 은 d2-p5 의 모든 노드를 포함하고 '보수필요'면 Gemini 조치 요약 → 팀장 메일, 텔레그램 부서방 알림이 추가되어 있다",
         "연동이 안 될 때의 점검 순서표(Publish(설정 변경 후 재Publish 포함) → Production URL → CORS → 응답 방식 → 시트 권한)가 있다",
         "선택 실습(PDF 요약·음성 입력)을 이 시간에 진행하는 방법이 안내되어 있다",
-        "workflows/d2-p6.json 의 Gemini 조치 요약은 'AI 안내문 작성'(Basic LLM Chain, @n8n/n8n-nodes-langchain.chainLlm) + 'Google Gemini Chat Model'(lmChatGoogleGemini) 하위 노드 구성이다(기존 교안과 같음)",
+        "workflows/d2-p6.json 의 Gemini 조치 요약은 'AI 조치 요약'(Basic LLM Chain, @n8n/n8n-nodes-langchain.chainLlm) + 'Google Gemini Chat Model'(lmChatGoogleGemini) 하위 노드 구성이다",
         "Webhook 경로·필드 이름·시트 열·응답 키가 docs/data-contract.md 와 일치한다",
         "강사가 n8n Cloud에 Import해 실행을 확인했다(instructor-check 단계, docs/instructor-checklist.md)"
       ],
@@ -622,7 +622,7 @@
         "docs/legacy/PublicFlow/public/day2/p3.html",
         "docs/legacy/PublicFlow/public/downloads/day2-p3.json"
       ],
-      "status": "todo"
+      "status": "instructor-check"
     },
     {
       "id": "d2-p7",
@@ -657,7 +657,7 @@
         "8-3 프로젝트"
       ],
       "legacy_refs": [],
-      "status": "todo"
+      "status": "instructor-check"
     },
     {
       "id": "opt-pdf",

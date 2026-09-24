@@ -43,20 +43,38 @@
       </ul>
     </div>
 
+    <p><b>먼저 한 곳만 봅니다.</b> n8n 워크플로우 화면 위쪽의 <code class="val">Executions</code> 탭을 누르고, 왼쪽 목록 맨 위(방금 시각) 줄을 한 번 누릅니다. 그리고 아래 셋 중 어느 경우인지 고릅니다.</p>
+    <ul>
+      <li><b>① 목록에 방금 시각 줄이 없다</b> → 앱이 n8n에 닿지 못했습니다. 아래 표 가의 1~3번을 봅니다.</li>
+      <li><b>② 빨간 노드가 있다</b> → 그 노드 이름을 보고 아래 표 나에서 같은 이름 줄을 봅니다.</li>
+      <li><b>③ 모두 초록인데 결과가 안 보인다</b> → 앱 화면이 실패면 표 가의 4번, 메일·알림만 안 오면 <code class="val">보수필요인가?</code> 같은 If 노드를 눌러 <code class="val">false</code> 쪽으로 갔는지 봅니다.</li>
+    </ul>
+
+    <p><b>가. 앱이 n8n에 닿지 못할 때</b></p>
     <div class="tbl-wrap">
       <table class="tbl">
-        <thead><tr><th>순서</th><th>확인할 것</th><th>어디서</th><th>배운 곳</th></tr></thead>
+        <thead><tr><th>순서</th><th>확인할 것</th><th>어떻게</th></tr></thead>
         <tbody>
-          <tr><td>1</td><td>고친 뒤 다시 <code class="val">Publish</code>했나?</td><td>n8n 위쪽 버튼</td><td>1일차 3교시</td></tr>
-          <tr><td>2</td><td>앱의 <code>WEBHOOK_URL</code>이 <code>/webhook/</code>으로 된 Production URL인가?</td><td>AI Studio <code class="val">Code</code> 탭</td><td>1일차 6교시</td></tr>
-          <tr><td>3</td><td>받기 노드의 <code class="val">Allowed Origins (CORS)</code>가 <code>*</code>인가?</td><td>받기(Webhook) 설정</td><td>1일차 3·6교시</td></tr>
-          <tr><td>4</td><td>받기 노드의 <code class="val">Respond</code>가 <code class="val">Using 'Respond to Webhook' Node</code>인가?</td><td>받기(Webhook) 설정</td><td>1일차 7교시</td></tr>
-          <tr><td>5</td><td>시트 노드의 자격 증명·문서·탭이 맞고, 칸 이름이 앱·정리 노드·시트 머리글에서 같은가?</td><td>시트 노드, 시트 1행</td><td>1일차 6교시, 2일차 5교시</td></tr>
+          <tr><td>1</td><td>고친 뒤 다시 <code class="val">Publish</code>했나?</td><td>확인이 어려우면 지금 한 번 더 누릅니다(두 번 눌러도 문제없습니다)</td></tr>
+          <tr><td>2</td><td>앱의 <code>WEBHOOK_URL</code>이 <code>/webhook/내경로</code>로 끝나는 Production URL인가?</td><td>AI Studio <code class="val">Code</code> 탭에서 <kbd>Ctrl</kbd>+<kbd>F</kbd>로 <code>WEBHOOK_URL</code> 찾기. <code>webhook-test</code>가 보이면 Test URL입니다</td></tr>
+          <tr><td>3</td><td>받기 노드의 <code class="val">Allowed Origins (CORS)</code>가 <code>*</code>인가?</td><td>받기(Webhook) 설정의 옵션</td></tr>
+          <tr><td>4</td><td>받기 노드의 <code class="val">Respond</code>가 <code class="val">Using 'Respond to Webhook' Node</code>이고, <code class="val">앱에 답하기</code>가 캔버스 맨 위 가지인가?</td><td>받기(Webhook) 설정, 캔버스 배치</td></tr>
         </tbody>
       </table>
     </div>
-    <p>어디서 멈췄는지는 n8n 위쪽 <code class="val">Executions</code>에서 방금 실행을 열면 빨간 노드로 보입니다. 실행 기록이 아예 없으면 1~3번 문제(앱이 n8n에 닿지 못함)입니다.</p>
-
+    <p><b>나. 빨간 노드가 있을 때</b></p>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>빨간 노드</th><th>확인할 곳</th></tr></thead>
+        <tbody>
+          <tr><td><code class="val">오늘 접수 조회</code>, <code class="val">시트에 기록</code></td><td>자격 증명, <code class="val">Document</code>·<code class="val">Sheet</code>, 칸 이름(앱·정리 노드·시트 머리글이 같은가)</td></tr>
+          <tr><td><code class="val">접수번호 만들기</code></td><td>표현식 안의 정리 노드 이름(<code>$('민원 정리')</code> 등)이 실제 노드 이름과 같은가</td></tr>
+          <tr><td>AI 노드, <code class="val">Google Gemini Chat Model</code></td><td>Gemini 자격 증명, <code class="val">Model</code>(사용량 초과면 <code>models/gemini-3.5-flash-lite</code>)</td></tr>
+          <tr><td>메일 노드</td><td>Gmail 자격 증명, <code class="val">To</code>가 내 주소인가</td></tr>
+          <tr><td><code class="val">텔레그램 알림</code></td><td>봇 토큰, <code class="val">Chat ID</code></td></tr>
+        </tbody>
+      </table>
+    </div>
 
     <div class="note concept">
       <b>한 문장 요약</b>
@@ -66,9 +84,13 @@
 
   <section class="sec" id="activity" data-section="activity">
     <h2 class="sec-title">활동</h2>
+    <div class="note tip">
+      <b>시간 기준</b>
+      15시 20분까지 1단계(보내면 시트에 쌓이고 번호가 돌아옴)가 안 되면 3단계 기능 더하기는 건너뛰고 2단계만 합니다. 발표는 되는 데까지와 설계서로 해도 됩니다.
+    </div>
     <ol class="steps">
       <li><span class="step-title">처음부터 끝까지 시험하기 (10분)</span>
-        앱에서 가상 값으로 세 번 보냅니다. 매번 아래를 확인합니다.
+        앱에서 가상 값(예: OO동 체육공원 / 보수필요 / 벤치 1개 파손 / 오점검)으로 세 번 보냅니다. 매번 아래를 확인합니다.
         <ul>
           <li>앱에 접수번호가 보이나요? 두 번째는 <code>…-002</code>로 늘어나나요?</li>
           <li>시트에 한 줄씩 쌓이고 칸이 모두 채워졌나요?</li>
@@ -87,9 +109,13 @@
           <p><b>증상</b> 여러 곳을 한꺼번에 고쳤더니 무엇 때문에 된 건지(또는 안 되는지) 모르겠어요<br>
              <b>원인</b> 고칠 때마다 시험하지 않았어요<br>
              <b>해결</b> 점검 순서표 한 줄 → 고치기 → Publish → 한 번 보내기. 이 순서를 지키세요</p>
-          <p><b>증상</b> 5번까지 다 맞는데 앱에 "접수하지 못했습니다"가 떠요<br>
+          <p><b>증상</b> 표 가의 1~4번이 다 맞는데 앱에 "접수하지 못했습니다"가 뜨고, <code class="val">Executions</code>에 방금 시각 줄이 <b>없어요</b><br>
              <b>원인</b> 브라우저가 앱에서 n8n을 직접 부르는 것을 막는 경우예요<br>
-             <b>해결</b> 1일차 6교시 3단계의 "막히면" 박스 문장(서버 쪽 호출)을 AI Studio에 보내세요</p>
+             <b>해결</b> AI Studio 대화 입력창에 아래 글을 그대로 보내세요(1일차 6교시 3단계 끝 박스와 같은 글입니다)</p>
+          <pre class="code-block">접수하기를 누르면 "접수하지 못했습니다"가 떠. n8n 주소 호출은 서버 쪽 코드에서 하도록 바꿔 줘. WEBHOOK_URL 값과 보내는 JSON의 키 이름은 바꾸지 마.</pre>
+          <p><b>증상</b> 조건에 맞는 값을 보냈는데 메일이 안 와요(모두 초록)<br>
+             <b>원인</b> If의 비교 글자와 앱이 보낸 글자가 달라요(예: <code>보수 필요</code>와 <code>보수필요</code>)<br>
+             <b>해결</b> If 노드의 오른쪽 칸을 앱 목록의 글자와 한 글자도 다르지 않게 고치세요</p>
         </div>
       </li>
 
@@ -99,16 +125,25 @@
           <table class="tbl">
             <thead><tr><th>더할 기능</th><th>붙이는 곳</th><th>따라 할 교안</th></tr></thead>
             <tbody>
-              <tr><td>담당자·팀장 메일</td><td><code class="val">시트에 기록</code>에서 새 가지</td><td>2일차 1교시 5단계</td></tr>
-              <tr><td>조건에 따라 나누기(예: 보수필요일 때만)</td><td>가지 앞에 If</td><td>2일차 2교시 1~2단계</td></tr>
-              <tr><td>AI 요약·안내문</td><td>Basic LLM Chain + Gemini, 주문 문장만 내 업무로</td><td>2일차 1교시 2~3단계</td></tr>
-              <tr><td>캘린더 일정</td><td><code class="val">시트에 기록</code>에서 새 가지</td><td>2일차 1교시 6~7단계</td></tr>
-              <tr><td>텔레그램 부서방 알림</td><td><code class="val">시트에 기록</code>에서 맨 아래 가지</td><td>2일차 2교시 10~11단계</td></tr>
+              <tr><td>담당자·팀장 메일</td><td><code class="val">시트에 기록</code>에서 새 가지</td><td><a href="d2-p1.html#practice">2일차 1교시</a> 5단계</td></tr>
+              <tr><td>조건에 따라 나누기(예: 보수필요일 때만)</td><td>가지 앞에 If</td><td><a href="d2-p2.html#practice">2일차 2교시</a> 1~2단계</td></tr>
+              <tr><td>AI 요약·안내문</td><td>If의 <code class="val">true</code> 점 뒤(If가 없으면 <code class="val">시트에 기록</code>에서 새 가지). <code class="val">앱에 답하기</code>보다 <b>아래</b>에 둡니다</td><td><a href="d2-p1.html#practice">2일차 1교시</a> 2~3단계. 단, 2단계 끝의 "위쪽으로 옮기기"와 4단계는 <b>하지 않습니다</b>. 주문 문장만 내 업무로 바꿉니다</td></tr>
+              <tr><td>캘린더 일정</td><td><code class="val">시트에 기록</code>에서 새 가지</td><td><a href="d2-p1.html#practice">2일차 1교시</a> 6~7단계</td></tr>
+              <tr><td>텔레그램 부서방 알림</td><td><code class="val">시트에 기록</code>에서 맨 아래 가지</td><td><a href="d2-p2.html#practice">2일차 2교시</a> 10~11단계</td></tr>
             </tbody>
           </table>
         </div>
         <p>현장점검 예시에서는 <code class="val">보수필요인가?</code>(If) → <code class="val">AI 조치 요약</code> → <code class="val">팀장 메일</code>과 <code class="val">텔레그램 알림</code>을 붙였습니다. 이 교시 끝 예시 완성본에서 모양을 볼 수 있습니다.</p>
-        <span class="hint">가지를 붙일 때마다 앱에 답하는 가지가 캔버스 맨 위에 있는지 봅니다(n8n은 위쪽 가지부터 실행). AI 주문 문장에는 "비용·법령·업체 이름은 지어내지 않습니다"를 꼭 넣습니다.</span>
+        <div class="note tip">
+          <b>다른 교안을 따라 할 때 바꿔 읽기</b>
+          <ul>
+            <li>교안의 <code>종류</code>·<code>이름</code>·<code>상세설명</code> 같은 칸 이름은 <b>내 칸 이름</b>으로 바꿔 적습니다(예: <code>{{ $json.종류 }}</code> → <code>{{ $json.점검결과 }}</code>).</li>
+            <li>노드 이름도 내 것으로 붙입니다(<code class="val">담당자 메일</code> → <code class="val">팀장 메일</code>).</li>
+            <li><b>AI 노드 뒤에 붙인 메일·알림</b>에서는 <code>{{ $json.칸이름 }}</code> 대신 <code>{{ $('시트에 기록').first().json.칸이름 }}</code>으로 씁니다. AI 뒤의 <code>$json</code>에는 AI가 쓴 글(<code>$json.text</code>)만 들어 있기 때문입니다.</li>
+            <li>메일 <code class="val">To</code>에는 실제 팀장 주소가 아니라 {본인 이메일}을 적습니다(실습에서는 내가 팀장입니다).</li>
+            <li>가지를 붙일 때마다 <code class="val">앱에 답하기</code> 가지가 캔버스 맨 위에 있는지 봅니다(n8n은 위쪽 가지부터 실행). AI 주문 문장에는 "비용·법령·업체 이름은 지어내지 않습니다"를 꼭 넣습니다.</li>
+          </ul>
+        </div>
       </li>
 
       <li><span class="step-title">선택 실습을 하려면</span>
@@ -137,11 +172,11 @@
 
   <section class="sec" id="import" data-section="import">
     <h2 class="sec-title">완성본 가져오기(Import) — 현장점검 예시 확장형</h2>
-    <p>현장점검 예시의 확장형(보수필요일 때 AI 조치 요약 → 팀장 메일, 텔레그램 알림)입니다. 내 서비스에 기능을 붙일 때 모양을 참고합니다.</p>
-    <div class="note warn">
-      <b>먼저: 5교시 예시를 Publish했다면</b>
-      5교시에 가져온 현장점검 예시 워크플로우를 열어 <code class="val">Publish</code> 옆 목록에서 <code class="val">Unpublish</code>를 누릅니다. 같은 경로(<code>field-check</code>)는 하나만 동작합니다.
-    </div>
+    <p>이 파일은 <b>내 서비스의 복구본이 아니라</b> 현장점검 예시의 완성 모양(보수필요일 때 AI 조치 요약 → 팀장 메일, 텔레그램 알림)입니다. 두 가지 경우에만 가져옵니다.</p>
+    <ul>
+      <li><b>모양만 보고 싶을 때:</b> 1~2단계만 하고 <code class="val">Publish</code>는 하지 않습니다. 내 서비스는 그대로 동작합니다.</li>
+      <li><b>내 서비스가 끝내 안 되어 발표를 이 예시로 할 때:</b> 5교시 현장점검 앱(<a href="../prompts/d2-p5-field-inspection-app.md">주문서</a>)이 있어야 합니다. 내 워크플로우가 같은 경로 <code>field-check</code>를 쓰고 있으면 내 워크플로우를 먼저 <code class="val">Unpublish</code>합니다(같은 경로는 하나만 동작합니다).</li>
+    </ul>
     <ol class="steps">
       <li><span class="step-title">파일 내려받기</span>
         <a class="dl" href="../workflows/d2-p6.json" download>예시 워크플로우 내려받기 <span class="dl-name">d2-p6.json</span></a>
@@ -159,14 +194,14 @@
       </li>
       <li><span class="step-title">자리표시자 바꾸기</span>
         <ul>
-          <li>시트 노드 두 개의 <code class="val">Document</code>: <code class="val">From list</code>로 바꾸고 내 시트(<code>여기에_본인_시트_ID</code> 대신)</li>
+          <li>시트 노드 두 개의 <code class="val">Document</code>: <code class="val">From list</code>로 바꾸고 내 시트(<code>여기에_본인_시트_ID</code> 대신), <code class="val">Sheet</code>: 내 탭 이름</li>
           <li><code class="val">팀장 메일</code>의 <code class="val">To</code>: <code>본인이메일@example.com</code> → 내 Gmail 주소</li>
           <li><code class="val">텔레그램 알림</code>의 <code class="val">Chat ID</code>: <code>여기에_본인_채팅_ID</code> → 내 chat id</li>
           <li>Gemini <code class="val">Model</code>: <code>models/gemini-3.8-flash</code> 다시 고르기</li>
         </ul>
       </li>
       <li><span class="step-title">Publish하고 보내 보기</span>
-        <code class="val">Publish</code>를 누르고, 앱의 <code>WEBHOOK_URL</code>에 <code class="val">점검 받기</code>의 Production URL이 들어 있는지 확인합니다. 점검결과를 "보수필요"로 보내 팀장 메일에 AI 조치 요약이 오면 성공입니다.
+        <code class="val">Publish</code>를 누르고, 앱의 <code>WEBHOOK_URL</code>에 <code class="val">점검 받기</code>의 Production URL이 들어 있는지 확인합니다(없으면 1일차 6교시 9단계 순서로 넣습니다). 점검결과를 "보수필요"로 보내 팀장 메일에 AI 조치 요약이 오면 성공입니다.
       </li>
     </ol>
   </section>
