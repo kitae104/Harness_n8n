@@ -92,6 +92,7 @@ cases = [
  ("JSON: 텔레그램 봇 토큰", "json", wf_mod(bottoken), "FAIL", "텔레그램 봇 토큰"),
  ("JSON: Webhook 경로 ≠ 데이터 약속", "json", wf_mod(badpath), "FAIL", "≠ data-contract"),
  ("JSON: UTF-8 BOM", "jsonbom", wf, "FAIL", "BOM"),
+ ("JSON: $now 사용 + 시간대 없음", "json", wf_mod(lambda w: w["nodes"][1]["parameters"].update(responseBody="={{ $now.toFormat('yyyy') }}")), "FAIL", "Asia/Seoul"),
  ("JSON: 경로는 같고 방식만 다름(GET)", "json", wf_mod(lambda w: w["nodes"][0]["parameters"].update(httpMethod="GET")), "FAIL", "GET minwon"),
 ]
 rows = []

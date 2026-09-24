@@ -165,3 +165,20 @@
 ### 미해결 문제
 - AI Studio 화면 세부(F4·F8·F77·F82·F84~F86)와 n8n UI 일부(F60·F87·F90·F91)는 강사 시험 대기
 - 제안서 그림 PNG 전달 대기, F41 그대로
+
+## 5회차 — 2026-09-25 — d1-p7 연동 ① 완성 (4회차와 같은 세션, 이어서 진행)
+
+### 한 일
+- fact-checker(d1-p7): 확인 8 / 수정 필요 1 / 확인 불가 2. **F100 시간대: `$now` 기본이 미국 시간 → 오전엔 날짜가 하루 전** → 모든 워크플로우 JSON에 `settings.timezone: Asia/Seoul`(d1-p2·d1-p6 소급), verify.py 규칙·회귀 샘플 추가(D40)
+- 접수번호 설계(D41): `오늘 접수 조회`(Get Row(s), 필터 없음, Always Output Data) → `접수번호 만들기`(Edit Fields JSON, Execute Once, 한 줄 표현식) → `시트에 기록`(+접수번호·처리상태, Cell Format RAW) → `앱에 답하기`(Respond to Webhook)
+- 산출물: `workflows/d1-p7.json`, `prompts/d1-p7-show-receipt.md`(앱은 d1-p4 템플릿에 이미 표시 기능 있음 — 확인·보완 문장), `lessons/d1-p7.html`(10단계, 설정 여섯 곳 점검표, 1일차 정리 표·흐름)
+- learner-reviewer: 막힘 4(긴 표현식 복사, JSON 칸 Expression 전환, Cell Format 화면 글자, Unpublish 조건) / 헷갈림 17 / 사소 6 → 반영. 시간 기준 16:30으로 앞당김
+- fact-check F102~F104 신규(미확인), decisions D40·D41
+
+### 검증 결과
+- verify.py --all: d1-p2~d1-p7 PASS / test_verify.py 35개 불일치 0
+- status: d1-p7 → **instructor-check** (1일차 7교시 중 d1-p1만 남음)
+
+### 다음 할 일
+1. d2-p1(담당자 메일·캘린더·Gemini 안내문) — fact-checker 진행 중
+2. 강사 시험 우선순위: F4(앱→n8n) > F102(JSON 모드 한 줄 표현식) > F101(시트 날짜 서식) > F87(끌어 놓기 이름)

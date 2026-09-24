@@ -133,6 +133,7 @@
 - **Gemini**: `AI 안내문 작성`(`@n8n/n8n-nodes-langchain.chainLlm`) 노드에 `Google Gemini Chat Model`(`@n8n/n8n-nodes-langchain.lmChatGoogleGemini`)을 `ai_languageModel` 연결로 붙인다(기존 교안과 같음). 자격 증명은 Google Gemini(PaLM) API 키.
 - **누적 체인**: `d1-p6 → d1-p7 → d2-p1 → d2-p2`, `d2-p5 → d2-p6`. 뒤 교시 JSON은 앞 교시의 **모든 노드 이름을 포함**한다. `d1-p2`, `d1-p3`, `opt-pdf`는 독립 파일이다.
 - ✅ Webhook 경로(`path`)는 `docs/data-contract.md` 표와 같아야 한다.
+- ✅ `$now`(날짜·시각)를 쓰는 워크플로우는 `settings.timezone`을 `Asia/Seoul`로 둔다(기본값은 미국 시간대라 오전에는 날짜가 하루 전으로 찍힘, F100·D40). 수강생이 처음부터 만드는 워크플로우는 교안에 시간대 설정 단계를 넣는다.
 - ✅ **자격 증명 ID를 남기지 않는다.** `credentials` 키를 아예 빼는 것이 기본(기존 교안 방식)이고, 남기면 `id`는 `""`로 둔다.
 - ✅ API 키, 봇 토큰, 실제 이메일, `pinData` 속 실제 데이터를 넣지 않는다. 자리표시자를 쓴다.
 - ✅ Respond to Webhook 노드를 쓰면 Webhook 노드의 `responseMode`를 `responseNode`로 둔다.

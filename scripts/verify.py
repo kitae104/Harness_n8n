@@ -744,6 +744,14 @@ def check_workflow(rep: Report, path: Path, lesson: dict | None, lessons: dict, 
             fmt = lambda s: sorted(f"{m} {p}" for p, m in s)
             rep.fail(cat2, f"{where}: Webhook 경로·방식 {fmt(actual)} ≠ data-contract {fmt(contract[lid])}")
 
+    # 시간대: $now를 쓰면 워크플로우 시간대를 서울로 고정해야 함(기본은 인스턴스 시간대 또는 America/New_York, fact-check F100)
+    if "$now" in json.dumps(wf, ensure_ascii=False):
+        cat_tz = "시간대"
+        rep.cat(cat_tz)
+        tz = (wf.get("settings") or {}).get("timezone")
+        if tz != "Asia/Seoul":
+            rep.fail(cat_tz, f"{where}: $now를 쓰는데 settings.timezone이 'Asia/Seoul'이 아님(현재 {tz!r}) — 오전에는 날짜가 하루 전으로 찍힘")
+
     # 자격 증명
     cat3 = "자격 증명"
     rep.cat(cat3)
