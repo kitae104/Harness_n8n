@@ -90,8 +90,8 @@
 <div class="note mistake" data-section="mistakes">
   <b>자주 하는 실수</b>
   <p><b>증상</b> 앱에서 "Failed to fetch"가 떠요<br>
-     <b>원인</b> Test URL을 넣었거나 워크플로우를 활성화하지 않았어요<br>
-     <b>해결</b> 활성화한 뒤 Production URL로 바꿔 넣으세요</p>
+     <b>원인</b> Test URL을 넣었거나 워크플로우를 Publish하지 않았어요<br>
+     <b>해결</b> Publish한 뒤 Production URL로 바꿔 넣으세요</p>
 </div>
 ```
 
@@ -119,9 +119,9 @@
 
 1. ✅ 내려받기 링크: `<a class="dl" href="../workflows/{파일}.json" download>워크플로우 내려받기 <span class="dl-name">{파일}.json</span></a>` (lessons.json `workflow.file`과 같아야 함)
 2. n8n에서 가져오기(Import) 하는 단계
-3. ✅ **자격 증명 다시 연결 단계**(필수, "자격 증명" 문구 검사): 가져온 파일에는 자격 증명이 빠져 있다. **다시 골라야 할 노드 이름을 모두 나열**한다(예: `시트에 기록`, `접수 메일 보내기`, `Google Gemini Chat Model`).
+3. ✅ **자격 증명 다시 연결 단계**(필수, "자격 증명" 문구 검사): 저장소 JSON에는 자격 증명 ID가 없으므로 경고 표시가 뜬 노드를 열어 **내 자격 증명**을 고른다. **다시 골라야 할 노드 이름을 모두 나열**한다(예: `시트에 기록`, `접수 메일 보내기`, `Google Gemini Chat Model`). 가져오기 메뉴는 캔버스 오른쪽 위 `…` → `Import` → `From file`(fact-check F47).
 4. 자리표시자 바꾸기: 그 JSON에 들어 있는 `여기에_본인_시트_ID` 같은 자리표시자를 모두 적는다(없으면 verify가 경고). 시트 탭 이름도 다시 고르게 한다.
-5. Webhook이 있으면: 활성화한 뒤 **내** Production URL을 앱에 다시 넣는다.
+5. Webhook이 있으면: `Publish`한 뒤 **내** Production URL을 앱에 다시 넣는다.
 6. 성공 확인 방법
 
 `role = reference`인 교시(d1-p1 시연, opt-voice)는 가리키는 파일이 다른 교시(d2-p2) 것임을 밝힌다.

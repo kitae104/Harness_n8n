@@ -139,9 +139,9 @@
       "title": "Webhook 이해와 실습 — 앱과 자동화가 대화하는 방법",
       "objectives": [
         "Webhook을 \"외부 앱이 n8n을 부르는 주소\"로 설명할 수 있다",
-        "Test URL과 Production URL의 차이와 쓰는 순서를 안다",
-        "Respond to Webhook 노드로 앱에 답을 돌려줄 수 있다",
-        "Allowed Origins(CORS)를 설정하고 브라우저에서 호출해 응답을 확인한다"
+        "Test URL과 Production URL의 차이와 쓰는 순서(Test URL로 시험 → Publish → Production URL)를 안다",
+        "Respond to Webhook 노드로 부른 쪽에 답을 돌려줄 수 있다",
+        "브라우저 주소창으로 Webhook을 불러 응답을 확인하고, Allowed Origins(CORS)를 미리 설정해 둔다"
       ],
       "workflow": {
         "file": "workflows/d1-p3.json",
@@ -160,10 +160,11 @@
       },
       "acceptance_criteria": [
         "verify.py d1-p3 이 통과한다",
-        "workflows/d1-p3.json 은 누적 체인과 무관한 독립 연습용이며, Webhook → Respond to Webhook 구조이고 Webhook 노드 응답 방식이 Respond to Webhook 노드 사용으로 설정되어 있다",
+        "workflows/d1-p3.json 은 누적 체인과 무관한 독립 연습용이며, Webhook(GET) → Respond to Webhook 구조이고 Webhook 노드 Respond 옵션이 Using 'Respond to Webhook' Node(responseMode=responseNode)로 설정되어 있다",
         "Webhook 실습 체크리스트의 1번 항목이 CORS(Allowed Origins) 설정이다",
-        "Test URL → 테스트, 활성화 → Production URL 사용 순서가 번호 단계로 제시되어 있다",
-        "브라우저에서 호출하는 방법이 코드 작성 없이(복사·붙여넣기만으로) 안내되어 있다",
+        "Test URL로 시험 → Publish → Production URL 사용 순서가 번호 단계로 제시되어 있다",
+        "브라우저 주소창에 붙여 넣는 방법만으로(코드 작성 없이) 호출·응답 확인이 안내되어 있다",
+        "CORS의 실제 확인은 d1-p6(앱 연동)에서 한다는 점이 명시되어 있다(D28)",
         "Webhook 경로가 docs/data-contract.md 표와 일치한다",
         "강사가 n8n Cloud에 Import해 실행을 확인했다(instructor-check 단계, docs/instructor-checklist.md)"
       ],
@@ -175,7 +176,7 @@
       "legacy_refs": [
         "docs/legacy/PublicFlow/public/day1/08.html"
       ],
-      "status": "todo"
+      "status": "instructor-check"
     },
     {
       "id": "d1-p4",
@@ -285,7 +286,8 @@
         "verify.py d1-p6 이 통과한다",
         "workflows/d1-p6.json 은 누적 체인의 시작으로 Webhook(POST) → 구글 시트 기록 구조다",
         "앱이 보내는 필드 이름과 시트 열 이름의 대응표가 있다",
-        "앱에 넣는 주소는 Production URL이며, 활성화 후 넣는다는 순서가 명시되어 있다",
+        "브라우저 앱에서 부를 때의 CORS를 실제로 확인하는 단계(Allowed Origins 설정 전후 비교 또는 오류 문구 안내)가 있다(D28 — d1-p3에서 미룬 부분)",
+        "앱에 넣는 주소는 Production URL이며, Publish한 뒤 넣는다는 순서가 명시되어 있다",
         "Webhook 경로·필드 이름·시트 열·응답 키가 docs/data-contract.md 와 일치한다",
         "강사가 n8n Cloud에 Import해 실행을 확인했다(instructor-check 단계, docs/instructor-checklist.md)",
         "프롬프트 템플릿을 강사가 AI Studio에서 실제로 시험하고 검증 기록을 채웠다(instructor-check 단계)"
@@ -606,7 +608,7 @@
       "acceptance_criteria": [
         "verify.py d2-p6 이 통과한다",
         "workflows/d2-p6.json 은 d2-p5 의 모든 노드를 포함하고 '보수필요'면 Gemini 조치 요약 → 팀장 메일, 텔레그램 부서방 알림이 추가되어 있다",
-        "연동이 안 될 때의 점검 순서표(활성화 → Production URL → CORS → 응답 방식 → 시트 권한)가 있다",
+        "연동이 안 될 때의 점검 순서표(Publish(설정 변경 후 재Publish 포함) → Production URL → CORS → 응답 방식 → 시트 권한)가 있다",
         "선택 실습(PDF 요약·음성 입력)을 이 시간에 진행하는 방법이 안내되어 있다",
         "workflows/d2-p6.json 의 Gemini 조치 요약은 'AI 안내문 작성'(Basic LLM Chain, @n8n/n8n-nodes-langchain.chainLlm) + 'Google Gemini Chat Model'(lmChatGoogleGemini) 하위 노드 구성이다(기존 교안과 같음)",
         "Webhook 경로·필드 이름·시트 열·응답 키가 docs/data-contract.md 와 일치한다",

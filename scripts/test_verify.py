@@ -89,8 +89,9 @@ cases = [
  ("JSON: 없는 노드로 연결", "json", wf_mod(badconn), "FAIL", "도착 노드가 nodes에 없음"),
  ("JSON: responseMode 불일치", "json", wf_mod(respmode), "FAIL", "responseMode"),
  ("JSON: 텔레그램 봇 토큰", "json", wf_mod(bottoken), "FAIL", "텔레그램 봇 토큰"),
- ("JSON: Webhook 경로 ≠ 데이터 약속", "json", wf_mod(badpath), "FAIL", "data-contract"),
+ ("JSON: Webhook 경로 ≠ 데이터 약속", "json", wf_mod(badpath), "FAIL", "≠ data-contract"),
  ("JSON: UTF-8 BOM", "jsonbom", wf, "FAIL", "BOM"),
+ ("JSON: 경로는 같고 방식만 다름(GET)", "json", wf_mod(lambda w: w["nodes"][0]["parameters"].update(httpMethod="GET")), "FAIL", "GET minwon"),
 ]
 rows = []
 for i, (name, kind, content, expect, needle) in enumerate(cases, 1):
@@ -101,7 +102,7 @@ for i, (name, kind, content, expect, needle) in enumerate(cases, 1):
         p = S / f"s{i:02d}.json"
         data = json.dumps(content, ensure_ascii=False, indent=2).encode("utf-8")
         p.write_bytes((b"\xef\xbb\xbf" if kind == "jsonbom" else b"") + data)
-        args = ["--file", str(p), "--lesson-id", "d1-p3"]
+        args = ["--file", str(p), "--lesson-id", "d1-p6"]
     r = subprocess.run([sys.executable, str(ROOT/"scripts/verify.py"), *args], capture_output=True, text=True, encoding="utf-8", cwd=ROOT)
     out = r.stdout
     has_fail = "[FAIL]" in out; has_warn = "[WARN]" in out

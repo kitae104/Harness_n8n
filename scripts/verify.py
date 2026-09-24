@@ -149,16 +149,18 @@ def load_sample_data():
     }
 
 
-def load_contract_paths() -> dict[str, set[str]]:
+def load_contract_paths() -> dict[str, set[tuple[str, str]]]:
+    """교시 id → {(경로, 방식)}. data-contract.md의 'Webhook 경로' 표."""
     if not CONTRACT_MD.exists():
         return {}
     text = CONTRACT_MD.read_text(encoding="utf-8")
-    out: dict[str, set[str]] = {}
+    out: dict[str, set[tuple[str, str]]] = {}
     for row in md_table_rows(md_section(text, "Webhook 경로")):
-        if len(row) >= 2:
+        if len(row) >= 3:
             paths = re.findall(r"`([^`]+)`", row[1])
-            if paths:
-                out.setdefault(row[0], set()).update(paths)
+            method = row[2].strip().upper() or "GET"
+            for p in paths:
+                out.setdefault(row[0], set()).add((p, method))
     return out
 
 
@@ -725,16 +727,20 @@ def check_workflow(rep: Report, path: Path, lesson: dict | None, lessons: dict, 
         if seen & responders and params.get("responseMode") != "responseNode":
             rep.fail(cat, f"{where}: Webhook '{wh}' 뒤에 Respond to Webhook이 있는데 responseMode가 'responseNode'가 아님")
         if not (params.get("options") or {}).get("allowedOrigins"):
-            rep.warn(cat, f"{where}: Webhook '{wh}'에 Allowed Origins(CORS) 옵션이 없음(키 이름은 fact-check F20 확인 후 확정)")
+            rep.warn(cat, f"{where}: Webhook '{wh}'에 Allowed Origins(CORS) 옵션이 명시되어 있지 않음(기본값 *이지만 교안과 맞게 명시 권장, fact-check F20)")
 
     # 데이터 약속: Webhook 경로
     lid = lesson["id"] if lesson else None
     if lid and lid in contract:
         cat2 = "데이터 약속(경로)"
         rep.cat(cat2)
-        actual = {(by_name[w].get("parameters", {}) or {}).get("path") for w in webhooks}
+        actual = set()
+        for w in webhooks:
+            prm = by_name[w].get("parameters", {}) or {}
+            actual.add((prm.get("path") or "(없음)", (prm.get("httpMethod") or "GET").upper()))  # 기본 방식 GET
         if actual != contract[lid]:
-            rep.fail(cat2, f"{where}: Webhook 경로 {sorted(p or '(없음)' for p in actual)} ≠ data-contract {sorted(contract[lid])}")
+            fmt = lambda s: sorted(f"{m} {p}" for p, m in s)
+            rep.fail(cat2, f"{where}: Webhook 경로·방식 {fmt(actual)} ≠ data-contract {fmt(contract[lid])}")
 
     # 자격 증명
     cat3 = "자격 증명"

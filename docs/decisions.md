@@ -38,6 +38,8 @@
 | D24 | 기존 교안 (Q3·Q4) | 원본 https://github.com/kitae104/PublicFlow (사이트 https://kitae-n8n.vercel.app). 텍스트 자료만 `docs/legacy/PublicFlow/`에 복사(캡처 PNG·기관 공문 PDF 제외) |
 | D25 | 데이터 약속 | 앱 필드·시트 열·응답 키·Webhook 경로는 `docs/data-contract.md`로 관리한다. 초안은 기존 교안 폼 필드(이름·연락처·이메일·종류(생활/음식물/대형)·상세설명)를 이어받고, 해당 교시 세션에서 확정한다 |
 | D26 | 작업 상태 | `todo → drafting → review → instructor-check → done`. JSON Import 실행·프롬프트 시험·캡처는 강사 수동 확인(`docs/instructor-checklist.md`) 후에만 done |
+| D28 | d1-p3 호출 시험 (1회차) | 코드 없이 POST+CORS를 시험할 수 없으므로(fact-check F52) d1-p3은 **GET Webhook을 브라우저 주소창으로 호출**해 응답을 확인한다. Allowed Origins(CORS)는 체크리스트 1번으로 **설정만** 하고 개념을 설명하며, 실제 CORS 확인은 **d1-p6에서 AI Studio 앱으로** 한다. 경로 `hello`(GET) |
+| D29 | 활성화 → Publish (1회차) | n8n 2.0부터 활성화 토글이 `Publish` 버튼으로 바뀜(F22). glossary 표준 표기를 `Publish`로 바꾸고 "활성화"를 금지 표기로 둔다. 설정을 바꾸면 다시 Publish(F53) |
 | D27 | 작성 순서 | 시간표 순서가 아닌 `lessons.json`의 `authoring_order`를 따른다(d1-p1·opt-voice가 d2-p2.json을 참조하므로) |
 
 ## 미결정

@@ -1,0 +1,45 @@
+{
+  "name": "d1-p3 Webhook 연습",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "hello",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [0, 0],
+      "id": "d1p3-webhook",
+      "name": "Webhook",
+      "webhookId": "5b0e6a3c-2f7d-4c1e-9a8b-0d13a1e11001"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"메시지\": \"안녕하세요, {{ $json.query.이름 }}님. 잘 받았습니다.\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [260, 0],
+      "id": "d1p3-respond",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          { "node": "Respond to Webhook", "type": "main", "index": 0 }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
