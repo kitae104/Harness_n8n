@@ -193,7 +193,7 @@
 - writing-guide: 여러 `ol.steps` 번호 규칙 추가. data-contract: 처리마감·담당자는 시트에 두지 않고 조회 때 계산
 
 ### 검증 결과
-- verify.py --all: 10개 교시 PASS / test_verify.py 35개 불일치 0
+- verify.py --all: 9개 교시 PASS / test_verify.py 35개 불일치 0
 - status: d2-p1, d2-p2, d1-p1 → **instructor-check** (1일차 7개 교시 + 2일차 1·2교시 초안 완료)
 
 ### 다음 할 일
