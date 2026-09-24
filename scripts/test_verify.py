@@ -72,7 +72,6 @@ cases = [
  ("외부 CDN 링크", "html", html_with('', ('<link rel="stylesheet" href="../assets/css/lesson.css">', '<link rel="stylesheet" href="../assets/css/lesson.css">\n<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/x.css">')), "FAIL", "외부 자원 참조 금지"),
  ("주민번호 형태", "html", html_with("<p>900101-1234567</p>"), "FAIL", "주민등록번호"),
  ("실제 이메일", "html", html_with("<p>메일: someone@gmail.com</p>"), "FAIL", "someone@gmail.com"),
- ("todo 교시로 가는 링크", "html", html_with('<p><a href="d2-p4.html">다음 교시</a></p>'), "WARN", "아직 작성 전(todo)"),
  ("서비스 이름: 현장점검 보고 앱", "html", html_with("<p>서비스 이름: 현장점검 보고 앱</p>"), "PASS", None),
  ("시트 이름: 민원대장", "html", html_with("<p>시트 이름: 민원대장</p>"), "PASS", None),
  ("담당자: 민원팀", "html", html_with("<p>담당자: 민원팀</p>"), "PASS", None),
@@ -95,6 +94,12 @@ cases = [
  ("JSON: $now 사용 + 시간대 없음", "json", wf_mod(lambda w: w["nodes"][1]["parameters"].update(responseBody="={{ $now.toFormat('yyyy') }}")), "FAIL", "Asia/Seoul"),
  ("JSON: 경로는 같고 방식만 다름(GET)", "json", wf_mod(lambda w: w["nodes"][0]["parameters"].update(httpMethod="GET")), "FAIL", "GET minwon"),
 ]
+# 작성 전(todo) 교시로 가는 링크는 WARN — 남은 todo 교시가 있을 때만 시험한다
+_todo = [l["id"] for l in json.loads((ROOT / "lessons.json").read_text(encoding="utf-8"))["lessons"]
+         if l.get("status") == "todo" and not (ROOT / "lessons" / f'{l["id"]}.html').exists()]
+if _todo:
+    cases.append(("todo 교시로 가는 링크", "html", html_with(f'<p><a href="{_todo[0]}.html">다음 교시</a></p>'), "WARN", "아직 작성 전(todo)"))
+
 rows = []
 for i, (name, kind, content, expect, needle) in enumerate(cases, 1):
     if kind == "html":
