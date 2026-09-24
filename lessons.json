@@ -1,0 +1,462 @@
+{
+  "_schema": {
+    "id": "d{일차}-p{교시} 또는 opt-{이름}(선택 실습). lessons/{id}.html 파일명과 같다",
+    "type": "lab = 따라 하는 실습 교시 / activity = 시연·기획·발표 등 활동 교시. verify.py가 type별 필수 섹션을 다르게 검사한다(docs/writing-guide.md 2절)",
+    "workflow": "file = 이 교시 Import 안내가 가리키는 JSON, role = own(이 교시가 만드는 파일) | reference(다른 교시 파일을 가져다 씀), builds_on = 누적 체인의 직전 교시 id",
+    "deliverables": "html/json/prompts/other 경로. verify.py가 존재 여부를 검사한다",
+    "status": "todo → drafting → review → done. done은 verify 통과 + 리뷰 반영 후에만"
+  },
+  "course": {
+    "title": "AI 앱과 n8n으로 만드는 나만의 업무 자동화 서비스",
+    "spec": "docs/proposal.md",
+    "decisions": "docs/decisions.md"
+  },
+  "lessons": [
+    {
+      "id": "d1-p1",
+      "day": 1,
+      "period": 1,
+      "time": "09:00~09:50",
+      "type": "activity",
+      "title": "입과 안내 및 과정 소개 — 완성 서비스 시연",
+      "objectives": [
+        "앱에서 민원을 접수하면 시트·메일·캘린더·텔레그램까지 이어지는 완성 서비스의 흐름을 말로 설명할 수 있다",
+        "\"화면은 AI가, 일은 n8n이\" 역할 분담을 이해한다",
+        "실습에는 가상 데이터만 쓴다는 원칙과 이틀간의 진행 방식을 안다",
+        "사전조사한 자동화 희망 업무를 한 문장으로 공유한다"
+      ],
+      "workflow": { "file": "workflows/d2-p2.json", "role": "reference", "builds_on": null },
+      "deliverables": {
+        "html": ["lessons/d1-p1.html"],
+        "json": [],
+        "prompts": [],
+        "other": []
+      },
+      "acceptance_criteria": [
+        "verify.py d1-p1 이 통과한다",
+        "시연 대상이 최종 완성본 workflows/d2-p2.json 임이 본문에 명시되어 있다",
+        "개인정보 원칙(가상 데이터만 사용, 실제 민원·공문 입력 금지)이 별도 박스로 안내되어 있다",
+        "이틀 로드맵(그림 0 또는 표)과 교시별 완성본 JSON으로 따라잡는 방법이 소개되어 있다",
+        "사전조사 공유 활동의 진행 방법(시간, 발표 형식)이 적혀 있다"
+      ],
+      "source_refs": ["7절 1일차 1교시", "2절 역할 분담", "11절 개인정보"],
+      "status": "todo"
+    },
+    {
+      "id": "d1-p2",
+      "day": 1,
+      "period": 2,
+      "time": "10:00~10:50",
+      "type": "lab",
+      "title": "n8n 핵심 복습 실습 — 트리거–처리–결과, 표현식, 시트·Gmail·Gemini",
+      "objectives": [
+        "트리거–처리–결과 3단 구조로 워크플로우를 읽을 수 있다",
+        "표현식 {{ }} 로 앞 노드의 값을 가져다 쓸 수 있다",
+        "구글 시트 기록, Gmail 발송, Gemini 안내문 생성을 한 워크플로우로 실행한다",
+        "완성본 JSON을 가져오기(Import)하고 자격 증명을 다시 연결할 수 있다"
+      ],
+      "workflow": { "file": "workflows/d1-p2.json", "role": "own", "builds_on": null },
+      "deliverables": {
+        "html": ["lessons/d1-p2.html"],
+        "json": ["workflows/d1-p2.json"],
+        "prompts": [],
+        "other": []
+      },
+      "acceptance_criteria": [
+        "verify.py d1-p2 가 통과한다",
+        "workflows/d1-p2.json 에 트리거·구글 시트·Gmail·Gemini 노드가 각 1개 이상 있다",
+        "표현식 예시가 2개 이상이며 각각 어떤 값을 가져오는지 풀이가 있다",
+        "완성본 가져오기 안내가 교시 앞부분(수준 맞추기)과 끝부분 두 곳에 있다"
+      ],
+      "source_refs": ["7절 1일차 2교시", "8-3 n8n 핵심 복습"],
+      "status": "todo"
+    },
+    {
+      "id": "d1-p3",
+      "day": 1,
+      "period": 3,
+      "time": "11:00~11:50",
+      "type": "lab",
+      "title": "Webhook 이해와 실습 — 앱과 자동화가 대화하는 방법",
+      "objectives": [
+        "Webhook을 \"외부 앱이 n8n을 부르는 주소\"로 설명할 수 있다",
+        "Test URL과 Production URL의 차이와 쓰는 순서를 안다",
+        "Respond to Webhook 노드로 앱에 답을 돌려줄 수 있다",
+        "Allowed Origins(CORS)를 설정하고 브라우저에서 호출해 응답을 확인한다"
+      ],
+      "workflow": { "file": "workflows/d1-p3.json", "role": "own", "builds_on": null },
+      "deliverables": {
+        "html": ["lessons/d1-p3.html"],
+        "json": ["workflows/d1-p3.json"],
+        "prompts": [],
+        "other": []
+      },
+      "acceptance_criteria": [
+        "verify.py d1-p3 이 통과한다",
+        "workflows/d1-p3.json 은 누적 체인과 무관한 독립 연습용이며, Webhook → Respond to Webhook 구조이고 Webhook 노드 응답 방식이 Respond to Webhook 노드 사용으로 설정되어 있다",
+        "Webhook 실습 체크리스트의 1번 항목이 CORS(Allowed Origins) 설정이다",
+        "Test URL → 테스트, 활성화 → Production URL 사용 순서가 번호 단계로 제시되어 있다",
+        "브라우저에서 호출하는 방법이 코드 작성 없이(복사·붙여넣기만으로) 안내되어 있다"
+      ],
+      "source_refs": ["7절 1일차 3교시", "2절 제약과 해결책", "8-3 Webhook"],
+      "status": "todo"
+    },
+    {
+      "id": "d1-p4",
+      "day": 1,
+      "period": 4,
+      "time": "13:00~13:50",
+      "type": "lab",
+      "title": "AI 앱 빌더 첫 체험 — Google AI Studio Build로 민원 접수 화면 만들기",
+      "objectives": [
+        "AI Studio Build 모드 화면 구성(입력창, 미리보기, 코드 영역)을 구분한다",
+        "문장(프롬프트)으로 앱이 만들어지는 원리를 설명할 수 있다",
+        "프롬프트 템플릿으로 민원 접수 화면을 생성한다"
+      ],
+      "workflow": null,
+      "deliverables": {
+        "html": ["lessons/d1-p4.html"],
+        "json": [],
+        "prompts": ["prompts/d1-p4-minwon-app.md"],
+        "other": []
+      },
+      "acceptance_criteria": [
+        "verify.py d1-p4 가 통과한다",
+        "프롬프트 템플릿이 prompts/ 파일로 분리되어 있고, 교안에는 그 전문이 복사 가능한 형태로 실려 있다",
+        "생성 결과가 매번 조금씩 다르다는 점과 무료 사용량 한도 주의가 안내되어 있다",
+        "AI Studio 접속이 막혔을 때의 플랜 B(n8n Form 또는 Gemini 캔버스) 박스가 있다",
+        "AI Studio 관련 서술 중 docs/fact-check.md 에서 '확인'되지 않은 항목이 없다"
+      ],
+      "source_refs": ["7절 1일차 4교시", "8-3 AI 앱 빌더 활용", "2절 대체·보완 도구"],
+      "status": "todo"
+    },
+    {
+      "id": "d1-p5",
+      "day": 1,
+      "period": 5,
+      "time": "14:00~14:50",
+      "type": "lab",
+      "title": "첫 앱 다듬기 — 화면 수정 요청과 오류 대처 루틴",
+      "objectives": [
+        "원하는 화면 변경을 구체적인 문장으로 요청할 수 있다",
+        "오류가 나면 \"오류 문구 복사 → AI에 붙여넣고 고쳐 달라고 요청\" 루틴을 스스로 수행한다"
+      ],
+      "workflow": null,
+      "deliverables": {
+        "html": ["lessons/d1-p5.html"],
+        "json": [],
+        "prompts": ["prompts/d1-p5-edit-requests.md", "prompts/d1-p5-error-routine.md"],
+        "other": []
+      },
+      "acceptance_criteria": [
+        "verify.py d1-p5 가 통과한다",
+        "수정 요청 문장의 나쁜 예·좋은 예가 3쌍 이상 있다",
+        "오류 대처 루틴이 번호 단계로 제시되고 반복 연습 과제가 2회 이상 있다",
+        "오류 문구를 찾는 위치(화면의 어디를 보면 되는지)가 캡처 자리와 함께 안내되어 있다"
+      ],
+      "source_refs": ["7절 1일차 5교시", "11절 AI Studio 사용 시 주의"],
+      "status": "todo"
+    },
+    {
+      "id": "d1-p6",
+      "day": 1,
+      "period": 6,
+      "time": "15:00~15:50",
+      "type": "lab",
+      "title": "앱 ↔ n8n 연동 ① — Webhook 주소 넣기, 접수 데이터 시트 기록",
+      "objectives": [
+        "앱에 n8n Production URL을 넣어 접수 데이터를 보낼 수 있다",
+        "받은 데이터가 구글 시트에 한 줄로 기록되는 것을 확인한다"
+      ],
+      "workflow": { "file": "workflows/d1-p6.json", "role": "own", "builds_on": null },
+      "deliverables": {
+        "html": ["lessons/d1-p6.html"],
+        "json": ["workflows/d1-p6.json"],
+        "prompts": ["prompts/d1-p6-connect-webhook.md"],
+        "other": []
+      },
+      "acceptance_criteria": [
+        "verify.py d1-p6 이 통과한다",
+        "workflows/d1-p6.json 은 누적 체인의 시작으로 Webhook(POST) → 구글 시트 기록 구조다",
+        "앱이 보내는 필드 이름과 시트 열 이름의 대응표가 있다",
+        "앱에 넣는 주소는 Production URL이며, 활성화 후 넣는다는 순서가 명시되어 있다"
+      ],
+      "source_refs": ["7절 1일차 6교시", "8-3 앱–자동화 연동"],
+      "status": "todo"
+    },
+    {
+      "id": "d1-p7",
+      "day": 1,
+      "period": 7,
+      "time": "16:00~16:50",
+      "type": "lab",
+      "title": "연동 ① 완성 — 접수번호 생성·회신, 앱 화면에 결과 표시, 1일차 정리",
+      "objectives": [
+        "YYYY-MMDD-NNN 형식의 접수번호를 만들어 시트에 기록한다",
+        "Respond to Webhook으로 접수번호를 앱에 돌려주고 화면에 표시한다",
+        "1일차에 만든 전체 흐름을 그림으로 정리한다"
+      ],
+      "workflow": { "file": "workflows/d1-p7.json", "role": "own", "builds_on": "d1-p6" },
+      "deliverables": {
+        "html": ["lessons/d1-p7.html"],
+        "json": ["workflows/d1-p7.json"],
+        "prompts": ["prompts/d1-p7-show-receipt.md"],
+        "other": []
+      },
+      "acceptance_criteria": [
+        "verify.py d1-p7 이 통과한다",
+        "workflows/d1-p7.json 은 d1-p6 의 모든 노드를 포함하고 접수번호 생성과 Respond to Webhook 이 추가되어 있다",
+        "접수번호 형식이 glossary 표기(YYYY-MMDD-NNN, 예 2026-0922-017)와 일치한다",
+        "1일차 정리에 오전·오후 산출물을 잇는 흐름 그림 또는 표가 있다"
+      ],
+      "source_refs": ["7절 1일차 7교시", "9-1 산출물", "10절 그림 1"],
+      "status": "todo"
+    },
+    {
+      "id": "d2-p1",
+      "day": 2,
+      "period": 1,
+      "time": "09:00~09:50",
+      "type": "lab",
+      "title": "앱 ↔ n8n 연동 ② — 담당자 메일, 캘린더 처리 마감, Gemini 안내문",
+      "objectives": [
+        "접수된 민원을 담당자에게 Gmail로 보낸다",
+        "처리 마감일을 구글 캘린더에 등록한다",
+        "Gemini로 민원인 안내문을 만들어 앱 화면에 함께 표시한다"
+      ],
+      "workflow": { "file": "workflows/d2-p1.json", "role": "own", "builds_on": "d1-p7" },
+      "deliverables": {
+        "html": ["lessons/d2-p1.html"],
+        "json": ["workflows/d2-p1.json"],
+        "prompts": ["prompts/d2-p1-show-notice.md"],
+        "other": []
+      },
+      "acceptance_criteria": [
+        "verify.py d2-p1 이 통과한다",
+        "workflows/d2-p1.json 은 d1-p7 의 모든 노드를 포함하고 Gmail·구글 캘린더·Gemini 노드가 추가되어 있다",
+        "Gmail 수신 주소는 {본인 이메일} 자리표시로만 안내되어 있다",
+        "Gemini 안내문 프롬프트가 교안에 실려 있고 개인정보를 넣지 말라는 주의가 있다"
+      ],
+      "source_refs": ["7절 2일차 1교시", "8-3 앱–자동화 연동"],
+      "status": "todo"
+    },
+    {
+      "id": "d2-p2",
+      "day": 2,
+      "period": 2,
+      "time": "10:00~10:50",
+      "type": "lab",
+      "title": "연동 ② 완성 — If 조건 분기, 텔레그램 알림, 처리 상태 조회 화면",
+      "objectives": [
+        "If 노드로 민원 유형별 담당자를 나눈다",
+        "텔레그램으로 접수 알림을 보낸다",
+        "접수번호로 처리 상태를 조회하는 GET Webhook과 조회 화면을 만든다"
+      ],
+      "workflow": { "file": "workflows/d2-p2.json", "role": "own", "builds_on": "d2-p1" },
+      "deliverables": {
+        "html": ["lessons/d2-p2.html"],
+        "json": ["workflows/d2-p2.json"],
+        "prompts": ["prompts/d2-p2-status-lookup.md"],
+        "other": []
+      },
+      "acceptance_criteria": [
+        "verify.py d2-p2 가 통과한다",
+        "workflows/d2-p2.json 은 d2-p1 의 모든 노드를 포함하고 If·Telegram 노드와 조회용 GET Webhook → 시트 조회 → Respond to Webhook 흐름이 추가되어 있다",
+        "d2-p2 체크리스트에 조회용 GET Webhook의 CORS(Allowed Origins) 설정 항목이 있다",
+        "이 교시 결과가 과정 전체의 최종 완성본이며 d1-p1 시연에 쓰인다는 점이 강사 메모에 있다"
+      ],
+      "source_refs": ["7절 2일차 2교시", "8-3 앱–자동화 연동", "9-1 산출물"],
+      "status": "todo"
+    },
+    {
+      "id": "d2-p3",
+      "day": 2,
+      "period": 3,
+      "time": "11:00~11:50",
+      "type": "lab",
+      "title": "앱 배포·공유·보안 — 공유 링크, 비밀값 관리, 개인정보 점검표",
+      "objectives": [
+        "AI Studio 앱의 공유 링크를 만들어 동료가 열어 보게 한다",
+        "API 키 등 비밀값을 앱·워크플로우에 노출하지 않는 방법을 안다",
+        "실제 적용 전 개인정보·보안 점검표를 작성한다",
+        "기관 설치형 n8n 전환이 무엇인지 설명할 수 있다"
+      ],
+      "workflow": null,
+      "deliverables": {
+        "html": ["lessons/d2-p3.html"],
+        "json": [],
+        "prompts": [],
+        "other": ["print/forms/security-checklist.html"]
+      },
+      "acceptance_criteria": [
+        "verify.py d2-p3 이 통과한다",
+        "점검표에 '기관 보안 담당 협의 후 적용' 항목이 있다",
+        "Cloud Run 배포는 소개만 하고 실습하지 않는다는 점이 명시되어 있다",
+        "공유 링크·비밀값 관련 서술이 docs/fact-check.md 에서 확인된 내용과 일치한다"
+      ],
+      "source_refs": ["7절 2일차 3교시", "8-3 배포·보안·운영", "11절 개인정보"],
+      "status": "todo"
+    },
+    {
+      "id": "d2-p4",
+      "day": 2,
+      "period": 4,
+      "time": "13:00~13:50",
+      "type": "activity",
+      "title": "프로젝트 기획 — 부서별 시나리오 확정, 입력–처리–출력 설계서",
+      "objectives": [
+        "내 업무 중 앱 + 자동화로 바꿀 한 가지를 고른다",
+        "설계서 양식(서비스 이름·사용자·입력·처리·출력·전후 비교)을 채운다",
+        "설계서를 AI Studio 프롬프트로 옮기는 방법을 안다"
+      ],
+      "workflow": null,
+      "deliverables": {
+        "html": ["lessons/d2-p4.html"],
+        "json": [],
+        "prompts": ["prompts/d2-p4-design-to-prompt.md"],
+        "other": ["print/forms/design-sheet.html"]
+      },
+      "acceptance_criteria": [
+        "verify.py d2-p4 가 통과한다",
+        "설계서 예시로 '현장점검 보고 앱'이 제안서 10절 표와 같은 내용으로 채워져 있다",
+        "개인 또는 2~3인 팀 구성 방법과 강사 검토 기준이 적혀 있다",
+        "주제를 못 정한 수강생을 위한 예시 목록(현장점검·행사 신청·회의록·지침 Q&A)이 있다"
+      ],
+      "source_refs": ["7절 2일차 4교시", "10절 설계서 양식", "9-3 산출물"],
+      "status": "todo"
+    },
+    {
+      "id": "d2-p5",
+      "day": 2,
+      "period": 5,
+      "time": "14:00~14:50",
+      "type": "activity",
+      "title": "프로젝트 제작 ① — 앱 화면 생성, n8n 워크플로우 구성(완성 파일 변형)",
+      "objectives": [
+        "설계서를 바탕으로 프롬프트 템플릿을 고쳐 내 앱 화면을 만든다",
+        "기존 완성 파일을 복사·변형해 내 워크플로우를 구성한다"
+      ],
+      "workflow": { "file": "workflows/d2-p5.json", "role": "own", "builds_on": null },
+      "deliverables": {
+        "html": ["lessons/d2-p5.html"],
+        "json": ["workflows/d2-p5.json"],
+        "prompts": ["prompts/d2-p5-field-inspection-app.md"],
+        "other": []
+      },
+      "acceptance_criteria": [
+        "verify.py d2-p5 가 통과한다",
+        "workflows/d2-p5.json 은 설계서 예시 '현장점검 보고 앱'의 기본형(Webhook → 시트 기록 → 접수번호 회신)이다",
+        "민원 접수 완성본을 내 업무용으로 바꿀 때 고칠 곳(필드·시트 열·메일 문구) 목록이 있다",
+        "진행이 빠른 수강생에게 선택 실습(opt-pdf, opt-voice) 링크를 안내한다"
+      ],
+      "source_refs": ["7절 2일차 5교시", "10절 설계서 양식"],
+      "status": "todo"
+    },
+    {
+      "id": "d2-p6",
+      "day": 2,
+      "period": 6,
+      "time": "15:00~15:50",
+      "type": "activity",
+      "title": "프로젝트 제작 ② — 앱–n8n 연동·테스트·오류 수정",
+      "objectives": [
+        "내 앱과 워크플로우를 연결해 처음부터 끝까지 테스트한다",
+        "막히면 점검 순서표에 따라 원인을 스스로 좁힌다"
+      ],
+      "workflow": { "file": "workflows/d2-p6.json", "role": "own", "builds_on": "d2-p5" },
+      "deliverables": {
+        "html": ["lessons/d2-p6.html"],
+        "json": ["workflows/d2-p6.json"],
+        "prompts": [],
+        "other": []
+      },
+      "acceptance_criteria": [
+        "verify.py d2-p6 이 통과한다",
+        "workflows/d2-p6.json 은 d2-p5 의 모든 노드를 포함하고 '보수필요'면 Gemini 조치 요약 → 팀장 메일, 텔레그램 부서방 알림이 추가되어 있다",
+        "연동이 안 될 때의 점검 순서표(활성화 → Production URL → CORS → 응답 방식 → 시트 권한)가 있다",
+        "선택 실습(PDF 요약·음성 입력)을 이 시간에 진행하는 방법이 안내되어 있다"
+      ],
+      "source_refs": ["7절 2일차 6교시", "10절 설계서 양식"],
+      "status": "todo"
+    },
+    {
+      "id": "d2-p7",
+      "day": 2,
+      "period": 7,
+      "time": "16:00~16:50",
+      "type": "activity",
+      "title": "발표·피드백 및 적용 로드맵 — 내 서비스 뽐내기",
+      "objectives": [
+        "팀별 5분 동안 설계서와 완성 화면으로 서비스를 발표한다",
+        "부서에 적용할 때 점검할 항목과 다음 단계를 로드맵으로 정리한다"
+      ],
+      "workflow": null,
+      "deliverables": {
+        "html": ["lessons/d2-p7.html"],
+        "json": [],
+        "prompts": [],
+        "other": ["print/forms/roadmap.html"]
+      },
+      "acceptance_criteria": [
+        "verify.py d2-p7 이 통과한다",
+        "발표 5분 구성(문제–화면 시연–자동화 흐름–전후 비교)이 제시되어 있다",
+        "상호 피드백 양식과 적용 로드맵 양식이 있다",
+        "부서 적용 전 점검 항목이 d2-p3 점검표와 연결되어 있다"
+      ],
+      "source_refs": ["7절 2일차 7교시", "8-3 프로젝트"],
+      "status": "todo"
+    },
+    {
+      "id": "opt-pdf",
+      "day": 2,
+      "period": null,
+      "time": "선택(2일차 6교시 중 희망자 / 수료 후 자율학습)",
+      "type": "lab",
+      "title": "선택 실습 ① — PDF 공문 업로드 요약 앱",
+      "objectives": [
+        "앱에서 PDF 공문을 올리면 n8n이 받아 Gemini로 요약한다",
+        "요약을 메일과 텔레그램으로 보낸다"
+      ],
+      "workflow": { "file": "workflows/opt-pdf.json", "role": "own", "builds_on": null },
+      "deliverables": {
+        "html": ["lessons/opt-pdf.html"],
+        "json": ["workflows/opt-pdf.json"],
+        "prompts": ["prompts/opt-pdf-upload-app.md"],
+        "other": []
+      },
+      "acceptance_criteria": [
+        "verify.py opt-pdf 가 통과한다",
+        "실습용 PDF는 가상 공문(assets/ 안의 예시 파일)만 사용하도록 안내되어 있다",
+        "혼자 따라 할 수 있도록 강사 없이도 막히지 않는 수준의 단계와 완성본 JSON이 있다"
+      ],
+      "source_refs": ["6절 선택", "8-3 파일·음성 기능 확장", "9-2 산출물"],
+      "status": "todo"
+    },
+    {
+      "id": "opt-voice",
+      "day": 2,
+      "period": null,
+      "time": "선택(2일차 6교시 중 희망자 / 수료 후 자율학습)",
+      "type": "lab",
+      "title": "선택 실습 ② — 음성 입력 민원 접수",
+      "objectives": [
+        "민원 접수 앱에 '음성으로 입력' 버튼을 추가한다",
+        "말한 내용이 텍스트로 바뀌어 기존 워크플로우로 접수되는 것을 확인한다"
+      ],
+      "workflow": { "file": "workflows/d2-p2.json", "role": "reference", "builds_on": null },
+      "deliverables": {
+        "html": ["lessons/opt-voice.html"],
+        "json": [],
+        "prompts": ["prompts/opt-voice-input.md"],
+        "other": []
+      },
+      "acceptance_criteria": [
+        "verify.py opt-voice 가 통과한다",
+        "n8n 워크플로우는 바꾸지 않고 앱만 바꾼다는 점이 명시되어 있다",
+        "마이크 권한 허용 방법과 권한이 막혔을 때의 대처가 안내되어 있다"
+      ],
+      "source_refs": ["6절 선택", "8-3 파일·음성 기능 확장", "9-2 산출물"],
+      "status": "todo"
+    }
+  ]
+}
