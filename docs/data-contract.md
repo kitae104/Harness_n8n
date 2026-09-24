@@ -21,7 +21,7 @@
 | d2-p2 | `minwon-status` | GET | 처리 상태 조회 — 쿼리 `no` | 확정(D44) |
 | d2-p5 | `field-check` | POST | 현장점검 보고 | 초안 |
 | d2-p6 | `field-check` | POST | 현장점검 보고 | 초안 |
-| opt-pdf | `gongmun-summary` | POST | PDF 공문 요약 | 초안 |
+| opt-pdf | `gongmun-summary` | POST | PDF 공문 요약 — multipart, 파일 필드 `file` | 확정(D47) |
 | d1-p3 | `hello` | GET | Webhook 연습(독립) — 주소창 호출, 쿼리 `이름` | 확정(D28) |
 
 ## 민원 접수 — 앱이 보내는 값 (POST 본문, JSON)
@@ -85,4 +85,4 @@ n8n에서는 `{{ $json.body.이름 }}`처럼 `body` 아래로 들어온다(→ f
 
 ## PDF 공문 요약 (opt-pdf)
 
-초안: 앱이 PDF 파일을 `file` 필드로 보낸다(multipart). 기존 교안 day2/p1(공문서 요약 서비스)의 처리 흐름을 재사용한다. opt-pdf 세션에서 확정한다.
+확정(D47): 앱이 PDF를 FormData의 `file` 필드로 보낸다(multipart, Content-Type 직접 지정 금지 — F215). n8n: `공문 받기`(Webhook, Binary Data 옵션 넣지 않음) → `글자 뽑기`(Extract From PDF, `file`) → `AI 공문 요약` → `앱에 답하기`(`{"파일", "요약"}`) / `요약 메일` / `텔레그램 알림`. 실습 PDF는 `assets/samples/gongmun-sample.html`을 브라우저에서 PDF로 저장해 만든다(글자가 들어 있는 PDF). 스캔 PDF는 글자가 뽑히지 않는다(F210).

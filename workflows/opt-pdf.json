@@ -1,0 +1,179 @@
+{
+  "name": "opt-pdf PDF 공문 요약 앱",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "gongmun-summary",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "opdf-hook",
+      "name": "공문 받기",
+      "webhookId": "6e3b8d10-2c4a-4f7e-9d20-0f0dfa000001"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "file",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        260,
+        0
+      ],
+      "id": "opdf-extract",
+      "name": "글자 뽑기"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=다음 공문서를 5줄 이내로 핵심만 요약하세요.\n\n- 목적\n- 주요 내용\n- 지원 사항\n- 대상\n- 일정\n\n각 항목을 한 줄로 정리하세요.\n문서에 없는 내용은 지어내지 말고, 모르면 '문서에 없음'이라고 쓰세요.\n\n[문서 내용]\n{{ $json.text }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        520,
+        0
+      ],
+      "id": "opdf-ai",
+      "name": "AI 공문 요약"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.8-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        520,
+        200
+      ],
+      "id": "d1-gemini-model",
+      "name": "Google Gemini Chat Model"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"파일\": $('공문 받기').first().binary.file.fileName, \"요약\": $json.text } }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        780,
+        -160
+      ],
+      "id": "opdf-respond",
+      "name": "앱에 답하기"
+    },
+    {
+      "parameters": {
+        "sendTo": "본인이메일@example.com",
+        "subject": "=[공문 요약] {{ $('공문 받기').first().binary.file.fileName }}",
+        "emailType": "text",
+        "message": "=공문 요약입니다(AI 초안 — 원문과 대조 후 활용).\n\n{{ $json.text }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        780,
+        0
+      ],
+      "id": "opdf-mail",
+      "name": "요약 메일"
+    },
+    {
+      "parameters": {
+        "chatId": "여기에_본인_채팅_ID",
+        "text": "=공문 요약이 도착했습니다. 메일을 확인해 주세요.\n파일: {{ $('공문 받기').first().binary.file.fileName }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        780,
+        160
+      ],
+      "id": "opdf-tg",
+      "name": "텔레그램 알림"
+    }
+  ],
+  "connections": {
+    "공문 받기": {
+      "main": [
+        [
+          {
+            "node": "글자 뽑기",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "글자 뽑기": {
+      "main": [
+        [
+          {
+            "node": "AI 공문 요약",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI 공문 요약": {
+      "main": [
+        [
+          {
+            "node": "앱에 답하기",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "요약 메일",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "텔레그램 알림",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI 공문 요약",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Seoul"
+  }
+}

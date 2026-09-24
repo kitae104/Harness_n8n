@@ -50,8 +50,8 @@ Claude 세션은 이 확인을 대신할 수 없다. 확인 결과를 사용자�
 | d2-p5 | 현장점검 예시 Import(`d2-p5.json`) → 칸 이름 바꾸기 → 연결까지 14:35 기준에 맞는지, 워크플로우 `Duplicate`(F203), 한글 점 표기 `$json.점검장소`(F91) |
 | d2-p6 | 확장형 예시(`d2-p6.json`) 보수필요 → AI 조치 요약 → 팀장 메일, 텔레그램. 점검 순서표로 오류 찾기가 되는지 |
 | d2-p7 | 팀 수별 발표 시간, 발표 화면 띄우는 방식, 수료 설문 링크 |
-| opt-voice | 공유 링크에서 마이크 권한 요청이 뜨는지 |
-| opt-pdf | 가상 공문 PDF 업로드 → 요약 수신 |
+| opt-voice | fact-check F221 목록: metadata.json microphone, 권한 창 순서, 한국어 인식, 크롬·엣지·파이어폭스 결과, 교육망 network 오류, 공유 링크에서 권한 |
+| opt-pdf | fact-check F216 목록: 앱 미리보기 multipart 전송(Binary 탭 `file`), 서버 쪽 호출 시 유지, 1·5·15MB, 한글 PDF 추출, 스캔 PDF, 100초 안 완료, `Extract From PDF` 화면. 가상 공문 HTML → PDF로 저장이 글자 PDF가 되는지 |
 
 ## fact-checker가 넘긴 직접 시험 항목 (1회차, 2026-09-24)
 

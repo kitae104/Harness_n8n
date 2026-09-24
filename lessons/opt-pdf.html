@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>선택 실습 ① PDF 공문 요약 앱 — AI 앱과 n8n으로 만드는 나만의 업무 자동화 서비스</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/lecture.css">
+<link rel="stylesheet" href="../assets/css/lesson.css">
+</head>
+<body class="lecture-mode">
+<main class="wrap" data-lesson-id="opt-pdf" data-type="lab">
+
+  <nav class="crumb"><a href="../index.html">목차</a> › 선택 실습 ①</nav>
+
+  <header class="page-head">
+    <h1>PDF 공문 요약 앱</h1>
+    <p class="sub">앱에서 PDF 공문을 올리면 n8n이 글자를 뽑아 Gemini로 요약하고, 앱·메일·텔레그램으로 돌려줍니다</p>
+  </header>
+
+  <section class="sec" id="objectives" data-section="objectives">
+    <h2 class="sec-title">학습목표</h2>
+    <ul>
+      <li>앱에서 PDF 공문을 올리면 n8n이 받아 Gemini로 요약합니다.</li>
+      <li>요약을 메일과 텔레그램으로 보냅니다.</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="concept" data-section="concept" data-minutes="10">
+    <h2 class="sec-title">왜 이 실습인가</h2>
+    <div class="note tip">
+      <b>용어 다시 보기</b>
+      <dfn>Webhook</dfn>(외부 앱이 n8n을 부르는 주소), <dfn>Test URL</dfn>(시험할 때만 쓰는 주소), <dfn>Production URL</dfn>(게시한 뒤 앱에 넣는 진짜 주소),
+      <dfn><code class="val">Publish</code></dfn>(워크플로우를 게시하는 버튼), <dfn>CORS</dfn>(다른 주소의 앱이 불러도 되는지 정하는 허락 규칙),
+      <dfn>Respond to Webhook</dfn>(부른 쪽에 답장을 보내는 노드), <dfn>표현식</dfn>(<code>{{ }}</code>로 앞 노드의 값을 가져오는 문장),
+      <dfn>자격 증명</dfn>(n8n이 내 계정을 대신 쓰도록 맡겨 둔 열쇠), <dfn>프롬프트</dfn>(AI에게 시키는 일을 적은 문장), <dfn>API 키</dfn>(서비스를 쓸 수 있게 해 주는 비밀 번호표)
+    </div>
+    <p>기초과정 P1에서는 n8n 입력 폼으로 공문을 올렸습니다. 이번에는 <b>내가 만든 앱</b>에서 올립니다. 민원 접수와 다른 점은 글자 대신 <b>파일</b>을 보낸다는 것 하나입니다.</p>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>순서</th><th>노드</th><th>하는 일</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><code class="val">공문 받기</code> (Webhook)</td><td>앱이 보낸 PDF를 <code>file</code>이라는 이름으로 받음</td></tr>
+          <tr><td>2</td><td><code class="val">글자 뽑기</code> (Extract from File)</td><td>PDF 안의 글자를 꺼냄(<code>text</code>)</td></tr>
+          <tr><td>3</td><td><code class="val">AI 공문 요약</code> (+ Gemini)</td><td>목적·주요 내용·지원 사항·대상·일정 다섯 줄 요약</td></tr>
+          <tr><td>4</td><td><code class="val">앱에 답하기</code> / <code class="val">요약 메일</code> / <code class="val">텔레그램 알림</code></td><td>앱에 요약 표시, 메일·텔레그램으로 전달</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note warn">
+      <b>실습에는 가상 공문만</b>
+      실제 공문·내부 문서는 올리지 않습니다. PDF 내용이 n8n 실행 기록과 AI 서비스(Gemini)에 남습니다. 아래 1단계의 가상 공문을 씁니다.
+    </div>
+    <div class="note concept">
+      <b>한 문장 요약</b>
+      파일은 앱이 <code>file</code>이라는 이름으로 보내고, n8n은 그 이름으로 받아 글자를 뽑은 뒤 기존처럼 AI·메일·텔레그램으로 처리합니다. 사진으로 찍은(스캔) PDF는 글자가 없어 읽지 못합니다.
+    </div>
+  </section>
+
+  <section class="sec" id="practice" data-section="practice">
+    <h2 class="sec-title">따라하기</h2>
+    <div class="note tip">
+      <b>빠른 길</b>
+      n8n 쪽을 직접 만들지 않으려면 이 교안 끝 "완성본 가져오기"로 워크플로우를 가져온 뒤 7단계(앱 만들기)부터 합니다.
+    </div>
+    <ol class="steps">
+      <li><span class="step-title">가상 공문 PDF 만들기</span>
+        <a href="../assets/samples/gongmun-sample.html">가상 공문</a>을 열고 <kbd>Ctrl</kbd>+<kbd>P</kbd> → 대상(프린터)을 <code>PDF로 저장</code>으로 바꾸고 저장합니다. 파일 이름은 <code>가상공문.pdf</code>로 합니다.
+        <p>저장한 PDF를 열어 글자를 마우스로 끌어 고를 수 있으면 성공입니다(글자가 들어 있는 PDF라는 뜻입니다).</p>
+      </li>
+
+      <li><span class="step-title"><code class="val">공문 받기</code> 만들기</span>
+        n8n에서 <code class="val">Create workflow</code> → <code class="val">Webhook</code> 노드를 추가하고 이름을 <code class="val">공문 받기</code>로 고칩니다.
+        <ul>
+          <li><code class="val">HTTP Method</code>: <code class="val">POST</code>, <code class="val">Path</code>: <code>gongmun-summary</code></li>
+          <li><code class="val">Respond</code>: <code class="val">Using 'Respond to Webhook' Node</code></li>
+          <li><code class="val">Add Option</code> → <code class="val">Allowed Origins (CORS)</code>: <code>*</code></li>
+        </ul>
+        <span class="hint"><code class="val">Add Option</code> 목록의 <code class="val">Field Name for Binary Data</code>는 넣지 않습니다. 넣으면 파일 이름이 <code>file</code>이 아니라 다른 이름으로 바뀝니다.</span>
+        <p>위쪽 주소가 <code>…/gongmun-summary</code>로 끝나면 성공입니다.</p>
+      </li>
+
+      <li><span class="step-title"><code class="val">글자 뽑기</code> 잇기</span>
+        <code class="val">공문 받기</code> 오른쪽 <code class="val">+</code> → <code class="val">Extract from File</code>을 고르고 이름을 <code class="val">글자 뽑기</code>로 고칩니다.
+        <code class="val">Operation</code>: <code class="val">Extract From PDF</code>, <code class="val">Input Binary Field</code>: <code>file</code>(기본값 <code>data</code>를 지우고 적습니다).
+        <p><code class="val">Input Binary Field</code>에 <code>file</code>이 보이면 성공입니다.</p>
+      </li>
+
+      <li><span class="step-title"><code class="val">AI 공문 요약</code> 잇기</span>
+        <code class="val">글자 뽑기</code> 오른쪽 <code class="val">+</code> → <code class="val">Basic LLM Chain</code>, 이름 <code class="val">AI 공문 요약</code>. <code class="val">Source for Prompt (User Message)</code>를 <code class="val">Define below</code>로 바꾸고 <code class="val">Expression</code>으로 아래를 붙여 넣습니다.
+        아래 <code class="val">Model</code> 자리에 <code class="val">Google Gemini Chat Model</code>을 붙이고 Gemini 자격 증명과 <code>models/gemini-3.8-flash</code>를 고릅니다.
+        <pre class="code-block">다음 공문서를 5줄 이내로 핵심만 요약하세요.
+
+- 목적
+- 주요 내용
+- 지원 사항
+- 대상
+- 일정
+
+각 항목을 한 줄로 정리하세요.
+문서에 없는 내용은 지어내지 말고, 모르면 '문서에 없음'이라고 쓰세요.
+
+[문서 내용]
+{{ $json.text }}</pre>
+        <p><code class="val">AI 공문 요약</code> 아래에 Gemini가 붙으면 성공입니다.</p>
+      </li>
+
+      <li><span class="step-title">세 갈래 잇기 — 답하기·메일·텔레그램</span>
+        <code class="val">AI 공문 요약</code>에서 세 가지를 잇습니다. <b>답하기를 맨 위</b>에 둡니다.
+        <ol>
+          <li><code class="val">Respond to Webhook</code>, 이름 <code class="val">앱에 답하기</code>, <code class="val">Respond With</code> = <code class="val">JSON</code>, <code class="val">Response Body</code>(<code class="val">Expression</code>)에 아래 첫 줄</li>
+          <li><code class="val">Gmail</code> 메일 보내기, 이름 <code class="val">요약 메일</code>: <code class="val">To</code> {본인 이메일}, <code class="val">Subject</code> 아래 둘째 줄, <code class="val">Email Type</code> <code class="val">Text</code>, <code class="val">Message</code> 아래 셋째 줄</li>
+          <li>(텔레그램 봇이 있으면) <code class="val">Telegram</code> <code class="val">Send a text message</code>, 이름 <code class="val">텔레그램 알림</code>, <code class="val">Text</code> 아래 넷째 줄</li>
+        </ol>
+        <pre class="code-block">{{ { "파일": $('공문 받기').first().binary.file.fileName, "요약": $json.text } }}</pre>
+        <pre class="code-block">[공문 요약] {{ $('공문 받기').first().binary.file.fileName }}</pre>
+        <pre class="code-block">공문 요약입니다(AI 초안 — 원문과 대조 후 활용).
+
+{{ $json.text }}</pre>
+        <pre class="code-block">공문 요약이 도착했습니다. 메일을 확인해 주세요.
+파일: {{ $('공문 받기').first().binary.file.fileName }}</pre>
+        <span class="hint">텔레그램 알림에는 요약 본문을 넣지 않습니다. 공문 글에 들어 있는 기호 때문에 전송이 실패할 수 있기 때문입니다.</span>
+        <p><code class="val">AI 공문 요약</code>에서 세 갈래로 갈라지고 <code class="val">앱에 답하기</code>가 맨 위면 성공입니다.</p>
+      </li>
+
+      <li><span class="step-title">Test URL 복사해 두기</span>
+        <code class="val">공문 받기</code>를 열어 <code class="val">Test URL</code>을 복사합니다. 7단계에서 씁니다.
+      </li>
+
+      <li><span class="step-title">앱 만들기</span>
+        AI Studio(<code>aistudio.google.com/apps</code>)에서 <b>새 앱</b>을 만듭니다. <a href="../prompts/opt-pdf-upload-app.md">PDF 공문 요약 앱 주문서</a>의 "1) 새 앱 만들기" 글을 붙여 넣어 보냅니다.
+        이어서 "2) 주소 넣기" 문장을 입력창에 먼저 붙여 넣고, <code>{Production URL}</code> 자리를 지운 뒤 6단계의 Test URL을 따옴표 사이에 붙여 넣어 보냅니다(시험이 끝나면 9단계에서 Production URL로 바꿉니다).
+        <p>파일 고르는 칸과 <code>요약하기</code> 버튼이 보이고, <code class="val">Code</code> 탭의 <code>WEBHOOK_URL</code>에 <code>webhook-test</code> 주소가 보이면 성공입니다.</p>
+      </li>
+
+      <li><span class="step-title">시험하기</span>
+        <ol>
+          <li>앱에서 1단계의 <code>가상공문.pdf</code>를 고릅니다. 아직 누르지 않습니다.</li>
+          <li>n8n 캔버스 아래 <code class="val">Execute workflow</code>를 누릅니다(2분 동안 기다립니다).</li>
+          <li>앱에서 <code>요약하기</code>를 누릅니다. 30초쯤 걸릴 수 있습니다.</li>
+        </ol>
+        <figure class="capture" id="fig-opt-pdf-1">
+          <div class="capture-cap">[그림 opt-pdf-1] Binary 탭의 file과 앱의 요약</div>
+          <div class="capture-guide">왼쪽: 공문 받기 출력의 Binary 탭에 file(가상공문.pdf), 오른쪽: 앱 화면에 다섯 줄 요약</div>
+        </figure>
+        <p>앱에 목적·주요 내용·지원 사항·대상·일정 요약이 보이고, 메일(과 텔레그램)이 오면 성공입니다. <code class="val">공문 받기</code> 결과의 Binary 탭에 <code>file</code>이 보입니다.</p>
+        <div class="note mistake" data-section="mistakes">
+          <b>자주 하는 실수</b>
+          <p><b>증상</b> <code class="val">글자 뽑기</code>가 빨갛고 파일을 찾을 수 없다고 해요<br>
+             <b>원인</b> 앱이 보낸 파일 이름이 <code>file</code>이 아니에요(<code class="val">공문 받기</code>의 Binary 탭에서 이름 확인)<br>
+             <b>해결</b> 주문서의 "3) 막혔을 때" 문장을 AI Studio에 보내거나, <code class="val">Input Binary Field</code>를 Binary 탭에 보이는 이름으로 바꾸세요</p>
+          <p><b>증상</b> 요약이 엉뚱하거나 "문서에 없음"만 나와요<br>
+             <b>원인</b> 스캔(사진) PDF라 글자가 뽑히지 않았어요. 오류 없이 빈 글자로 넘어갑니다<br>
+             <b>해결</b> 글자를 마우스로 고를 수 있는 PDF를 쓰세요(1단계 방법)</p>
+          <p><b>증상</b> 오래 기다리다 앱에 실패가 떠요<br>
+             <b>원인</b> PDF가 커서 100초 안에 끝나지 않았어요<br>
+             <b>해결</b> 몇 쪽짜리 작은 PDF로 다시 해 보세요</p>
+        </div>
+      </li>
+
+      <li><span class="step-title">Publish하고 Production URL로 바꾸기</span>
+        <code class="val">Publish</code> → 확인 창의 <code class="val">Publish</code>. <code class="val">공문 받기</code>의 Production URL을 7단계와 같은 방법(문장 먼저 → 주소 나중)으로 앱의 <code>WEBHOOK_URL</code>에 넣습니다.
+        <p>n8n에서 아무것도 누르지 않고 앱에서 PDF를 올려 요약이 오면 완성입니다.</p>
+      </li>
+    </ol>
+    <div class="note planb">
+      <b>파일 보내기가 끝내 안 될 때(심화)</b>
+      앱이 파일을 글자(base64)로 바꿔 JSON에 담아 보내고, n8n에서 <code class="val">Convert to File</code>(<code class="val">Move Base64 String to File</code>)로 다시 파일로 바꾸는 방법도 있습니다. 앱이 글자 앞의 <code>data:…;base64,</code> 머리말을 떼야 해서 더 까다롭습니다. 강사와 함께 해 봅니다.
+    </div>
+  </section>
+
+  <section class="sec" id="summary" data-section="summary">
+    <h2 class="sec-title">정리</h2>
+    <ul>
+      <li>파일은 앱이 <code>file</code>이라는 이름으로 보내고, n8n은 <code class="val">Extract from File</code>로 글자를 뽑습니다.</li>
+      <li>그 뒤는 민원 접수와 같습니다 — AI 요약, 앱에 답하기(맨 위), 메일, 텔레그램.</li>
+      <li>스캔 PDF는 글자가 없어 요약하지 못합니다. AI 요약은 초안이므로 원문과 대조합니다.</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="import" data-section="import">
+    <h2 class="sec-title">완성본 가져오기(Import)</h2>
+    <ol class="steps">
+      <li><span class="step-title">파일 내려받기</span>
+        <a class="dl" href="../workflows/opt-pdf.json" download>워크플로우 내려받기 <span class="dl-name">opt-pdf.json</span></a>
+      </li>
+      <li><span class="step-title">n8n에서 가져오기</span>
+        <code class="val">Create workflow</code> → 오른쪽 위 <code class="val">…</code> → <code class="val">Import</code> → <code class="val">From file</code>. 노드 일곱 개가 보이면 성공입니다.
+      </li>
+      <li><span class="step-title">자격 증명 다시 연결하기</span>
+        <code class="val">Google Gemini Chat Model</code>(Gemini API 키), <code class="val">요약 메일</code>(Gmail), <code class="val">텔레그램 알림</code>(봇 토큰, 없으면 이 노드를 지웁니다)에서 내 자격 증명을 고릅니다.
+      </li>
+      <li><span class="step-title">자리표시자 바꾸기</span>
+        <code class="val">요약 메일</code>의 <code class="val">To</code>: <code>본인이메일@example.com</code> → 내 Gmail 주소. <code class="val">텔레그램 알림</code>의 <code class="val">Chat ID</code>: <code>여기에_본인_채팅_ID</code> → 내 chat id. Gemini <code class="val">Model</code>: <code>models/gemini-3.8-flash</code> 다시 고르기.
+      </li>
+      <li><span class="step-title">앱 만들고 연결하기</span>
+        따라하기 1·6·7·8·9단계를 합니다. 앱에서 PDF를 올려 요약이 오면 완성입니다.
+      </li>
+    </ol>
+  </section>
+
+  <nav class="pager">
+    <a href="d2-p6.html">← 2일차 6교시 프로젝트 제작 ②</a>
+    <a href="opt-voice.html">선택 실습 ② 음성 입력 →</a>
+  </nav>
+
+</main>
+</body>
+</html>

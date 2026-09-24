@@ -685,11 +685,13 @@
         "prompts": [
           "prompts/opt-pdf-upload-app.md"
         ],
-        "other": []
+        "other": [
+          "assets/samples/gongmun-sample.html"
+        ]
       },
       "acceptance_criteria": [
         "verify.py opt-pdf 가 통과한다",
-        "실습용 PDF는 가상 공문(assets/ 안의 예시 파일)만 사용하도록 안내되어 있다",
+        "실습용 PDF는 가상 공문(assets/samples/gongmun-sample.html을 PDF로 저장한 것)만 사용하도록 안내되어 있다",
         "혼자 따라 할 수 있도록 강사 없이도 막히지 않는 수준의 단계와 완성본 JSON이 있다",
         "workflows/opt-pdf.json 의 Gemini 요약은 'AI 안내문 작성'(Basic LLM Chain, @n8n/n8n-nodes-langchain.chainLlm) + 'Google Gemini Chat Model'(lmChatGoogleGemini) 하위 노드 구성이다(기존 교안과 같음)",
         "Webhook 경로·필드 이름·시트 열·응답 키가 docs/data-contract.md 와 일치한다",
@@ -705,7 +707,7 @@
         "docs/legacy/PublicFlow/public/day2/p1.html",
         "docs/legacy/PublicFlow/public/downloads/day2-p1.json"
       ],
-      "status": "todo"
+      "status": "instructor-check"
     },
     {
       "id": "opt-voice",
@@ -746,7 +748,7 @@
         "9-2 산출물"
       ],
       "legacy_refs": [],
-      "status": "todo"
+      "status": "instructor-check"
     }
   ]
 }

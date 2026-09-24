@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>선택 실습 ② 음성 입력 민원 접수 — AI 앱과 n8n으로 만드는 나만의 업무 자동화 서비스</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/lecture.css">
+<link rel="stylesheet" href="../assets/css/lesson.css">
+</head>
+<body class="lecture-mode">
+<main class="wrap" data-lesson-id="opt-voice" data-type="lab">
+
+  <nav class="crumb"><a href="../index.html">목차</a> › 선택 실습 ②</nav>
+
+  <header class="page-head">
+    <h1>음성 입력 민원 접수</h1>
+    <p class="sub">민원 접수 앱에 "음성으로 입력" 버튼을 더합니다 — n8n은 그대로 둡니다</p>
+  </header>
+
+  <section class="sec" id="objectives" data-section="objectives">
+    <h2 class="sec-title">학습목표</h2>
+    <ul>
+      <li>민원 접수 앱에 "음성으로 입력" 버튼을 추가합니다.</li>
+      <li>말한 내용이 텍스트로 바뀌어 기존 워크플로우로 접수되는 것을 확인합니다.</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="concept" data-section="concept" data-minutes="10">
+    <h2 class="sec-title">왜 이 실습인가</h2>
+    <p>현장이나 전화 응대 중에는 긴 글을 치기 어렵습니다. 브라우저에는 말을 글로 바꿔 주는 기능이 들어 있어, 앱에 버튼 하나만 더하면 말로 상세설명을 채울 수 있습니다.
+       받아쓴 글은 <b>상세설명 칸에 들어가 기존과 똑같이</b> 보내지므로 n8n 워크플로우는 한 곳도 고치지 않습니다.</p>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>바뀌는 곳</th><th>그대로인 곳</th></tr></thead>
+        <tbody>
+          <tr><td>앱 화면: 상세설명 옆 "음성으로 입력" 버튼, 마이크 권한</td><td>보내는 칸 이름, n8n 주소, 워크플로우 전체</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note warn">
+      <b>알아 둘 점</b>
+      <ul>
+        <li>크롬·엣지에서만 됩니다. 파이어폭스는 음성 입력을 지원하지 않습니다.</li>
+        <li>말소리는 글로 바꾸기 위해 인터넷(구글 서버)으로 보내집니다. <b>실제 민원인 이름·연락처·사연은 말로 입력하지 않고</b>, 아래의 가상 문장만 말합니다.</li>
+        <li>교육망에서 막히면 인터넷 문제 안내가 뜰 수 있습니다. 그때는 손으로 입력합니다.</li>
+      </ul>
+    </div>
+    <div class="note concept">
+      <b>한 문장 요약</b>
+      앱에 마이크 권한과 음성 인식 버튼을 주문하면, 말한 내용이 상세설명 칸에 글로 들어가고 나머지는 이틀 동안 만든 서비스가 그대로 처리합니다.
+    </div>
+  </section>
+
+  <section class="sec" id="practice" data-section="practice">
+    <h2 class="sec-title">따라하기</h2>
+    <ol class="steps">
+      <li><span class="step-title">크롬(또는 엣지)으로 앱 열기</span>
+        크롬이나 엣지에서 AI Studio(<code>aistudio.google.com/apps</code>)의 민원 접수 앱을 엽니다(2일차 2교시까지 연결된 앱).
+        <p>미리보기에서 가상 민원을 한 건 접수해 평소처럼 동작하면 준비가 된 것입니다. 앱이 연결되어 있지 않으면 이 교안 끝 "완성본 가져오기"와 <a href="d1-p6.html">1일차 6교시</a>로 먼저 연결합니다.</p>
+      </li>
+
+      <li><span class="step-title">음성 입력 버튼 주문하기</span>
+        <a href="../prompts/opt-voice-input.md">음성 입력 주문서</a>의 "1) 음성 입력 버튼 더하기" 글 전체를 복사해 AI Studio 대화 입력창에 붙여 넣고 보냅니다.
+        <span class="hint">주문서의 8가지 조건(마이크 권한, 한국어, 듣는 중 표시, 이어 붙이기, 지원 안 되는 브라우저 안내, 오류 안내, 칸 이름 유지)은 하나도 빼지 않고 그대로 보냅니다.</span>
+        <p>미리보기의 상세설명 칸 옆에 <code>음성으로 입력</code> 버튼이 보이면 성공입니다.</p>
+      </li>
+
+      <li><span class="step-title">마이크 권한이 들어갔는지 확인하기</span>
+        <code class="val">Code</code> 탭의 파일 목록에서 <code>metadata.json</code>을 열고 <code>microphone</code>이라는 글자가 있는지 봅니다.
+        <p><code>microphone</code>이 보이면 성공입니다. 없으면 주문서의 "2) 막혔을 때" 문장을 보냅니다.</p>
+      </li>
+
+      <li><span class="step-title">말로 입력해 보기</span>
+        미리보기에서 <code>음성으로 입력</code>을 누릅니다. 처음에는 마이크 사용을 묻는 창이 뜰 수 있습니다(AI Studio 확인 창과 브라우저 허용 창). 허용을 누릅니다. <!-- FACT-CHECK: F221 -->
+        "듣는 중…"이 보이면 아래 문장을 또박또박 말합니다.
+        <pre class="code-block">주민센터 앞 보도블록이 깨져 있어 걷기가 위험합니다</pre>
+        <figure class="capture" id="fig-opt-voice-1">
+          <div class="capture-cap">[그림 opt-voice-1] 말한 내용이 상세설명 칸에 들어간 모습</div>
+          <div class="capture-guide">마이크 허용 창, "듣는 중…" 표시, 인식된 문장이 상세설명 칸에 들어간 미리보기 세 장</div>
+        </figure>
+        <p>상세설명 칸에 말한 문장이 글로 들어가면 성공입니다. 틀린 글자는 칸에서 손으로 고칩니다.</p>
+        <div class="note mistake" data-section="mistakes">
+          <b>자주 하는 실수</b>
+          <p><b>증상</b> "마이크 사용을 허용해 주세요"가 떠요<br>
+             <b>원인</b> 허용 창에서 거부를 눌렀거나, 주소창의 마이크 표시가 차단으로 되어 있어요<br>
+             <b>해결</b> 주소창 왼쪽(또는 오른쪽)의 마이크·자물쇠 표시를 눌러 마이크를 "허용"으로 바꾸고 새로고침합니다</p>
+          <p><b>증상</b> "이 브라우저에서는 음성 입력을 쓸 수 없습니다"가 떠요<br>
+             <b>원인</b> 파이어폭스 등 지원하지 않는 브라우저예요<br>
+             <b>해결</b> 크롬이나 엣지로 앱을 여세요</p>
+          <p><b>증상</b> "인터넷 연결을 확인해 주세요"가 떠요<br>
+             <b>원인</b> 음성 인식 서버에 닿지 못했어요(교육망에서 막혔을 수 있어요)<br>
+             <b>해결</b> 이번에는 손으로 입력하고, 강사에게 알립니다</p>
+        </div>
+      </li>
+
+      <li><span class="step-title">접수하고 시트 확인하기</span>
+        나머지 칸에 가상 값(김민원 / 010-0000-0009 / minwon@example.com / 생활)을 넣고 동의에 체크한 뒤 <code>접수하기</code>를 누릅니다.
+        <p>앱에 접수번호가 보이고, 시트 <code>민원대장 연습</code>의 상세설명 칸에 말로 입력한 문장이 들어가면 완성입니다. n8n은 한 곳도 고치지 않았습니다.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="sec" id="summary" data-section="summary">
+    <h2 class="sec-title">정리</h2>
+    <ul>
+      <li>앱에 마이크 권한과 음성 인식 버튼을 주문해 말로 상세설명을 채웠습니다.</li>
+      <li>보내는 칸 이름을 바꾸지 않았으므로 n8n 쪽은 그대로 동작합니다.</li>
+      <li>크롬·엣지에서만 되고, 말소리는 인터넷으로 보내지므로 실제 개인정보는 말로 넣지 않습니다.</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="import" data-section="import">
+    <h2 class="sec-title">완성본 가져오기(Import)</h2>
+    <p>이 실습은 n8n을 바꾸지 않습니다. 연결된 워크플로우가 없으면 과정 최종 완성본(2일차 2교시)을 가져와 씁니다.</p>
+    <ol class="steps">
+      <li><span class="step-title">파일 내려받기</span>
+        <a class="dl" href="../workflows/d2-p2.json" download>최종 완성본 내려받기 <span class="dl-name">d2-p2.json</span></a>
+      </li>
+      <li><span class="step-title">가져오고 자격 증명 연결하기</span>
+        <code class="val">Create workflow</code> → <code class="val">…</code> → <code class="val">Import</code> → <code class="val">From file</code>. 노드마다 <dfn>자격 증명</dfn>(n8n이 내 계정을 대신 쓰도록 맡겨 둔 열쇠)을 다시 고르고,
+        자리표시자 <code>여기에_본인_시트_ID</code>(시트 노드의 <code class="val">Document</code> → 내 시트), <code>본인이메일@example.com</code>(메일 <code class="val">To</code> → 내 주소), <code>여기에_본인_채팅_ID</code>(텔레그램 <code class="val">Chat ID</code>)를 바꿉니다.
+        노드 이름별 자세한 목록은 <a href="d2-p2.html#import">2일차 2교시 완성본 가져오기</a> 3~4단계에 있습니다.
+      </li>
+      <li><span class="step-title">Publish하고 앱 주소 확인하기</span>
+        <dfn><code class="val">Publish</code></dfn>(워크플로우를 게시해 주소가 항상 동작하게 하는 버튼)를 누르고, 앱의 <code>WEBHOOK_URL</code>이 <code class="val">민원 받기</code>의 <dfn>Production URL</dfn>(게시한 뒤 앱에 넣는 진짜 주소)인지 확인합니다(다르면 1일차 6교시 9단계 순서로 넣습니다).
+      </li>
+    </ol>
+  </section>
+
+  <nav class="pager">
+    <a href="opt-pdf.html">← 선택 실습 ① PDF 공문 요약</a>
+    <a href="../index.html">목차 →</a>
+  </nav>
+
+</main>
+</body>
+</html>
