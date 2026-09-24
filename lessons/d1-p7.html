@@ -103,7 +103,7 @@
       </li>
 
       <li><span class="step-title"><code class="val">오늘 접수 조회</code> 끼워 넣기</span>
-        n8n 캔버스에서 <code class="val">민원 정리</code>와 <code class="val">시트에 기록</code> 사이의 선에 마우스를 올리면 나오는 <code class="val">+</code>를 누르고 <code class="val">Google Sheets</code>를 고른 뒤, 동작 목록에서 행을 읽는 <code class="val">Get Row(s)</code>를 고릅니다. <!-- FACT-CHECK: F104 -->
+        n8n 캔버스에서 <code class="val">민원 정리</code>와 <code class="val">시트에 기록</code> 사이의 선에 마우스를 올리면 나오는 <code class="val">+</code>를 누르고 <code class="val">Google Sheets</code>를 고른 뒤, 동작 목록에서 행을 읽는 <code class="val">Get Row(s)</code>를 고릅니다.
         <ul>
           <li><code class="val">Credential</code>: 2교시에 만든 구글 시트 <dfn>자격 증명</dfn>(n8n이 내 구글 계정을 대신 쓰도록 맡겨 둔 열쇠)</li>
           <li><code class="val">Document</code>: <code class="val">From list</code>에서 <code>민원대장 연습</code>, <code class="val">Sheet</code>: <code>시트1</code>(내 탭 이름)</li>
@@ -133,7 +133,7 @@
         </ol>
         <pre class="code-block">{{ Object.assign({}, $('민원 정리').first().json, { "접수번호": $now.toFormat('yyyy-MMdd') + '-' + String($('오늘 접수 조회').all().filter(i => String(i.json['접수번호'] || '').startsWith($now.toFormat('yyyy-MMdd'))).length + 1).padStart(3, '0'), "처리상태": "접수" }) }}</pre>
         <span class="hint">이 줄은 "민원 정리의 다섯 값에, 오늘 번호 개수 + 1로 만든 접수번호와 처리상태를 붙여라"라는 뜻의 <dfn>표현식</dfn>(앞 노드의 값을 가져오는 문장)입니다. 뜻을 몰라도 그대로 붙여 넣으면 됩니다.
-          <code class="val">Execute Once</code>는 시트에서 읽은 줄이 여러 개여도 번호를 <b>한 번만</b> 만들게 합니다. <!-- FACT-CHECK: F102 --></span>
+          <code class="val">Execute Once</code>는 시트에서 읽은 줄이 여러 개여도 번호를 <b>한 번만</b> 만들게 합니다.</span>
         <figure class="capture" id="fig-d1-p7-3">
           <div class="capture-cap">[그림 1-7-3] <code class="val">접수번호 만들기</code> 설정</div>
           <div class="capture-guide">Edit Fields Mode = JSON, JSON 칸이 Expression 모드로 위 표현식을 담은 모습, Settings 탭의 Execute Once 켜진 모습</div>
@@ -148,11 +148,11 @@
       </li>
 
       <li><span class="step-title"><code class="val">시트에 기록</code>에 두 칸 더하기</span>
-        <code class="val">시트에 기록</code>을 엽니다. 아래 열 목록에 <code>접수번호</code>·<code>처리상태</code>가 보이지 않으면 <code class="val">Mapping Column Mode</code>를 다른 것으로 바꿨다가 다시 <code class="val">Map Each Column Manually</code>로 고르면 새 열이 나타납니다. <!-- FACT-CHECK: F97 -->
+        <code class="val">시트에 기록</code>을 엽니다. 아래 열 목록에 <code>접수번호</code>·<code>처리상태</code>가 보이지 않으면 <code class="val">Mapping Column Mode</code>를 다른 것으로 바꿨다가 다시 <code class="val">Map Each Column Manually</code>로 고르면 새 열이 나타납니다.
         <ul>
           <li><code>접수번호</code> 칸: 마우스를 올려 <code class="val">Expression</code>을 누르고 <code>{{ $json.접수번호 }}</code></li>
           <li><code>처리상태</code> 칸: 같은 방법으로 <code>{{ $json.처리상태 }}</code></li>
-          <li>설정 창을 맨 아래까지 내려 <code class="val">Add Option</code>을 누르고 <code class="val">Cell Format</code>을 고른 뒤, 생긴 칸에서 n8n 값을 그대로 쓰는 선택지(예: <code class="val">Use format from n8n</code>)를 고릅니다 <!-- FACT-CHECK: F103 --></li>
+          <li>설정 창을 맨 아래까지 내려 <code class="val">Add Option</code>을 누르고 <code class="val">Cell Format</code>을 고른 뒤, 생긴 칸에서 <code class="val">Let n8n format</code>을 고릅니다</li>
         </ul>
         <span class="hint">마지막 옵션은 시트가 <code>2026-0925-001</code>을 날짜로 바꿔 버리지 않게 합니다.</span>
         <p>여덟 칸 모두 <code>fx</code> 표시와 함께 채워져 있고 맨 아래 <code class="val">Cell Format</code> 칸이 생겼으면 성공입니다.</p>

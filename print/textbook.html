@@ -10,7 +10,7 @@
 </head>
 <body class="lecture-mode">
 <section class="textbook-cover"><h1>AI 앱과 n8n으로 만드는 나만의 업무 자동화 서비스</h1><p>2일(14시간) 중급 과정 · 인쇄용 교재</p></section>
-<section class="textbook-toc"><h2>차례</h2><ol><li>1-2 n8n 핵심 복습 실습 — 트리거–처리–결과, 표현식, 시트·Gmail·Gemini</li><li>1-3 Webhook 이해와 실습 — 앱과 자동화가 대화하는 방법</li><li>1-4 AI 앱 빌더 첫 체험 — Google AI Studio Build로 민원 접수 화면 만들기</li><li>1-5 첫 앱 다듬기 — 화면 수정 요청과 오류 대처 루틴</li><li>1-6 앱 ↔ n8n 연동 ① — Webhook 주소 넣기, 접수 데이터 시트 기록</li><li>1-7 연동 ① 완성 — 접수번호 생성·회신, 앱 화면에 결과 표시, 1일차 정리</li></ol></section>
+<section class="textbook-toc"><h2>차례</h2><ol><li>1-2 n8n 핵심 복습 실습 — 트리거–처리–결과, 표현식, 시트·Gmail·Gemini</li><li>1-3 Webhook 이해와 실습 — 앱과 자동화가 대화하는 방법</li><li>1-4 AI 앱 빌더 첫 체험 — Google AI Studio Build로 민원 접수 화면 만들기</li><li>1-5 첫 앱 다듬기 — 화면 수정 요청과 오류 대처 루틴</li><li>1-6 앱 ↔ n8n 연동 ① — Webhook 주소 넣기, 접수 데이터 시트 기록</li><li>1-7 연동 ① 완성 — 접수번호 생성·회신, 앱 화면에 결과 표시, 1일차 정리</li><li>2-1 앱 ↔ n8n 연동 ② — 담당자 메일, 캘린더 처리 마감, Gemini 안내문</li></ol></section>
 <main class="wrap" data-lesson-id="d1-p2" data-type="lab">
 
   <nav class="crumb"><a href="../index.html">목차</a> › 1일차 › 2교시 (10:00~10:50)</nav>
@@ -1499,7 +1499,7 @@
       </li>
 
       <li><span class="step-title"><code class="val">오늘 접수 조회</code> 끼워 넣기</span>
-        n8n 캔버스에서 <code class="val">민원 정리</code>와 <code class="val">시트에 기록</code> 사이의 선에 마우스를 올리면 나오는 <code class="val">+</code>를 누르고 <code class="val">Google Sheets</code>를 고른 뒤, 동작 목록에서 행을 읽는 <code class="val">Get Row(s)</code>를 고릅니다. <!-- FACT-CHECK: F104 -->
+        n8n 캔버스에서 <code class="val">민원 정리</code>와 <code class="val">시트에 기록</code> 사이의 선에 마우스를 올리면 나오는 <code class="val">+</code>를 누르고 <code class="val">Google Sheets</code>를 고른 뒤, 동작 목록에서 행을 읽는 <code class="val">Get Row(s)</code>를 고릅니다.
         <ul>
           <li><code class="val">Credential</code>: 2교시에 만든 구글 시트 <dfn>자격 증명</dfn>(n8n이 내 구글 계정을 대신 쓰도록 맡겨 둔 열쇠)</li>
           <li><code class="val">Document</code>: <code class="val">From list</code>에서 <code>민원대장 연습</code>, <code class="val">Sheet</code>: <code>시트1</code>(내 탭 이름)</li>
@@ -1529,7 +1529,7 @@
         </ol>
         <pre class="code-block">{{ Object.assign({}, $('민원 정리').first().json, { "접수번호": $now.toFormat('yyyy-MMdd') + '-' + String($('오늘 접수 조회').all().filter(i => String(i.json['접수번호'] || '').startsWith($now.toFormat('yyyy-MMdd'))).length + 1).padStart(3, '0'), "처리상태": "접수" }) }}</pre>
         <span class="hint">이 줄은 "민원 정리의 다섯 값에, 오늘 번호 개수 + 1로 만든 접수번호와 처리상태를 붙여라"라는 뜻의 <dfn>표현식</dfn>(앞 노드의 값을 가져오는 문장)입니다. 뜻을 몰라도 그대로 붙여 넣으면 됩니다.
-          <code class="val">Execute Once</code>는 시트에서 읽은 줄이 여러 개여도 번호를 <b>한 번만</b> 만들게 합니다. <!-- FACT-CHECK: F102 --></span>
+          <code class="val">Execute Once</code>는 시트에서 읽은 줄이 여러 개여도 번호를 <b>한 번만</b> 만들게 합니다.</span>
         <figure class="capture" id="fig-d1-p7-3">
           <div class="capture-cap">[그림 1-7-3] <code class="val">접수번호 만들기</code> 설정</div>
           <div class="capture-guide">Edit Fields Mode = JSON, JSON 칸이 Expression 모드로 위 표현식을 담은 모습, Settings 탭의 Execute Once 켜진 모습</div>
@@ -1544,11 +1544,11 @@
       </li>
 
       <li><span class="step-title"><code class="val">시트에 기록</code>에 두 칸 더하기</span>
-        <code class="val">시트에 기록</code>을 엽니다. 아래 열 목록에 <code>접수번호</code>·<code>처리상태</code>가 보이지 않으면 <code class="val">Mapping Column Mode</code>를 다른 것으로 바꿨다가 다시 <code class="val">Map Each Column Manually</code>로 고르면 새 열이 나타납니다. <!-- FACT-CHECK: F97 -->
+        <code class="val">시트에 기록</code>을 엽니다. 아래 열 목록에 <code>접수번호</code>·<code>처리상태</code>가 보이지 않으면 <code class="val">Mapping Column Mode</code>를 다른 것으로 바꿨다가 다시 <code class="val">Map Each Column Manually</code>로 고르면 새 열이 나타납니다.
         <ul>
           <li><code>접수번호</code> 칸: 마우스를 올려 <code class="val">Expression</code>을 누르고 <code>{{ $json.접수번호 }}</code></li>
           <li><code>처리상태</code> 칸: 같은 방법으로 <code>{{ $json.처리상태 }}</code></li>
-          <li>설정 창을 맨 아래까지 내려 <code class="val">Add Option</code>을 누르고 <code class="val">Cell Format</code>을 고른 뒤, 생긴 칸에서 n8n 값을 그대로 쓰는 선택지(예: <code class="val">Use format from n8n</code>)를 고릅니다 <!-- FACT-CHECK: F103 --></li>
+          <li>설정 창을 맨 아래까지 내려 <code class="val">Add Option</code>을 누르고 <code class="val">Cell Format</code>을 고른 뒤, 생긴 칸에서 <code class="val">Let n8n format</code>을 고릅니다</li>
         </ul>
         <span class="hint">마지막 옵션은 시트가 <code>2026-0925-001</code>을 날짜로 바꿔 버리지 않게 합니다.</span>
         <p>여덟 칸 모두 <code>fx</code> 표시와 함께 채워져 있고 맨 아래 <code class="val">Cell Format</code> 칸이 생겼으면 성공입니다.</p>
@@ -1689,6 +1689,318 @@
   <nav class="pager">
     <a href="../lessons/d1-p6.html">← 6교시 앱 ↔ n8n 연동 ①</a>
     <a href="../lessons/d2-p1.html">2일차 1교시 연동 ② →</a>
+  </nav>
+
+</main>
+<main class="wrap" data-lesson-id="d2-p1" data-type="lab">
+
+  <nav class="crumb"><a href="../index.html">목차</a> › 2일차 › 1교시 (09:00~09:50)</nav>
+
+  <header class="page-head">
+    <h1>앱 ↔ n8n 연동 ②</h1>
+    <p class="sub">접수와 동시에 담당자 메일, 캘린더 처리 마감, AI 안내문까지 — 앱 화면에는 안내문을 함께 돌려줍니다</p>
+  </header>
+
+  <section class="sec" id="objectives" data-section="objectives">
+    <h2 class="sec-title">학습목표</h2>
+    <ul>
+      <li>접수된 민원을 담당자에게 Gmail로 보냅니다.</li>
+      <li>처리 마감일을 구글 캘린더에 등록합니다.</li>
+      <li>Gemini로 민원인 안내문을 만들어 앱 화면에 함께 표시합니다.</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="concept" data-section="concept" data-minutes="10">
+    <h2 class="sec-title">왜 이 단계가 필요한가</h2>
+    <p>어제는 앱에서 접수하면 시트에 적히고 접수번호가 돌아왔습니다. 하지만 담당자는 시트를 계속 들여다봐야 새 민원을 알 수 있고, 처리 기한도 따로 챙겨야 합니다.
+       오늘은 접수와 <b>동시에</b> 담당자에게 메일이 가고, 캘린더에 처리 마감이 잡히고, AI가 민원인 안내문 초안을 써서 앱 화면에 보여 주게 합니다.
+       기초과정 04~06강에서 만든 일을 이번에는 앱 접수에 붙이는 것입니다.</p>
+
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>가지(위에서부터)</th><th>하는 일</th><th>결과가 보이는 곳</th></tr></thead>
+        <tbody>
+          <tr><td>① <code class="val">AI 안내문 작성</code> → <code class="val">앱에 답하기</code></td><td>Gemini가 안내문을 쓰고, 접수번호와 함께 앱에 돌려줌</td><td>앱 화면</td></tr>
+          <tr><td>② <code class="val">담당자 메일</code></td><td>담당자(실습에서는 나)에게 접수 알림</td><td>내 Gmail</td></tr>
+          <tr><td>③ <code class="val">처리 마감 일정</code></td><td>3일 뒤에 처리 마감 일정 등록</td><td>내 구글 캘린더</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>세 가지 모두 <code class="val">시트에 기록</code>에서 부챗살처럼 갈라집니다. 한 줄로 이어 붙이면 노드를 지날 때마다 값이 그 노드의 결과로 바뀌어, 뒤 노드가 민원 내용을 잃어버리기 때문입니다(2교시 복습).</p>
+
+    <div class="note concept">
+      <b>왜 AI 가지를 맨 위에 두나</b>
+      n8n은 갈라진 가지를 <b>캔버스 위쪽 가지부터</b> 차례로 실행합니다. 앱에 답을 보내는 <dfn>Respond to Webhook</dfn>(부른 쪽에 답장을 보내는 노드)이 AI 가지 끝에 있으므로,
+      AI 가지를 맨 위에 두면 앱이 가장 먼저 답을 받습니다. 메일이나 캘린더에 문제가 생겨도 앱 접수는 막히지 않습니다.
+    </div>
+    <div class="note warn">
+      <b>AI 안내문은 초안입니다</b>
+      AI는 처리 기한·담당 부서·법령을 그럴듯하게 지어낼 수 있습니다. 실습에서는 화면에 보여 주기만 하고, 실제 운영에서는 담당자가 확인한 뒤 보냅니다.
+    </div>
+  </section>
+
+  <section class="sec" id="practice" data-section="practice">
+    <h2 class="sec-title">따라하기</h2>
+    <div class="note tip">
+      <b>준비</b>
+      n8n 첫 화면 목록에서 어제 마지막으로 <dfn>Publish</dfn>(워크플로우를 게시해 주소가 항상 동작하게 하는 것)한 워크플로우(노드가 여섯 개이고 <code class="val">앱에 답하기</code>로 끝나는 것)를 엽니다. 없으면 <a href="../lessons/d1-p7.html#import">1일차 7교시 완성본 가져오기</a>로 먼저 맞춥니다.
+      <p><b>시간 기준:</b> 9시 30분까지 5단계(<code class="val">담당자 메일</code>)를 못 마쳤으면 이 교시 끝 "완성본 가져오기"로 맞춥니다. 가져오기에서 캘린더 연결이 없으면 6단계처럼 새로 만들어야 하므로 5분쯤 더 걸립니다. 가져오기를 마치면 9단계부터 함께 합니다.</p>
+    </div>
+
+    <ol class="steps">
+      <li><span class="step-title"><code class="val">앱에 답하기</code> 떼어 두기</span>
+        <code class="val">시트에 기록</code>과 <code class="val">앱에 답하기</code> 사이 선에 마우스를 올리면 나오는 휴지통 모양을 눌러 선을 지웁니다. <!-- FACT-CHECK: F117 -->
+        <code class="val">앱에 답하기</code> 노드는 지우지 말고 오른쪽 위 빈 곳으로 끌어 옮겨 둡니다.
+        <p><code class="val">시트에 기록</code> 오른쪽이 비고, <code class="val">앱에 답하기</code>가 따로 떨어져 있으면 성공입니다.</p>
+      </li>
+
+      <li><span class="step-title"><code class="val">AI 안내문 작성</code> 추가하기</span>
+        <ol>
+          <li><code class="val">시트에 기록</code> 오른쪽 <code class="val">+</code>를 누르고, 노드 고르는 창의 검색 칸에 <code>Basic LLM</code>을 쳐서 <code class="val">Basic LLM Chain</code>을 누릅니다.</li>
+          <li>설정 창 맨 위 이름을 한 번 눌러 <code class="val">AI 안내문 작성</code>으로 고칩니다.</li>
+          <li><code class="val">Source for Prompt (User Message)</code>(AI에게 줄 글을 어디서 가져올지 고르는 칸)를 <code class="val">Define below</code>(아래에 직접 적기)로 바꿉니다.</li>
+          <li><code class="val">Prompt (User Message)</code> 칸에 마우스를 올려 <code class="val">Expression</code>을 누르고, 아래 글을 붙여 넣습니다.</li>
+        </ol>
+        <pre class="code-block">당신은 친절한 시청 민원 담당 공무원입니다.
+아래 민원 접수 내용을 바탕으로, 민원인에게 보낼 정중한 '접수 확인 안내문'을 작성해 주세요.
+
+[작성 규칙]
+- 존댓말을 사용하고, 4~6문장으로 작성합니다.
+- 접수번호를 안내문에 꼭 넣습니다.
+- 민원이 정상적으로 접수되었음을 안내합니다.
+- 처리에는 다소 시간이 걸릴 수 있음을 부드럽게 안내합니다.
+- 처리 기한·담당 부서·법령은 지어내지 않습니다.
+- 마지막은 '감사합니다.'로 끝맺습니다.
+
+[민원 접수 내용]
+- 접수번호: {{ $json.접수번호 }}
+- 접수자명: {{ $json.이름 }}
+- 민원 종류: {{ $json.종류 }}
+- 상세 설명: {{ $json.상세설명 }}</pre>
+        <span class="hint">이 글은 AI에게 주는 <dfn>프롬프트</dfn>(AI에게 시키는 일을 적은 문장)입니다. 기초과정 06강 글에 접수번호 줄과 "지어내지 않습니다" 규칙을 더했습니다.</span>
+        <p>칸에 글이 들어가고 <code>fx</code> 표시가 보이면 성공입니다. 창을 닫고, 노드를 캔버스 <b>위쪽</b>으로 끌어 옮겨 둡니다(가지 순서를 위해).</p>
+      </li>
+
+      <li><span class="step-title">Gemini 모델 붙이기</span>
+        <code class="val">AI 안내문 작성</code> 아래 <code class="val">Model</code> 자리의 <code class="val">+</code>를 누르고 <code class="val">Google Gemini Chat Model</code>을 고릅니다.
+        <code class="val">Credential</code>은 2교시에 만든 Gemini <dfn>자격 증명</dfn>(n8n이 내 계정을 대신 쓰도록 맡겨 둔 열쇠)을 목록에서 고릅니다. 이 자격 증명에는 <dfn>API 키</dfn>(Gemini를 쓸 수 있게 해 주는 비밀 번호표)가 들어 있습니다.
+        <code class="val">Model</code>은 <code>models/gemini-3.8-flash</code>를 고릅니다(목록에 없으면 <code>models/gemini-3.5-flash-lite</code>). <!-- FACT-CHECK: F42 -->
+        <p><code class="val">AI 안내문 작성</code> 아래에 작은 동그라미 <code class="val">Google Gemini Chat Model</code>이 붙으면 성공입니다.</p>
+      </li>
+
+      <li><span class="step-title"><code class="val">앱에 답하기</code> 다시 잇고 답장 바꾸기</span>
+        <code class="val">AI 안내문 작성</code>의 오른쪽 점에서 <code class="val">앱에 답하기</code>의 왼쪽 점으로 끌어 선을 잇습니다.
+        <code class="val">앱에 답하기</code>를 열어 <code class="val">Response Body</code> 칸을 누르고 <kbd>Ctrl</kbd>+<kbd>A</kbd>, <kbd>Delete</kbd>로 글을 모두 지웁니다(칸 왼쪽 <code>fx</code> 표시는 그대로 둡니다).
+        아래 상자 안 글을 마우스로 빠르게 세 번 눌러 한 줄 전체를 고른 뒤 <kbd>Ctrl</kbd>+<kbd>C</kbd>, 칸에 <kbd>Ctrl</kbd>+<kbd>V</kbd>로 붙여 넣습니다. 인쇄본은 줄이 잘려 보이므로 웹 교안에서 복사합니다.
+        <pre class="code-block">{{ { "접수번호": $('시트에 기록').first().json.접수번호, "메시지": "접수되었습니다", "안내문": $json.text } }}</pre>
+        <span class="hint">AI 안내문에는 줄바꿈과 따옴표가 들어 있어서, 어제처럼 <code>"{{ }}"</code> 안에 넣으면 답장이 깨집니다. 그래서 답장 전체를 이렇게 한 덩어리 <dfn>표현식</dfn>(<code>{{ }}</code> 안에 써서 값을 가져오는 문장)으로 씁니다. <code>$json.text</code>는 AI가 쓴 글입니다.</span>
+        <p><code class="val">시트에 기록</code> → <code class="val">AI 안내문 작성</code> → <code class="val">앱에 답하기</code>로 이어지면 성공입니다.</p>
+      </li>
+
+      <li><span class="step-title"><code class="val">담당자 메일</code> 추가하기</span>
+        <code class="val">시트에 기록</code> 오른쪽의 작은 동그란 점을 마우스로 누른 채 오른쪽 아래 빈 곳으로 끌었다가 놓습니다. 노드 고르는 창이 열리면 검색 칸에 <code>Gmail</code>을 치고 메일 보내기(<code class="val">Send a message</code>)를 고릅니다(점 옆에 <code class="val">+</code>가 보이면 그것을 눌러도 됩니다). <!-- FACT-CHECK: F200 -->
+        이름을 <code class="val">담당자 메일</code>로 고칩니다.
+        <ul>
+          <li><code class="val">Credential</code>: 2교시에 만든 Gmail 자격 증명</li>
+          <li><code class="val">To</code>: {본인 이메일} — 내 Gmail 주소를 글자 그대로 적습니다(실습에서는 내가 담당자입니다)</li>
+          <li><code class="val">Subject</code>: 마우스를 올려 <code class="val">Expression</code>을 누르고 <code>[{{ $json.종류 }}] 민원 접수 {{ $json.접수번호 }}</code></li>
+          <li><code class="val">Email Type</code>: <code class="val">Text</code></li>
+          <li><code class="val">Message</code>: 마우스를 올려 <code class="val">Expression</code>을 누르고 아래 글을 붙여 넣기</li>
+          <li>설정 창을 맨 아래까지 내려 <code class="val">Add Option</code> → <code class="val">Append n8n Attribution</code>을 고르고 끄기</li>
+        </ul>
+        <pre class="code-block">담당자님께,
+
+아래와 같이 민원이 접수되었습니다.
+
+- 접수번호: {{ $json.접수번호 }}
+- 접수자명: {{ $json.이름 }}
+- 연락처: {{ $json.연락처 }}
+- 민원 종류: {{ $json.종류 }}
+- 상세 설명: {{ $json.상세설명 }}
+- 등록일: {{ $json.등록일 }}
+
+처리 마감은 접수일로부터 3일입니다. 캘린더 일정을 확인해 주세요.</pre>
+        <p><code class="val">To</code>에 내 주소, <code class="val">Subject</code>·<code class="val">Message</code>에 <code>fx</code> 표시, <code class="val">Email Type</code>이 <code class="val">Text</code>면 성공입니다.</p>
+        <div class="note mistake" data-section="mistakes">
+          <b>자주 하는 실수</b>
+          <p><b>증상</b> 메일이 오지 않거나 <code>The email address '…' in the 'To' field isn't valid</code>가 떠요<br>
+             <b>원인</b> <code class="val">To</code>에 <code>{{ $json.이메일 }}</code>을 넣었어요. 앱에서 온 이메일은 가상 주소(<code>minwon@example.com</code>)이거나 비어 있을 수 있어요<br>
+             <b>해결</b> <code class="val">To</code>에는 내 Gmail 주소를 글자 그대로 적으세요</p>
+        </div>
+      </li>
+
+      <li><span class="step-title"><code class="val">처리 마감 일정</code> 추가하고 캘린더 연결하기</span>
+        5단계처럼 <code class="val">시트에 기록</code>의 점에서 아래쪽 빈 곳으로 끌어 노드 고르는 창을 열고, <code>Google Calendar</code>를 검색해 일정 만들기(<code class="val">Create an event</code>)를 고릅니다. 이름을 <code class="val">처리 마감 일정</code>으로 고칩니다.
+        <p>캘린더용 자격 증명은 이 교시에서 <b>새로 만드는 유일한 것</b>입니다.</p>
+        <ol>
+          <li><code class="val">Credential</code> 칸 목록에서 <code class="val">Create new credential</code>을 누릅니다.</li>
+          <li>열린 창에서 <code class="val">Sign in with Google</code>을 누릅니다.</li>
+          <li>새로 뜬 구글 창에서 시트·메일 때와 같은 계정을 고르고, 권한을 묻는 화면에서 허용 버튼을 누릅니다. <!-- FACT-CHECK: F201 --></li>
+          <li>n8n 창에 연결되었다는 표시(<code class="val">Account connected</code>)가 보이면 <code class="val">X</code>로 닫습니다.</li>
+        </ol>
+        <p><code class="val">Credential</code> 칸에 새 캘린더 자격 증명 이름이 보이면 성공입니다.</p>
+        <div class="note mistake" data-section="mistakes">
+          <b>자주 하는 실수</b>
+          <p><b>증상</b> 구글 창이 뜨지 않아요<br>
+             <b>원인</b> 브라우저가 새 창(팝업)을 막았어요<br>
+             <b>해결</b> 주소창 오른쪽의 막힘 표시를 눌러 "항상 허용"을 고른 뒤 다시 누르세요</p>
+        </div>
+      </li>
+
+      <li><span class="step-title"><code class="val">처리 마감 일정</code> 설정하기</span>
+        <ul>
+          <li><code class="val">Calendar</code>: 칸 왼쪽 목록을 목록에서 고르기로 두고, 오른쪽 목록에서 내 캘린더(보통 내 이메일 주소 이름)를 고릅니다</li>
+          <li><code class="val">Start</code>: 마우스를 올려 <code class="val">Expression</code>을 누르고 아래 첫 줄</li>
+          <li><code class="val">End</code>: 같은 방법으로 아래 둘째 줄</li>
+          <li><code class="val">Additional Fields</code> → <code class="val">Add Field</code> → <code class="val">Summary</code>: <code class="val">Expression</code>으로 아래 셋째 줄</li>
+        </ul>
+        <pre class="code-block">{{ $now.plus(3,'days').toISO() }}</pre>
+        <pre class="code-block">{{ $now.plus(3,'days').plus(1,'hour').toISO() }}</pre>
+        <pre class="code-block">민원 처리 마감 - {{ $json.접수번호 }} {{ $json.이름 }}</pre>
+        <figure class="capture" id="fig-d2-p1-1">
+          <div class="capture-cap">[그림 2-1-1] <code class="val">처리 마감 일정</code> 설정</div>
+          <div class="capture-guide">Google Calendar Create 설정: Credential, Calendar 목록에서 고른 내 캘린더, Start·End 표현식, Additional Fields의 Summary</div>
+        </figure>
+        <p><code class="val">Calendar</code>에 내 캘린더 이름이 보이고, <code class="val">Start</code>·<code class="val">End</code>·<code class="val">Summary</code>에 <code>fx</code> 표시가 있으면 성공입니다.</p>
+        <div class="note mistake" data-section="mistakes">
+          <b>자주 하는 실수</b>
+          <p><b>증상</b> <code>Calendar parameter's value is invalid</code>가 떠요<br>
+             <b>원인</b> <code class="val">Calendar</code> 칸에 글자를 직접 적었어요(ID로 적기)<br>
+             <b>해결</b> 칸 왼쪽 목록을 목록에서 고르기로 바꾸고, 오른쪽 목록에서 내 캘린더를 고르세요</p>
+        </div>
+      </li>
+
+      <li><span class="step-title">가지 순서 확인하고 Publish하기</span>
+        캔버스에서 세 가지가 <b>위에서부터</b> ① <code class="val">AI 안내문 작성</code>(→ <code class="val">앱에 답하기</code>) ② <code class="val">담당자 메일</code> ③ <code class="val">처리 마감 일정</code> 순서인지 봅니다. 아니면 노드를 끌어 위아래를 맞춥니다.
+        <figure class="capture" id="fig-d2-p1-2">
+          <div class="capture-cap">[그림 2-1-2] 세 갈래로 갈라진 워크플로우</div>
+          <div class="capture-guide">시트에 기록에서 위쪽 AI 안내문 작성(Gemini 붙음) → 앱에 답하기, 가운데 담당자 메일, 아래 처리 마감 일정으로 갈라진 캔버스 전체</div>
+        </figure>
+        <p>순서가 맞으면 위쪽 <code class="val">Publish</code> → 확인 창의 <code class="val">Publish</code>를 누릅니다. 확인 창이 닫히고 버튼이 게시된 모양(1일차 3교시 [그림 1-3-8])이면 성공입니다.</p>
+      </li>
+
+      <li><span class="step-title">앱에 안내문 칸 만들기</span>
+        AI Studio(<code>aistudio.google.com/apps</code>) 왼쪽 메뉴의 <code class="val">Apps</code>를 누르고, 어제 만든 민원 접수 앱을 누릅니다(목록 맨 위, 이름은 영어일 수 있습니다).
+        오른쪽 미리보기에 민원 접수 화면이 보이면, 대화 입력창에 아래 글을 붙여 넣고 보냅니다.
+        <pre class="code-block">n8n이 이제 {"접수번호": "...", "메시지": "...", "안내문": "..."} 모양의 JSON을 돌려줘. 접수 완료 화면에서 접수번호 아래에 "안내문"을 여러 줄 그대로(줄바꿈 유지) 보여 줘. 안내문이 없거나 비어 있으면 그 칸은 보이지 않게 해 줘. 입력 칸 이름과 WEBHOOK_URL은 바꾸지 마.</pre>
+        <p>AI의 답이 끝나고 미리보기가 다시 나타나면 성공입니다. 앱 주소(<code>WEBHOOK_URL</code>)는 바꾸지 않습니다.</p>
+      </li>
+
+      <li><span class="step-title">접수하고 세 곳 확인하기</span>
+        <div class="note warn">
+          <b>개인정보 주의</b>
+          아래 가상 값만 넣습니다. 이번에는 입력한 이름과 상세 설명이 Gemini(구글 AI)로 보내지고, 연락처는 메일로 전달됩니다. 실제 민원인의 이름·연락처·민원 내용은 실습에 넣지 않습니다.
+        </div>
+        앱에서 <code>새 민원 접수</code>로 돌아가 가상 민원(이접수 / 010-0000-0005 / minwon@example.com / 대형 / 아파트 앞에 버려진 소파 수거를 요청합니다.)을 넣고 동의에 체크한 뒤 <code>접수하기</code>를 누릅니다.
+        안내문을 만드느라 10초쯤 걸릴 수 있습니다. 기다리는 동안 앱이 멈춘 것처럼 보이면, 시간이 남을 때 <a href="../prompts/d2-p1-show-notice.md">프롬프트 파일</a>의 "기다리는 동안 안내" 문장을 AI Studio에 보내도 됩니다(선택).
+        <ul>
+          <li>앱 화면: 접수번호와 AI 안내문이 보이나요?</li>
+          <li>내 Gmail(스팸함 포함): 제목이 <code>[대형] 민원 접수 …</code>인 메일이 왔나요?</li>
+          <li>구글 캘린더: 3일 뒤에 <code>민원 처리 마감 - …</code> 일정이 생겼나요?</li>
+        </ul>
+        <figure class="capture" id="fig-d2-p1-3">
+          <div class="capture-cap">[그림 2-1-3] 앱의 안내문, 담당자 메일, 캘린더 일정</div>
+          <div class="capture-guide">세 장: 앱 접수 완료 화면(접수번호+안내문), Gmail의 담당자 메일, 구글 캘린더 3일 뒤 일정</div>
+        </figure>
+        <p>세 곳이 모두 확인되면 성공입니다.</p>
+        <div class="note mistake" data-section="mistakes">
+          <b>자주 하는 실수</b>
+          <p><b>증상</b> 앱에 접수번호만 나오고 안내문이 없으며, 메일과 캘린더 일정도 없어요<br>
+             <b>원인</b> 노드를 고친 뒤 <code class="val">Publish</code>를 다시 누르지 않아 어제 모습 그대로 동작해요<br>
+             <b>해결</b> 화면 위쪽 <code class="val">Publish</code> → 확인 창의 <code class="val">Publish</code>를 누르고 다시 접수하세요</p>
+          <p><b>증상</b> 메일이나 안내문에 접수번호·등록일이 비어 있어요<br>
+             <b>원인</b> 노드 이름이 <code class="val">시트에 기록</code>과 한 글자라도 다르거나, 표현식이 잘려 붙었어요<br>
+             <b>해결</b> n8n 위쪽 <code class="val">Executions</code>에서 방금 실행을 열어 <code class="val">시트에 기록</code>의 결과에 <code>접수번호</code>가 있는지 봅니다</p>
+          <p><b>증상</b> 앱에 오류가 떴는데 시트에는 줄이 생겼어요<br>
+             <b>원인</b> 앱이 답을 기다리다 지쳤을 수 있어요(n8n Cloud는 100초 넘게 답이 없으면 끊습니다). 접수 자체는 처리되었을 수 있어요<br>
+             <b>해결</b> 먼저 시트·메일·캘린더를 확인하세요. n8n <code class="val">Executions</code>에서 <code class="val">AI 안내문 작성</code>이 오래 걸렸거나 빨간지 봅니다</p>
+          <p><b>증상</b> 앱에 접수번호는 보이는데 안내문이 없어요<br>
+             <b>원인</b> 앱이 안내문 칸을 만들지 않았거나, 답장 한 줄(4단계)이 예전 것 그대로예요<br>
+             <b>해결</b> 4단계의 답장 한 줄을 다시 붙여 넣고 <code class="val">Publish</code>한 뒤, 8단계 요청을 한 번 더 보내세요</p>
+          <p><b>증상</b> <code class="val">AI 안내문 작성</code>이 빨갛고 사용량 초과(quota) 같은 글이 보여요<br>
+             <b>원인</b> Gemini 무료 사용량을 넘었어요<br>
+             <b>해결</b> <code class="val">Model</code>을 <code>models/gemini-3.5-flash-lite</code>로 바꾸고 다시 <code class="val">Publish</code>하세요</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section class="sec" id="quiz" data-section="quiz">
+    <h2 class="sec-title">확인 문제</h2>
+    <div class="quiz-item">
+      <p class="quiz-q"><span class="qtype">객관식</span>Q1. AI 가지를 캔버스 맨 위에 두는 이유는?</p>
+      <ol class="quiz-choices">
+        <li>보기 좋아서</li>
+        <li>n8n이 위쪽 가지부터 실행하므로 앱이 가장 먼저 답을 받게 하려고</li>
+        <li>AI 노드는 위에만 둘 수 있어서</li>
+        <li>메일이 먼저 가야 해서</li>
+      </ol>
+      <details class="quiz-answer"><summary>정답 확인</summary>
+        <p class="quiz-a"><b>정답: ②</b> 답장을 보내는 노드가 AI 가지 끝에 있으므로, 이 가지를 먼저 실행해야 앱이 빨리 답을 받습니다.</p>
+      </details>
+    </div>
+    <div class="quiz-item">
+      <p class="quiz-q"><span class="qtype">단답형</span>Q2. 실습에서 <code class="val">담당자 메일</code>의 <code class="val">To</code>에는 무엇을 적나요?</p>
+      <details class="quiz-answer"><summary>정답 확인</summary>
+        <p class="quiz-a"><b>정답:</b> 내 Gmail 주소(글자 그대로). 앱에서 온 이메일은 가상 주소라 쓰지 않습니다.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="sec" id="summary" data-section="summary">
+    <h2 class="sec-title">정리</h2>
+    <ul>
+      <li>접수 한 번으로 시트 기록, 담당자 메일, 캘린더 마감, AI 안내문이 함께 처리됩니다.</li>
+      <li>가지는 모두 <code class="val">시트에 기록</code>에서 갈라지고, 답장을 보내는 AI 가지를 맨 위에 둡니다.</li>
+      <li>AI 안내문이 들어간 답장은 한 덩어리 표현식으로 씁니다.</li>
+      <li>다음: 2교시에는 민원 종류에 따라 담당자를 나누고, 텔레그램 알림과 처리 상태 조회 화면을 더합니다.</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="import" data-section="import">
+    <h2 class="sec-title">완성본 가져오기(Import)</h2>
+    <p>이 파일을 가져오면 n8n 쪽이 이 교시 끝 상태(열 개 노드)가 됩니다. 앱은 따라하기 9단계 요청만 하면 됩니다.</p>
+    <div class="note warn">
+      <b>먼저: 어제 워크플로우를 Unpublish하세요</b>
+      어제 Publish한 워크플로우는 지금도 게시 중입니다. n8n 첫 화면에서 그 워크플로우를 열어 <code class="val">Publish</code> 옆 목록에서 <code class="val">Unpublish</code>를 누릅니다.
+      같은 주소 끝부분(<code>minwon</code>)과 같은 방식(POST)을 쓰는 Webhook은 하나만 동작할 수 있습니다.
+    </div>
+    <ol class="steps">
+      <li><span class="step-title">파일 내려받기</span>
+        <a class="dl" href="../workflows/d2-p1.json" download>워크플로우 내려받기 <span class="dl-name">d2-p1.json</span></a>
+      </li>
+      <li><span class="step-title">n8n에서 가져오기</span>
+        <code class="val">Create workflow</code> → 오른쪽 위 <code class="val">…</code> → <code class="val">Import</code> → <code class="val">From file</code>을 누르고 내려받은 <code>d2-p1.json</code>을 고릅니다. 캔버스에 노드 열 개가 보이면 성공입니다. 시간대(서울)는 파일에 들어 있습니다.
+      </li>
+      <li><span class="step-title">자격 증명 다시 연결하기</span>
+        아래 다섯 노드를 차례로 열어 <code class="val">Credential</code> 칸에서 내 자격 증명을 고릅니다.
+        <ul>
+          <li><code class="val">오늘 접수 조회</code>, <code class="val">시트에 기록</code> — 구글 시트용</li>
+          <li><code class="val">Google Gemini Chat Model</code> — Gemini API 키</li>
+          <li><code class="val">담당자 메일</code> — Gmail용</li>
+          <li><code class="val">처리 마감 일정</code> — 캘린더용(없으면 6단계처럼 새로 만듭니다)</li>
+        </ul>
+      </li>
+      <li><span class="step-title">자리표시자 바꾸기</span>
+        <ul>
+          <li><code class="val">오늘 접수 조회</code>·<code class="val">시트에 기록</code>의 <code class="val">Document</code>: 왼쪽 목록을 <code class="val">From list</code>로 바꾸고 <code>민원대장 연습</code>(<code>여기에_본인_시트_ID</code> 대신), <code class="val">Sheet</code>: 내 탭 이름</li>
+          <li><code class="val">담당자 메일</code>의 <code class="val">To</code>: <code>본인이메일@example.com</code> → 내 Gmail 주소</li>
+          <li><code class="val">처리 마감 일정</code>의 <code class="val">Calendar</code>: 목록에서 내 캘린더</li>
+          <li><code class="val">Google Gemini Chat Model</code>의 <code class="val">Model</code>: <code>models/gemini-3.8-flash</code> 다시 고르기</li>
+        </ul>
+      </li>
+      <li><span class="step-title">Publish하고 접수해 보기</span>
+        <code class="val">Publish</code> → 확인 창의 <code class="val">Publish</code>를 누릅니다. 앱의 <code>WEBHOOK_URL</code>은 어제 넣은 <dfn>Production URL</dfn>(워크플로우를 게시한 뒤 앱에 넣는 진짜 주소) 그대로 둡니다.
+        앱에서 오류가 나면 <code class="val">민원 받기</code>를 열어 <code class="val">Production URL</code>을 복사해 앱에 다시 넣습니다(1일차 6교시 9단계).
+        그다음 따라하기 9단계 요청을 보내고 10단계처럼 접수해, 접수번호와 안내문이 보이면 복구 완료입니다.
+      </li>
+    </ol>
+  </section>
+
+  <nav class="pager">
+    <a href="../lessons/d1-p7.html">← 1일차 7교시 연동 ① 완성</a>
+    <a href="../lessons/d2-p2.html">2교시 연동 ② 완성 →</a>
   </nav>
 
 </main>
