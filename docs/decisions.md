@@ -40,6 +40,9 @@
 | D26 | 작업 상태 | `todo → drafting → review → instructor-check → done`. JSON Import 실행·프롬프트 시험·캡처는 강사 수동 확인(`docs/instructor-checklist.md`) 후에만 done |
 | D28 | d1-p3 호출 시험 (1회차) | 코드 없이 POST+CORS를 시험할 수 없으므로(fact-check F52) d1-p3은 **GET Webhook을 브라우저 주소창으로 호출**해 응답을 확인한다. Allowed Origins(CORS)는 체크리스트 1번으로 **설정만** 하고 개념을 설명하며, 실제 CORS 확인은 **d1-p6에서 AI Studio 앱으로** 한다. 경로 `hello`(GET) |
 | D29 | 활성화 → Publish (1회차) | n8n 2.0부터 활성화 토글이 `Publish` 버튼으로 바뀜(F22). glossary 표준 표기를 `Publish`로 바꾸고 "활성화"를 금지 표기로 둔다. 설정을 바꾸면 다시 Publish(F53) |
+| D30 | Gemini 모델 (2회차) | 기존 교안의 `models/gemini-2.5-flash`는 신규 사용자에게 제한됨(F42). 교안·JSON은 `models/gemini-3.8-flash`(대안 `models/gemini-3.5-flash-lite`), Google Gemini Chat Model typeVersion 1.1. Cloud 화면에 `Use Gateway credits`가 보이면 `Use my own credential`을 고른다(D23 유지) |
+| D31 | Gmail 안내 문구 (2회차) | Gmail 노드는 `options.appendAttribution: false`로 n8n 안내 문구를 끈다(F66) |
+| D32 | d1-p2 설계 (2회차) | 50분 복습은 **모두 같은 완성본(d1-p2.json)을 Import**해 자격 증명 연결 → 실행 → 표현식·샘플 값 고쳐 보기로 진행(수준 차이 흡수). 캘린더는 d2-p1에서 다루므로 제외. 샘플 민원은 가상 데이터(홍길동·010-1234-5678)로 교체 |
 | D27 | 작성 순서 | 시간표 순서가 아닌 `lessons.json`의 `authoring_order`를 따른다(d1-p1·opt-voice가 d2-p2.json을 참조하므로) |
 
 ## 미결정

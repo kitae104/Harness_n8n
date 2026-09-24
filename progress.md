@@ -87,3 +87,29 @@
 - 제안서 그림 PNG 전달 대기(`assets/proposal/`)
 - F41(Import 시 자격 증명 처리)은 문서 근거 없음 → 강사 시험 필요. 그전까지 Import 안내는 "경고 표시가 뜬 노드를 열어 내 자격 증명 선택"으로 씀
 - 기존 교안(legacy) day1/08.html의 "활성화 스위치" 서술은 현재 화면과 다름(참조 시 주의, legacy는 수정하지 않음)
+
+## 2회차 — 2026-09-24 — d1-p2 n8n 핵심 복습 (1회차와 같은 세션, 사용자 요청으로 이어서 진행)
+
+### 한 일
+- fact-checker 2차: F42 갱신, F64~F72 신규. **`gemini-2.5-flash`는 신규 사용자 제한 → `models/gemini-3.8-flash`**(D30), Gmail `appendAttribution:false`(D31), Cloud의 `Use Gateway credits` 대신 `Use my own credential`
+- 설계(D32): 모두 같은 완성본을 Import → 자격 증명 연결 → 실행 → 표현식·샘플 값 고쳐 보기. 캘린더는 d2-p1로 미룸
+- 산출물: `workflows/d1-p2.json`(기존 day1-06 기반, 노드 6개, 가상 데이터로 교체, Gemini Chat Model 1.1), `lessons/d1-p2.html`(개념 표 2개, 실습 11단계 — 10단계까지 필수, 빨간 노드 대처 박스, 퀴즈 2, Import)
+- learner-reviewer: 막힘 2(시트 계정 ≠ 연결 계정, 빨간 노드 대처 없음) / 헷갈림 13 / 사소 5 → **20건 모두 반영**. 느린 수강생 41분 어림 → 표현식·샘플 바꾸기를 한 번의 실행으로 합치고 "10단계까지 필수" 명시
+- fact-check F73~F75 신규(미확인), instructor-checklist에 d1-p2 행과 강사 시험 9건 추가
+
+### 검증 결과
+- verify.py d1-p2: PASS (실패 0 / 경고 2 — 작성 전 d1-p1 링크, FACT-CHECK 5곳: F59, F72~F75)
+- verify.py --all: d1-p2·d1-p3 모두 PASS / test_verify.py 33개 불일치 0
+- learner-reviewer: 막힘 2 / 헷갈림 13 / 사소 5 → 반영 20
+- fact-checker: 확인 7 / 수정 필요 2(F42 모델, F70 화면 표기) / 확인 불가 1(F72)
+- status: todo → **instructor-check**
+- 커밋: (이 기록과 같은 커밋)
+
+### 다음 할 일
+1. **강사 확인(d1-p2, d1-p3)**: instructor-checklist의 교시별 행 + fact-checker 직접 시험 항목. 특히 새 API 키에서 `models/gemini-3.8-flash` 목록·실행, 20명 동시 실행 한도(429)
+2. 다음 교시: `authoring_order`상 **d1-p4**(AI 앱 빌더 첫 체험). AI Studio Build 모드 항목(F1~F11)이 모두 미확인이므로 **fact-checker로 F1~F11부터** 확인
+3. 교육 1주 전: n8n Cloud 당시 안정 버전 기준 캡처·JSON 최종 확인
+
+### 미해결 문제
+- 1회차 미해결(에이전트 등록 확인, 제안서 그림 PNG, F41)은 그대로
+- 한 세션에 두 교시를 진행함(사용자 요청). 컨텍스트가 길어졌으므로 d1-p4는 새 세션을 권장
