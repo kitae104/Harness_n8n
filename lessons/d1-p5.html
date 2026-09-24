@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1일차 5교시 첫 앱 다듬기 — AI 앱과 n8n으로 만드는 나만의 업무 자동화 서비스</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/lecture.css">
+<link rel="stylesheet" href="../assets/css/lesson.css">
+</head>
+<body class="lecture-mode">
+<main class="wrap" data-lesson-id="d1-p5" data-type="lab">
+
+  <nav class="crumb"><a href="../index.html">목차</a> › 1일차 › 5교시 (14:00~14:50)</nav>
+
+  <header class="page-head">
+    <h1>첫 앱 다듬기</h1>
+    <p class="sub">화면은 문장으로 고치고, 오류는 정해진 루틴으로 AI에게 고치게 합니다</p>
+  </header>
+
+  <section class="sec" id="objectives" data-section="objectives">
+    <h2 class="sec-title">학습목표</h2>
+    <ul>
+      <li>원하는 화면 변경을 구체적인 문장으로 요청할 수 있습니다.</li>
+      <li>오류가 나면 "오류 문구 복사 → AI에 붙여 넣고 고쳐 달라고 요청" 루틴을 스스로 해냅니다.</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="concept" data-section="concept" data-minutes="10">
+    <h2 class="sec-title">왜 이 단계가 필요한가</h2>
+    <p>4교시에 만든 화면은 첫 초안입니다. 실제로 쓰려면 기관 이름을 넣고, 개인정보 동의를 받는 등 손볼 곳이 생깁니다.
+       또 AI가 만든 코드는 <b>가끔 틀립니다</b>. 오류가 나는 것은 내 잘못이 아니며, 알려 주면 AI가 고칩니다.
+       이번 시간에는 <b>고쳐 달라고 말하는 법</b>과 <b>오류가 났을 때 알려 주는 법</b>을 익힙니다.</p>
+
+    <p>고쳐 달라는 말도 AI에게 주는 <dfn>프롬프트</dfn>(AI에게 시키는 일을 적은 문장)입니다. 좋은 수정 요청에는 세 가지가 있습니다.</p>
+    <ul>
+      <li><b>한 번에 한 가지</b> — 여러 가지를 한꺼번에 바꾸면 무엇이 잘못됐는지 찾기 어렵습니다.</li>
+      <li><b>어디를 · 어떻게</b> — "제목을", "접수하기 버튼을"처럼 위치를, "진한 파란색으로"처럼 결과를 적습니다.</li>
+      <li><b>바꾸면 안 되는 것</b> — "입력 칸은 그대로 둬"를 덧붙입니다. 칸 이름과 <code>WEBHOOK_URL</code>은 6교시 연결 약속입니다.</li>
+    </ul>
+
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>나쁜 예</th><th>왜 안 되나</th><th>좋은 예</th></tr></thead>
+        <tbody>
+          <tr><td>예쁘게 해 줘</td><td>"예쁘게"의 기준을 AI가 정해 칸·버튼까지 바꿀 수 있습니다</td><td>배경을 아주 연한 하늘색으로, 제목 글자를 지금보다 크게 해 줘. 입력 칸은 그대로 둬</td></tr>
+          <tr><td>버튼 고쳐 줘</td><td>어느 버튼을 어떻게 고칠지 없습니다</td><td>"접수하기" 버튼을 진한 파란색 바탕에 흰 글씨로 바꾸고 가로 폭에 꽉 차게 해 줘</td></tr>
+          <tr><td>동의 받게 해 줘</td><td>어디에, 무엇을, 동의하지 않으면 어떻게 할지 없습니다</td><td>"접수하기" 버튼 바로 위에 개인정보 동의 체크 칸을 넣고, 체크하지 않으면 접수되지 않게 해 줘</td></tr>
+          <tr><td>제목 바꾸고 색도 바꾸고 칸도 하나 더 넣어 줘</td><td>한 번에 여러 가지라 잘못된 곳을 찾기 어렵습니다</td><td>한 가지씩 나누어 보내고, 하나 확인한 뒤 다음을 보냅니다</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note concept">
+      <b>오류 대처 루틴 (앞으로 계속 씁니다)</b>
+      <ol>
+        <li><b>찾기</b> — 오른쪽 미리보기나 대화 패널에서 영어로 된 오류 글을 찾습니다([그림 1-5-3]).</li>
+        <li><b>신고 문장 먼저</b> — "오류 신고 문장"을 대화 입력창에 붙여 넣어 둡니다(아직 보내지 않음).</li>
+        <li><b>오류 글 끼워 넣고 보내기</b> — 오류 글을 복사해 신고 문장의 <code>오류:</code> 아래에 붙여 넣고 보냅니다.</li>
+        <li><b>확인</b> — 미리보기에서 다시 눌러 봅니다. 두 번 해도 안 되면 손을 듭니다.</li>
+      </ol>
+      <p>2번과 3번의 순서가 중요합니다. <kbd>Ctrl</kbd>+<kbd>C</kbd>는 <b>마지막에 복사한 것 하나만</b> 기억하기 때문입니다.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="practice" data-section="practice">
+    <h2 class="sec-title">따라하기</h2>
+    <div class="note tip">
+      <b>이번 시간의 공통 동작</b>
+      상자 안 글을 처음부터 끝까지 끌어서 고르고 <kbd>Ctrl</kbd>+<kbd>C</kbd>로 복사합니다. AI Studio의 <b>대화 입력창</b>(4교시에 고쳐 달라는 말을 쓰던 곳)을 누르고 <kbd>Ctrl</kbd>+<kbd>V</kbd>로 붙여 넣은 뒤,
+      보내기 버튼(화살표 모양)을 누릅니다. <kbd>Enter</kbd>는 줄만 바뀔 수 있습니다. 고치는 데 1분쯤 걸리니 <b>미리보기가 바뀌기 전에는 다음 요청을 보내지 않습니다</b>. <!-- FACT-CHECK: F82 -->
+    </div>
+
+    <h3>A. 화면 고쳐 달라고 요청하기</h3>
+    <ol class="steps">
+      <li><span class="step-title">4교시 앱 다시 열기</span>
+        AI Studio(<code>aistudio.google.com/apps</code>) 왼쪽 메뉴의 <code class="val">Apps</code>를 누르고, 목록 맨 위(가장 최근)의 앱을 누릅니다. 앱 이름은 영어일 수 있습니다.
+        <p>오른쪽 미리보기에 민원 접수 화면이 보이면 성공입니다.</p>
+        <span class="hint">앱을 찾지 못하면 <a href="d1-p4.html#practice">4교시 따라하기</a> 2단계의 프롬프트를 다시 붙여 넣어 새로 만듭니다(3분). 다 만들어지면 브라우저의 뒤로 가기(←)로 이 교안에 돌아옵니다.</span>
+      </li>
+
+      <li><span class="step-title">요청 1 — 제목과 안내 문구 바꾸기</span>
+        아래 글을 대화 입력창에 붙여 넣습니다. <code>OO</code>를 끌어서 고르고 기관 이름(예: 가나구)을 치면 됩니다. 바꾸지 않아도 됩니다. 그다음 보냅니다.
+        <pre class="code-block">맨 위 제목을 "OO구 민원 접수"로 바꾸고, 제목 아래에 작은 글씨로 "평일 09:00~18:00 확인 후 연락드립니다."를 한 줄 더해 줘. 입력 칸과 버튼은 그대로 둬.</pre>
+        <figure class="capture" id="fig-d1-p5-1">
+          <div class="capture-cap">[그림 1-5-1] 제목과 안내 문구가 바뀐 미리보기</div>
+          <div class="capture-guide">요청 1을 보낸 뒤 대화 패널의 요청 글과, 오른쪽 미리보기의 바뀐 제목·안내 문구 강조. 대화 입력창과 보내기 버튼 위치가 보이게</div>
+        </figure>
+        <p>미리보기의 제목과 안내 문구가 바뀌고 입력 칸은 그대로면 성공입니다.</p>
+      </li>
+
+      <li><span class="step-title">요청 3 — 개인정보 동의 칸 넣기</span>
+        아래 글을 대화 입력창에 붙여 넣고 보냅니다.
+        <pre class="code-block">"접수하기" 버튼 바로 위에 "개인정보 수집·이용에 동의합니다(필수)" 체크 칸을 넣어 줘. 체크하지 않으면 접수되지 않고 "개인정보 수집·이용에 동의해 주세요."라고 알려 줘. 이 체크 여부는 보내는 JSON에 넣지 마.</pre>
+        <span class="hint">JSON, 함수, 괄호 같은 말은 AI에게 하는 말입니다. 뜻을 몰라도 그대로 붙여 넣으면 됩니다.</span>
+        <figure class="capture" id="fig-d1-p5-2">
+          <div class="capture-cap">[그림 1-5-2] 개인정보 동의 칸이 생긴 화면</div>
+          <div class="capture-guide">접수하기 버튼 위 동의 체크 칸, 체크하지 않고 눌렀을 때의 동의 안내 문구</div>
+        </figure>
+        <p>미리보기에 가상 값(이름 <code>홍길동</code>, 연락처 <code>010-1234-5678</code>, 이메일 <code>minwon@example.com</code>, 종류 <code>생활</code>, 상세설명 <code>보도블록이 깨져 있습니다.</code>)을 모두 넣고,
+           <b>동의 칸만 비운 채</b> <code>접수하기</code>를 누릅니다. "개인정보 수집·이용에 동의해 주세요."가 뜨면 성공입니다. 실제 이름·연락처는 넣지 않습니다.</p>
+      </li>
+
+      <li><span class="step-title">접수하기로 확인하기</span>
+        이번에는 동의 칸에 체크하고 <code>접수하기</code>를 누릅니다.
+        <p>"아직 접수 창구와 연결되지 않았습니다"가 뜨면 성공입니다.</p>
+      </li>
+
+      <li><span class="step-title"><code class="val">Code</code> 탭에서 주소 자리 확인하기</span>
+        미리보기 위쪽의 <code class="val">Code</code> 탭을 누르고, 4교시 5단계([그림 1-4-4])처럼 코드 영역을 한 번 누른 뒤 <kbd>Ctrl</kbd>+<kbd>F</kbd>로 <code>WEBHOOK_URL</code>을 검색합니다.
+        코드 영역을 누른 뒤에는 글자를 치지 않습니다.
+        <p><code>WEBHOOK_URL</code>이 보이면 성공입니다. 확인했으면 미리보기 탭을 눌러 돌아갑니다. 화면을 고칠 때마다 4·5단계 확인을 한 번씩 하는 습관을 들입니다.</p>
+        <div class="note mistake" data-section="mistakes">
+          <b>자주 하는 실수</b>
+          <p><b>증상</b> 입력 칸 이름이 바뀌었어요(예: <code>이름</code>이 <code>성함</code>으로)<br>
+             <b>원인</b> AI가 칸 이름까지 손봤어요<br>
+             <b>해결</b> "입력 칸 이름을 이름, 연락처, 이메일, 종류, 상세설명으로 원래대로 되돌려 줘"라고 보내세요. 칸 이름이 다르면 6교시에 n8n이 값을 찾지 못합니다</p>
+          <p><b>증상</b> <code>WEBHOOK_URL</code>이 코드에서 안 보여요<br>
+             <b>원인</b> 화면을 고치면서 AI가 그 줄을 옮기거나 지웠어요<br>
+             <b>해결</b> 먼저 다른 파일도 열어 <kbd>Ctrl</kbd>+<kbd>F</kbd>로 찾아보세요. 없으면 "코드 맨 위에 WEBHOOK_URL 상수를 빈 문자열로 다시 만들고, 접수하기를 누르면 그 주소로 보내게 해 줘"라고 보내세요</p>
+        </div>
+      </li>
+
+      <li><span class="step-title">(시간이 남으면) 요청 2와 되돌리기 연습</span>
+        옆 사람보다 늦었다면 이 단계는 건너뛰고 B로 갑니다. 아래 요청 2를 보내 색과 버튼을 바꿔 봅니다.
+        <pre class="code-block">배경을 아주 연한 하늘색으로, "접수하기" 버튼은 진한 파란색 바탕에 흰 글씨로 바꾸고 버튼을 화면 가로 폭에 꽉 차게 해 줘. 입력 칸의 이름과 순서는 바꾸지 마.</pre>
+        <p>색이 바뀌었으면, 마음에 들지 않는다고 생각하고 아래 글로 되돌립니다. 색이 원래대로 돌아가면 성공입니다.</p>
+        <pre class="code-block">방금 바꾼 것을 되돌려서 바로 전 상태로 돌아가 줘.</pre>
+        <span class="hint">대화 패널에 <code class="val">Restore</code> 같은 되돌리기 버튼이 보여도 오늘은 누르지 않습니다. 어느 요청의 버튼을 누르느냐에 따라 여러 단계가 한꺼번에 사라질 수 있습니다. <!-- FACT-CHECK: F77 --></span>
+      </li>
+    </ol>
+
+    <h3>B. 오류 대처 루틴 연습 (두 번 반복)</h3>
+    <ol class="steps">
+      <li><span class="step-title">연습용 오류 만들기 (1회차)</span>
+        아래 글을 대화 입력창에 붙여 넣고 보냅니다.
+        <pre class="code-block">연습을 위해 일부러 오류를 하나 만들어 줘. "접수하기" 버튼을 누르면 화면에 오류 문구가 뜨도록, 버튼을 눌렀을 때 실행되는 코드 안에서 존재하지 않는 함수를 부르게 바꿔 줘. 오류는 고치지 말고 그대로 둬. 다른 부분은 바꾸지 마.</pre>
+        <p>바뀐 뒤 A-3과 같은 가상 값을 넣고 동의에 체크한 다음 <code>접수하기</code>를 누릅니다.
+           미리보기나 대화 패널에 오류 글(보통 영어, 예: <code>… is not defined</code>)이 보이면 성공입니다. 읽지 않아도 됩니다. <!-- FACT-CHECK: F84 --></p>
+        <div class="note planb">
+          <b>오류 대신 "아직 접수 창구와 연결되지 않았습니다"가 뜨면</b>
+          AI가 오류를 만들지 않았거나 스스로 고친 것입니다. 이때는 2단계대로 신고 문장을 입력창에 붙여 넣고, 오류 글 대신 아래 연습용 오류 문구를 복사해 <code>오류:</code> 아래에 붙여 넣는 데까지만 연습합니다. <b>보내지 않습니다.</b>
+          <pre class="code-block">Uncaught ReferenceError: sendMinwonNow is not defined</pre>
+          붙여 넣었으면 입력창을 누르고 <kbd>Ctrl</kbd>+<kbd>A</kbd>, <kbd>Delete</kbd>로 비웁니다. 입력창이 비면 이 연습은 끝입니다. 4단계(2회차)로 갑니다.
+        </div>
+      </li>
+
+      <li><span class="step-title">오류 신고 문장 먼저 붙여 넣기</span>
+        아래 문장을 복사해 대화 입력창에 붙여 넣습니다. <b>아직 보내지 않습니다.</b>
+        입력창 안의 <code>(여기에 복사한 오류 문구를 붙여 넣기)</code> 줄을 끌어서 고르고 <kbd>Delete</kbd>로 지웁니다.
+        <pre class="code-block">아래 오류가 났어. 원인을 쉬운 말로 한 줄 설명하고 고쳐 줘. 입력 칸 이름과 WEBHOOK_URL은 바꾸지 마.
+
+오류:
+(여기에 복사한 오류 문구를 붙여 넣기)</pre>
+        <p><code>오류:</code> 아래가 빈 줄이면 성공입니다.</p>
+      </li>
+
+      <li><span class="step-title">오류 글 복사해 끼워 넣고 보내기</span>
+        오류 글의 첫 글자 앞을 누른 채 끝까지 끌어서 고르고 <kbd>Ctrl</kbd>+<kbd>C</kbd>로 복사합니다.
+        입력창의 <code>오류:</code> 아래 빈 줄을 한 번 누르고 <kbd>Ctrl</kbd>+<kbd>V</kbd>로 붙여 넣은 뒤 보냅니다. <!-- FACT-CHECK: F85 -->
+        <span class="hint">글이 선택되지 않으면 <kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd>를 누릅니다. 화면이 조금 어두워지면 오류 부분을 네모로 끌어 고르고, 신고 문장이 들어 있는 입력창을 눌러 <kbd>Ctrl</kbd>+<kbd>V</kbd>로 그림을 붙여 보냅니다.
+          <kbd>F12</kbd> 키로 열리는 화면(개발자 도구)은 쓰지 않습니다.
+          대화 패널에 오류를 고치는 버튼(예: <code class="val">Fix errors</code>)이 보여도 <b>오늘 연습에서는 누르지 않고</b> 신고 문장을 씁니다. <!-- FACT-CHECK: F8 --></span>
+        <figure class="capture" id="fig-d1-p5-3">
+          <div class="capture-cap">[그림 1-5-3] 오류 글이 보이는 곳</div>
+          <div class="capture-guide">연습 1 뒤 접수하기를 눌렀을 때 미리보기의 오류 글과 대화 패널에 나타난 오류 알림(오류 고치기 버튼이 있으면 함께) 강조. 입력창에 신고 문장과 오류 글이 들어간 모습도 한 장</div>
+        </figure>
+        <p>AI가 원인을 한 줄로 설명하고, 다시 <code>접수하기</code>를 눌렀을 때 "아직 접수 창구와 연결되지 않았습니다"가 뜨면 성공입니다.</p>
+        <div class="note mistake" data-section="mistakes">
+          <b>자주 하는 실수</b>
+          <p><b>증상</b> 입력창에 붙여 넣었더니 오류 글이 아니라 신고 문장이 또 들어가요<br>
+             <b>원인</b> 신고 문장을 나중에 복사해서, 복사해 둔 오류 글이 덮어써졌어요<br>
+             <b>해결</b> 입력창에 신고 문장이 이미 있으면 그대로 두고, 오류 글만 다시 복사해 <code>오류:</code> 아래에 붙여 넣으세요</p>
+          <p><b>증상</b> 대화 패널에 <code>An internal error occurred. Retry.</code> 같은 글이 떠요<br>
+             <b>원인</b> 앱이 아니라 AI 쪽에 잠깐 문제가 생겼어요<br>
+             <b>해결</b> 잠시 기다렸다가 같은 요청을 다시 보내세요. 이것은 오류 신고 문장을 쓸 상황이 아닙니다</p>
+        </div>
+      </li>
+
+      <li><span class="step-title">두 번째 연습 (2회차)</span>
+        이번에는 다른 오류로 1~3단계를 한 번 더 합니다. 아래 글을 붙여 넣고 보냅니다.
+        <pre class="code-block">연습을 위해 일부러 오류를 하나 더 만들어 줘. 이번에는 앱이 열리자마자 미리보기에 오류가 보이도록, 화면을 그리는 코드에서 닫는 괄호 하나를 지워 줘. 오류는 고치지 말고 그대로 둬. 다른 부분은 바꾸지 마.</pre>
+        <p>미리보기가 다시 민원 접수 화면으로 돌아오면 성공입니다.</p>
+        <span class="hint">미리보기가 하얗게 비어 있고 오류 글이 어디에도 보이지 않으면, 신고 문장의 <code>오류:</code> 아래에 "미리보기가 하얗게 비어 있고 아무것도 안 보여"라고 직접 적어서 보냅니다. 이것도 루틴 연습입니다.</span>
+      </li>
+
+      <li><span class="step-title">6교시 준비 확인</span>
+        가상 값을 넣고 동의 칸에 체크한 뒤 <code>접수하기</code>를 누릅니다. 이어서 <code class="val">Code</code> 탭에서 <code>WEBHOOK_URL</code>을 찾습니다.
+        <p>"아직 접수 창구와 연결되지 않았습니다"가 뜨고 <code>WEBHOOK_URL</code>이 보이면 오늘 실습이 끝났습니다. 미리보기 탭으로 돌아가 둡니다.</p>
+      </li>
+    </ol>
+
+    <div class="note planb">
+      <b>오류가 끝내 안 고쳐질 때</b>
+      <ol>
+        <li>아래 글을 보냅니다.
+          <pre class="code-block">연습용으로 만든 오류를 모두 없애고, 오류 연습 요청을 보내기 전 상태로 되돌려 줘. 입력 칸 이름과 WEBHOOK_URL은 바꾸지 마.</pre></li>
+        <li>그래도 안 되면 4교시 2단계 프롬프트로 새 앱을 만들고 요청 1·3을 다시 보냅니다(약 10분).</li>
+        <li>끝나면 B-5(6교시 준비 확인)를 합니다. 이 상태면 6교시를 시작할 수 있습니다.</li>
+      </ol>
+    </div>
+    <div class="note warn">
+      <b>요청마다 무료 사용량이 쓰입니다</b>
+      수정 요청도 AI Studio의 무료 사용량을 씁니다. 연습 요청은 오늘 교안에 있는 것만 보내고, 한도에 걸렸다는 안내가 나오면 강사에게 알리세요. <!-- FACT-CHECK: F86 -->
+    </div>
+    <div class="note tip">
+      <b>알아 두면 좋아요: 화면에 표시해서 요청하기</b>
+      AI Studio에는 미리보기 화면의 한 부분에 상자를 그리고 고칠 내용을 적어 요청하는 기능(Annotation)이 있습니다.
+      상자 그리기 → 글 쓰기 → <code class="val">Add to chat</code> → 보내기 순서입니다. 오늘은 해 보지 않아도 됩니다. 시간이 남으면 강사 화면을 보며 함께 해 봅니다. <!-- FACT-CHECK: F82 -->
+    </div>
+  </section>
+
+  <section class="sec" id="quiz" data-section="quiz">
+    <h2 class="sec-title">확인 문제</h2>
+    <div class="quiz-item">
+      <p class="quiz-q"><span class="qtype">객관식</span>Q1. 다음 중 가장 좋은 수정 요청은?</p>
+      <ol class="quiz-choices">
+        <li>좀 더 보기 좋게 해 줘</li>
+        <li>제목 글자를 지금보다 크게 해 줘. 입력 칸은 그대로 둬</li>
+        <li>다 고쳐 줘</li>
+        <li>버튼이랑 색이랑 칸이랑 전부 바꿔 줘</li>
+      </ol>
+      <details class="quiz-answer"><summary>정답 확인</summary>
+        <p class="quiz-a"><b>정답: ②</b> 한 가지를, 어디를 어떻게 바꿀지, 바꾸면 안 되는 것까지 적었습니다.</p>
+      </details>
+    </div>
+    <div class="quiz-item">
+      <p class="quiz-q"><span class="qtype">단답형</span>Q2. 오류 신고 문장과 오류 글 중 무엇을 먼저 입력창에 넣어야 할까요? 이유는?</p>
+      <details class="quiz-answer"><summary>정답 확인</summary>
+        <p class="quiz-a"><b>정답:</b> 신고 문장을 먼저 넣습니다. <kbd>Ctrl</kbd>+<kbd>C</kbd>는 마지막에 복사한 것 하나만 기억하기 때문에, 오류 글을 먼저 복사하면 신고 문장을 복사할 때 지워집니다.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="sec" id="summary" data-section="summary">
+    <h2 class="sec-title">정리</h2>
+    <ul>
+      <li>수정 요청은 한 번에 한 가지, 어디를 · 어떻게, 바꾸면 안 되는 것까지 적습니다.</li>
+      <li>고친 뒤에는 접수하기와 <code>WEBHOOK_URL</code>을 확인해 연결 약속이 지켜졌는지 봅니다.</li>
+      <li>오류는 찾기 → 신고 문장 먼저 → 오류 글 끼워 넣고 보내기 → 확인 루틴으로 AI에게 고치게 합니다.</li>
+      <li>다음: 6교시에는 <code>WEBHOOK_URL</code>에 n8n 주소를 넣어, 이 화면에서 보낸 민원이 구글 시트에 쌓이게 합니다.</li>
+    </ul>
+    <p>프롬프트 전체는 <a href="../prompts/d1-p5-edit-requests.md">수정 요청 문장 모음</a>과 <a href="../prompts/d1-p5-error-routine.md">오류 대처 루틴 문장</a>에도 있습니다.</p>
+  </section>
+
+  <nav class="pager">
+    <a href="d1-p4.html">← 4교시 AI 앱 빌더 첫 체험</a>
+    <a href="d1-p6.html">6교시 앱 ↔ n8n 연동 ① →</a>
+  </nav>
+
+</main>
+</body>
+</html>

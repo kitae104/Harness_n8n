@@ -78,6 +78,7 @@ cases = [
  ("담당자: 민원팀", "html", html_with("<p>담당자: 민원팀</p>"), "PASS", None),
  ("홍길동 / 010-1234-5678 / {본인 이메일}", "html", html_with("<p>이름: 홍길동, 연락처: 010-1234-5678, 받는 사람: {본인 이메일}</p>"), "PASS", None),
  ("표 안의 인명(성명 | 김민원)", "html", html_with("<table><tr><th>성명</th><td>김민원</td></tr></table>"), "PASS", None),
+ ("필드 대응표(이름 | 이름)", "html", html_with("<table><tr><td>이름</td><td>이름</td><td>이름</td></tr></table>"), "PASS", None),
  ("표 안의 인명(성명 | 최실명)", "html", html_with("<table><tr><th>성명</th><td>최실명</td></tr></table>"), "FAIL", "'성명' 옆 칸 '최실명'"),
  ("<code> 안의 /webhook/ 주소", "html", html_with("<p><code>https://example.app.n8n.cloud/webhook/minwon</code></p>"), "PASS", None),
  ("'워크플로우' (워크플로 오탐 방지)", "html", html_with("<p>워크플로우를 저장합니다.</p>"), "PASS", None),

@@ -47,6 +47,9 @@
 | D34 | 앱 주소 자리 (3회차) | d1-p4 프롬프트에서 코드 맨 위에 빈 `WEBHOOK_URL` 상수를 미리 만든다. d1-p6에서는 그 자리에 Production URL을 넣으라는 짧은 요청만 한다. 보내는 JSON 키는 data-contract의 한글 키 |
 | D35 | CORS 값 (3회차) | 앱이 n8n을 부르는 origin은 공식 문서로 확인되지 않음(F4) → 수업에서는 Allowed Origins `*` 유지. 좁히려면 n8n 실행 기록의 `headers.origin` 값을 쓴다(d2-p3). 브라우저 호출이 막히면 "n8n 호출을 서버 쪽 코드에서 하도록 바꿔줘"(F80) |
 | D36 | 이름이 겹치는 버튼 (3회차) | AI Studio에도 `Publish`(앱 게시)가 있다. n8n `Publish`와 혼동되므로 d1 교시에서는 AI Studio Publish를 언급하지 않고, d2-p3에서 구분해 다룬다 |
+| D37 | d1-p5 오류 연습 (4회차) | 오류 연습은 AI에게 "일부러 오류를 만들어 줘(고치지 말고)"라고 요청해 만든다. AI가 거절·자가 수정하면 교안 속 연습용 오류 문구로 복사·붙여 넣기 동작만 연습(보내지 않음). AI Studio 화면 세부(F8·F77·F82·F84~F86)는 문서에 없어 조건부 문장 + FACT-CHECK로 쓴다 |
+| D38 | F4 시험 방식 (4회차) | Chrome 확장이 연결되지 않아 Claude가 직접 시험할 수 없음 → 강사용 시험 키트(`docs/instructor-kit/f4-test.md`, `f4-test-workflow.json`)로 강사가 시험. d1-p6은 "Test URL로 먼저 시험 → 성공하면 Production URL" 순서로 쓰고, 브라우저 호출이 막힐 때의 우회(서버 쪽 호출 요청, F80)를 교안에 둔다. F4 결과를 받으면 확정 |
+| D39 | 연동 ① 구조 (4회차) | d1-p6 워크플로우는 `민원 받기`(Webhook POST `minwon`) → `민원 정리`(Edit Fields, body 값 꺼내기) → `시트에 기록`(d1-p2 노드 복사). 시트는 d1-p2의 `민원대장 연습`/`시트1`을 이어 쓰고 날짜 열은 기존 교안의 `등록일`. 접수번호·처리상태 열은 d1-p7에서 추가. d1-p6에는 Respond to Webhook이 없으므로 앱의 접수번호 자리는 비어 보인다(7교시에서 채움) |
 | D27 | 작성 순서 | 시간표 순서가 아닌 `lessons.json`의 `authoring_order`를 따른다(d1-p1·opt-voice가 d2-p2.json을 참조하므로) |
 
 ## 미결정

@@ -1,0 +1,45 @@
+{
+  "name": "강사 시험 F4 — 앱에서 n8n으로 POST 되는지",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "f4-test",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [0, 0],
+      "id": "f4-webhook",
+      "name": "앱에서 받기",
+      "webhookId": "7c1e2a90-4b3d-4f6e-8a21-0f4000000001"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"접수번호\": \"TEST-001\",\n  \"메시지\": \"시험 성공 — 받은 이름: {{ $json.body.이름 }} / origin: {{ $json.headers.origin }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [260, 0],
+      "id": "f4-respond",
+      "name": "앱에 답하기"
+    }
+  ],
+  "connections": {
+    "앱에서 받기": {
+      "main": [
+        [
+          { "node": "앱에 답하기", "type": "main", "index": 0 }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

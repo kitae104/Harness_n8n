@@ -39,6 +39,8 @@ Claude 세션은 이 확인을 대신할 수 없다. 확인 결과를 사용자�
 | d1-p3 | 교안 그대로 따라 해 보기: Webhook(GET, `hello`) → Respond to Webhook(JSON, 표현식) → Test URL을 주소창에 `?이름=홍길동` 붙여 호출 → Publish → Production URL 호출. 확인할 표기: 노드 검색 결과(F55), HTTP Method 기본값·Path(F56), Respond With/Response Body/Expression(F57), 한글 쿼리 `이름`(F58), Webhook 노드 위쪽 Test URL/Production URL 선택 위치. 오류 문구 두 개(F50)가 교안과 같은지, Test URL 대기 시간이 2분(120초)인지(F21) |
 | d1-p2 | 교안 그대로 Import → 시트(sheets.new, 머리글 6칸)·Gmail·Gemini 연결 → Execute workflow → 표현식·샘플 값 고쳐 보기가 **40분 안에** 끝나는지. `models/gemini-3.8-flash`가 새 API 키 계정 목록에 보이는지(F42), Gemini 자격 증명 저장 흐름(F73), `Use Gateway credits` 표시 여부(F71), 한국어 계정 새 시트 탭 이름 `시트1`(F72), Gmail 안내 문구가 빠지는지(F66) |
 | d1-p4 | 템플릿(`prompts/d1-p4-minwon-app.md`)을 붙여 3회 생성 → 3회 모두 칸 5개·종류 목록·접수하기·`WEBHOOK_URL` 생성(F76 한국어 프롬프트). 보내기 버튼 표기, `Apps` 목록 자동 저장(F77), 생성 소요 시간, 수강생 20명 동시 생성 시 한도(F7). 플랜 B(n8n Form / Gemini Canvas, F44·F45) 동작 |
+| d1-p5 | 요청 1~3을 차례로 보내 칸 이름·`WEBHOOK_URL`이 유지되는지. 연습 오류 1·2가 만들어지는지/AI가 거절·자가 수정하는지(F84), 오류 글 위치와 복사 가능 여부(F85), 오류 고치기 버튼 표기(F8), 되돌리기 버튼(F77), 대화 패널 위치·Annotation 도구(F82), 요청 10회 전후 한도 화면(F86) |
+| d1-p6 | **먼저 `docs/instructor-kit/f4-test.md` 시험(F4)** — 결과표를 Claude 세션에 전달. 그 뒤 교안 그대로 따라 하기 |
 | d1-p7 | 같은 날 여러 건 접수 시 접수번호 순번(NNN)이 겹치지 않음 |
 | d2-p2 | 조회용 GET Webhook에 한글 쿼리 키(`접수번호`)가 문제없이 전달됨 |
 | d2-p3 | 공유 링크를 다른 계정(로그인 안 한 상태 포함)에서 열었을 때의 동작 |
@@ -82,6 +84,18 @@ Claude 세션은 이 확인을 대신할 수 없다. 확인 결과를 사용자�
 - [ ] F11: 교육망 PC에서 개발자 도구 Network 탭으로 막히는 주소 수집(초기 목록: aistudio.google.com, ai.studio/*.ai.studio, *.run.app, *.usercontent.goog, accounts.google.com, generativelanguage.googleapis.com, esm.sh, cdn.jsdelivr.net, gemini.google.com, *.app.n8n.cloud)
 - [ ] F44·F45: n8n Form 한글 필드 이름, Canvas에서 n8n 호출 가능 여부
 - [ ] F2: 기관(학교) 계정에서 AI Studio 차단 여부
+
+## fact-checker가 넘긴 직접 시험 항목 (4회차, d1-p5·d1-p6)
+
+- [ ] F84: "오류를 일부러 만들어 줘(고치지 말고)" 두 요청에 AI가 따르는지·거절하는지·스스로 고치는지
+- [ ] F8·F85: 오류 화면(미리보기 오류 글, 대화 패널 버튼 `Fix errors`/`Auto-fix` 등, 오른쪽 아래 화살표) 캡처, 오류 글 마우스 선택·복사 가능 여부, 캡처 이미지 붙여 넣기
+- [ ] F77: 되돌리기 버튼 표기·위치, 어느 요청의 버튼을 누르면 무엇이 사라지는지
+- [ ] F82: 대화 패널·입력창 위치, 미리보기 탭 이름, Annotation 도구 위치·`Add to chat`
+- [ ] F86: 요청 10회 전후 https://aistudio.google.com/rate-limit 에 잡히는지, 한도 초과 화면
+- [ ] F87: Edit Fields에 한글 필드를 끌어 놓았을 때 이름 `body['이름']`·값 `{{ $json.body['이름'] }}` 모습 캡처, 이름만 `이름`으로 고친 뒤 출력
+- [ ] F88: 교실 브라우저 n8n Cloud에서 워크플로우 간 노드 복사·붙여 넣기, 붙인 `시트에 기록`의 Credential·Document 유지
+- [ ] F60·F90: Webhook URL 누르면 복사되는지(`Copied to clipboard`), Test/Production URL 전환 위치, `Execute workflow` 버튼 위치와 기다리는 표시
+- [ ] F91: `d1-p6.json`(괄호 표기)을 Import해 앱에서 보낸 다섯 값이 시트에 모두 채워지는지
 
 ## 확인 기록
 

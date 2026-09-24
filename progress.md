@@ -138,3 +138,30 @@
 ### 미해결 문제
 - AI Studio 화면 표기 상당수(F4·F7·F8·F76·F77·F81~F83)가 공식 문서에 없음 → 강사 캡처 전까지 FACT-CHECK 주석 유지
 - 1·2회차 미해결 그대로(에이전트 등록 확인, 제안서 그림 PNG, F41)
+
+## 4회차 — 2026-09-25 — d1-p5 첫 앱 다듬기 · d1-p6 앱 ↔ n8n 연동 ① (새 세션, 사용자 지시로 두 교시 연속)
+
+### 한 일
+- 재시작 후 `fact-checker`·`learner-reviewer` 에이전트가 정식 등록됨을 확인하고 사용(1회차 미해결 해소)
+- **d1-p5**: `prompts/d1-p5-edit-requests.md`(요청 1~3, 나쁜 예/좋은 예), `prompts/d1-p5-error-routine.md`(오류 신고 문장, 연습 오류 1·2, 되돌리기·복구 문장), `lessons/d1-p5.html`(A 화면 수정 6단계 / B 오류 루틴 5단계, 2회 반복)
+  - fact-checker: 확인 0 / 확인 불가 6(F8·F77·F82·F84~F86) → 조건부 문장 + FACT-CHECK(D37)
+  - learner-reviewer: 막힘 5(오류 글·신고 문장 **복사 순서**, Code 탭 뒤 복귀, 흰 화면 오류, 되돌리기 버튼, 끝내 안 고쳐질 때) / 헷갈림 12 / 사소 8 → 25건 반영. 루틴을 "신고 문장 먼저 → 오류 글 끼워 넣기"로 바꿈, 요청 2·되돌리기를 선택으로
+- **F4 시험**: Chrome 확장 미연결로 Claude가 직접 시험 불가 → 강사용 키트 `docs/instructor-kit/f4-test.md` + `f4-test-workflow.json`(D38)
+- **d1-p6**: 구조 확정(D39) — `민원 받기`(Webhook POST minwon) → `민원 정리`(Edit Fields) → `시트에 기록`(d1-p2 노드 복사), 시트는 `민원대장 연습`/`시트1`, 날짜 열 `등록일`. data-contract 갱신. `workflows/d1-p6.json`, `prompts/d1-p6-connect-webhook.md`, `lessons/d1-p6.html`(10단계 + 연결 점검표)
+  - fact-checker: F87 **수정 필요** — 한글 필드를 끌어 놓으면 이름이 `body['이름']`이 됨 → "이름 칸만 고치기"를 필수 단계로, JSON 값도 괄호 표기로. F89 노드 이름 바꾸기는 설정 창 맨 위 이름 한 번 누르기. F88 노드 복사 확인
+  - learner-reviewer: 막힘 3(주소·문장 **복사 순서**, 끌어올 값 없음, Import 시트 목록) / 헷갈림 17 / 사소 8 → 28건 반영. 시간 기준(15:35), "성공 여부는 n8n 쪽으로 판단" 추가
+- verify.py: 필드 대응표의 "이름 | 이름" 오탐 수정(NON_NAME_WORDS에 필드 이름 추가), 회귀 샘플 34개
+
+### 검증 결과
+- verify.py --all: d1-p2~d1-p6 모두 PASS(실패 0) / test_verify.py 34개 불일치 0
+- status: d1-p5, d1-p6 → **instructor-check**
+- 커밋: (이 기록과 같은 커밋)
+
+### 다음 할 일
+1. **강사: `docs/instructor-kit/f4-test.md` 시험** → 결과표 전달 시 d1-p6의 FACT-CHECK F4 정리(결과에 따라 기본 경로를 "서버 쪽 호출"로 바꿀 수 있음)
+2. 다음 교시: **d1-p7**(연동 ① 완성 — 접수번호 생성·Respond to Webhook·1일차 정리). 접수번호 NNN 순번 생성 방식 결정 필요
+3. d1-p4 교안의 "왼쪽 아래 입력창" 표기는 F82 미확인 — 강사 캡처 후 d1-p4·d1-p5·d1-p6 표기 통일
+
+### 미해결 문제
+- AI Studio 화면 세부(F4·F8·F77·F82·F84~F86)와 n8n UI 일부(F60·F87·F90·F91)는 강사 시험 대기
+- 제안서 그림 PNG 전달 대기, F41 그대로

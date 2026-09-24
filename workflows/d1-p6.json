@@ -1,0 +1,191 @@
+{
+  "name": "d1-p6 앱에서 민원 받아 시트에 기록",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "minwon",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d1p6-webhook",
+      "name": "민원 받기",
+      "webhookId": "3f6a9c20-1d4e-4b7a-9e10-0d16a1e60001"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "s1",
+              "name": "이름",
+              "value": "={{ $json.body['이름'] }}",
+              "type": "string"
+            },
+            {
+              "id": "s2",
+              "name": "연락처",
+              "value": "={{ $json.body['연락처'] }}",
+              "type": "string"
+            },
+            {
+              "id": "s3",
+              "name": "이메일",
+              "value": "={{ $json.body['이메일'] }}",
+              "type": "string"
+            },
+            {
+              "id": "s4",
+              "name": "종류",
+              "value": "={{ $json.body['종류'] }}",
+              "type": "string"
+            },
+            {
+              "id": "s5",
+              "name": "상세설명",
+              "value": "={{ $json.body['상세설명'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        260,
+        0
+      ],
+      "id": "d1p6-clean",
+      "name": "민원 정리"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "여기에_본인_시트_ID"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "시트1"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "이름": "={{ $json.이름 }}",
+            "연락처": "={{ $json.연락처 }}",
+            "이메일": "={{ $json.이메일 }}",
+            "종류": "={{ $json.종류 }}",
+            "상세설명": "={{ $json.상세설명 }}",
+            "등록일": "={{ $now.toFormat('yyyy-MM-dd') }}"
+          },
+          "schema": [
+            {
+              "id": "이름",
+              "displayName": "이름",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "연락처",
+              "displayName": "연락처",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "이메일",
+              "displayName": "이메일",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "종류",
+              "displayName": "종류",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "상세설명",
+              "displayName": "상세설명",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "등록일",
+              "displayName": "등록일",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            }
+          ],
+          "matchingColumns": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        520,
+        0
+      ],
+      "id": "d1-sheets",
+      "name": "시트에 기록"
+    }
+  ],
+  "connections": {
+    "민원 받기": {
+      "main": [
+        [
+          {
+            "node": "민원 정리",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "민원 정리": {
+      "main": [
+        [
+          {
+            "node": "시트에 기록",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
