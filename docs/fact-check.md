@@ -40,15 +40,19 @@
 
 | # | 확인할 서술 | 출처 | 상태 | 근거 | 확인일 | 관련 교시 |
 |---|---|---|---|---|---|---|
-| F40 | n8n 클라우드 무료 체험 기간(일수)과 종료 시 동작 | 제안서 2·11절 | 미확인 | | | d1-p1, 운영 |
+| F40 | n8n Cloud 무료 체험 기간(일수)과 종료 시 동작 — 수강생 개인 계정과 **강사 시연 계정 모두** Cloud 사용(Q1) | 제안서 2·11절 | 미확인 | | | d1-p1, 운영 |
 | F41 | 워크플로우 JSON을 가져오면 자격 증명이 비어 있어 노드마다 다시 골라야 한다(ID 없을 때의 동작) | D7 | 미확인 | | | 전 교시 Import |
-| F42 | n8n 기본 Gemini 노드의 이름과 자격 증명 방식(Q2 결정 후) | Q2 | 미확인 | | | d1-p2, d2-p1 |
+| F42 | Gemini 구성: Basic LLM Chain(`chainLlm`, 교안 이름 'AI 안내문 작성') + `Google Gemini Chat Model`(`lmChatGoogleGemini`) 하위 노드, 자격 증명 'Google Gemini(PaLM) API'(API 키). 최신 버전의 노드 이름·typeVersion·모델 목록(기존 교안은 `models/gemini-2.5-flash`) | Q2 | 미확인 | | | d1-p2, d2-p1, d2-p6, opt-pdf |
 | F43 | 기관 설치형(자체 서버) n8n 전환 방법의 공식 안내 문서 | 제안서 2절 | 미확인 | | | d2-p3 |
 | F44 | n8n Form(대체 경로)으로 같은 워크플로우를 받을 수 있다 | 제안서 2절 | 미확인 | | | d1-p4 플랜 B |
 | F45 | Gemini 캔버스 웹 미리보기에서 외부 주소 호출이 가능하다 | 제안서 2절 | 미확인 | | | d1-p4 플랜 B |
+| F46 | 기존 교안의 영문 UI 문구(`Execute workflow`, `Create workflow`, 활성화 스위치, `Form URLs` 등)가 현재 n8n Cloud 화면과 같다 | 기존 교안 capture-guide.md | 미확인 | | | d1-p2 외 전 교시 |
+| F47 | n8n에서 워크플로우 JSON 가져오기(Import) 메뉴 위치와 이름(파일 가져오기, 붙여넣기) | D7 | 미확인 | | | 전 교시 Import |
+| F48 | Webhook 노드 CORS 옵션의 JSON 키가 `options.allowedOrigins`이다(verify.py가 이 키로 경고함) | verify.py | 미확인 | | | d1-p3, d2-p2 |
 
 ## 변경 이력
 
 | 날짜 | 항목 | 변경 | 작성 |
 |---|---|---|---|
 | 2026-09-24 | 전체 | 목록 최초 작성(0회차 세션) | main |
+| 2026-09-24 | F40, F42, F46~F48 | Q1·Q2 결정 반영, 기존 교안 UI 문구·Import·CORS 키 항목 추가 | main |
