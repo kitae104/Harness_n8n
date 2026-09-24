@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2일차 2교시 연동 ② 완성 — AI 앱과 n8n으로 만드는 나만의 업무 자동화 서비스</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/lecture.css">
+<link rel="stylesheet" href="../assets/css/lesson.css">
+</head>
+<body class="lecture-mode">
+<main class="wrap" data-lesson-id="d2-p2" data-type="lab">
+
+  <nav class="crumb"><a href="../index.html">목차</a> › 2일차 › 2교시 (10:00~10:50)</nav>
+
+  <header class="page-head">
+    <h1>연동 ② 완성</h1>
+    <p class="sub">종류별 담당자 나누기, 텔레그램 알림, 그리고 민원인이 스스로 보는 처리 상태 조회 화면</p>
+  </header>
+
+  <section class="sec" id="objectives" data-section="objectives">
+    <h2 class="sec-title">학습목표</h2>
+    <ul>
+      <li>If 노드로 민원 유형별 담당자를 나눕니다.</li>
+      <li>텔레그램으로 접수 알림을 보냅니다.</li>
+      <li>접수번호로 처리 상태를 조회하는 GET Webhook과 조회 화면을 만듭니다.</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="concept" data-section="concept" data-minutes="10">
+    <h2 class="sec-title">왜 이 단계가 필요한가</h2>
+    <p>지금은 모든 민원 메일이 한 담당자에게 갑니다. 실제로는 생활 민원과 쓰레기 수거 민원의 담당자가 다릅니다. 또 급한 민원은 메일보다 메신저가 빨리 눈에 띕니다.
+       그리고 민원인은 "내 민원 어떻게 됐나?"를 전화로 묻습니다. 이번 시간에는 이 세 가지를 해결해 <b>민원 접수 서비스를 완성</b>합니다.</p>
+
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>더하는 것</th><th>노드</th><th>하는 일</th></tr></thead>
+        <tbody>
+          <tr><td>담당자 나누기</td><td><code class="val">생활인가?</code> (If)</td><td>종류가 "생활"이면 <code class="val">담당자 메일</code>(정담당), 아니면 <code class="val">일반 담당자 메일</code>(강처리)</td></tr>
+          <tr><td>메신저 알림</td><td><code class="val">텔레그램 알림</code></td><td>부서방(실습에서는 내 텔레그램)에 새 민원 알림</td></tr>
+          <tr><td>처리 상태 조회</td><td><code class="val">상태 조회</code> → <code class="val">접수번호로 찾기</code> → <code class="val">찾았나?</code> → 답하기 둘</td><td>앱에서 접수번호를 넣으면 처리상태·담당자·처리마감을 돌려줌</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>조회 흐름은 같은 워크플로우 안에 <b>두 번째 입구</b>를 하나 더 만드는 것입니다. 접수는 <code>minwon</code> 주소로 편지를 보내고(POST),
+       조회는 <code>minwon-status</code> 주소 뒤에 <code>?no=접수번호</code>를 붙여 묻습니다(GET, 3교시에 주소창으로 불렀던 방식).
+       이 입구도 <dfn>Webhook</dfn>(외부 앱이 n8n을 부르는 주소)이고, 답은 <dfn>Respond to Webhook</dfn>(부른 쪽에 답장을 보내는 노드)으로 돌려줍니다. 앱이 부르므로 <dfn>CORS</dfn>(다른 주소의 앱이 불러도 되는지 정하는 허락 규칙) 명단이 필요합니다.</p>
+
+    <div class="note concept">
+      <b>한 문장 요약</b>
+      If로 길을 나누고, 텔레그램으로 알리고, 두 번째 입구(GET)로 조회에 답하면 — 접수부터 알림, 조회까지 이어지는 서비스가 완성됩니다.
+    </div>
+    <div class="note tip">
+      <b>강사 메모</b>
+      이 교시의 결과(<code>workflows/d2-p2.json</code>)가 과정 전체의 최종 완성본이며, 1일차 1교시 시연에 이 파일을 씁니다.
+    </div>
+  </section>
+
+  <section class="sec" id="practice" data-section="practice">
+    <h2 class="sec-title">따라하기</h2>
+    <div class="note tip">
+      <b>준비</b>
+      1교시 워크플로우(노드 열 개)를 엽니다. 없으면 <a href="d2-p1.html#import">2일차 1교시 완성본 가져오기</a>로 먼저 맞춥니다.
+      <p><b>시간 기준:</b> 이 교시는 A → C 순서로 합니다. <b>B(텔레그램 알림)는 선택</b>이며 C를 모두 마친 뒤 시간이 남으면 합니다.
+         10시 25분까지 A를 못 마쳤으면 A는 건너뛰고 C부터 합니다. 10시 35분까지 5단계를 못 마쳤으면 이 교시 끝 "완성본 가져오기"로 맞추고(10분쯤 걸립니다), 조회 화면(8단계)은 쉬는 시간에 마칩니다.</p>
+    </div>
+
+    <h3>A. 종류별 담당자 나누기</h3>
+    <ol class="steps">
+      <li><span class="step-title"><code class="val">생활인가?</code> 끼워 넣기</span>
+        <code class="val">시트에 기록</code>과 <code class="val">담당자 메일</code> 사이 선에 마우스를 올리면 나오는 <code class="val">+</code>를 누르고 <code class="val">If</code>를 고릅니다. 이름을 <code class="val">생활인가?</code>로 고칩니다.
+        <code class="val">Conditions</code>에서 왼쪽 칸에 마우스를 올려 <code class="val">Expression</code>을 누르고 <code>{{ $json['종류'] }}</code>, 가운데는 <code class="val">is equal to</code>, 오른쪽 칸에 <code>생활</code>을 적습니다.
+        <span class="hint">이 <code>{{ }}</code>는 앞 노드의 값을 가져오는 <dfn>표현식</dfn>(앞 노드의 값을 가져오는 문장)입니다. 기초과정 07강의 "생활인가?"와 같은 조건입니다.</span>
+        <figure class="capture" id="fig-d2-p2-1">
+          <div class="capture-cap">[그림 2-2-1] <code class="val">생활인가?</code> 조건</div>
+          <div class="capture-guide">If 설정: Conditions에 {{ $json['종류'] }} / is equal to / 생활, 캔버스에서 true 갈래가 담당자 메일로 이어진 모습</div>
+        </figure>
+        <p><code class="val">생활인가?</code>의 <code class="val">true</code> 갈래(위)가 <code class="val">담당자 메일</code>로 이어져 있으면 성공입니다. 이어져 있지 않으면 <code class="val">true</code> 점에서 <code class="val">담당자 메일</code>로 끌어 잇습니다.</p>
+      </li>
+
+      <li><span class="step-title"><code class="val">일반 담당자 메일</code> 만들기</span>
+        <code class="val">담당자 메일</code>을 한 번 눌러 고르고 <kbd>Ctrl</kbd>+<kbd>C</kbd>, 빈 곳을 누르고 <kbd>Ctrl</kbd>+<kbd>V</kbd>로 복사본을 만듭니다. 이름을 <code class="val">일반 담당자 메일</code>로 고칩니다.
+        <code class="val">생활인가?</code>의 <code class="val">false</code> 점(아래)에서 <code class="val">일반 담당자 메일</code>로 끌어 잇습니다.
+        <p><code class="val">일반 담당자 메일</code>의 <code class="val">Subject</code>를 지우고(<code class="val">Expression</code> 상태 유지) 아래 한 줄을 붙여 넣어 두 메일을 구분합니다.</p>
+        <pre class="code-block">[{{ $json.종류 }}·강처리] 민원 접수 {{ $json.접수번호 }}</pre>
+        <p><code class="val">생활인가?</code>에서 <code class="val">true</code> → <code class="val">담당자 메일</code>, <code class="val">false</code> → <code class="val">일반 담당자 메일</code>로 갈라지면 성공입니다. 실습에서는 두 메일 모두 내 주소로 옵니다.</p>
+      </li>
+    </ol>
+
+    <h3>C. 처리 상태 조회 — 두 번째 입구</h3>
+    <ol class="steps" start="3" style="counter-reset: s 2">
+      <li><span class="step-title"><code class="val">상태 조회</code> 만들기</span>
+        캔버스 아래쪽 빈 곳을 한 번 누르고, 오른쪽 위 <code class="val">+</code>(노드 추가)를 눌러 <code class="val">Webhook</code>을 추가합니다. 이름을 <code class="val">상태 조회</code>로 고칩니다.
+        <ul>
+          <li><code class="val">HTTP Method</code>: <code class="val">GET</code></li>
+          <li><code class="val">Path</code>: 글자를 모두 지우고 <code>minwon-status</code></li>
+          <li><code class="val">Respond</code>: <code class="val">Using 'Respond to Webhook' Node</code></li>
+          <li><code class="val">Add Option</code> → <code class="val">Allowed Origins (CORS)</code>: <code>*</code> — <b>체크리스트 1번, 이 입구도 앱이 부릅니다</b></li>
+        </ul>
+        <p>위쪽 주소가 <code>…/minwon-status</code>로 끝나면 성공입니다.</p>
+      </li>
+
+      <li><span class="step-title"><code class="val">접수번호로 찾기</code> 잇기</span>
+        <code class="val">상태 조회</code> 오른쪽 <code class="val">+</code> → <code class="val">Google Sheets</code> → <code class="val">Get Row(s)</code>. 이름을 <code class="val">접수번호로 찾기</code>로 고칩니다.
+        <ul>
+          <li><code class="val">Credential</code>: 구글 시트 <dfn>자격 증명</dfn>(n8n이 내 계정을 대신 쓰도록 맡겨 둔 열쇠)</li>
+          <li><code class="val">Document</code>: <code class="val">From list</code>에서 <code>민원대장 연습</code>, <code class="val">Sheet</code>: <code>시트1</code>(내 탭 이름)</li>
+          <li><code class="val">Filters</code> → <code class="val">Add Filter</code>: <code class="val">Column</code> = <code>접수번호</code>, <code class="val">Value</code>(<code class="val">Expression</code>) = <code>{{ $json.query.no }}</code></li>
+          <li><code class="val">Add Option</code> → <code class="val">Return only First Matching Row</code> 켜기</li>
+          <li><code class="val">Settings</code> 탭 → <code class="val">Always Output Data</code> 켜기</li>
+        </ul>
+        <span class="hint"><code>query.no</code>는 주소 뒤 <code>?no=</code>에 붙여 보낸 접수번호입니다.</span>
+        <p><code class="val">Filters</code>에 한 줄, <code class="val">Always Output Data</code>가 켜져 있으면 성공입니다.</p>
+      </li>
+
+      <li><span class="step-title"><code class="val">찾았나?</code>와 답하기 둘</span>
+        <ol>
+          <li><code class="val">접수번호로 찾기</code> 오른쪽 <code class="val">+</code> → <code class="val">If</code>, 이름 <code class="val">찾았나?</code>. 조건: 왼쪽 <code>{{ $json['접수번호'] }}</code>(<code class="val">Expression</code>), 가운데 <code class="val">is not empty</code>.</li>
+          <li><code class="val">true</code> 점 오른쪽 <code class="val">+</code>를 누르고 <code class="val">Respond to Webhook</code>을 고릅니다. 이름을 <code class="val">조회 결과 답하기</code>로 고치고 <code class="val">Respond With</code>를 <code class="val">JSON</code>으로 바꿉니다.
+            <code class="val">Response Body</code>에 마우스를 올려 <code class="val">Expression</code>을 누르고, <kbd>Ctrl</kbd>+<kbd>A</kbd>, <kbd>Delete</kbd>로 원래 글을 지운 뒤 아래 [조회 결과 답하기] 줄을 붙여 넣습니다.</li>
+          <li><code class="val">false</code> 점에서 같은 방법으로 <code class="val">없음 답하기</code>를 만들고 [없음 답하기] 줄을 붙여 넣습니다.</li>
+        </ol>
+        <p>[조회 결과 답하기]</p>
+        <pre class="code-block">{{ { "찾음": true, "접수번호": $json['접수번호'], "처리상태": $json['처리상태'], "담당자": $json['종류'] === '생활' ? '정담당' : '강처리', "처리마감": DateTime.fromISO($json['등록일']).plus({ days: 3 }).toFormat('yyyy-MM-dd') } }}</pre>
+        <p>[없음 답하기]</p>
+        <pre class="code-block">{{ { "찾음": false, "오류": "접수번호를 찾을 수 없습니다" } }}</pre>
+        <span class="hint">긴 줄은 세 번 빠르게 눌러 한 줄 전체를 고른 뒤 복사합니다(인쇄본은 줄이 잘리므로 웹 교안에서 복사). 처리마감은 등록일에 3일을 더한 날이며, 법정 처리 기한이 아닙니다.</span>
+        <figure class="capture" id="fig-d2-p2-2">
+          <div class="capture-cap">[그림 2-2-2] 조회 흐름</div>
+          <div class="capture-guide">캔버스 아래쪽: 상태 조회 → 접수번호로 찾기 → 찾았나? → true 조회 결과 답하기 / false 없음 답하기</div>
+        </figure>
+        <p><code class="val">찾았나?</code>에서 두 답하기로 갈라지면 성공입니다.</p>
+      </li>
+
+      <li><span class="step-title">주소창으로 먼저 시험하기</span>
+        시트 <code>민원대장 연습</code>에서 어제 받은 접수번호 하나(예: <code>2026-0924-001</code>)를 복사해 둡니다.
+        <ol>
+          <li>캔버스 아래 <code class="val">Execute workflow</code> 버튼 오른쪽의 작은 화살표를 눌러 <code class="val">from 상태 조회</code>를 고르고 버튼을 누릅니다(입구가 둘이라 어느 입구를 기다릴지 고릅니다).</li>
+          <li><code class="val">상태 조회</code>의 <dfn><code class="val">Test URL</code></dfn>(만드는 중에 시험할 때 쓰는 주소)을 복사해 새 탭 주소창에 붙이고, 끝에 <code>?no=</code>와 접수번호를 이어 씁니다.</li>
+          <li>2분 안에 <kbd>Enter</kbd>를 누릅니다.</li>
+        </ol>
+        <pre class="code-block">https://(내 n8n 주소)/webhook-test/minwon-status?no=2026-0924-001</pre>
+        <p>브라우저에 <code>"찾음": true</code>와 처리상태·담당자·처리마감이 보이면 성공입니다.</p>
+        <span class="hint">시간이 남으면: <code class="val">Execute workflow</code>를 다시 눌러 <code class="val">from 상태 조회</code>로 기다리게 한 뒤, 주소 끝 번호만 <code>2026-0101-999</code>로 바꿔 <kbd>Enter</kbd>를 누릅니다. <code>"찾음": false</code>가 보이면 성공입니다.</span>
+        <div class="note mistake" data-section="mistakes">
+          <b>자주 하는 실수</b>
+          <p><b>증상</b> 브라우저에 <code>The requested webhook "…" is not registered.</code> 같은 영어 글이 떠요<br>
+             <b>원인</b> 시험 버튼을 누르지 않았거나, 누른 뒤 2분이 지났거나, 이미 한 번 받은 뒤예요<br>
+             <b>해결</b> <code class="val">Execute workflow</code> 옆 화살표 → <code class="val">from 상태 조회</code>를 다시 누르고 2분 안에 주소창에서 <kbd>Enter</kbd>를 누르세요</p>
+          <p><b>증상</b> 있는 번호인데 <code>"찾음": false</code>가 나와요<br>
+             <b>원인</b> 번호를 잘못 옮겨 적었거나, <code class="val">Filters</code>의 <code class="val">Column</code>이 <code>접수번호</code>가 아니에요<br>
+             <b>해결</b> 시트에서 접수번호를 복사해 붙이고, <code class="val">Column</code>을 다시 고르세요</p>
+          <p><b>증상</b> 브라우저가 한참 기다리다 빈 화면이 나와요<br>
+             <b>원인</b> <code class="val">접수번호로 찾기</code>의 <code class="val">Always Output Data</code>가 꺼져 있어 답하기까지 가지 못했어요<br>
+             <b>해결</b> <code class="val">Settings</code> 탭에서 켜고 다시 시험하세요</p>
+        </div>
+      </li>
+
+      <li><span class="step-title">Publish하고 담당자 나누기 확인하기</span>
+        위쪽 <dfn><code class="val">Publish</code></dfn>(워크플로우를 게시해 주소가 항상 동작하게 하는 버튼) → 확인 창의 <code class="val">Publish</code>.
+        <div class="note warn">
+          <b>개인정보 주의</b>
+          가상 값만 넣습니다.
+        </div>
+        앱에서 가상 민원 두 건을 접수합니다: ① 최주민 / 010-0000-0006 / minwon@example.com / <b>생활</b> / 가로등이 깜빡입니다. ② 박시민 / 010-0000-0007 / minwon@example.com / <b>음식물</b> / 수거함이 넘칩니다.
+        <b>①의 접수번호를 메모해 둡니다</b>(9단계에서 조회합니다).
+        <p>①은 원래 제목, ②는 <code>[음식물·강처리]</code> 제목으로 메일이 오면 성공입니다.</p>
+      </li>
+
+      <li><span class="step-title">앱에 조회 화면 만들기</span>
+        <ol>
+          <li>아래 글을 AI Studio 대화 입력창에 먼저 붙여 넣습니다. <b>아직 보내지 않습니다.</b> 입력창에서 <code>{조회용 Production URL}</code> 글자를 중괄호까지 지웁니다(따옴표는 남김).</li>
+          <li>n8n에서 <code class="val">상태 조회</code>를 열고 위쪽에서 <dfn><code class="val">Production URL</code></dfn>(게시한 뒤 앱에 넣는 진짜 주소)을 골라 주소를 복사합니다(끝이 <code>webhook/minwon-status</code>, <code>?no=</code>는 넣지 않음).</li>
+          <li>AI Studio로 돌아와 따옴표 사이에 붙여 넣고 보냅니다.</li>
+        </ol>
+        <pre class="code-block">이 앱에 "처리 상태 조회" 화면을 하나 더 만들어 줘. 맨 위에 "민원 접수"와 "처리 상태 조회" 두 개의 탭(또는 버튼)을 두고 오갈 수 있게 해 줘.
+
+[처리 상태 조회 화면]
+- 입력 칸 1개: 접수번호 (안내 글: 예) 2026-0925-001)
+- "조회하기" 버튼
+- 코드 맨 위에 STATUS_URL 이라는 상수를 새로 만들고 값은 "{조회용 Production URL}"로 해 줘.
+- 조회하기를 누르면 STATUS_URL 뒤에 ?no=입력한접수번호 를 붙여 GET 방식으로 불러 줘. (접수번호는 주소에 넣을 수 있게 인코딩해 줘)
+- 응답 JSON의 "찾음"이 true면 접수번호, 처리상태, 담당자, 처리마감을 표로 보여 줘.
+- "찾음"이 false면 "오류" 글을 빨간색으로 보여 줘.
+- 응답이 오지 않으면 "조회하지 못했습니다. 잠시 뒤 다시 시도해 주세요."를 보여 줘.
+
+[바꾸지 말 것]
+- 민원 접수 화면, 입력 칸 이름, WEBHOOK_URL은 그대로 둬.</pre>
+        <p>AI의 답이 끝나고 미리보기 위쪽에 <code>민원 접수</code>와 <code>처리 상태 조회</code> 두 탭(또는 버튼)이 보이면 성공입니다.</p>
+      </li>
+
+      <li><span class="step-title">앱에서 조회해 보기</span>
+        앱 위쪽 <code>처리 상태 조회</code>로 가서 7단계에서 메모한 접수번호를 넣고 <code>조회하기</code>를 누릅니다.
+        <figure class="capture" id="fig-d2-p2-3">
+          <div class="capture-cap">[그림 2-2-3] 앱의 처리 상태 조회 화면</div>
+          <div class="capture-guide">앱 조회 탭: 접수번호 입력, 결과 표(접수번호·처리상태 접수·담당자 정담당·처리마감), 없는 번호일 때 빨간 오류 글 두 장</div>
+        </figure>
+        <p>처리상태 <code>접수</code>, 담당자 <code>정담당</code>, 처리마감(등록일 + 3일)이 표로 보이면 성공입니다.</p>
+        <span class="hint">시간이 남으면: 시트에서 그 줄의 처리상태를 <code>처리중</code>으로 고친 뒤 다시 조회해, 바뀐 상태가 보이는지 확인합니다.</span>
+        <div class="note mistake" data-section="mistakes">
+          <b>자주 하는 실수</b>
+          <p><b>증상</b> "조회하지 못했습니다"가 떠요<br>
+             <b>원인</b> <code class="val">상태 조회</code>의 <code class="val">Allowed Origins (CORS)</code>가 비었거나, <code>STATUS_URL</code>에 Test URL을 넣었거나, Publish 전이에요<br>
+             <b>해결</b> 아래 체크리스트를 차례로 보세요. 모두 맞는데도 막히면 <a href="../prompts/d2-p2-status-lookup.md">조회 화면 문장 모음</a>의 "막혔을 때" 문장을 보냅니다</p>
+        </div>
+      </li>
+    </ol>
+
+    <h3>B. 텔레그램 알림 (선택 — C를 마친 뒤 시간이 남으면)</h3>
+    <ol class="steps" start="10" style="counter-reset: s 9">
+      <li><span class="step-title"><code class="val">텔레그램 알림</code> 추가하기</span>
+        <code class="val">시트에 기록</code>의 오른쪽 점을 누른 채 맨 아래 빈 곳으로 끌었다가 놓고, <code>Telegram</code>을 검색해 <code class="val">Send a text message</code>를 고릅니다. 이름을 <code class="val">텔레그램 알림</code>으로 고칩니다. <!-- FACT-CHECK: F200 -->
+        <p>새 가지는 캔버스 <b>맨 아래</b>에 둡니다(AI 가지가 맨 위여야 앱이 먼저 답을 받습니다).</p>
+      </li>
+
+      <li><span class="step-title">봇 연결하고 알림 글 넣기</span>
+        <ul>
+          <li><code class="val">Credential</code>: <code class="val">Create new credential</code> → <code class="val">Access Token</code>에 봇 토큰을 붙여 넣고 저장(<code class="val">Base URL</code>은 그대로)</li>
+          <li><code class="val">Chat ID</code>: 내 chat id(숫자)</li>
+          <li><code class="val">Text</code>(<code class="val">Expression</code>): 아래 글</li>
+          <li><code class="val">Additional Fields</code> → <code class="val">Append n8n Attribution</code> 끄기</li>
+        </ul>
+        <pre class="code-block">새 민원이 접수되었습니다
+접수번호: {{ $json.접수번호 }}
+종류: {{ $json.종류 }}
+접수자: {{ $json.이름 }}</pre>
+        <span class="hint">알림에는 상세 설명을 넣지 않습니다. 민원인이 쓴 글에 <code>_</code>, <code>*</code> 같은 기호가 있으면 텔레그램 전송이 실패할 수 있고, 메신저에 개인정보가 덜 남게 하기 위해서입니다.</span>
+        <p>다시 <code class="val">Publish</code>하고 앱에서 가상 민원을 한 건 접수했을 때 텔레그램에 알림이 오면 성공입니다.</p>
+        <div class="note planb">
+          <b>텔레그램 봇이 없거나 토큰을 모를 때</b>
+          <ul>
+            <li><b>봇은 있는데 토큰을 모를 때:</b> 텔레그램에서 <code>@BotFather</code> 대화방을 열고 <code>/mybots</code> → 내 봇 이름 → 토큰 보기를 누르면 다시 보입니다. <!-- FACT-CHECK: F202 --></li>
+            <li><b>봇이 없을 때:</b> <code>@BotFather</code>에게 <code>/newbot</code>을 보내고, 봇 이름과 끝이 <code>bot</code>인 사용자 이름을 차례로 보내면 토큰을 줍니다. 만든 봇을 열어 아무 말이나 한 번 보냅니다(봇은 먼저 말을 걸 수 없습니다).</li>
+            <li><b>chat id:</b> 브라우저 주소창에 <code>https://api.telegram.org/bot(토큰)/getUpdates</code>를 넣으면 <code>"chat":{"id":숫자</code>가 보입니다. 그 숫자가 chat id입니다.</li>
+          </ul>
+          자세한 그림은 <a href="https://kitae-n8n.vercel.app/prep/day2.html">기초과정 2일차 준비물</a>에 있습니다. 토큰은 비밀번호처럼 다룹니다.
+        </div>
+        <div class="note mistake" data-section="mistakes">
+          <b>자주 하는 실수</b>
+          <p><b>증상</b> 메일은 오는데 텔레그램 알림이 없어요<br>
+             <b>원인</b> chat id가 틀렸거나, 봇에게 먼저 말을 걸지 않았거나, 고친 뒤 Publish하지 않았어요<br>
+             <b>해결</b> 봇 대화방에서 아무 말이나 보낸 뒤 chat id를 다시 확인하고, <code class="val">Publish</code>를 다시 누르세요</p>
+        </div>
+      </li>
+    </ol>
+
+    <h3>조회 Webhook 체크리스트</h3>
+    <ol>
+      <li><code class="val">상태 조회</code>의 <code class="val">Allowed Origins (CORS)</code>가 <code>*</code>인가요?</li>
+      <li><code class="val">HTTP Method</code>가 <code class="val">GET</code>, <code class="val">Respond</code>가 <code class="val">Using 'Respond to Webhook' Node</code>인가요?</li>
+      <li><code class="val">접수번호로 찾기</code>의 <code class="val">Always Output Data</code>가 켜져 있나요?</li>
+      <li>앱의 <code>STATUS_URL</code>이 <code>/webhook/minwon-status</code>로 끝나는 Production URL인가요?</li>
+      <li>노드를 고친 뒤 다시 <code class="val">Publish</code>했나요?</li>
+    </ol>
+  </section>
+
+  <section class="sec" id="quiz" data-section="quiz">
+    <h2 class="sec-title">확인 문제</h2>
+    <div class="quiz-item">
+      <p class="quiz-q"><span class="qtype">객관식</span>Q1. 음식물 민원은 어느 메일로 가나요?</p>
+      <ol class="quiz-choices">
+        <li><code class="val">담당자 메일</code>(true 갈래)</li>
+        <li><code class="val">일반 담당자 메일</code>(false 갈래)</li>
+        <li>둘 다</li>
+        <li>텔레그램만</li>
+      </ol>
+      <details class="quiz-answer"><summary>정답 확인</summary>
+        <p class="quiz-a"><b>정답: ②</b> "생활"이 아니므로 <code class="val">생활인가?</code>의 false 갈래로 갑니다. 텔레그램 알림은 종류와 상관없이 따로 갑니다.</p>
+      </details>
+    </div>
+    <div class="quiz-item">
+      <p class="quiz-q"><span class="qtype">단답형</span>Q2. 조회 주소 뒤에 붙이는 글자는? (접수번호가 2026-0925-003일 때)</p>
+      <details class="quiz-answer"><summary>정답 확인</summary>
+        <p class="quiz-a"><b>정답:</b> <code>?no=2026-0925-003</code></p>
+      </details>
+    </div>
+  </section>
+
+  <section class="sec" id="summary" data-section="summary">
+    <h2 class="sec-title">정리 — 민원 접수 서비스 완성</h2>
+    <pre class="code-block">접수: 앱 → 민원 받기 → 민원 정리 → 오늘 접수 조회 → 접수번호 만들기 → 시트에 기록
+                                                          ├→ AI 안내문 작성 → 앱에 답하기(접수번호·안내문)
+                                                          ├→ 생활인가? → 담당자 메일 / 일반 담당자 메일
+                                                          ├→ 처리 마감 일정(캘린더)
+                                                          └→ 텔레그램 알림
+조회: 앱 → 상태 조회 → 접수번호로 찾기 → 찾았나? → 조회 결과 답하기 / 없음 답하기</pre>
+    <ul>
+      <li>If는 조건에 따라 길을 둘로 나눕니다(true 위, false 아래).</li>
+      <li>한 워크플로우에 입구(Webhook)를 둘 둘 수 있습니다. 앱이 부르는 입구마다 CORS 명단을 적습니다.</li>
+      <li>다음: 3교시에는 이 서비스를 동료에게 공유하고, 비밀값과 개인정보를 점검합니다.</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="import" data-section="import">
+    <h2 class="sec-title">완성본 가져오기(Import)</h2>
+    <p>이 파일을 가져오면 n8n 쪽이 과정 최종 완성본(노드 열여덟 개, 입구 둘)이 됩니다.</p>
+    <div class="note warn">
+      <b>먼저: 1교시 워크플로우를 Unpublish하세요</b>
+      1교시에 Publish한 워크플로우를 열어 <code class="val">Publish</code> 옆 목록에서 <code class="val">Unpublish</code>를 누릅니다. 같은 주소(<code>minwon</code>)를 쓰는 Webhook은 하나만 동작할 수 있습니다.
+    </div>
+    <ol class="steps">
+      <li><span class="step-title">파일 내려받기</span>
+        <a class="dl" href="../workflows/d2-p2.json" download>워크플로우 내려받기 <span class="dl-name">d2-p2.json</span></a>
+      </li>
+      <li><span class="step-title">n8n에서 가져오기</span>
+        <code class="val">Create workflow</code> → 오른쪽 위 <code class="val">…</code> → <code class="val">Import</code> → <code class="val">From file</code>. 노드 열여덟 개가 보이면 성공입니다.
+      </li>
+      <li><span class="step-title">자격 증명 다시 연결하기</span>
+        <ul>
+          <li><code class="val">오늘 접수 조회</code>, <code class="val">시트에 기록</code>, <code class="val">접수번호로 찾기</code> — 구글 시트용</li>
+          <li><code class="val">Google Gemini Chat Model</code> — Gemini <dfn>API 키</dfn>(Gemini를 쓸 수 있게 해 주는 비밀 번호표)</li>
+          <li><code class="val">담당자 메일</code>, <code class="val">일반 담당자 메일</code> — Gmail용</li>
+          <li><code class="val">처리 마감 일정</code> — 캘린더용</li>
+          <li><code class="val">텔레그램 알림</code> — 텔레그램 봇 토큰</li>
+        </ul>
+        <p><code class="val">텔레그램 알림</code>에 고를 자격 증명이 없으면(봇이 없거나 B를 건너뛴 경우) 그 노드를 한 번 눌러 고르고 <kbd>Delete</kbd>로 지웁니다. 나머지는 그대로 동작합니다. <code class="val">처리 마감 일정</code>에 캘린더 자격 증명이 없으면 1교시 6단계처럼 새로 만듭니다.</p>
+      </li>
+      <li><span class="step-title">자리표시자 바꾸기</span>
+        <ul>
+          <li>시트 노드 세 개의 <code class="val">Document</code>: 왼쪽 목록을 <code class="val">From list</code>로 바꾸고 <code>민원대장 연습</code>(<code>여기에_본인_시트_ID</code> 대신), <code class="val">Sheet</code>: 내 탭 이름</li>
+          <li>메일 두 개의 <code class="val">To</code>: <code>본인이메일@example.com</code> → 내 Gmail 주소</li>
+          <li><code class="val">텔레그램 알림</code>의 <code class="val">Chat ID</code>: <code>여기에_본인_채팅_ID</code> → 내 chat id</li>
+          <li><code class="val">처리 마감 일정</code>의 <code class="val">Calendar</code>: 목록에서 내 캘린더, Gemini <code class="val">Model</code>: <code>models/gemini-3.8-flash</code></li>
+        </ul>
+      </li>
+      <li><span class="step-title">Publish하고 앱 확인하기</span>
+        <code class="val">Publish</code>를 누릅니다. 앱의 <code>WEBHOOK_URL</code>은 그대로 둡니다(앱에서 접수 오류가 나면 <code class="val">민원 받기</code>의 Production URL을 앱에 다시 넣습니다 — 1일차 6교시 9단계). 조회 화면이 없으면 따라하기 8단계로 만듭니다. 접수와 조회가 모두 되면 복구 완료입니다.
+      </li>
+    </ol>
+  </section>
+
+  <nav class="pager">
+    <a href="d2-p1.html">← 1교시 연동 ②</a>
+    <a href="d2-p3.html">3교시 앱 배포·공유·보안 →</a>
+  </nav>
+
+</main>
+</body>
+</html>

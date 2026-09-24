@@ -78,7 +78,7 @@
         "docs/legacy/PublicFlow/public/prep/day1.html",
         "docs/legacy/PublicFlow/public/prep/n8n-setup.html"
       ],
-      "status": "todo"
+      "status": "instructor-check"
     },
     {
       "id": "d1-p2",
@@ -451,7 +451,7 @@
         "docs/legacy/PublicFlow/public/downloads/day1-08.json",
         "docs/legacy/PublicFlow/public/downloads/day2-p2.json"
       ],
-      "status": "todo"
+      "status": "instructor-check"
     },
     {
       "id": "d2-p3",

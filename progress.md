@@ -182,3 +182,25 @@
 ### 다음 할 일
 1. d2-p1(담당자 메일·캘린더·Gemini 안내문) — fact-checker 진행 중
 2. 강사 시험 우선순위: F4(앱→n8n) > F102(JSON 모드 한 줄 표현식) > F101(시트 날짜 서식) > F87(끌어 놓기 이름)
+
+## 6·7회차 — 2026-09-25 — d2-p1 연동 ②, d2-p2 연동 ② 완성, d1-p1 입과·시연 (같은 세션, 이어서 진행)
+
+### 한 일
+- **d2-p1**(D42): `시트에 기록` 뒤 세 갈래 — 맨 위 AI 안내문(+Gemini) → `앱에 답하기`(응답 이동, 객체 표현식), 담당자 메일(본인 주소 고정), 처리 마감 일정(캘린더, 목록 선택). fact-check F105~F116(v1 실행은 위쪽 가지부터, Respond는 첫 번째만 유효, Cloud 100초 타임아웃). learner-reviewer 막힘 4 등 21건 반영(앱 다시 열기, 캘린더 자격 증명 단계 분리, 개인정보 박스)
+- **d2-p2**(D43·D44·D45): If `생활인가?` 두 갈래(기존 `담당자 메일` 유지 + `일반 담당자 메일`), 텔레그램 알림, 두 번째 입구 `상태 조회`(GET `minwon-status?no=`) → `접수번호로 찾기` → `찾았나?` → 답하기 둘. 조회 키 `no`, 담당자·처리마감은 조회 때 계산. **최종 완성본 `workflows/d2-p2.json`(18노드)**. fact-check F118~F126. learner-reviewer 막힘 8(**여러 `ol.steps`의 번호가 1부터 다시 시작**, 분량 60~70분 등) → A → C → B(텔레그램 선택) 순서, 번호 이어 붙이기(`start`+`counter-reset`), 기준 시각 두 번
+- **d1-p1**(activity): 시연(d2-p2.json 참조), 로드맵, 준비물 점검 + 안 될 때 박스, 사전조사 공유. learner-reviewer 막힘 3(준비물 대처 없음) 반영, 시간 50분에 맞춤
+- d1-p7: 확인된 FACT-CHECK 정리, Cell Format `Let n8n format`
+- writing-guide: 여러 `ol.steps` 번호 규칙 추가. data-contract: 처리마감·담당자는 시트에 두지 않고 조회 때 계산
+
+### 검증 결과
+- verify.py --all: 10개 교시 PASS / test_verify.py 35개 불일치 0
+- status: d2-p1, d2-p2, d1-p1 → **instructor-check** (1일차 7개 교시 + 2일차 1·2교시 초안 완료)
+
+### 다음 할 일
+1. d2-p3(앱 배포·공유·보안 — 공유 링크, 비밀값, 개인정보·보안 점검표, 기관 설치형 n8n 안내, `print/forms/security-checklist.html`)
+2. 이어서 d2-p4 → d2-p5 → d2-p6 → d2-p7 → opt-pdf → opt-voice (authoring_order)
+3. 강사 시험 우선순위: F4 > F102 > F101 > F87 > F123
+
+### 미해결 문제
+- d1-p5의 A/B 목록도 번호가 부분별로 다시 시작함 — 본문은 "A-3", "B-5"처럼 부분 이름으로 불러 문제는 없음(확인함)
+- 강사 시험 대기 항목 다수(instructor-checklist)
