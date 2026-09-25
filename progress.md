@@ -282,3 +282,9 @@
 1. 사이트 목차 → **강사 준비 목록**(instructor-notes.html)을 보며 교시별 확인·준비. F4 키트가 최우선
 2. 결과는 Claude 세션에 전달 → 교안·fact-check 반영 후 `python scripts/strip_inotes.py --ref F번호`로 해당 표시만 지움
 3. 강의와 관련 없는 부분 정리(사용자 예정). 준비가 모두 끝나면 `python scripts/strip_inotes.py` → verify → build
+
+### 추가(11회차 끝) — F4 시험 체크리스트
+- `docs/instructor-kit/f4-checklist.html`: 강사가 시험하며 체크하는 페이지(브라우저·인쇄). 단계 0·A~F, 단계마다 "확인할 동작" 체크 칸과 기록 칸, "이상할 때", 결과 붙여 넣기 블록(①~⑦). ⑦(같은 주소 두 번 Publish, F62·F203) 덤 시험 추가
+- ⑥(설정 창 Listen for test event) 시험은 게시 중이면 Test URL이 등록되지 않을 수 있어 Publish 전 또는 Unpublish 뒤에 하도록 f4-test.md와 함께 고침
+- 강사 준비 목록·d1-p6 요약 상자에서 체크리스트로 링크
+- **다음 세션 시작: 강사가 F4 시험 결과 블록을 붙여 넣으면 → fact-check F4 등 반영 → 결과별 조치(f4-test.md 표) → 해당 강사 표시 지우기**

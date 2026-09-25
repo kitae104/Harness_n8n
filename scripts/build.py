@@ -94,7 +94,7 @@ def build_notes(groups) -> str:
             '<div class="note tip"><b>쓰는 법</b><ul>'
             '<li>항목의 [ ] 표시를 누르면 교안의 그 위치(노란 점선 상자)로 갑니다.</li>'
             '<li>확인 결과를 Claude 세션에 알려 주면 교안·fact-check에 반영합니다. 강사 직접 시험 전체 목록은 '
-            '<code>docs/instructor-checklist.md</code>, 앱 → n8n 연결 시험은 <code>docs/instructor-kit/f4-test.md</code>.</li>'
+            '<code>docs/instructor-checklist.md</code>, 앱 → n8n 연결 시험은 <a href="docs/instructor-kit/f4-checklist.html">F4 시험 체크리스트</a>.</li>'
             '<li>확인이 끝난 표시만 지우기: <code>python scripts/strip_inotes.py --ref F42</code>, 한 교시만: '
             '<code>--lesson d1-p3</code>, 전부: 옵션 없이 실행. 그다음 <code>python scripts/build.py</code>.</li>'
             '</ul></div>']
