@@ -44,7 +44,7 @@
     </div>
 
     <p>조회 흐름은 같은 워크플로우 안에 <b>두 번째 입구</b>를 하나 더 만드는 것입니다. 접수는 <code>minwon</code> 주소로 편지를 보내고(POST),
-       조회는 <code>minwon-status</code> 주소 뒤에 <code>?no=접수번호</code>를 붙여 묻습니다(GET, 3교시에 주소창으로 불렀던 방식).
+       조회는 <code>minwon-status</code> 주소 뒤에 <code>?no=접수번호</code>를 붙여 묻습니다(GET, 1일차 3교시에 주소창으로 불렀던 방식).
        이 입구도 <dfn>Webhook</dfn>(외부 앱이 n8n을 부르는 주소)이고, 답은 <dfn>Respond to Webhook</dfn>(부른 쪽에 답장을 보내는 노드)으로 돌려줍니다. 앱이 부르므로 <dfn>CORS</dfn>(다른 주소의 앱이 불러도 되는지 정하는 허락 규칙) 명단이 필요합니다.</p>
 
     <div class="note concept">
@@ -134,13 +134,13 @@
       </li>
 
       <li><span class="step-title">주소창으로 먼저 시험하기</span>
-        시트 <code>민원대장 연습</code>에서 어제 받은 접수번호 하나(예: <code>2026-0924-001</code>)를 복사해 둡니다.
+        시트 <code>민원대장 연습</code>에서 어제 받은 접수번호 하나(예: <code>2026-0925-001</code>)를 복사해 둡니다.
         <ol>
           <li>캔버스 아래 <code class="val">Execute workflow</code> 버튼 오른쪽의 작은 화살표를 눌러 <code class="val">from 상태 조회</code>를 고르고 버튼을 누릅니다(입구가 둘이라 어느 입구를 기다릴지 고릅니다).</li>
           <li><code class="val">상태 조회</code>의 <dfn><code class="val">Test URL</code></dfn>(만드는 중에 시험할 때 쓰는 주소)을 복사해 새 탭 주소창에 붙이고, 끝에 <code>?no=</code>와 접수번호를 이어 씁니다.</li>
           <li>2분 안에 <kbd>Enter</kbd>를 누릅니다.</li>
         </ol>
-        <pre class="code-block">https://(내 n8n 주소)/webhook-test/minwon-status?no=2026-0924-001</pre>
+        <pre class="code-block">https://(내 n8n 주소)/webhook-test/minwon-status?no=2026-0925-001</pre>
         <p>브라우저에 <code>"찾음": true</code>와 처리상태·담당자·처리마감이 보이면 성공입니다.</p>
         <span class="hint">시간이 남으면: <code class="val">Execute workflow</code>를 다시 눌러 <code class="val">from 상태 조회</code>로 기다리게 한 뒤, 주소 끝 번호만 <code>2026-0101-999</code>로 바꿔 <kbd>Enter</kbd>를 누릅니다. <code>"찾음": false</code>가 보이면 성공입니다.</span>
         <div class="note mistake" data-section="mistakes">
@@ -165,7 +165,7 @@
         </div>
         앱에서 가상 민원 두 건을 접수합니다: ① 최주민 / 010-0000-0006 / minwon@example.com / <b>생활</b> / 가로등이 깜빡입니다. ② 박시민 / 010-0000-0007 / minwon@example.com / <b>음식물</b> / 수거함이 넘칩니다.
         <b>①의 접수번호를 메모해 둡니다</b>(9단계에서 조회합니다).
-        <p>①은 원래 제목, ②는 <code>[음식물·강처리]</code> 제목으로 메일이 오면 성공입니다.</p>
+        <p>①은 원래 제목(<code>[생활] 민원 접수 …</code>), ②는 <code>[음식물·강처리]</code> 제목으로 메일이 오면 성공입니다.</p>
       </li>
 
       <li><span class="step-title">앱에 조회 화면 만들기</span>

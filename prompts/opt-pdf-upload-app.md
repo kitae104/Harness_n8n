@@ -45,7 +45,7 @@ PDF를 보낼 때 FormData의 파일 이름이 정확히 file 인지 확인해 �
 
 ## 바꿀 자리
 
-- `{Production URL}`: n8n `공문 받기`의 Production URL(끝이 `webhook/gongmun-summary`). 시험은 d1-p6처럼 Test URL로 먼저 해도 된다(문장 먼저 붙여 넣고 주소는 나중에 복사).
+- `{Production URL}`: 처음 시험 때는 `공문 받기`의 **Test URL**을, Publish한 뒤에는 Production URL(끝이 `webhook/gongmun-summary`)을 넣는다. 문장을 먼저 붙여 넣고 주소는 나중에 복사한다(교안 11·13단계).
 
 ## 예상 결과
 

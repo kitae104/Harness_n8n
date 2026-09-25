@@ -15,12 +15,12 @@
 | 교시 | 경로 | 방식 | 용도 | 상태 |
 |---|---|---|---|---|
 | d1-p6 | `minwon` | POST | 민원 접수 | 확정(D39) |
-| d1-p7 | `minwon` | POST | 민원 접수 | 초안 |
-| d2-p1 | `minwon` | POST | 민원 접수 | 초안 |
+| d1-p7 | `minwon` | POST | 민원 접수 | 확정 |
+| d2-p1 | `minwon` | POST | 민원 접수 | 확정 |
 | d2-p2 | `minwon` | POST | 민원 접수 | 확정 |
 | d2-p2 | `minwon-status` | GET | 처리 상태 조회 — 쿼리 `no` | 확정(D44) |
-| d2-p5 | `field-check` | POST | 현장점검 보고 | 초안 |
-| d2-p6 | `field-check` | POST | 현장점검 보고 | 초안 |
+| d2-p5 | `field-check` | POST | 현장점검 보고 | 확정 |
+| d2-p6 | `field-check` | POST | 현장점검 보고 | 확정 |
 | opt-pdf | `gongmun-summary` | POST | PDF 공문 요약 — multipart, 파일 필드 `file` | 확정(D47) |
 | d1-p3 | `hello` | GET | Webhook 연습(독립) — 주소창 호출, 쿼리 `이름` | 확정(D28) |
 

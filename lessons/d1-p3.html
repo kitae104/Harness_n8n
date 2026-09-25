@@ -24,6 +24,7 @@
       <li>Webhook을 "외부 앱이 n8n을 부르는 주소"로 설명할 수 있습니다.</li>
       <li>Test URL로 시험하고, Publish한 뒤 Production URL을 쓰는 순서를 압니다.</li>
       <li>Respond to Webhook 노드로 부른 쪽에 답을 돌려주고, 브라우저 주소창으로 확인합니다.</li>
+      <li>Allowed Origins(CORS)를 미리 설정해 두고, 실제 확인은 6교시에 한다는 것을 압니다.</li>
     </ul>
   </section>
 
@@ -124,7 +125,7 @@
         설정 창 아래 <code class="val">Add Option</code>을 누르고 <code class="val">Allowed Origins (CORS)</code>를 고릅니다.
         칸에 <code>*</code>가 들어 있는지 봅니다. 비어 있으면 <code>*</code>를 입력합니다.
         <span class="hint"><code>*</code>는 "어느 주소의 앱이든 불러도 좋다"는 뜻입니다. 실습에서는 이 값을 씁니다.
-          실제 부서에 적용할 때는 우리 앱 주소만 적는 것이 안전합니다(2일차 3교시).</span>
+          실제 부서에 적용할 때의 안전 설정은 2일차 3교시 점검표에서 다룹니다.</span>
         <figure class="capture" id="fig-d1-p3-5">
           <div class="capture-cap">[그림 1-3-5] <code class="val">Allowed Origins (CORS)</code> 옵션</div>
           <div class="capture-guide">Add Option으로 추가된 Allowed Origins (CORS) 칸과 값 * 강조</div>

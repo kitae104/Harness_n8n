@@ -93,7 +93,8 @@
 
       <li><span class="step-title">워크플로우 뼈대 준비하기 (5분)</span>
         이 교시 끝 "완성본 가져오기"로 <b>현장점검 예시</b>를 가져오는 것이 가장 쉽습니다(노드 여섯 개가 이미 한 줄로 이어져 있습니다).
-        <span class="hint">민원 접수 워크플로우를 복제해 쓰려면: n8n에서 그 워크플로우를 열고 오른쪽 위 <code class="val">…</code> → <code class="val">Duplicate</code>를 누른 뒤, 복사본에서 <code class="val">민원 받기</code>·<code class="val">민원 정리</code>·<code class="val">오늘 접수 조회</code>·<code class="val">접수번호 만들기</code>·<code class="val">시트에 기록</code>·<code class="val">앱에 답하기</code> 여섯 개만 남기고 나머지(메일·캘린더·AI·If·텔레그램·조회 흐름)는 한 번 눌러 <kbd>Delete</kbd>로 지웁니다. <!-- FACT-CHECK: F203 --></span>
+        <span class="hint">민원 접수 워크플로우를 복제해 쓰려면: n8n에서 그 워크플로우를 열고 오른쪽 위 <code class="val">…</code> → <code class="val">Duplicate</code>를 누른 뒤, 복사본에서 <code class="val">민원 받기</code>·<code class="val">민원 정리</code>·<code class="val">오늘 접수 조회</code>·<code class="val">접수번호 만들기</code>·<code class="val">시트에 기록</code>·<code class="val">앱에 답하기</code> 여섯 개만 남기고 나머지(메일·캘린더·AI·If·텔레그램·조회 흐름)는 한 번 눌러 <kbd>Delete</kbd>로 지웁니다. <!-- FACT-CHECK: F203 -->
+          지운 뒤 <code class="val">시트에 기록</code> 오른쪽 점에서 <code class="val">앱에 답하기</code> 왼쪽 점으로 선을 다시 잇고, <code class="val">앱에 답하기</code>의 <code class="val">Response Body</code>를 1일차 7교시 답장 글(<code>접수번호</code>·<code>메시지</code> 두 줄)로 바꿉니다. AI 안내문을 지웠으므로 <code>$json.text</code>가 남아 있으면 안 됩니다.</span>
         <p>캔버스에 노드 여섯 개가 한 줄로 이어져 있으면 성공입니다.</p>
       </li>
 
