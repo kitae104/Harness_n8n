@@ -3383,59 +3383,71 @@
       <dfn>자격 증명</dfn>(n8n이 내 계정을 대신 쓰도록 맡겨 둔 열쇠), <dfn>프롬프트</dfn>(AI에게 시키는 일을 적은 문장), <dfn>API 키</dfn>(서비스를 쓸 수 있게 해 주는 비밀 번호표)
     </div>
     <p>기초과정 P1에서는 n8n 입력 폼으로 공문을 올렸습니다. 이번에는 <b>내가 만든 앱</b>에서 올립니다. 민원 접수와 다른 점은 글자 대신 <b>파일</b>을 보낸다는 것 하나입니다.</p>
+    <p>새로 나오는 말 두 가지: <dfn>Binary</dfn>(n8n이 받은 파일을 담아 두는 칸. 노드 결과 화면의 <code class="val">Binary</code> 탭에서 봅니다), <dfn>Extract from File</dfn>(파일 안의 글자를 꺼내는 노드).</p>
     <div class="tbl-wrap">
       <table class="tbl">
         <thead><tr><th>순서</th><th>노드</th><th>하는 일</th></tr></thead>
         <tbody>
-          <tr><td>1</td><td><code class="val">공문 받기</code> (Webhook)</td><td>앱이 보낸 PDF를 <code>file</code>이라는 이름으로 받음</td></tr>
+          <tr><td>1</td><td><code class="val">공문 받기</code> (Webhook)</td><td>앱이 보낸 PDF를 <code>file</code>이라는 이름표로 받음</td></tr>
           <tr><td>2</td><td><code class="val">글자 뽑기</code> (Extract from File)</td><td>PDF 안의 글자를 꺼냄(<code>text</code>)</td></tr>
           <tr><td>3</td><td><code class="val">AI 공문 요약</code> (+ Gemini)</td><td>목적·주요 내용·지원 사항·대상·일정 다섯 줄 요약</td></tr>
           <tr><td>4</td><td><code class="val">앱에 답하기</code> / <code class="val">요약 메일</code> / <code class="val">텔레그램 알림</code></td><td>앱에 요약 표시, 메일·텔레그램으로 전달</td></tr>
         </tbody>
       </table>
     </div>
+    <p><b>비유</b>: 서류를 봉투에 넣어 보내는 것과 같습니다. 앱은 PDF를 <code>file</code>이라고 적힌 봉투에 넣어 보내고, n8n은 <code>file</code> 봉투를 찾아 엽니다. 봉투 이름이 다르면 n8n은 "받은 서류가 없다"고 합니다.
+       여기서 <code>file</code>은 PDF의 파일 이름이 아니라 <b>봉투(칸) 이름표</b>입니다. 내 파일 이름이 무엇이든 이름표는 늘 <code>file</code>입니다.</p>
     <div class="note warn">
       <b>실습에는 가상 공문만</b>
       실제 공문·내부 문서는 올리지 않습니다. PDF 내용이 n8n 실행 기록과 AI 서비스(Gemini)에 남습니다. 아래 1단계의 가상 공문을 씁니다.
     </div>
     <div class="note concept">
       <b>한 문장 요약</b>
-      파일은 앱이 <code>file</code>이라는 이름으로 보내고, n8n은 그 이름으로 받아 글자를 뽑은 뒤 기존처럼 AI·메일·텔레그램으로 처리합니다. 사진으로 찍은(스캔) PDF는 글자가 없어 읽지 못합니다.
+      파일은 앱이 <code>file</code>이라는 이름표로 보내고, n8n은 그 이름표로 받아 글자를 뽑은 뒤 기존처럼 AI·메일·텔레그램으로 처리합니다. 사진으로 찍은(스캔) PDF는 글자가 없어 읽지 못합니다.
     </div>
   </section>
 
   <section class="sec" id="practice" data-section="practice">
     <h2 class="sec-title">따라하기</h2>
     <div class="note tip">
-      <b>빠른 길</b>
-      n8n 쪽을 직접 만들지 않으려면 이 교안 끝 "완성본 가져오기"로 워크플로우를 가져온 뒤 7단계(앱 만들기)부터 합니다.
+      <b>걸리는 시간과 빠른 길</b>
+      직접 만들면 약 50분, 완성본을 가져오면 약 25분 걸립니다. 2일차 6교시 안에서 한다면 완성본 가져오기를 권합니다.
+      <p>빠른 길: 이 교안 끝 "완성본 가져오기" <b>1~5단계</b>(자격 증명 연결, 자리표시자 바꾸기까지)를 먼저 끝냅니다. 그다음 아래 1단계(가상 공문 PDF)를 하고, 10단계(앱 만들기)부터 이어 합니다.</p>
     </div>
     <ol class="steps">
       <li><span class="step-title">가상 공문 PDF 만들기</span>
-        <a href="../assets/samples/gongmun-sample.html">가상 공문</a>을 열고 <kbd>Ctrl</kbd>+<kbd>P</kbd> → 대상(프린터)을 <code>PDF로 저장</code>으로 바꾸고 저장합니다. 파일 이름은 <code>가상공문.pdf</code>로 합니다.
+        <a href="../assets/samples/gongmun-sample.html">가상 공문</a> 링크를 마우스 오른쪽 버튼으로 눌러 <code class="val">새 탭에서 링크 열기</code>로 엽니다. <kbd>Ctrl</kbd>+<kbd>P</kbd>를 누르고 대상(프린터)을 <code class="val">PDF로 저장</code>으로 바꿉니다.
+        <code class="val">설정 더보기</code>에서 <code class="val">머리글 및 바닥글</code> 체크를 끕니다(켜 두면 내 PC 폴더 경로가 PDF에 찍힙니다). <code class="val">저장</code>을 누르고 <b>바탕 화면</b>에 <code>가상공문.pdf</code>로 저장합니다.
+        <span class="hint">인쇄 창의 글자는 브라우저마다 조금 다릅니다. 크롬·엣지 모두 "PDF로 저장"이 대상 목록에 있습니다.</span>
         <p>저장한 PDF를 열어 글자를 마우스로 끌어 고를 수 있으면 성공입니다(글자가 들어 있는 PDF라는 뜻입니다).</p>
       </li>
 
+      <li><span class="step-title">새 워크플로우 만들고 이름 붙이기</span>
+        n8n 첫 화면에서 <code class="val">Create workflow</code>를 누릅니다. 맨 위 제목(<code class="val">My workflow</code>)을 눌러 <code>PDF 공문 요약</code>으로 바꿉니다.
+        <p>맨 위 제목이 <code>PDF 공문 요약</code>이면 성공입니다. 이후 단계마다 <kbd>Ctrl</kbd>+<kbd>S</kbd>로 저장합니다.</p>
+      </li>
+
       <li><span class="step-title"><code class="val">공문 받기</code> 만들기</span>
-        n8n에서 <code class="val">Create workflow</code> → <code class="val">Webhook</code> 노드를 추가하고 이름을 <code class="val">공문 받기</code>로 고칩니다.
+        가운데 <code class="val">+</code>를 누르고 검색 칸에 <code>Webhook</code>을 쳐서 고릅니다. 설정 창 맨 위 이름을 눌러 <code class="val">공문 받기</code>로 고친 뒤 칸을 채웁니다.
         <ul>
           <li><code class="val">HTTP Method</code>: <code class="val">POST</code>, <code class="val">Path</code>: <code>gongmun-summary</code></li>
           <li><code class="val">Respond</code>: <code class="val">Using 'Respond to Webhook' Node</code></li>
-          <li><code class="val">Add Option</code> → <code class="val">Allowed Origins (CORS)</code>: <code>*</code></li>
+          <li>설정 창 맨 아래 <code class="val">Add Option</code> → <code class="val">Allowed Origins (CORS)</code>: <code>*</code></li>
         </ul>
-        <span class="hint"><code class="val">Add Option</code> 목록의 <code class="val">Field Name for Binary Data</code>는 넣지 않습니다. 넣으면 파일 이름이 <code>file</code>이 아니라 다른 이름으로 바뀝니다.</span>
-        <p>위쪽 주소가 <code>…/gongmun-summary</code>로 끝나면 성공입니다.</p>
+        <span class="hint"><code class="val">Add Option</code> 목록의 <code class="val">Field Name for Binary Data</code>는 넣지 않습니다. 넣으면 봉투 이름표가 <code>file</code>이 아니라 다른 이름으로 바뀝니다.</span>
+        <p>설정 창 위쪽 주소가 <code>…/gongmun-summary</code>로 끝나면 성공입니다.</p>
       </li>
 
       <li><span class="step-title"><code class="val">글자 뽑기</code> 잇기</span>
-        <code class="val">공문 받기</code> 오른쪽 <code class="val">+</code> → <code class="val">Extract from File</code>을 고르고 이름을 <code class="val">글자 뽑기</code>로 고칩니다.
+        설정 창을 닫고 <code class="val">공문 받기</code> 오른쪽 <code class="val">+</code>를 눌러 <code>Extract from File</code>을 찾아 고르고, 이름을 <code class="val">글자 뽑기</code>로 고칩니다.
         <code class="val">Operation</code>: <code class="val">Extract From PDF</code>, <code class="val">Input Binary Field</code>: <code>file</code>(기본값 <code>data</code>를 지우고 적습니다).
-        <p><code class="val">Input Binary Field</code>에 <code>file</code>이 보이면 성공입니다.</p>
+        <p><code class="val">Input Binary Field</code>에 <code>data</code>가 아니라 <code>file</code>이 적혀 있으면 됩니다. 실제로 글자가 뽑히는지는 12단계에서 확인합니다.</p>
       </li>
 
       <li><span class="step-title"><code class="val">AI 공문 요약</code> 잇기</span>
-        <code class="val">글자 뽑기</code> 오른쪽 <code class="val">+</code> → <code class="val">Basic LLM Chain</code>, 이름 <code class="val">AI 공문 요약</code>. <code class="val">Source for Prompt (User Message)</code>를 <code class="val">Define below</code>로 바꾸고 <code class="val">Expression</code>으로 아래를 붙여 넣습니다.
-        아래 <code class="val">Model</code> 자리에 <code class="val">Google Gemini Chat Model</code>을 붙이고 Gemini 자격 증명과 <code>models/gemini-3.8-flash</code>를 고릅니다.
+        <code class="val">글자 뽑기</code> 오른쪽 <code class="val">+</code> → 검색 칸에 <code>Basic LLM</code>을 쳐서 <code class="val">Basic LLM Chain</code>을 고르고, 이름을 <code class="val">AI 공문 요약</code>으로 고칩니다.
+        <code class="val">Source for Prompt (User Message)</code>(AI에게 줄 글을 어디서 가져올지 고르는 칸)를 <code class="val">Define below</code>(아래에 직접 적기)로 바꿉니다.
+        나타난 <code class="val">Prompt (User Message)</code> 칸에 마우스를 올려 <code class="val">Expression</code>을 누르고 아래 글을 붙여 넣습니다.
         <pre class="code-block">다음 공문서를 5줄 이내로 핵심만 요약하세요.
 
 - 목적
@@ -3449,53 +3461,88 @@
 
 [문서 내용]
 {{ $json.text }}</pre>
+        <p>칸 아래 미리보기에 <code>{{ $json.text }}</code> 부분이 초록(또는 빨강) 글자로 보이면 표현식으로 들어간 것입니다.</p>
+      </li>
+
+      <li><span class="step-title">Gemini 붙이기</span>
+        설정 창을 닫고, 캔버스에서 <code class="val">AI 공문 요약</code> 아래의 작은 <code class="val">+</code>(<code class="val">Model</code> 글자 옆)를 눌러 <code class="val">Google Gemini Chat Model</code>을 고릅니다. 내 Gemini 자격 증명과 <code>models/gemini-3.8-flash</code>를 고릅니다.
         <p><code class="val">AI 공문 요약</code> 아래에 Gemini가 붙으면 성공입니다.</p>
       </li>
 
-      <li><span class="step-title">세 갈래 잇기 — 답하기·메일·텔레그램</span>
-        <code class="val">AI 공문 요약</code>에서 세 가지를 잇습니다. <b>답하기를 맨 위</b>에 둡니다.
-        <ol>
-          <li><code class="val">Respond to Webhook</code>, 이름 <code class="val">앱에 답하기</code>, <code class="val">Respond With</code> = <code class="val">JSON</code>, <code class="val">Response Body</code>(<code class="val">Expression</code>)에 아래 첫 줄</li>
-          <li><code class="val">Gmail</code> 메일 보내기, 이름 <code class="val">요약 메일</code>: <code class="val">To</code> {본인 이메일}, <code class="val">Subject</code> 아래 둘째 줄, <code class="val">Email Type</code> <code class="val">Text</code>, <code class="val">Message</code> 아래 셋째 줄</li>
-          <li>(텔레그램 봇이 있으면) <code class="val">Telegram</code> <code class="val">Send a text message</code>, 이름 <code class="val">텔레그램 알림</code>, <code class="val">Text</code> 아래 넷째 줄</li>
-        </ol>
+      <li><span class="step-title"><code class="val">앱에 답하기</code> 잇기 — 세 갈래 중 맨 위</span>
+        <code class="val">AI 공문 요약</code> 오른쪽 <code class="val">+</code> → 검색 칸에 <code>Respond</code>를 쳐서 <code class="val">Respond to Webhook</code>을 고르고, 이름을 <code class="val">앱에 답하기</code>로 고칩니다.
+        <code class="val">Respond With</code>를 <code class="val">JSON</code>으로 바꾸고, <code class="val">Response Body</code> 칸에 마우스를 올려 <code class="val">Expression</code>을 누른 뒤 아래 [상자 가]를 붙여 넣습니다.
+        <p><b>[상자 가] 답장 내용</b> — <code class="val">앱에 답하기</code>의 <code class="val">Response Body</code>에 붙여 넣기</p>
         <pre class="code-block">{{ { "파일": $('공문 받기').first().binary.file.fileName, "요약": $json.text } }}</pre>
+        <span class="hint">이 노드는 세 갈래 중 <b>가장 위</b>에 두어야 합니다. n8n은 위에 있는 갈래부터 처리하므로, 앱이 기다리는 답장을 먼저 보내기 위해서입니다(2일차 1교시와 같은 규칙). 다음 두 노드를 만든 뒤 위치가 바뀌었으면 마우스로 끌어 맨 위로 옮깁니다.</span>
+      </li>
+
+      <li><span class="step-title"><code class="val">요약 메일</code> 잇기</span>
+        <code class="val">AI 공문 요약</code> 오른쪽의 작은 점을 마우스로 누른 채 아래 빈 곳으로 끌었다가 놓습니다(2일차 1교시와 같은 방법). 검색 칸에 <code>Gmail</code>을 치고 메일 보내기(<code class="val">Send a message</code>)를 고릅니다. 이름을 <code class="val">요약 메일</code>로 고칩니다.
+        <ul>
+          <li><code class="val">Credential to connect with</code>: 1일차에 만든 내 Gmail 자격 증명</li>
+          <li><code class="val">To</code>: {본인 이메일}, <code class="val">Email Type</code>: <code class="val">Text</code></li>
+          <li><code class="val">Subject</code>: <code class="val">Expression</code>으로 바꾸고 [상자 나]</li>
+          <li><code class="val">Message</code>: <code class="val">Expression</code>으로 바꾸고 [상자 다](세 줄 모두)</li>
+        </ul>
+        <p><b>[상자 나] 메일 제목</b> — <code class="val">Subject</code>에 붙여 넣기</p>
         <pre class="code-block">[공문 요약] {{ $('공문 받기').first().binary.file.fileName }}</pre>
+        <p><b>[상자 다] 메일 본문</b> — <code class="val">Message</code>에 붙여 넣기</p>
         <pre class="code-block">공문 요약입니다(AI 초안 — 원문과 대조 후 활용).
 
 {{ $json.text }}</pre>
+        <span class="hint"><code>{{ }}</code>가 들어 있는 글은 모두 칸에 마우스를 올려 <code class="val">Expression</code>을 누른 뒤 붙여 넣습니다. 그냥 붙여 넣으면 메일에 <code>{{ … }}</code> 글자가 그대로 찍힙니다.</span>
+      </li>
+
+      <li><span class="step-title"><code class="val">텔레그램 알림</code> 잇기(봇이 있을 때만)</span>
+        2일차 2교시에서 텔레그램 봇을 만들지 않았다면 이 단계는 건너뜁니다.
+        8단계처럼 <code class="val">AI 공문 요약</code>의 작은 점을 끌어 <code>Telegram</code> → <code class="val">Send a text message</code>를 고르고 이름을 <code class="val">텔레그램 알림</code>으로 고칩니다.
+        <code class="val">Credential to connect with</code>에서 내 봇 자격 증명을 고르고, <code class="val">Chat ID</code>에 내 chat id(숫자, 2일차 2교시에서 확인한 것)를 적습니다. <code class="val">Text</code>는 <code class="val">Expression</code>으로 바꾸고 [상자 라]를 붙여 넣습니다.
+        <p><b>[상자 라] 알림 글</b> — <code class="val">Text</code>에 붙여 넣기</p>
         <pre class="code-block">공문 요약이 도착했습니다. 메일을 확인해 주세요.
 파일: {{ $('공문 받기').first().binary.file.fileName }}</pre>
         <span class="hint">텔레그램 알림에는 요약 본문을 넣지 않습니다. 공문 글에 들어 있는 기호 때문에 전송이 실패할 수 있기 때문입니다.</span>
-        <p><code class="val">AI 공문 요약</code>에서 세 갈래로 갈라지고 <code class="val">앱에 답하기</code>가 맨 위면 성공입니다.</p>
-      </li>
-
-      <li><span class="step-title">Test URL 복사해 두기</span>
-        <code class="val">공문 받기</code>를 열어 <code class="val">Test URL</code>을 복사합니다. 7단계에서 씁니다.
+        <figure class="capture" id="fig-opt-pdf-2">
+          <div class="capture-cap">[그림 opt-pdf-2] 세 갈래로 갈라진 캔버스</div>
+          <div class="capture-guide">공문 받기 → 글자 뽑기 → AI 공문 요약(아래 Gemini) → 위부터 앱에 답하기·요약 메일·텔레그램 알림이 이어진 캔버스 전체</div>
+        </figure>
+        <p><code class="val">AI 공문 요약</code>에서 갈래가 나뉘고 <code class="val">앱에 답하기</code>가 맨 위면 성공입니다. <kbd>Ctrl</kbd>+<kbd>S</kbd>로 저장합니다.</p>
       </li>
 
       <li><span class="step-title">앱 만들기</span>
-        AI Studio(<code>aistudio.google.com/apps</code>)에서 <b>새 앱</b>을 만듭니다. <a href="../prompts/opt-pdf-upload-app.md">PDF 공문 요약 앱 주문서</a>의 "1) 새 앱 만들기" 글을 붙여 넣어 보냅니다.
-        이어서 "2) 주소 넣기" 문장을 입력창에 먼저 붙여 넣고, <code>{Production URL}</code> 자리를 지운 뒤 6단계의 Test URL을 따옴표 사이에 붙여 넣어 보냅니다(시험이 끝나면 9단계에서 Production URL로 바꿉니다).
-        <p>파일 고르는 칸과 <code>요약하기</code> 버튼이 보이고, <code class="val">Code</code> 탭의 <code>WEBHOOK_URL</code>에 <code>webhook-test</code> 주소가 보이면 성공입니다.</p>
+        AI Studio(<code>aistudio.google.com/apps</code>)에서 <b>새 앱</b>을 만듭니다. <a href="../prompts/opt-pdf-upload-app.md">PDF 공문 요약 앱 주문서</a>를 열어 "1) 새 앱 만들기" 아래 <code>```text</code> 줄과 <code>```</code> 줄 <b>사이의 글만</b> 복사해 붙여 넣고 보냅니다(기호 줄과 제목은 복사하지 않습니다).
+        <p>오른쪽 미리보기에 <code>공문 요약</code> 제목, 파일 고르는 칸, <code>요약하기</code> 버튼이 보이면 성공입니다. 다 만들어지기 전에는 다음 문장을 보내지 않습니다.</p>
+      </li>
+
+      <li><span class="step-title">앱에 Test URL 넣기 — 문장 먼저, 주소 나중</span>
+        <ol>
+          <li>주문서 "2) 주소 넣기" 문장을 복사해 AI Studio 입력창에 붙여 넣습니다. <b>아직 보내지 않습니다.</b> <code>{Production URL}</code> 글자를 중괄호까지 지웁니다(따옴표는 남깁니다). 주문서에 Production URL이라고 적혀 있어도 <b>지금은 Test URL</b>을 넣고, Production URL은 13단계에서 넣습니다.</li>
+          <li>n8n 탭으로 가서 <code class="val">공문 받기</code>를 두 번 눌러 열고, 위쪽 <code class="val">Test URL</code>을 눌러 주소를 복사합니다.</li>
+          <li>AI Studio 탭으로 돌아와 따옴표 사이를 한 번 누르고 <kbd>Ctrl</kbd>+<kbd>V</kbd>를 누른 뒤 보냅니다.</li>
+        </ol>
+        <p><code class="val">Code</code> 탭의 <code>WEBHOOK_URL</code>에 <code>webhook-test</code>가 들어간 주소가 보이면 성공입니다.</p>
       </li>
 
       <li><span class="step-title">시험하기</span>
         <ol>
-          <li>앱에서 1단계의 <code>가상공문.pdf</code>를 고릅니다. 아직 누르지 않습니다.</li>
-          <li>n8n 캔버스 아래 <code class="val">Execute workflow</code>를 누릅니다(2분 동안 기다립니다).</li>
-          <li>앱에서 <code>요약하기</code>를 누릅니다. 30초쯤 걸릴 수 있습니다.</li>
+          <li>앱에서 바탕 화면의 <code>가상공문.pdf</code>를 고릅니다. 아직 <code>요약하기</code>를 누르지 않습니다.</li>
+          <li>n8n 캔버스 아래 <code class="val">Execute workflow</code>를 누릅니다. 이때부터 <b>2분 안에</b> 다음을 해야 합니다.</li>
+          <li>앱에서 <code>요약하기</code>를 누르고 30초쯤 기다립니다. 1분 반(100초)이 넘도록 답이 없으면 실패로 보고 아래 박스를 봅니다.</li>
         </ol>
         <figure class="capture" id="fig-opt-pdf-1">
           <div class="capture-cap">[그림 opt-pdf-1] Binary 탭의 file과 앱의 요약</div>
-          <div class="capture-guide">왼쪽: 공문 받기 출력의 Binary 탭에 file(가상공문.pdf), 오른쪽: 앱 화면에 다섯 줄 요약</div>
+          <div class="capture-guide">왼쪽: 공문 받기 출력(OUTPUT)의 Binary 탭에 file(가상공문.pdf), 오른쪽: 앱 화면에 다섯 줄 요약</div>
         </figure>
-        <p>앱에 목적·주요 내용·지원 사항·대상·일정 요약이 보이고, 메일(과 텔레그램)이 오면 성공입니다. <code class="val">공문 받기</code> 결과의 Binary 탭에 <code>file</code>이 보입니다.</p>
+        <p>앱에 목적·주요 내용·지원 사항·대상·일정 요약이 보이고, 메일(과 텔레그램)이 오면 성공입니다.
+           n8n에서도 확인합니다: <code class="val">공문 받기</code>를 두 번 눌러 열고, 오른쪽 결과(<code class="val">OUTPUT</code>) 칸 위쪽의 <code class="val">Binary</code> 탭을 누르면 <code>file</code> 이름표 아래 <code>가상공문.pdf</code>가 보입니다.</p>
         <div class="note mistake" data-section="mistakes">
           <b>자주 하는 실수</b>
+          <p><b>증상</b> 요약하기를 누르자마자 앱에 실패가 떠요<br>
+             <b>원인</b> n8n에서 <code class="val">Execute workflow</code>를 누르지 않았거나 2분이 지났어요. 또는 <code class="val">공문 받기</code>의 <code class="val">Allowed Origins (CORS)</code>에 <code>*</code>가 없어요<br>
+             <b>해결</b> <code class="val">공문 받기</code>를 열어 <code class="val">Allowed Origins (CORS)</code>가 <code>*</code>인지 보고, <code class="val">Execute workflow</code>를 다시 누른 뒤 2분 안에 요약하기를 누르세요</p>
           <p><b>증상</b> <code class="val">글자 뽑기</code>가 빨갛고 파일을 찾을 수 없다고 해요<br>
-             <b>원인</b> 앱이 보낸 파일 이름이 <code>file</code>이 아니에요(<code class="val">공문 받기</code>의 Binary 탭에서 이름 확인)<br>
-             <b>해결</b> 주문서의 "3) 막혔을 때" 문장을 AI Studio에 보내거나, <code class="val">Input Binary Field</code>를 Binary 탭에 보이는 이름으로 바꾸세요</p>
+             <b>원인</b> 앱이 보낸 봉투 이름표가 <code>file</code>이 아니에요(<code class="val">공문 받기</code>의 <code class="val">Binary</code> 탭에서 이름 확인)<br>
+             <b>해결</b> 주문서의 "3) 막혔을 때" 문장을 AI Studio에 보낸 뒤, n8n에서 <code class="val">Execute workflow</code>를 다시 누르고 다시 올립니다. <code class="val">Binary</code> 탭에 <code>file</code>이 보일 때까지 앱 쪽을 고칩니다(n8n 쪽 이름은 바꾸지 않습니다. 뒤 노드들의 표현식이 모두 <code>file</code>을 씁니다)</p>
           <p><b>증상</b> 요약이 엉뚱하거나 "문서에 없음"만 나와요<br>
              <b>원인</b> 스캔(사진) PDF라 글자가 뽑히지 않았어요. 오류 없이 빈 글자로 넘어갑니다<br>
              <b>해결</b> 글자를 마우스로 고를 수 있는 PDF를 쓰세요(1단계 방법)</p>
@@ -3506,27 +3553,44 @@
       </li>
 
       <li><span class="step-title">Publish하고 Production URL로 바꾸기</span>
-        <code class="val">Publish</code> → 확인 창의 <code class="val">Publish</code>. <code class="val">공문 받기</code>의 Production URL을 7단계와 같은 방법(문장 먼저 → 주소 나중)으로 앱의 <code>WEBHOOK_URL</code>에 넣습니다.
-        <p>n8n에서 아무것도 누르지 않고 앱에서 PDF를 올려 요약이 오면 완성입니다.</p>
+        <ol>
+          <li>n8n 화면 오른쪽 위 <code class="val">Publish</code>를 누르고, 확인 창에서 다시 <code class="val">Publish</code>를 누릅니다.</li>
+          <li>AI Studio에 주문서 "2) 주소 넣기" 문장을 붙여 넣고(아직 보내지 않음) <code>{Production URL}</code>을 중괄호까지 지웁니다.</li>
+          <li>n8n에서 <code class="val">공문 받기</code>를 열고 위쪽 <code class="val">Production URL</code>을 눌러 주소를 복사합니다(끝이 <code>webhook/gongmun-summary</code>, 가운데에 <code>test</code>가 없습니다).</li>
+          <li>AI Studio로 돌아와 따옴표 사이에 붙여 넣고 보냅니다.</li>
+        </ol>
+        <p><code class="val">Code</code> 탭의 <code>WEBHOOK_URL</code>에 <code>webhook-test</code>가 없고, n8n에서 아무것도 누르지 않고 앱에서 PDF를 올려 요약이 오면 완성입니다.</p>
+        <div class="note mistake">
+          <b>자주 하는 실수</b>
+          <p><b>증상</b> 시험 때는 됐는데 이제 실패해요<br>
+             <b>원인</b> 앱에 아직 Test URL이 들어 있거나 <code class="val">Publish</code>를 하지 않았어요<br>
+             <b>해결</b> <code class="val">Code</code> 탭의 <code>WEBHOOK_URL</code>에 <code>webhook-test</code>가 있으면 이 단계 2부터 다시 하세요. n8n 오른쪽 위 버튼이 게시된 상태인지 확인합니다</p>
+        </div>
       </li>
     </ol>
     <div class="note planb">
-      <b>파일 보내기가 끝내 안 될 때(심화)</b>
-      앱이 파일을 글자(base64)로 바꿔 JSON에 담아 보내고, n8n에서 <code class="val">Convert to File</code>(<code class="val">Move Base64 String to File</code>)로 다시 파일로 바꾸는 방법도 있습니다. 앱이 글자 앞의 <code>data:…;base64,</code> 머리말을 떼야 해서 더 까다롭습니다. 강사와 함께 해 봅니다.
+      <b>파일 보내기가 끝내 안 될 때</b>
+      먼저 1단계의 가상 공문 PDF로 다시 해 보고, 12단계 자주 하는 실수 박스를 차례로 확인합니다.
+      파일을 글자(base64)로 바꿔 보내는 다른 방법도 있지만 설정이 복잡합니다. 교육 중이라면 강사와 함께 해 봅니다.
     </div>
   </section>
 
   <section class="sec" id="summary" data-section="summary">
     <h2 class="sec-title">정리</h2>
     <ul>
-      <li>파일은 앱이 <code>file</code>이라는 이름으로 보내고, n8n은 <code class="val">Extract from File</code>로 글자를 뽑습니다.</li>
+      <li>파일은 앱이 <code>file</code>이라는 이름표로 보내고, n8n은 <code class="val">Extract from File</code>로 글자를 뽑습니다.</li>
       <li>그 뒤는 민원 접수와 같습니다 — AI 요약, 앱에 답하기(맨 위), 메일, 텔레그램.</li>
       <li>스캔 PDF는 글자가 없어 요약하지 못합니다. AI 요약은 초안이므로 원문과 대조합니다.</li>
+      <li>다음: 선택 실습 ②에서는 파일 대신 말로 민원을 넣어 봅니다. 현장점검 앱에 사진을 붙이고 싶다면 오늘 배운 파일 보내기(<code>file</code>)를 응용합니다.</li>
     </ul>
   </section>
 
   <section class="sec" id="import" data-section="import">
     <h2 class="sec-title">완성본 가져오기(Import)</h2>
+    <div class="note warn">
+      <b>먼저: 직접 만들던 워크플로우를 Unpublish하세요</b>
+      직접 만들던 <code>PDF 공문 요약</code> 워크플로우를 이미 <code class="val">Publish</code>했다면, 그 워크플로우를 열어 <code class="val">Publish</code> 옆 목록에서 <code class="val">Unpublish</code>를 누릅니다. 같은 주소(<code>gongmun-summary</code>)를 쓰는 Webhook은 하나만 동작할 수 있습니다.
+    </div>
     <ol class="steps">
       <li><span class="step-title">파일 내려받기</span>
         <a class="dl" href="../workflows/opt-pdf.json" download>워크플로우 내려받기 <span class="dl-name">opt-pdf.json</span></a>
@@ -3535,13 +3599,17 @@
         <code class="val">Create workflow</code> → 오른쪽 위 <code class="val">…</code> → <code class="val">Import</code> → <code class="val">From file</code>. 노드 일곱 개가 보이면 성공입니다.
       </li>
       <li><span class="step-title">자격 증명 다시 연결하기</span>
-        <code class="val">Google Gemini Chat Model</code>(Gemini API 키), <code class="val">요약 메일</code>(Gmail), <code class="val">텔레그램 알림</code>(봇 토큰, 없으면 이 노드를 지웁니다)에서 내 자격 증명을 고릅니다.
+        <code class="val">Google Gemini Chat Model</code>(Gemini API 키), <code class="val">요약 메일</code>(Gmail), <code class="val">텔레그램 알림</code>(봇 토큰, 봇이 없으면 이 노드를 눌러 <kbd>Delete</kbd>로 지웁니다)을 차례로 두 번 눌러 열고 내 자격 증명을 고릅니다.
       </li>
       <li><span class="step-title">자리표시자 바꾸기</span>
         <code class="val">요약 메일</code>의 <code class="val">To</code>: <code>본인이메일@example.com</code> → 내 Gmail 주소. <code class="val">텔레그램 알림</code>의 <code class="val">Chat ID</code>: <code>여기에_본인_채팅_ID</code> → 내 chat id. Gemini <code class="val">Model</code>: <code>models/gemini-3.8-flash</code> 다시 고르기.
       </li>
+      <li><span class="step-title">저장하기</span>
+        <kbd>Ctrl</kbd>+<kbd>S</kbd>로 저장합니다. 빨간 경고 표시가 붙은 노드가 없으면 성공입니다.
+      </li>
       <li><span class="step-title">앱 만들고 연결하기</span>
-        따라하기 1·6·7·8·9단계를 합니다. 앱에서 PDF를 올려 요약이 오면 완성입니다.
+        따라하기 1단계로 가상 공문 PDF를 만들고, 10단계로 앱을 만든 뒤 11·12단계로 Test URL을 넣어 시험합니다. 마지막으로 13단계대로 <code class="val">Publish</code>하고 <b>내</b> <code class="val">공문 받기</code>의 Production URL을 앱에 넣습니다.
+        n8n에서 아무것도 누르지 않고 PDF를 올려 요약이 오면 복구 완료입니다.
       </li>
     </ol>
   </section>
@@ -3571,8 +3639,14 @@
 
   <section class="sec" id="concept" data-section="concept" data-minutes="10">
     <h2 class="sec-title">왜 이 실습인가</h2>
+    <div class="note tip">
+      <b>용어 다시 보기</b>
+      <dfn>Webhook</dfn>(외부 앱이 n8n을 부르는 주소), <dfn>Production URL</dfn>(게시한 뒤 앱에 넣는 진짜 주소), <dfn><code class="val">Publish</code></dfn>(워크플로우를 게시해 주소가 항상 동작하게 하는 버튼),
+      <dfn>API 키</dfn>(서비스를 쓸 수 있게 해 주는 비밀 번호표) — 이 교시에서는 앱이 없거나 n8n을 되살릴 때만 나옵니다.
+    </div>
     <p>현장이나 전화 응대 중에는 긴 글을 치기 어렵습니다. 브라우저에는 말을 글로 바꿔 주는 기능이 들어 있어, 앱에 버튼 하나만 더하면 말로 상세설명을 채울 수 있습니다.
        받아쓴 글은 <b>상세설명 칸에 들어가 기존과 똑같이</b> 보내지므로 n8n 워크플로우는 한 곳도 고치지 않습니다.</p>
+    <p><b>비유</b>: 음성 입력 버튼은 옆자리의 받아쓰기 담당과 같습니다. 내가 말하면 받아 적어 상세설명 칸에 올려 두고, 접수 창구(n8n)는 누가 적었는지 상관없이 평소처럼 받습니다.</p>
     <div class="tbl-wrap">
       <table class="tbl">
         <thead><tr><th>바뀌는 곳</th><th>그대로인 곳</th></tr></thead>
@@ -3581,10 +3655,11 @@
         </tbody>
       </table>
     </div>
+    <p>마이크 권한은 두 겹입니다. 앱 설정 파일에 "마이크를 쓰겠다"고 적어 두는 것(3단계)과, 브라우저가 "이 사이트에 마이크를 허락할까요?"라고 묻는 것(4단계)입니다.</p>
     <div class="note warn">
       <b>알아 둘 점</b>
       <ul>
-        <li>크롬·엣지에서만 됩니다. 파이어폭스는 음성 입력을 지원하지 않습니다.</li>
+        <li>크롬·엣지에서만 됩니다. 파이어폭스는 음성 입력을 지원하지 않습니다. 다른 브라우저(웨일 등)는 확인되지 않았으므로 크롬이나 엣지를 씁니다. <!-- FACT-CHECK: F221 --></li>
         <li>말소리는 글로 바꾸기 위해 인터넷(구글 서버)으로 보내집니다. <b>실제 민원인 이름·연락처·사연은 말로 입력하지 않고</b>, 아래의 가상 문장만 말합니다.</li>
         <li>교육망에서 막히면 인터넷 문제 안내가 뜰 수 있습니다. 그때는 손으로 입력합니다.</li>
       </ul>
@@ -3597,37 +3672,73 @@
 
   <section class="sec" id="practice" data-section="practice">
     <h2 class="sec-title">따라하기</h2>
+    <div class="note tip">
+      <b>걸리는 시간</b>
+      25분쯤입니다(완성본을 다시 가져와야 하면 20분 더). 2일차 6교시에 한다면 내 프로젝트가 처음부터 끝까지 한 번 돌아간 뒤에 시작합니다.
+    </div>
     <ol class="steps">
-      <li><span class="step-title">크롬(또는 엣지)으로 앱 열기</span>
-        크롬이나 엣지에서 AI Studio(<code>aistudio.google.com/apps</code>)의 민원 접수 앱을 엽니다(2일차 2교시까지 연결된 앱).
-        <p>미리보기에서 가상 민원을 한 건 접수해 평소처럼 동작하면 준비가 된 것입니다. 앱이 연결되어 있지 않으면 이 교안 끝 "완성본 가져오기"와 <a href="../lessons/d1-p6.html">1일차 6교시</a>로 먼저 연결합니다.</p>
+      <li><span class="step-title">준비하기 — 브라우저·마이크·앱</span>
+        <ul>
+          <li><b>브라우저</b>: 작업 표시줄의 브라우저 아이콘을 봅니다. 크롬(빨강·노랑·초록 원)이나 엣지(파란 물결)가 아니면 둘 중 하나로 다시 엽니다.</li>
+          <li><b>마이크</b>: PC에 마이크(또는 마이크 달린 헤드셋)가 연결되어 있는지 봅니다. 없으면 강사에게 알리고, 4·5단계는 건너뛰어 상세설명을 손으로 입력한 뒤 6단계만 합니다.</li>
+          <li><b>앱</b>: AI Studio(<code>aistudio.google.com/apps</code>) 왼쪽 메뉴의 <code class="val">Apps</code>를 누르고 <b>민원 접수 앱</b>을 엽니다. 2일차 5교시의 현장점검 앱이나 선택 실습 ①의 PDF 앱이 아닌지 꼭 확인합니다. 이름이 영어라 헷갈리면 하나씩 열어 미리보기에 이름·연락처·종류·상세설명 칸이 있는 앱을 고릅니다.</li>
+        </ul>
+        <p>미리보기에서 가상 값을 넣고 <code>접수하기</code>를 눌러 접수번호와 안내문이 보이면 준비된 것입니다.</p>
+        <div class="note planb">
+          <b>준비가 안 될 때</b>
+          <ul>
+            <li>앱은 있는데 접수가 안 되면: 이 교안 끝 "완성본 가져오기"로 n8n을 되살립니다.</li>
+            <li>앱이 아예 없으면: <a href="../prompts/d1-p4-minwon-app.md">1일차 4교시 주문서</a>로 새 앱을 만들고, <a href="../lessons/d1-p6.html">1일차 6교시</a> 9단계 방법으로 <code>WEBHOOK_URL</code>에 내 Production URL을 넣습니다. 이 실습에는 접수 화면만 있으면 됩니다.</li>
+          </ul>
+        </div>
       </li>
 
       <li><span class="step-title">음성 입력 버튼 주문하기</span>
-        <a href="../prompts/opt-voice-input.md">음성 입력 주문서</a>의 "1) 음성 입력 버튼 더하기" 글 전체를 복사해 AI Studio 대화 입력창에 붙여 넣고 보냅니다.
-        <span class="hint">주문서의 8가지 조건(마이크 권한, 한국어, 듣는 중 표시, 이어 붙이기, 지원 안 되는 브라우저 안내, 오류 안내, 칸 이름 유지)은 하나도 빼지 않고 그대로 보냅니다.</span>
-        <p>미리보기의 상세설명 칸 옆에 <code>음성으로 입력</code> 버튼이 보이면 성공입니다.</p>
+        <a href="../prompts/opt-voice-input.md">음성 입력 주문서</a>를 엽니다. "1) 음성 입력 버튼 더하기" 아래 상자에서 "민원 접수 화면의"로 시작해 "WEBHOOK_URL은 바꾸지 마."로 끝나는 글만 복사합니다(위아래의 <code>```text</code> 줄은 빼고). AI Studio 대화 입력창에 붙여 넣고 보내기(화살표) 버튼을 누릅니다.
+        <span class="hint">주문서의 8가지 조건(마이크 권한, 브라우저 음성 인식 사용, 한국어, 듣는 중 표시, 이어 붙이기, 지원 안 되는 브라우저 안내, 오류 안내, 칸 이름 유지)은 하나도 빼지 않고 그대로 보냅니다. 영어 단어는 AI에게 전하는 말이라 뜻을 몰라도 됩니다.</span>
+        <p>AI의 답이 끝나 미리보기가 다시 나타날 때까지 1~2분 기다립니다. 그동안 다른 요청은 보내지 않습니다.</p>
+        <figure class="capture" id="fig-opt-voice-1">
+          <div class="capture-cap">[그림 opt-voice-1] 상세설명 칸 옆에 생긴 음성으로 입력 버튼</div>
+          <div class="capture-guide">주문을 보낸 뒤 미리보기 전체, 상세설명 칸과 음성으로 입력 버튼 강조</div>
+        </figure>
+        <p>미리보기의 상세설명 칸 옆에 <code>음성으로 입력</code> 버튼이 보이면 성공입니다. 버튼이 없거나 미리보기에 오류 글이 보이면 <a href="../lessons/d1-p5.html">1일차 5교시</a> 오류 신고 루틴 문장을 보냅니다.</p>
       </li>
 
       <li><span class="step-title">마이크 권한이 들어갔는지 확인하기</span>
-        <code class="val">Code</code> 탭의 파일 목록에서 <code>metadata.json</code>을 열고 <code>microphone</code>이라는 글자가 있는지 봅니다.
-        <p><code>microphone</code>이 보이면 성공입니다. 없으면 주문서의 "2) 막혔을 때" 문장을 보냅니다.</p>
+        미리보기 위쪽의 <code class="val">Code</code> 탭을 누릅니다. 왼쪽 파일 목록에서 <code>metadata.json</code>(앱의 설정 파일)을 누릅니다. 목록이 길면 아래로 내려 찾습니다.
+        <p><code>"requestFramePermissions": ["microphone"]</code>처럼 <code>microphone</code>이라는 글자가 보이면 성공입니다. 확인했으면 미리보기 탭을 눌러 돌아갑니다.</p>
+        <p>없으면 주문서의 "3) 마이크 권한이 빠졌을 때" 문장을 보내고, AI의 답이 끝나면 이 단계를 한 번 더 합니다.</p>
+      </li>
+
+      <li><span class="step-title">마이크 허용하기</span>
+        미리보기에서 <code>음성으로 입력</code>을 누릅니다. 처음에는 마이크 사용을 묻는 창이 두 번(AI Studio 확인 창 → 브라우저 허용 창) 뜰 수 있습니다. 두 창 모두 허용을 누릅니다. 허용 버튼이 여러 개면 "방문할 때마다 허용"에 해당하는 버튼을, 영어 창이면 <code class="val">Allow</code>를 누릅니다. <!-- FACT-CHECK: F221 -->
+        <figure class="capture" id="fig-opt-voice-2">
+          <div class="capture-cap">[그림 opt-voice-2] 마이크 허용 창</div>
+          <div class="capture-guide">AI Studio 확인 창과 브라우저 마이크 허용 창을 뜨는 순서대로 두 장</div>
+        </figure>
+        <p>버튼이 "듣는 중…"으로 바뀌면 성공입니다.</p>
       </li>
 
       <li><span class="step-title">말로 입력해 보기</span>
-        미리보기에서 <code>음성으로 입력</code>을 누릅니다. 처음에는 마이크 사용을 묻는 창이 뜰 수 있습니다(AI Studio 확인 창과 브라우저 허용 창). 허용을 누릅니다. <!-- FACT-CHECK: F221 -->
-        "듣는 중…"이 보이면 아래 문장을 또박또박 말합니다.
+        "듣는 중…"이 보이는 동안 아래 문장을 또박또박 말합니다.
         <pre class="code-block">주민센터 앞 보도블록이 깨져 있어 걷기가 위험합니다</pre>
-        <figure class="capture" id="fig-opt-voice-1">
-          <div class="capture-cap">[그림 opt-voice-1] 말한 내용이 상세설명 칸에 들어간 모습</div>
-          <div class="capture-guide">마이크 허용 창, "듣는 중…" 표시, 인식된 문장이 상세설명 칸에 들어간 미리보기 세 장</div>
+        말을 마치고 2~3초 기다리면 "듣는 중…"이 사라집니다. 사라지지 않으면 버튼을 한 번 더 눌러 끝냅니다. 주변이 시끄러우면 마이크에 가까이 대고 말하고, 다른 사람 말이 섞여 들어가면 칸에서 지웁니다.
+        <figure class="capture" id="fig-opt-voice-3">
+          <div class="capture-cap">[그림 opt-voice-3] 말한 내용이 상세설명 칸에 들어간 모습</div>
+          <div class="capture-guide">"듣는 중…" 표시, 인식된 문장이 상세설명 칸에 들어간 미리보기 두 장</div>
         </figure>
         <p>상세설명 칸에 말한 문장이 글로 들어가면 성공입니다. 틀린 글자는 칸에서 손으로 고칩니다.</p>
         <div class="note mistake" data-section="mistakes">
           <b>자주 하는 실수</b>
           <p><b>증상</b> "마이크 사용을 허용해 주세요"가 떠요<br>
-             <b>원인</b> 허용 창에서 거부를 눌렀거나, 주소창의 마이크 표시가 차단으로 되어 있어요<br>
-             <b>해결</b> 주소창 왼쪽(또는 오른쪽)의 마이크·자물쇠 표시를 눌러 마이크를 "허용"으로 바꾸고 새로고침합니다</p>
+             <b>원인</b> 허용 창에서 거부를 눌렀거나, 브라우저의 마이크 설정이 차단으로 되어 있어요<br>
+             <b>해결</b> 주소창 맨 왼쪽의 작은 표시(자물쇠나 조절 모양)를 누릅니다. 목록에서 <code class="val">마이크</code>를 찾아 <code class="val">허용</code>으로 바꾸고 <kbd>F5</kbd>로 새로고침한 뒤 버튼을 다시 누릅니다. AI Studio 확인 창에서 거부했다면 새로고침 뒤 다시 물어볼 때 허용합니다 <!-- FACT-CHECK: F221 --></p>
+          <p><b>증상</b> "말소리가 들리지 않았습니다" 또는 "마이크를 찾을 수 없습니다"가 떠요<br>
+             <b>원인</b> 마이크가 연결되어 있지 않거나, 헤드셋 마이크가 꺼져 있거나, 말을 시작하기 전에 듣기가 끝났어요<br>
+             <b>해결</b> 헤드셋 선의 음소거 스위치를 확인하고 버튼을 다시 눌러 바로 말합니다. 마이크가 없으면 손으로 입력하고 6단계로 갑니다</p>
+          <p><b>증상</b> 같은 문장이 두 번 들어가요<br>
+             <b>원인</b> 말하는 중간 글자가 칸에 그대로 남았어요<br>
+             <b>해결</b> 칸에서 한 번 지우고, 주문서의 "4) 글이 두 번 들어갈 때" 문장을 보냅니다</p>
           <p><b>증상</b> "이 브라우저에서는 음성 입력을 쓸 수 없습니다"가 떠요<br>
              <b>원인</b> 파이어폭스 등 지원하지 않는 브라우저예요<br>
              <b>해결</b> 크롬이나 엣지로 앱을 여세요</p>
@@ -3638,8 +3749,16 @@
       </li>
 
       <li><span class="step-title">접수하고 시트 확인하기</span>
-        나머지 칸에 가상 값(김민원 / 010-0000-0009 / minwon@example.com / 생활)을 넣고 동의에 체크한 뒤 <code>접수하기</code>를 누릅니다.
-        <p>앱에 접수번호가 보이고, 시트 <code>민원대장 연습</code>의 상세설명 칸에 말로 입력한 문장이 들어가면 완성입니다. n8n은 한 곳도 고치지 않았습니다.</p>
+        이름 <code>김민원</code>, 연락처 <code>010-0000-0009</code>, 이메일 <code>minwon@example.com</code>을 넣고, 종류는 <code>생활</code>을 고릅니다. 동의 칸에 체크하고 <code>접수하기</code>를 누릅니다.
+        <p>앱에 접수번호가 보이고, 시트 <code>민원대장 연습</code>의 <code>시트1</code> 탭 맨 아래 새 줄의 <code>상세설명</code> 칸에 말로 입력한 문장이 보이면 완성입니다. 담당자 메일과 텔레그램 알림도 평소처럼 옵니다. n8n은 한 곳도 고치지 않았습니다.
+           음성 입력이 막혀 손으로 적었다면, 적은 문장이 시트에 들어가면 성공입니다.</p>
+        <span class="hint">이 실습은 AI Studio 편집 화면의 미리보기에서 합니다. 2일차 3교시에 만든 공유 링크에 바로 반영되는지는 강사 안내를 따릅니다. <!-- FACT-CHECK: F221 --></span>
+        <div class="note mistake">
+          <b>자주 하는 실수</b>
+          <p><b>증상</b> 음성 버튼을 넣은 뒤 접수가 안 돼요<br>
+             <b>원인</b> AI가 앱을 고치면서 <code>WEBHOOK_URL</code>이나 보내는 칸 이름을 바꿨을 수 있어요<br>
+             <b>해결</b> <code class="val">Code</code> 탭에서 <kbd>Ctrl</kbd>+<kbd>F</kbd>로 <code>WEBHOOK_URL</code>을 찾아 <code>/webhook/minwon</code>으로 끝나는 내 Production URL인지 봅니다. 맞으면 <a href="../lessons/d2-p6.html">2일차 6교시</a> 점검 순서표를 따릅니다</p>
+        </div>
       </li>
     </ol>
   </section>
@@ -3655,18 +3774,32 @@
 
   <section class="sec" id="import" data-section="import">
     <h2 class="sec-title">완성본 가져오기(Import)</h2>
-    <p>이 실습은 n8n을 바꾸지 않습니다. 연결된 워크플로우가 없으면 과정 최종 완성본(2일차 2교시)을 가져와 씁니다.</p>
+    <p>이 실습은 n8n을 바꾸지 않습니다. 연결된 워크플로우가 없으면 과정 최종 완성본(2일차 2교시)을 가져와 씁니다. 앱이 없을 때는 1단계의 "준비가 안 될 때"를 봅니다.</p>
+    <div class="note warn">
+      <b>먼저: 예전 워크플로우를 Unpublish하세요</b>
+      전에 Publish해 둔 민원 접수 워크플로우를 열어 <code class="val">Publish</code> 옆 목록에서 <code class="val">Unpublish</code>를 누릅니다. 같은 주소(<code>minwon</code>)를 쓰는 Webhook은 하나만 동작할 수 있습니다.
+    </div>
     <ol class="steps">
       <li><span class="step-title">파일 내려받기</span>
         <a class="dl" href="../workflows/d2-p2.json" download>최종 완성본 내려받기 <span class="dl-name">d2-p2.json</span></a>
       </li>
-      <li><span class="step-title">가져오고 자격 증명 연결하기</span>
-        <code class="val">Create workflow</code> → <code class="val">…</code> → <code class="val">Import</code> → <code class="val">From file</code>. 노드마다 <dfn>자격 증명</dfn>(n8n이 내 계정을 대신 쓰도록 맡겨 둔 열쇠)을 다시 고르고,
-        자리표시자 <code>여기에_본인_시트_ID</code>(시트 노드의 <code class="val">Document</code> → 내 시트), <code>본인이메일@example.com</code>(메일 <code class="val">To</code> → 내 주소), <code>여기에_본인_채팅_ID</code>(텔레그램 <code class="val">Chat ID</code>)를 바꿉니다.
-        노드 이름별 자세한 목록은 <a href="../lessons/d2-p2.html#import">2일차 2교시 완성본 가져오기</a> 3~4단계에 있습니다.
+      <li><span class="step-title">n8n에서 가져오기</span>
+        n8n 첫 화면 오른쪽 위 <code class="val">Create workflow</code> → 캔버스 오른쪽 위 <code class="val">…</code> → <code class="val">Import</code> → <code class="val">From file</code>. 노드 열여덟 개가 보이면 성공입니다.
+      </li>
+      <li><span class="step-title">자격 증명 다시 연결하기</span>
+        아래 노드를 차례로 두 번 눌러 열고 내 <dfn>자격 증명</dfn>(n8n이 내 계정을 대신 쓰도록 맡겨 둔 열쇠)을 고릅니다.
+        <code class="val">오늘 접수 조회</code>, <code class="val">시트에 기록</code>, <code class="val">접수번호로 찾기</code>(구글 시트), <code class="val">Google Gemini Chat Model</code>(Gemini API 키),
+        <code class="val">담당자 메일</code>, <code class="val">일반 담당자 메일</code>(Gmail), <code class="val">처리 마감 일정</code>(캘린더), <code class="val">텔레그램 알림</code>(봇 토큰, 봇이 없으면 이 노드를 지웁니다).
+      </li>
+      <li><span class="step-title">자리표시자 바꾸기</span>
+        시트 노드 세 개의 <code class="val">Document</code>: <code>여기에_본인_시트_ID</code> 대신 <code class="val">From list</code>에서 <code>민원대장 연습</code>, <code class="val">Sheet</code>는 <code>시트1</code>.
+        메일 두 개의 <code class="val">To</code>: <code>본인이메일@example.com</code> 대신 내 Gmail 주소. <code class="val">텔레그램 알림</code>의 <code class="val">Chat ID</code>: <code>여기에_본인_채팅_ID</code> 대신 내 chat id. <code class="val">처리 마감 일정</code>의 <code class="val">Calendar</code>: 목록에서 내 캘린더.
+        더 자세한 설명은 <a href="../lessons/d2-p2.html#import">2일차 2교시 완성본 가져오기</a>에 있습니다.
       </li>
       <li><span class="step-title">Publish하고 앱 주소 확인하기</span>
-        <dfn><code class="val">Publish</code></dfn>(워크플로우를 게시해 주소가 항상 동작하게 하는 버튼)를 누르고, 앱의 <code>WEBHOOK_URL</code>이 <code class="val">민원 받기</code>의 <dfn>Production URL</dfn>(게시한 뒤 앱에 넣는 진짜 주소)인지 확인합니다(다르면 1일차 6교시 9단계 순서로 넣습니다).
+        <code class="val">Publish</code>를 누릅니다. <code class="val">민원 받기</code> 노드를 열어 <code class="val">Production URL</code>을 누르고 주소를 복사합니다.
+        앱의 <code class="val">Code</code> 탭에서 <kbd>Ctrl</kbd>+<kbd>F</kbd>로 <code>WEBHOOK_URL</code>을 찾아 두 주소가 같은지 봅니다. 다르면 1일차 6교시 9단계 순서로 바꿔 넣습니다.
+        <p>미리보기에서 가상 민원을 접수해 접수번호가 보이면 복구가 끝났습니다.</p>
       </li>
     </ol>
   </section>

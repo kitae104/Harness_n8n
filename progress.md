@@ -204,3 +204,31 @@
 ### 미해결 문제
 - d1-p5의 A/B 목록도 번호가 부분별로 다시 시작함 — 본문은 "A-3", "B-5"처럼 부분 이름으로 불러 문제는 없음(확인함)
 - 강사 시험 대기 항목 다수(instructor-checklist)
+
+## 8·9회차 — 2026-09-25 — d2-p3 배포·공유·보안, d2-p4~d2-p7 프로젝트, opt-pdf·opt-voice 선택 실습 (같은 흐름, 사용자 지시 "이후 작업도 좋은 방향으로 계속 진행")
+
+### 한 일
+- **d2-p3**(lab): AI Studio 공유 링크와 `Publish`(Cloud Run) 구분 표, Secrets·공유 시 코드 공개, n8n 자격 증명 위치·실행 기록 설정, 기관 설치형 n8n 안내. `print/forms/security-checklist.html`(됨/아직/모름). fact-check F127~F143(F143: Allowed Origins는 호출 자체를 막지 못함). learner-reviewer 막힘 반영
+- **d2-p4~d2-p7**(activity): 설계서(`print/forms/design-sheet.html`)→주문서(`prompts/d2-p4-design-to-prompt.md`), 현장점검 예시(`workflows/d2-p5.json`, `d2-p6.json`, `prompts/d2-p5-field-inspection-app.md`), 점검 순서표, 발표·로드맵(`print/forms/roadmap.html`). **D46**: 현장점검 사진은 예시에서 제외(Q6 해결). learner-reviewer 4건 반영
+- **opt-pdf**: multipart `file` 전송 기본, base64는 플랜 B(**D47**, F213·F215). 가상 공문 `assets/samples/gongmun-sample.html` → "PDF로 저장". `workflows/opt-pdf.json`(7노드)
+  - learner-reviewer: 막힘 3(세 갈래 한 단계·코드 상자 지칭, Test URL **복사 순서**, 빠른 길이 자격 증명 연결을 건너뜀) / 헷갈림 13 / 사소 7 → **반영**: 9단계 → 13단계로 쪼갬, 코드 상자 [가]~[라] 이름표, Gmail·텔레그램 자격 증명·Chat ID, "문장 먼저 → 주소 나중", 실수 박스 2개 추가(Execute·CORS, Test URL 남음), Binary 풀이·봉투 비유, 시간 안내(50분/25분), Import 앞 Unpublish 경고
+- **opt-voice**: n8n 그대로, 앱에만 음성 입력(**D47**, F217~F222)
+  - learner-reviewer: 막힘 3(마이크 없는 PC, Import 앞 Unpublish 경고 없음, 앱 자체가 없을 때 복구 길) / 헷갈림 16 / 사소 8 → **반영**: 1단계 준비(브라우저·마이크·앱 고르기 + 준비가 안 될 때), 허용/말하기 단계 분리, 실수 박스 3개 추가, Import 노드 이름·자리표시자를 이 교안에 직접 적음. 주문서에 3)·4) 문장과 `audio-capture` 안내 문구 추가
+- instructor-checklist: opt-pdf·opt-voice 행에 리뷰가 넘긴 확인 항목(웨일, 허용 창 버튼, 공유 링크 반영, 인쇄 창 글자 등) 추가
+- test_verify: 작성 전(todo) 링크 샘플을 남은 교시에서 동적으로 고르게 수정
+
+### 검증 결과
+- verify.py --all: **16개 교시 모두 PASS(실패 0)** / test_verify.py 34개 불일치 0
+- build.py: index.html 16개 링크, print/textbook.html 16개 교시. 남은 캡처 50개
+- status: 16개 교시 모두 **instructor-check** — 교안 초안 전체 완료
+
+### 다음 할 일
+1. **강사 시험(우선순위)**: F4(`docs/instructor-kit/f4-test.md`, 앱 → n8n POST) > F102(JSON 모드 한 줄 표현식) > F101(시트 날짜 서식) > F87(끌어 놓기 이름) > F123(트리거 둘일 때 실행). 결과를 받으면 FACT-CHECK 주석 정리 → 교시별 `done`
+2. 캡처 50개 촬영 → `python scripts/apply_captures.py`
+3. 교육 1주 전: n8n Cloud 당시 안정 버전 기준 캡처·JSON 최종 확인, 교육망 예외 도메인(F11)
+4. 사용자 검토 후 수정 요청 반영(사용자: "나온 결과를 보고 이후에 수정")
+
+### 미해결 문제
+- 제안서 그림 PNG(그림 0·1·2·7) 전달 대기 → `assets/proposal/`
+- AI Studio 화면 세부(F4·F7·F8·F77·F82·F84~F86·F216·F221)는 강사 캡처 전까지 FACT-CHECK 주석 유지
+- 6회차 기록의 test_verify "35개"는 현재 34개로 집계됨(샘플 정리로 줄어든 것으로 보임, 불일치 0은 동일)

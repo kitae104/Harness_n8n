@@ -50,8 +50,8 @@ Claude 세션은 이 확인을 대신할 수 없다. 확인 결과를 사용자�
 | d2-p5 | 현장점검 예시 Import(`d2-p5.json`) → 칸 이름 바꾸기 → 연결까지 14:35 기준에 맞는지, 워크플로우 `Duplicate`(F203), 한글 점 표기 `$json.점검장소`(F91) |
 | d2-p6 | 확장형 예시(`d2-p6.json`) 보수필요 → AI 조치 요약 → 팀장 메일, 텔레그램. 점검 순서표로 오류 찾기가 되는지 |
 | d2-p7 | 팀 수별 발표 시간, 발표 화면 띄우는 방식, 수료 설문 링크 |
-| opt-voice | fact-check F221 목록: metadata.json microphone, 권한 창 순서, 한국어 인식, 크롬·엣지·파이어폭스 결과, 교육망 network 오류, 공유 링크에서 권한 |
-| opt-pdf | fact-check F216 목록: 앱 미리보기 multipart 전송(Binary 탭 `file`), 서버 쪽 호출 시 유지, 1·5·15MB, 한글 PDF 추출, 스캔 PDF, 100초 안 완료, `Extract From PDF` 화면. 가상 공문 HTML → PDF로 저장이 글자 PDF가 되는지 |
+| opt-voice | fact-check F221 목록: metadata.json microphone, 권한 창 순서·버튼 글자(AI Studio 창 → 브라우저 창), AI Studio 창에서 거부한 뒤 되돌리는 방법, 한국어 인식, 크롬·엣지·파이어폭스·**웨일** 결과, 교육망 network 오류, 공유 링크에 수정이 바로 반영되는지·공유 링크에서 권한, 중간 글자+이어 붙이기로 글이 두 번 들어가는지, 마이크 없는 PC의 오류 문구(`audio-capture`). 교육장 PC 마이크·헤드셋 유무 |
+| opt-pdf | fact-check F216 목록: 앱 미리보기 multipart 전송(Binary 탭 `file`), 서버 쪽 호출 시 유지, 1·5·15MB, 한글 PDF 추출, 스캔 PDF, 100초 안 완료, `Extract From PDF` 화면. 가상 공문 HTML → PDF로 저장이 글자 PDF가 되는지, 크롬·엣지 인쇄 창 글자(`PDF로 저장`·`설정 더보기`·`머리글 및 바닥글`). `{{`가 든 칸을 Expression으로 바꾸지 않았을 때 모습. 직접 만들기 50분 / 완성본 25분 어림이 맞는지 |
 
 ## fact-checker가 넘긴 직접 시험 항목 (1회차, 2026-09-24)
 
