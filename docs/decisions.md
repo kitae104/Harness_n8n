@@ -7,7 +7,7 @@
 
 | # | 주제 | 결정 |
 |---|---|---|
-| D1 | 선택 실습 | `opt-pdf`(PDF 공문 요약 앱), `opt-voice`(음성 입력 민원 접수) 두 항목으로 나눈다 |
+| D1 | 선택 실습 | `opt-pdf`(PDF 공문 요약 앱), `opt-voice`(음성 입력 민원 접수) 두 항목으로 나눈다. 제안서 8-3의 "업무 Q&A 응답 화면"은 별도 실습 없이 d2-p4 예시 주제로만 다룬다(2026-09-25 감사에서 보충) |
 | D2 | 섹션 순서 | 학습목표(3줄 이내) → 개념 블록(10분) → 실습/활동 → 정리 → 완성본 가져오기. 자주 하는 실수는 실습 안에 둔다 |
 | D3 | 교시 type | lessons.json에 `type`(lab/activity) 필드를 둔다. verify.py가 type별로 다른 필수 섹션을 검사한다. activity: d1-p1, d2-p4, d2-p5, d2-p6, d2-p7 |
 | D4 | JSON 누적 | 교시 JSON은 교시 끝 시점의 **전체** 워크플로우다. 체인은 `d1-p6 → d1-p7 → d2-p1 → d2-p2`. `d1-p3`은 독립 연습용, `d1-p2`는 독립 복습용 |
@@ -38,6 +38,7 @@
 | D24 | 기존 교안 (Q3·Q4) | 원본 https://github.com/kitae104/PublicFlow (사이트 https://kitae-n8n.vercel.app). 텍스트 자료만 `docs/legacy/PublicFlow/`에 복사(캡처 PNG·기관 공문 PDF 제외) |
 | D25 | 데이터 약속 | 앱 필드·시트 열·응답 키·Webhook 경로는 `docs/data-contract.md`로 관리한다. 초안은 기존 교안 폼 필드(이름·연락처·이메일·종류(생활/음식물/대형)·상세설명)를 이어받고, 해당 교시 세션에서 확정한다 |
 | D26 | 작업 상태 | `todo → drafting → review → instructor-check → done`. JSON Import 실행·프롬프트 시험·캡처는 강사 수동 확인(`docs/instructor-checklist.md`) 후에만 done |
+| D27 | 작성 순서 | 시간표 순서가 아닌 `lessons.json`의 `authoring_order`를 따른다(d1-p1·opt-voice가 d2-p2.json을 참조하므로) |
 | D28 | d1-p3 호출 시험 (1회차) | 코드 없이 POST+CORS를 시험할 수 없으므로(fact-check F52) d1-p3은 **GET Webhook을 브라우저 주소창으로 호출**해 응답을 확인한다. Allowed Origins(CORS)는 체크리스트 1번으로 **설정만** 하고 개념을 설명하며, 실제 CORS 확인은 **d1-p6에서 AI Studio 앱으로** 한다. 경로 `hello`(GET) |
 | D29 | 활성화 → Publish (1회차) | n8n 2.0부터 활성화 토글이 `Publish` 버튼으로 바뀜(F22). glossary 표준 표기를 `Publish`로 바꾸고 "활성화"를 금지 표기로 둔다. 설정을 바꾸면 다시 Publish(F53) |
 | D30 | Gemini 모델 (2회차) | 기존 교안의 `models/gemini-2.5-flash`는 신규 사용자에게 제한됨(F42). 교안·JSON은 `models/gemini-3.8-flash`(대안 `models/gemini-3.5-flash-lite`), Google Gemini Chat Model typeVersion 1.1. Cloud 화면에 `Use Gateway credits`가 보이면 `Use my own credential`을 고른다(D23 유지) |
@@ -45,12 +46,12 @@
 | D32 | d1-p2 설계 (2회차) | 50분 복습은 **모두 같은 완성본(d1-p2.json)을 Import**해 자격 증명 연결 → 실행 → 표현식·샘플 값 고쳐 보기로 진행(수준 차이 흡수). 캘린더는 d2-p1에서 다루므로 제외. 샘플 민원은 가상 데이터(홍길동·010-1234-5678)로 교체 |
 | D33 | AI Studio 계정 (3회차) | AI Studio는 **만 18세 이상 나이 확인된 개인 구글 계정** 기준(F2). 기관(Workspace) 계정은 막힐 수 있음 → 준비물 안내(d1-p1)에 반영 |
 | D34 | 앱 주소 자리 (3회차) | d1-p4 프롬프트에서 코드 맨 위에 빈 `WEBHOOK_URL` 상수를 미리 만든다. d1-p6에서는 그 자리에 Production URL을 넣으라는 짧은 요청만 한다. 보내는 JSON 키는 data-contract의 한글 키 |
-| D35 | CORS 값 (3회차) | 앱이 n8n을 부르는 origin은 공식 문서로 확인되지 않음(F4) → 수업에서는 Allowed Origins `*` 유지. 좁히려면 n8n 실행 기록의 `headers.origin` 값을 쓴다(d2-p3). 브라우저 호출이 막히면 "n8n 호출을 서버 쪽 코드에서 하도록 바꿔줘"(F80) |
+| D35 | CORS 값 (3회차) | 앱이 n8n을 부르는 origin은 공식 문서로 확인되지 않음(F4) → 수업에서는 Allowed Origins `*` 유지. 좁히려면 n8n 실행 기록의 `headers.origin` 값을 쓴다(d2-p3). 브라우저 호출이 막히면 "n8n 호출을 서버 쪽 코드에서 하도록 바꿔줘"(F80). 주의(F143): Allowed Origins는 브라우저가 응답을 읽을지만 정하고 n8n은 요청을 처리하므로 보안 장치로 설명하지 않는다 |
 | D36 | 이름이 겹치는 버튼 (3회차) | AI Studio에도 `Publish`(앱 게시)가 있다. n8n `Publish`와 혼동되므로 d1 교시에서는 AI Studio Publish를 언급하지 않고, d2-p3에서 구분해 다룬다 |
 | D37 | d1-p5 오류 연습 (4회차) | 오류 연습은 AI에게 "일부러 오류를 만들어 줘(고치지 말고)"라고 요청해 만든다. AI가 거절·자가 수정하면 교안 속 연습용 오류 문구로 복사·붙여 넣기 동작만 연습(보내지 않음). AI Studio 화면 세부(F8·F77·F82·F84~F86)는 문서에 없어 조건부 문장 + FACT-CHECK로 쓴다 |
 | D38 | F4 시험 방식 (4회차) | Chrome 확장이 연결되지 않아 Claude가 직접 시험할 수 없음 → 강사용 시험 키트(`docs/instructor-kit/f4-test.md`, `f4-test-workflow.json`)로 강사가 시험. d1-p6은 "Test URL로 먼저 시험 → 성공하면 Production URL" 순서로 쓰고, 브라우저 호출이 막힐 때의 우회(서버 쪽 호출 요청, F80)를 교안에 둔다. F4 결과를 받으면 확정 |
 | D39 | 연동 ① 구조 (4회차) | d1-p6 워크플로우는 `민원 받기`(Webhook POST `minwon`) → `민원 정리`(Edit Fields, body 값 꺼내기) → `시트에 기록`(d1-p2 노드 복사). 시트는 d1-p2의 `민원대장 연습`/`시트1`을 이어 쓰고 날짜 열은 기존 교안의 `등록일`. 접수번호·처리상태 열은 d1-p7에서 추가. d1-p6에는 Respond to Webhook이 없으므로 앱의 접수번호 자리는 비어 보인다(7교시에서 채움) |
-| D40 | 시간대 (5회차) | n8n `$now`의 기본 시간대가 미국이라(F100) 모든 워크플로우 JSON에 `settings.timezone: Asia/Seoul`. d1-p2·d1-p6 JSON에 소급 적용(교안 문장 변화 없음). 처음부터 만드는 워크플로우는 d1-p7 첫 단계에서 시간대 설정. verify.py가 검사 |
+| D40 | 시간대 (5회차) | n8n `$now`의 기본 시간대가 미국이라(F100) `$now`를 쓰는 모든 워크플로우 JSON에 `settings.timezone: Asia/Seoul`(날짜를 쓰지 않는 d1-p3·견본 JSON은 제외). d1-p2·d1-p6 JSON에 소급 적용(교안 문장 변화 없음). 처음부터 만드는 워크플로우는 d1-p7 첫 단계에서 시간대 설정. verify.py가 검사 |
 | D41 | 접수번호 순번 (5회차) | `오늘 접수 조회`(Get Row(s), 필터 없음, Always Output Data) → `접수번호 만들기`(Edit Fields JSON 모드, Execute Once)에서 "접수번호가 오늘 날짜로 시작하는 줄 수 + 1". 날짜 형식 차이·빈 항목 문제 회피(F93·F101). 시트 기록은 Cell Format RAW로 접수번호가 날짜로 바뀌지 않게. 동시 접수 시 번호 중복 가능 — 수업에서는 안내만 |
 | D42 | 연동 ② 구조 (6회차) | d2-p1: `시트에 기록` 뒤 부챗살 3갈래 — 맨 위 `AI 안내문 작성`(+Gemini) → `앱에 답하기`(응답 이동), 가운데 `담당자 메일`(Gmail, 받는 사람은 본인 주소 고정), 아래 `처리 마감 일정`(Calendar, 목록에서 내 캘린더). v1 실행 순서가 위쪽 가지 먼저라 AI 가지를 맨 위에 둔다(F109·F110). 응답 본문은 객체 표현식(F112). 처리마감은 시트 열로 두지 않고 d2-p2에서 등록일+3일로 계산 |
 | D43 | 담당자 분기 (Q5 해결, 7회차) | 기존 교안과 같이 If `생활인가?` 두 갈래: 생활(참) → 기존 `담당자 메일`(정담당), 그 외(거짓) → 복사본 `일반 담당자 메일`(강처리) — 누적 체인 유지. 두 메일 모두 본인 주소. 담당자 이름은 시트에 적지 않고 조회 때 종류로 계산 |
@@ -58,7 +59,7 @@
 | D45 | 텔레그램 준비 (7회차) | 봇 토큰·chat id는 기초과정 2일차 준비물(BotFather)로 만든 것을 쓴다. 없으면 기존 사이트 준비물 페이지 링크 + 교안 부록 박스. 알림 글에는 접수번호·종류·이름만(상세설명 제외, F120) |
 | D46 | 현장점검 사진 (Q6 해결, 8회차) | 앱 → n8n 파일 전송(F10)이 미확인이고 난이도가 높아 d2-p5·d2-p6 예시 완성본에서 사진을 뺀다. 설계서 입력 칸은 5개 이하 글자·목록만. 사진은 opt-pdf 방식을 참고하는 확장 과제로만 안내 |
 | D47 | 선택 실습 (9회차) | opt-pdf: multipart 파일 전송(필드 `file`)을 기본, base64 방식은 문제 해결용 플랜 B(F213). 실습 PDF는 가상 공문 HTML을 "PDF로 저장"해 만든다. opt-voice: n8n은 그대로, 앱에만 음성 입력(크롬·엣지, `ko-KR`, 마이크 권한 `requestFramePermissions`) — 요청 문장 8요소(F222). 실제 개인정보는 말로 입력하지 않음(F219) |
-| D27 | 작성 순서 | 시간표 순서가 아닌 `lessons.json`의 `authoring_order`를 따른다(d1-p1·opt-voice가 d2-p2.json을 참조하므로) |
+| D48 | 전체 감사 (2026-09-25) | ① Test URL 시험 대기는 **캔버스 아래 `Execute workflow`** 로 통일한다. 설정 창 안 `Listen for test event`는 그 노드까지만 실행되어 Respond to Webhook이 돌지 않는다(F223) — d1-p3 수정, d1-p6 3단계(노드 하나일 때)만 예외로 유지(F224). ② d1-p3의 한글 쿼리 `?이름=`은 유지한다. 표현식 `$json.query.이름`은 엔진에서 계산됨을 확인했고(감사), 브라우저 한글 주소 인코딩만 강사 시험(F58). ③ 학습목표는 D2대로 3줄 이내로 맞춘다(d1-p1·d1-p2·d1-p3·d2-p3 합침). ④ 화면 글자 `Add option`(F226), Unpublish 확인 창(F225), `Published`(F61), `URL copied`(F60) 반영 |
 
 ## 미결정
 

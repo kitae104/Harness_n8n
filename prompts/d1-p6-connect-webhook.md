@@ -35,7 +35,7 @@
 
 - 1) 뒤 n8n에서 `Listen for test event`를 누르고 앱에서 `접수하기`를 누르면, n8n `민원 받기` 노드에 초록 표시가 생기고 출력의 `body`에 다섯 값이 보인다.
 - 앱 화면은 접수 완료 화면으로 넘어가지만 접수번호 자리는 비어 있을 수 있다(접수번호는 7교시에 만든다).
-- 2) 뒤에는 `Listen for test event` 없이 언제든 `접수하기`가 동작하고, 구글 시트에 줄이 쌓인다.
+- 2) 뒤에는 `Listen for test event`나 `Execute workflow`를 누르지 않아도 언제든 `접수하기`가 동작하고, 구글 시트에 줄이 쌓인다.
 - 3)은 fact-check F80 근거. 강사 시험(F4, `docs/instructor-kit/f4-test.md`) 결과에 따라 기본 경로가 될 수도 있다.
 
 ## 검증 기록

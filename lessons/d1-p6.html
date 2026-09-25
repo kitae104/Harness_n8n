@@ -87,7 +87,7 @@
         <ul>
           <li><code class="val">HTTP Method</code>: <code class="val">POST</code> (앱은 POST로 보냅니다)</li>
           <li><code class="val">Path</code>: 들어 있는 글자를 모두 지우고 <code>minwon</code>만 적습니다</li>
-          <li><code class="val">Add Option</code> → <code class="val">Allowed Origins (CORS)</code>: <code>*</code></li>
+          <li><code class="val">Add option</code> → <code class="val">Allowed Origins (CORS)</code>: <code>*</code></li>
           <li><code class="val">Respond</code>: 기본값 그대로(7교시에 바꿉니다)</li>
         </ul>
         설정 창 맨 위의 노드 이름(<code class="val">Webhook</code>)을 한 번 눌러 <code class="val">민원 받기</code>로 고치고 <kbd>Enter</kbd>를 누릅니다.
@@ -228,7 +228,7 @@
     <ol>
       <li><code class="val">Allowed Origins (CORS)</code>가 <code>*</code>인가요?</li>
       <li><code class="val">HTTP Method</code>가 <code class="val">POST</code>인가요?</li>
-      <li>시험 중이면 <code class="val">Listen for test event</code> / <code class="val">Execute workflow</code>를 누르고 2분 안에 보냈나요? 실제 사용이면 <code class="val">Publish</code>했나요?</li>
+      <li>시험 중이면 캔버스 아래 <code class="val">Execute workflow</code>를 누르고 2분 안에 보냈나요? 실제 사용이면 <code class="val">Publish</code>했나요?</li>
       <li>앱의 <code>WEBHOOK_URL</code>이 지금 쓰는 주소(Test 또는 Production)와 같나요?</li>
       <li><code class="val">민원 정리</code>의 이름과 시트 머리글이 같은가요?</li>
     </ol>
@@ -271,7 +271,7 @@
     <p>이 파일을 가져오면 n8n 쪽이 이 교시의 세 노드 연결 상태가 됩니다. 5단계까지 하면 앱에서 바로 접수할 수 있습니다.</p>
     <div class="note warn">
       <b>먼저: 따라 만들던 워크플로우를 Publish했다면</b>
-      그 워크플로우의 <code class="val">Publish</code> 옆 목록에서 <code class="val">Unpublish</code>를 누르세요. 같은 주소 끝부분(<code>minwon</code>)과 같은 방식(POST)을 쓰는 Webhook은 하나만 동작할 수 있습니다.
+      그 워크플로우의 <code class="val">Publish</code> 오른쪽 작은 화살표를 눌러 목록 맨 아래 <code class="val">Unpublish</code>를 누르고, 뜨는 창에서 다시 <code class="val">Unpublish</code>를 누르세요. 같은 주소 끝부분(<code>minwon</code>)과 같은 방식(POST)을 쓰는 Webhook은 하나만 동작할 수 있습니다.
     </div>
     <ol class="steps">
       <li><span class="step-title">파일 내려받기</span>

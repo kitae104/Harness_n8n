@@ -232,3 +232,32 @@
 - 제안서 그림 PNG(그림 0·1·2·7) 전달 대기 → `assets/proposal/`
 - AI Studio 화면 세부(F4·F7·F8·F77·F82·F84~F86·F216·F221)는 강사 캡처 전까지 FACT-CHECK 주석 유지
 - 6회차 기록의 test_verify "35개"는 현재 34개로 집계됨(샘플 정리로 줄어든 것으로 보임, 불일치 0은 동일)
+
+## 10회차 — 2026-09-25 — 전체 점검(감사)과 수정, F4 시험 준비 (사용자 지시 "점검 후 수정, 안정화 뒤 F4 결과표")
+
+### 한 일
+- 점검 5갈래 병렬 실행: ① n8n 화면·버튼 서술(fact-checker, 2.40.6 소스 추적) ② 워크플로우 JSON 10개(노드 정의 대조 + n8n-workflow 엔진으로 표현식 실제 계산) ③ 교시 간 연결 ④ 주문서 ↔ 데이터 약속 ⑤ 하네스 문서·verify
+- **중대 오류 수정 — d1-p3**: 설정 창 `Listen for test event`는 Webhook 노드만 실행해 Respond to Webhook이 돌지 않고 **빈 응답**이 옴(F223, 소스 확인) → 캔버스 `Execute workflow`로 교체, "하얀 화면" 실수 박스 추가. d1-p6 연결 점검표도 `Execute workflow`로(F224). D48 기록
+- 화면 표기: `Add Option` → `Add option`(F226, 7개 교시), Unpublish 확인 창 단계 추가(F225, 7개 교시), 게시 뒤 `Published`(F61)·주소 복사 알림 `URL copied`(F60)
+- 교시 간: 단계 번호 참조 정정(d1-p6·d1-p7·d2-p1), day-2 교안의 "2교시"→"1일차 2교시", d2-p5 복제 경로의 끊긴 `앱에 답하기` 복구, d2-p2 담당자 메일 제목을 d2-p1과 같게(JSON), 복구 경로 추가(d1-p6·d2-p6), d1-p4 Form 플랜 B 한계 명시
+- 주문서: 현장점검·템플릿 실패 문구, 오류 신고 문장이 `STATUS_URL`도 보호, 메시지/안내문 위치, 음성 입력 AI 받아쓰기 금지(9번), d2-p4 템플릿 칸 늘리기 안내
+- opt-pdf: `Credential to connect with`→`Credential`(F70), 텔레그램 알림에서 파일 이름 제거(밑줄 때문에 Markdown 전송 실패 가능, JSON 포함), 캡처 번호 순서, FACT-CHECK F10·F216·F82
+- 학습목표 3줄 규칙(D2) 맞춤: d1-p1·d1-p2·d1-p3·d2-p3(lessons.json·HTML)
+- 문서: data-contract 괄호 표기·상태 확정, glossary(Production URL 풀이, Allowed Origins 확인), decisions(D27 위치, D35에 F143, D40 문구, D1에 Q&A 보충, D48), writing-guide 프롬프트 형식, CLAUDE.md(강사 확인 단계 절차, 여러 교시 예외, 폴더 지도), sample-data 담당자
+- hook_verify.py 확장: deliverables에 적힌 파일(print/forms, assets/samples, 참조 JSON) → 그 파일을 쓰는 모든 교시 + builds_on 뒤 교시, 규칙 파일 → `--all`
+- **F4 키트 재작성**: 순서 A~F, 확인 항목 ①~⑥, **대화에 붙여 넣을 결과 블록**, 결과별 교안 조치 표
+
+### 검증 결과
+- verify.py --all: 16개 교시 PASS(실패 0) / test_verify.py 34개 불일치 0 / build.py 16개
+- 워크플로우 JSON: Import 후 동작하지 않는 것 없음(감사). 한글 점 표기 `$json.body.이름`·`$json.query.이름`은 엔진에서 정상 계산(F91·F58의 표현식 부분)
+- hook: d2-p2.json → d2-p2·d1-p1·opt-voice, d1-p6.json → 체인 4교시, glossary → --all 확인
+
+### 다음 할 일
+1. **강사: `docs/instructor-kit/f4-test.md` 시험 → "대화에 붙여 넣을 결과" 블록을 Claude 세션에 전달**
+2. fact-checker로 F58·F91 상태 갱신(엔진 계산 근거 추가, 브라우저 한글 인코딩만 강사 시험으로 남김)
+3. 캡처 50개, 교육 1주 전 최종 확인
+
+### 미해결 문제
+- d2-p6 텔레그램 알림에 사용자가 적은 `점검장소`가 들어감 — `_` 등 Markdown 기호가 있으면 전송 실패 가능(가능성 낮음, 그대로 둠)
+- d2-p2 조회에서 `등록일`이 빈 옛 줄은 처리마감이 `Invalid DateTime`(오류 없이 표시) — d1-p7 이후 줄은 정상
+- fact-check.md에 "반영됨" 상태가 없어 반영된 `수정 필요` 항목이 그대로 남음(개선 과제)

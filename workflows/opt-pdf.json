@@ -101,7 +101,7 @@
     {
       "parameters": {
         "chatId": "여기에_본인_채팅_ID",
-        "text": "=공문 요약이 도착했습니다. 메일을 확인해 주세요.\n파일: {{ $('공문 받기').first().binary.file.fileName }}",
+        "text": "=공문 요약이 도착했습니다. 메일을 확인해 주세요.",
         "additionalFields": {
           "appendAttribution": false
         }

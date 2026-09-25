@@ -26,9 +26,9 @@
 | `Webhook 주소` | `웹훅 주소` `웹훅 URL` `훅 주소` | 앱이 데이터를 보낼 n8n의 인터넷 주소 | N |
 | `Respond to Webhook` | `Respond To Webhook` `respond to webhook` `응답 노드` | 앱에 "잘 받았어요, 접수번호는 ○○예요"라고 답장을 보내는 노드 | Y |
 | `Test URL` | `테스트 URL` `테스트 주소` `Test Url` `test URL` `테스트URL` | 만드는 중에 한 번씩 시험할 때 쓰는 주소. 시험 버튼을 누른 동안만 동작 | Y |
-| `Production URL` | `프로덕션 URL` `운영 URL` `운영 주소` `실제 URL` `Prod URL` `Production Url` `production URL` | 워크플로우를 켜 둔 뒤 앱에 넣는 진짜 주소 | Y |
+| `Production URL` | `프로덕션 URL` `운영 URL` `운영 주소` `실제 URL` `Prod URL` `Production Url` `production URL` | 워크플로우를 게시(Publish)한 뒤 앱에 넣는 진짜 주소 | Y |
 | `CORS` | `cors` `Cors` `코어스` | 다른 주소에서 온 앱이 n8n을 불러도 되는지 정하는 허락 규칙 | Y |
-| `Allowed Origins` ❓ | `allowed origins` `Allowed origins` `허용 오리진` | CORS 허락 목록을 적는 Webhook 노드 옵션 이름. 한글로는 "허용 출처" | N |
+| `Allowed Origins` | `allowed origins` `Allowed origins` `허용 오리진` | CORS 허락 목록을 적는 Webhook 노드 옵션 이름. 한글로는 "허용 출처" | N |
 | `허용 출처` | `허용출처` `허가 출처` | Allowed Origins의 우리말 풀이 | N |
 | `Publish` | `활성화` `액티브` `엑티브` `Active 토글` `활성 스위치` `publish` | 워크플로우를 '게시'해서 Production URL이 항상 동작하게 하는 버튼. 설정을 바꾸면 다시 눌러야 반영됨(n8n 2.0부터 활성화 토글 대신, fact-check F22·F53) | Y |
 | `Unpublish` | `비활성화` | 게시를 멈추는 메뉴(Publish 옆 목록) | N |

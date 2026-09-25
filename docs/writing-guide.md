@@ -150,7 +150,7 @@
 # 제목
 - 사용 교시: d1-p4
 ## 복사할 프롬프트
-(코드 블록 하나 — 수강생이 그대로 복사)
+(### 1) 2) … 소제목마다 코드 블록 하나 — 수강생이 그대로 복사. 교안은 "주문서의 1)"처럼 소제목 번호로 부른다)
 ## 바꿀 자리
 - {Production URL}: …
 ## 예상 결과
@@ -165,7 +165,7 @@
 
 ## 9. 사실 확인
 
-- AI Studio Build 모드, n8n Webhook(CORS, Test/Production URL, Respond to Webhook), 활성화 UI 같은 기능 서술은 **`docs/fact-check.md`에서 '확인'된 내용만** 단정적으로 쓴다.
+- AI Studio Build 모드, n8n Webhook(CORS, Test/Production URL, Respond to Webhook), Publish UI 같은 기능 서술은 **`docs/fact-check.md`에서 '확인'된 내용만** 단정적으로 쓴다.
 - 제안서 내용도 검증 전에는 사실로 가정하지 않는다. 확인되지 않은 채 써야 하면 `<!-- FACT-CHECK: F번호 -->` 주석을 남긴다(verify가 경고로 알려 줌).
 
 ## 10. 인쇄

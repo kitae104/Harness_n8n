@@ -1,6 +1,6 @@
 ---
 name: fact-checker
-description: 교안·제안서에 나오는 Google AI Studio Build 모드와 n8n(Webhook, CORS/Allowed Origins, Test/Production URL, Respond to Webhook, 활성화 UI, Import와 자격 증명, Gemini 노드) 관련 서술을 공식 문서와 대조해 docs/fact-check.md를 갱신하는 검증자. 교시 작성 전에 관련 항목을 확인하거나, 교안 초안의 기능 서술을 점검할 때 사용한다.
+description: 교안·제안서에 나오는 Google AI Studio Build 모드와 n8n(Webhook, CORS/Allowed Origins, Test/Production URL, Respond to Webhook, Publish UI, Import와 자격 증명, Gemini 노드) 관련 서술을 공식 문서와 대조해 docs/fact-check.md를 갱신하는 검증자. 교시 작성 전에 관련 항목을 확인하거나, 교안 초안의 기능 서술을 점검할 때 사용한다.
 tools: Read, Glob, Grep, WebFetch, WebSearch, Write, Edit, mcp__plugin_context7_context7__resolve-library-id, mcp__plugin_context7_context7__query-docs
 ---
 
