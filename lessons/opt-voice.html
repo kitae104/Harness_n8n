@@ -18,6 +18,16 @@
     <p class="sub">민원 접수 앱에 "음성으로 입력" 버튼을 더합니다 — n8n은 그대로 둡니다</p>
   </header>
 
+  <div class="inote" id="inote-opt-voice-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li>교육장 PC 마이크·헤드셋 유무, 마이크 권한 창·브라우저별 동작(F221)</li>
+      <li>이 교안 안의 <b>강사 확인</b> 표시 4곳(노란 점선 상자)</li>
+      <li>캡처 3장 촬영 → <code>assets/img/</code>에 넣고 <code>python scripts/apply_captures.py</code></li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
+
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
     <ul>
@@ -48,7 +58,7 @@
     <div class="note warn">
       <b>알아 둘 점</b>
       <ul>
-        <li>크롬·엣지에서만 됩니다. 파이어폭스는 음성 입력을 지원하지 않습니다. 다른 브라우저(웨일 등)는 확인되지 않았으므로 크롬이나 엣지를 씁니다. <!-- FACT-CHECK: F221 --></li>
+        <li>크롬·엣지에서만 됩니다. 파이어폭스는 음성 입력을 지원하지 않습니다. 다른 브라우저(웨일 등)는 확인되지 않았으므로 크롬이나 엣지를 씁니다. <span class="inote" id="inote-opt-voice-1" data-inote="check" data-ref="F221"><b class="inote-tag">강사 확인 F221</b>마이크 권한 창 순서·버튼 글자, 크롬·엣지·웨일에서 동작, 공유 링크에서도 되는지, 한국어 인식</span></li>
         <li>말소리는 글로 바꾸기 위해 인터넷(구글 서버)으로 보내집니다. <b>실제 민원인 이름·연락처·사연은 말로 입력하지 않고</b>, 아래의 가상 문장만 말합니다.</li>
         <li>교육망에서 막히면 인터넷 문제 안내가 뜰 수 있습니다. 그때는 손으로 입력합니다.</li>
       </ul>
@@ -100,7 +110,7 @@
       </li>
 
       <li><span class="step-title">마이크 허용하기</span>
-        미리보기에서 <code>음성으로 입력</code>을 누릅니다. 처음에는 마이크 사용을 묻는 창이 두 번(AI Studio 확인 창 → 브라우저 허용 창) 뜰 수 있습니다. 두 창 모두 허용을 누릅니다. 허용 버튼이 여러 개면 "방문할 때마다 허용"에 해당하는 버튼을, 영어 창이면 <code class="val">Allow</code>를 누릅니다. <!-- FACT-CHECK: F221 -->
+        미리보기에서 <code>음성으로 입력</code>을 누릅니다. 처음에는 마이크 사용을 묻는 창이 두 번(AI Studio 확인 창 → 브라우저 허용 창) 뜰 수 있습니다. 두 창 모두 허용을 누릅니다. 허용 버튼이 여러 개면 "방문할 때마다 허용"에 해당하는 버튼을, 영어 창이면 <code class="val">Allow</code>를 누릅니다. <span class="inote" id="inote-opt-voice-2" data-inote="check" data-ref="F221"><b class="inote-tag">강사 확인 F221</b>마이크 권한 창 순서·버튼 글자, 크롬·엣지·웨일에서 동작, 공유 링크에서도 되는지, 한국어 인식</span>
         <figure class="capture" id="fig-opt-voice-2">
           <div class="capture-cap">[그림 opt-voice-2] 마이크 허용 창</div>
           <div class="capture-guide">AI Studio 확인 창과 브라우저 마이크 허용 창을 뜨는 순서대로 두 장</div>
@@ -121,7 +131,7 @@
           <b>자주 하는 실수</b>
           <p><b>증상</b> "마이크 사용을 허용해 주세요"가 떠요<br>
              <b>원인</b> 허용 창에서 거부를 눌렀거나, 브라우저의 마이크 설정이 차단으로 되어 있어요<br>
-             <b>해결</b> 주소창 맨 왼쪽의 작은 표시(자물쇠나 조절 모양)를 누릅니다. 목록에서 <code class="val">마이크</code>를 찾아 <code class="val">허용</code>으로 바꾸고 <kbd>F5</kbd>로 새로고침한 뒤 버튼을 다시 누릅니다. AI Studio 확인 창에서 거부했다면 새로고침 뒤 다시 물어볼 때 허용합니다 <!-- FACT-CHECK: F221 --></p>
+             <b>해결</b> 주소창 맨 왼쪽의 작은 표시(자물쇠나 조절 모양)를 누릅니다. 목록에서 <code class="val">마이크</code>를 찾아 <code class="val">허용</code>으로 바꾸고 <kbd>F5</kbd>로 새로고침한 뒤 버튼을 다시 누릅니다. AI Studio 확인 창에서 거부했다면 새로고침 뒤 다시 물어볼 때 허용합니다 <span class="inote" id="inote-opt-voice-3" data-inote="check" data-ref="F221"><b class="inote-tag">강사 확인 F221</b>마이크 권한 창 순서·버튼 글자, 크롬·엣지·웨일에서 동작, 공유 링크에서도 되는지, 한국어 인식</span></p>
           <p><b>증상</b> "말소리가 들리지 않았습니다" 또는 "마이크를 찾을 수 없습니다"가 떠요<br>
              <b>원인</b> 마이크가 연결되어 있지 않거나, 헤드셋 마이크가 꺼져 있거나, 말을 시작하기 전에 듣기가 끝났어요<br>
              <b>해결</b> 헤드셋 선의 음소거 스위치를 확인하고 버튼을 다시 눌러 바로 말합니다. 마이크가 없으면 손으로 입력하고 6단계로 갑니다</p>
@@ -141,7 +151,7 @@
         이름 <code>김민원</code>, 연락처 <code>010-0000-0009</code>, 이메일 <code>minwon@example.com</code>을 넣고, 종류는 <code>생활</code>을 고릅니다. 동의 칸이 있으면 체크하고 <code>접수하기</code>를 누릅니다.
         <p>앱에 접수번호가 보이고, 시트 <code>민원대장 연습</code>의 <code>시트1</code> 탭 맨 아래 새 줄의 <code>상세설명</code> 칸에 말로 입력한 문장이 보이면 완성입니다. 담당자 메일과 텔레그램 알림도 평소처럼 옵니다. n8n은 한 곳도 고치지 않았습니다.
            음성 입력이 막혀 손으로 적었다면, 적은 문장이 시트에 들어가면 성공입니다.</p>
-        <span class="hint">이 실습은 AI Studio 편집 화면의 미리보기에서 합니다. 2일차 3교시에 만든 공유 링크에 바로 반영되는지는 강사 안내를 따릅니다. <!-- FACT-CHECK: F221 --></span>
+        <span class="hint">이 실습은 AI Studio 편집 화면의 미리보기에서 합니다. 2일차 3교시에 만든 공유 링크에 바로 반영되는지는 강사 안내를 따릅니다. <span class="inote" id="inote-opt-voice-4" data-inote="check" data-ref="F221"><b class="inote-tag">강사 확인 F221</b>마이크 권한 창 순서·버튼 글자, 크롬·엣지·웨일에서 동작, 공유 링크에서도 되는지, 한국어 인식</span></span>
         <div class="note mistake">
           <b>자주 하는 실수</b>
           <p><b>증상</b> 음성 버튼을 넣은 뒤 접수가 안 돼요<br>

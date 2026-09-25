@@ -18,6 +18,16 @@
     <p class="sub">화면은 문장으로 고치고, 오류는 정해진 루틴으로 AI에게 고치게 합니다</p>
   </header>
 
+  <div class="inote" id="inote-d1-p5-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li>요청 1~3을 차례로 보내 칸 이름·<code>WEBHOOK_URL</code>이 유지되는지, 연습 오류 요청에 AI가 따르는지(F84)</li>
+      <li>이 교안 안의 <b>강사 확인</b> 표시 7곳(노란 점선 상자)</li>
+      <li>캡처 3장 촬영 → <code>assets/img/</code>에 넣고 <code>python scripts/apply_captures.py</code></li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
+
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
     <ul>
@@ -68,7 +78,7 @@
     <div class="note tip">
       <b>이번 시간의 공통 동작</b>
       상자 안 글을 처음부터 끝까지 끌어서 고르고 <kbd>Ctrl</kbd>+<kbd>C</kbd>로 복사합니다. AI Studio의 <b>대화 입력창</b>(4교시에 고쳐 달라는 말을 쓰던 곳)을 누르고 <kbd>Ctrl</kbd>+<kbd>V</kbd>로 붙여 넣은 뒤,
-      보내기 버튼(화살표 모양)을 누릅니다. <kbd>Enter</kbd>는 줄만 바뀔 수 있습니다. 고치는 데 1분쯤 걸리니 <b>미리보기가 바뀌기 전에는 다음 요청을 보내지 않습니다</b>. <!-- FACT-CHECK: F82 -->
+      보내기 버튼(화살표 모양)을 누릅니다. <kbd>Enter</kbd>는 줄만 바뀔 수 있습니다. 고치는 데 1분쯤 걸리니 <b>미리보기가 바뀌기 전에는 다음 요청을 보내지 않습니다</b>. <span class="inote" id="inote-d1-p5-1" data-inote="check" data-ref="F82"><b class="inote-tag">강사 확인 F82</b>AI Studio 화면 배치(대화창·입력창·미리보기 위치), <code class="val">Preview</code>/<code class="val">Code</code> 탭 표기, Code 탭 파일 목록</span>
     </div>
 
     <h3>A. 화면 고쳐 달라고 요청하기</h3>
@@ -126,7 +136,7 @@
         <pre class="code-block">배경을 아주 연한 하늘색으로, "접수하기" 버튼은 진한 파란색 바탕에 흰 글씨로 바꾸고 버튼을 화면 가로 폭에 꽉 차게 해 줘. 입력 칸의 이름과 순서는 바꾸지 마.</pre>
         <p>색이 바뀌었으면, 마음에 들지 않는다고 생각하고 아래 글로 되돌립니다. 색이 원래대로 돌아가면 성공입니다.</p>
         <pre class="code-block">방금 바꾼 것을 되돌려서 바로 전 상태로 돌아가 줘.</pre>
-        <span class="hint">대화 패널에 <code class="val">Restore</code> 같은 되돌리기 버튼이 보여도 오늘은 누르지 않습니다. 어느 요청의 버튼을 누르느냐에 따라 여러 단계가 한꺼번에 사라질 수 있습니다. <!-- FACT-CHECK: F77 --></span>
+        <span class="hint">대화 패널에 <code class="val">Restore</code> 같은 되돌리기 버튼이 보여도 오늘은 누르지 않습니다. 어느 요청의 버튼을 누르느냐에 따라 여러 단계가 한꺼번에 사라질 수 있습니다. <span class="inote" id="inote-d1-p5-2" data-inote="check" data-ref="F77"><b class="inote-tag">강사 확인 F77</b>되돌리기(체크포인트) 버튼 이름·위치, 새로고침 뒤 유지, <code class="val">Apps</code> 목록 자동 저장</span></span>
       </li>
     </ol>
 
@@ -136,7 +146,7 @@
         아래 글을 대화 입력창에 붙여 넣고 보냅니다.
         <pre class="code-block">연습을 위해 일부러 오류를 하나 만들어 줘. "접수하기" 버튼을 누르면 화면에 오류 문구가 뜨도록, 버튼을 눌렀을 때 실행되는 코드 안에서 존재하지 않는 함수를 부르게 바꿔 줘. 오류는 고치지 말고 그대로 둬. 다른 부분은 바꾸지 마.</pre>
         <p>바뀐 뒤 A-3과 같은 가상 값을 넣고 동의에 체크한 다음 <code>접수하기</code>를 누릅니다.
-           미리보기나 대화 패널에 오류 글(보통 영어, 예: <code>… is not defined</code>)이 보이면 성공입니다. 읽지 않아도 됩니다. <!-- FACT-CHECK: F84 --></p>
+           미리보기나 대화 패널에 오류 글(보통 영어, 예: <code>… is not defined</code>)이 보이면 성공입니다. 읽지 않아도 됩니다. <span class="inote" id="inote-d1-p5-3" data-inote="check" data-ref="F84"><b class="inote-tag">강사 확인 F84</b>"오류를 일부러 만들어 줘" 요청에 AI가 따르는지·거절하는지·스스로 고치는지. 안 따르면 연습 방법을 바꿔야 함</span></p>
         <div class="note planb">
           <b>오류 대신 "아직 접수 창구와 연결되지 않았습니다"가 뜨면</b>
           AI가 오류를 만들지 않았거나 스스로 고친 것입니다. 이때는 2단계대로 신고 문장을 입력창에 붙여 넣고, 오류 글 대신 아래 연습용 오류 문구를 복사해 <code>오류:</code> 아래에 붙여 넣는 데까지만 연습합니다. <b>보내지 않습니다.</b>
@@ -157,10 +167,10 @@
 
       <li><span class="step-title">오류 글 복사해 끼워 넣고 보내기</span>
         오류 글의 첫 글자 앞을 누른 채 끝까지 끌어서 고르고 <kbd>Ctrl</kbd>+<kbd>C</kbd>로 복사합니다.
-        입력창의 <code>오류:</code> 아래 빈 줄을 한 번 누르고 <kbd>Ctrl</kbd>+<kbd>V</kbd>로 붙여 넣은 뒤 보냅니다. <!-- FACT-CHECK: F85 -->
+        입력창의 <code>오류:</code> 아래 빈 줄을 한 번 누르고 <kbd>Ctrl</kbd>+<kbd>V</kbd>로 붙여 넣은 뒤 보냅니다. <span class="inote" id="inote-d1-p5-4" data-inote="check" data-ref="F85"><b class="inote-tag">강사 확인 F85</b>오류 글을 마우스로 골라 복사할 수 있는 위치(미리보기 오류 표시, 대화창 메시지)</span>
         <span class="hint">글이 선택되지 않으면 <kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd>를 누릅니다. 화면이 조금 어두워지면 오류 부분을 네모로 끌어 고르고, 신고 문장이 들어 있는 입력창을 눌러 <kbd>Ctrl</kbd>+<kbd>V</kbd>로 그림을 붙여 보냅니다.
           <kbd>F12</kbd> 키로 열리는 화면(개발자 도구)은 쓰지 않습니다.
-          대화 패널에 오류를 고치는 버튼(예: <code class="val">Fix errors</code>)이 보여도 <b>오늘 연습에서는 누르지 않고</b> 신고 문장을 씁니다. <!-- FACT-CHECK: F8 --></span>
+          대화 패널에 오류를 고치는 버튼(예: <code class="val">Fix errors</code>)이 보여도 <b>오늘 연습에서는 누르지 않고</b> 신고 문장을 씁니다. <span class="inote" id="inote-d1-p5-5" data-inote="check" data-ref="F8"><b class="inote-tag">강사 확인 F8</b>앱 오류 화면의 오류 표시와 자동 수정 버튼 이름(예: Fix errors / Auto-fix)을 캡처해 교안 표기와 맞추기</span></span>
         <figure class="capture" id="fig-d1-p5-3">
           <div class="capture-cap">[그림 1-5-3] 오류 글이 보이는 곳</div>
           <div class="capture-guide">연습 1 뒤 접수하기를 눌렀을 때 미리보기의 오류 글과 대화 패널에 나타난 오류 알림(오류 고치기 버튼이 있으면 함께) 강조. 입력창에 신고 문장과 오류 글이 들어간 모습도 한 장</div>
@@ -201,12 +211,12 @@
     </div>
     <div class="note warn">
       <b>요청마다 무료 사용량이 쓰입니다</b>
-      수정 요청도 AI Studio의 무료 사용량을 씁니다. 연습 요청은 오늘 교안에 있는 것만 보내고, 한도에 걸렸다는 안내가 나오면 강사에게 알리세요. <!-- FACT-CHECK: F86 -->
+      수정 요청도 AI Studio의 무료 사용량을 씁니다. 연습 요청은 오늘 교안에 있는 것만 보내고, 한도에 걸렸다는 안내가 나오면 강사에게 알리세요. <span class="inote" id="inote-d1-p5-6" data-inote="check" data-ref="F86"><b class="inote-tag">강사 확인 F86</b>수정 요청 10회 전후 한도 차감, 한도 초과 화면 문구</span>
     </div>
     <div class="note tip">
       <b>알아 두면 좋아요: 화면에 표시해서 요청하기</b>
       AI Studio에는 미리보기 화면의 한 부분에 상자를 그리고 고칠 내용을 적어 요청하는 기능(Annotation)이 있습니다.
-      상자 그리기 → 글 쓰기 → <code class="val">Add to chat</code> → 보내기 순서입니다. 오늘은 해 보지 않아도 됩니다. 시간이 남으면 강사 화면을 보며 함께 해 봅니다. <!-- FACT-CHECK: F82 -->
+      상자 그리기 → 글 쓰기 → <code class="val">Add to chat</code> → 보내기 순서입니다. 오늘은 해 보지 않아도 됩니다. 시간이 남으면 강사 화면을 보며 함께 해 봅니다. <span class="inote" id="inote-d1-p5-7" data-inote="check" data-ref="F82"><b class="inote-tag">강사 확인 F82</b>AI Studio 화면 배치(대화창·입력창·미리보기 위치), <code class="val">Preview</code>/<code class="val">Code</code> 탭 표기, Code 탭 파일 목록</span>
     </div>
   </section>
 

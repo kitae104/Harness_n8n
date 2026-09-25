@@ -18,6 +18,16 @@
     <p class="sub">앱에서 PDF 공문을 올리면 n8n이 글자를 뽑아 Gemini로 요약하고, 앱·메일·텔레그램으로 돌려줍니다</p>
   </header>
 
+  <div class="inote" id="inote-opt-pdf-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li>PDF 전송 시험(F216), 가상 공문 HTML → PDF로 저장이 글자 PDF가 되는지</li>
+      <li>이 교안 안의 <b>강사 확인</b> 표시 2곳(노란 점선 상자)</li>
+      <li>캡처 2장 촬영 → <code>assets/img/</code>에 넣고 <code>python scripts/apply_captures.py</code></li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
+
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
     <ul>
@@ -172,7 +182,7 @@
           <li>n8n 탭으로 가서 <code class="val">공문 받기</code>를 두 번 눌러 열고, 위쪽 <code class="val">Test URL</code>을 눌러 주소를 복사합니다.</li>
           <li>AI Studio 탭으로 돌아와 따옴표 사이를 한 번 누르고 <kbd>Ctrl</kbd>+<kbd>V</kbd>를 누른 뒤 보냅니다.</li>
         </ol>
-        <p><code class="val">Code</code> 탭의 <code>WEBHOOK_URL</code>에 <code>webhook-test</code>가 들어간 주소가 보이면 성공입니다. <!-- FACT-CHECK: F82 --></p>
+        <p><code class="val">Code</code> 탭의 <code>WEBHOOK_URL</code>에 <code>webhook-test</code>가 들어간 주소가 보이면 성공입니다. <span class="inote" id="inote-opt-pdf-1" data-inote="check" data-ref="F82"><b class="inote-tag">강사 확인 F82</b>AI Studio 화면 배치(대화창·입력창·미리보기 위치), <code class="val">Preview</code>/<code class="val">Code</code> 탭 표기, Code 탭 파일 목록</span></p>
       </li>
 
       <li><span class="step-title">시험하기</span>
@@ -186,7 +196,7 @@
           <div class="capture-guide">왼쪽: 공문 받기 출력(OUTPUT)의 Binary 탭에 file(가상공문.pdf), 오른쪽: 앱 화면에 다섯 줄 요약</div>
         </figure>
         <p>앱에 목적·주요 내용·지원 사항·대상·일정 요약이 보이고, 메일(과 텔레그램)이 오면 성공입니다.
-           n8n에서도 확인합니다: <code class="val">공문 받기</code>를 두 번 눌러 열고, 오른쪽 결과(<code class="val">OUTPUT</code>) 칸 위쪽의 <code class="val">Binary</code> 탭을 누르면 <!-- FACT-CHECK: F10, F216 --> <code>file</code> 이름표 아래 <code>가상공문.pdf</code>가 보입니다.</p>
+           n8n에서도 확인합니다: <code class="val">공문 받기</code>를 두 번 눌러 열고, 오른쪽 결과(<code class="val">OUTPUT</code>) 칸 위쪽의 <code class="val">Binary</code> 탭을 누르면 <span class="inote" id="inote-opt-pdf-2" data-inote="check" data-ref="F10,F216"><b class="inote-tag">강사 확인 F10, F216</b>앱에서 고른 PDF가 n8n <code class="val">공문 받기</code> 결과의 <code class="val">Binary</code> 탭에 <code>file</code>로 들어오는지 / PDF 전송 시험: 1·5·15MB 파일, 100초 안에 끝나는지, 한글 PDF 글자 추출, <code class="val">Extract From PDF</code> 화면</span> <code>file</code> 이름표 아래 <code>가상공문.pdf</code>가 보입니다.</p>
         <div class="note mistake" data-section="mistakes">
           <b>자주 하는 실수</b>
           <p><b>증상</b> 요약하기를 누르자마자 앱에 실패가 떠요<br>

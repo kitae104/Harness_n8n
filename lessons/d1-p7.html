@@ -18,6 +18,16 @@
     <p class="sub">접수번호를 만들어 시트에 적고, 앱 화면에 돌려준 뒤 1일차를 정리합니다</p>
   </header>
 
+  <div class="inote" id="inote-d1-p7-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li>교안 그대로 16:30까지 5단계 도달 가능한지, 접수번호 001→002 증가, 시트 날짜·접수번호 서식(F101), JSON 모드 한 줄 표현식(F102)</li>
+      <li>이 교안 안의 <b>강사 확인</b> 표시 1곳(노란 점선 상자)</li>
+      <li>캡처 5장 촬영 → <code>assets/img/</code>에 넣고 <code>python scripts/apply_captures.py</code></li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
+
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
     <ul>
@@ -88,7 +98,7 @@
 
     <ol class="steps">
       <li><span class="step-title">워크플로우 시간대를 서울로 맞추기</span>
-        캔버스 오른쪽 위 <code class="val">…</code> → <code class="val">Settings</code>를 누르고 <code class="val">Timezone</code> 목록에서 서울(<code>Asia/Seoul</code>)을 고른 뒤 저장 버튼을 누릅니다. <!-- FACT-CHECK: F100 -->
+        캔버스 오른쪽 위 <code class="val">…</code> → <code class="val">Settings</code>를 누르고 <code class="val">Timezone</code> 목록에서 서울(<code>Asia/Seoul</code>)을 고른 뒤 저장 버튼을 누릅니다. <span class="inote" id="inote-d1-p7-1" data-inote="check" data-ref="F100"><b class="inote-tag">강사 확인 F100</b>워크플로우 시간대 설정 화면(<code class="val">Settings</code> → <code class="val">Timezone</code>) 표기와 위치</span>
         <span class="hint">이 설정이 없으면 n8n이 미국 시간을 써서, 오전에는 날짜가 하루 전으로 찍힙니다.</span>
         <p><code class="val">Timezone</code>에 서울이 보이면 성공입니다.</p>
       </li>
@@ -285,7 +295,7 @@
       </li>
       <li><span class="step-title">Publish하고 앱 주소 확인하기</span>
         <code class="val">Publish</code> → 확인 창의 <code class="val">Publish</code>. 새로 가져온 워크플로우는 주소가 같으므로 앱의 <code>WEBHOOK_URL</code>은 6교시에 넣은 Production URL 그대로 둡니다.
-        다르게 보이면 6교시 9단계 순서로 <code class="val">민원 받기</code>의 Production URL을 앱에 넣습니다. 앱에서 접수해 번호가 보이면 복구 완료입니다. <!-- FACT-CHECK: F60 -->
+        다르게 보이면 6교시 9단계 순서로 <code class="val">민원 받기</code>의 Production URL을 앱에 넣습니다. 앱에서 접수해 번호가 보이면 복구 완료입니다.
       </li>
     </ol>
   </section>

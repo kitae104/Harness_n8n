@@ -240,8 +240,10 @@ def parse_html(text):
 
 
 def is_skipped_for_terms(node: Node) -> bool:
-    """용어 검사에서 제외하는 요소: pre, kbd, script, style, class 없는 code."""
+    """용어 검사에서 제외하는 요소: pre, kbd, script, style, class 없는 code, 강사 표시(.inote)."""
     if node.tag in ("pre", "kbd", "script", "style", "title"):
+        return True
+    if "inote" in node.classes:
         return True
     if node.tag == "code" and "val" not in node.classes:
         return True
@@ -621,6 +623,30 @@ def check_html(rep: Report, path: Path, ltype: str, lesson: dict | None, lessons
     fc = [c for c in comments if "FACT-CHECK" in c]
     if fc:
         rep.warn("사실 확인", f"{where}: 확인되지 않은 서술 {len(fc)}곳(<!-- FACT-CHECK -->) — docs/fact-check.md 확인 필요")
+
+    # ── 강사 표시(inote): 준비 기간 임시 표시. 모양만 검사하고 개수를 알린다(지우기: strip_inotes.py)
+    notes = [n for n in root.iter() if "inote" in n.classes]
+    if notes:
+        cat = "강사 표시"
+        rep.cat(cat)
+        lid = (lesson or {}).get("id") or ""
+        seen = set()
+        for n in notes:
+            nid = n.attrs.get("id", "")
+            kind = n.attrs.get("data-inote")
+            if n.tag not in ("span", "div"):
+                rep.fail(cat, f"{where}: 강사 표시는 span 또는 div로 씀(지금 <{n.tag}>)")
+            if not re.fullmatch(rf"inote-{re.escape(lid)}-\d+", nid) if lid else not nid.startswith("inote-"):
+                rep.fail(cat, f"{where}: 강사 표시 id '{nid}' — 'inote-{lid or '{id}'}-번호' 형식이어야 함")
+            if nid in seen:
+                rep.fail(cat, f"{where}: 강사 표시 id '{nid}' 중복")
+            seen.add(nid)
+            if kind not in ("check", "prep"):
+                rep.fail(cat, f"{where}: 강사 표시 '{nid}'의 data-inote는 check 또는 prep")
+            if not any(isinstance(c, Node) and "inote-tag" in c.classes for c in n.children):
+                rep.fail(cat, f"{where}: 강사 표시 '{nid}'에 <b class=\"inote-tag\"> 머리표가 없음")
+        checks = sum(1 for n in notes if n.attrs.get("data-inote") == "check")
+        rep.warn(cat, f"{where}: 강사 표시 {len(notes)}곳(확인 {checks}) — 강사가 확인한 뒤 python scripts/strip_inotes.py 로 지움")
 
 
 # ─────────────────────────────── 워크플로우 JSON 검사 ───────────────────────────────

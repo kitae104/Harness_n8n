@@ -18,6 +18,17 @@
     <p class="sub">트리거–처리–결과, 표현식, 구글 시트·Gmail·Gemini — 모두 같은 완성본에서 출발합니다</p>
   </header>
 
+  <div class="inote" id="inote-d1-p2-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li>교안 그대로 Import → 시트·Gmail·Gemini 연결 → 실행 → 값 고쳐 보기가 40분 안에 끝나는지</li>
+      <li>새 Gemini API 키로 모델 목록 확인(F42), 20명 동시 실행 시 429 오류 여부</li>
+      <li>이 교안 안의 <b>강사 확인</b> 표시 5곳(노란 점선 상자)</li>
+      <li>캡처 9장 촬영 → <code>assets/img/</code>에 넣고 <code>python scripts/apply_captures.py</code></li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
+
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
     <ul>
@@ -100,7 +111,7 @@
            왼쪽 위 <code>제목 없는 스프레드시트</code>를 눌러 이름을 <code>민원대장 연습</code>으로 바꿉니다.
            첫째 줄 A1 칸을 누르고 아래 줄을 복사해 붙여 넣으면 여섯 칸에 나뉘어 들어갑니다.</p>
         <pre class="code-block">이름	연락처	이메일	종류	상세설명	등록일</pre>
-        <span class="hint">화면 아래쪽 탭 이름(보통 <code>시트1</code>)도 확인해 둡니다. 5단계에서 씁니다. <!-- FACT-CHECK: F72 --></span>
+        <span class="hint">화면 아래쪽 탭 이름(보통 <code>시트1</code>)도 확인해 둡니다. 5단계에서 씁니다. <span class="inote" id="inote-d1-p2-1" data-inote="check" data-ref="F72"><b class="inote-tag">강사 확인 F72</b>한국어 구글 계정에서 새 시트 첫 탭 이름이 <code>시트1</code>인지(영어 계정은 Sheet1)</span></span>
         <figure class="capture" id="fig-d1-p2-2">
           <div class="capture-cap">[그림 1-2-2] 머리글 여섯 칸을 입력한 새 구글 시트</div>
           <div class="capture-guide">이름을 민원대장 연습으로 바꾼 새 시트. 1행에 이름~등록일 여섯 머리글, 아래쪽 탭 이름, 오른쪽 위 프로필 사진 강조</div>
@@ -119,7 +130,7 @@
         <code class="val">Sign in with Google</code> → 3단계에서 확인한 계정 선택 → 허용 순서로 진행합니다.
         <span class="hint">구글 로그인 창이 뜨지 않으면 주소창 오른쪽의 팝업 차단 표시를 눌러 허용하세요. 허용 화면에 체크 칸이 있으면 모두 체크합니다.</span>
         <p>이렇게 만든 연결을 <dfn>자격 증명</dfn>(n8n이 내 구글·텔레그램 계정을 대신 쓰도록 맡겨 둔 열쇠)이라고 합니다.
-           <code class="val">Account connected</code>가 보이면 성공입니다. 자격 증명 창 오른쪽 위 <code class="val">X</code>로 닫으면 <code class="val">시트에 기록</code> 설정 창으로 돌아옵니다. <!-- FACT-CHECK: F59 --></p>
+           <code class="val">Account connected</code>가 보이면 성공입니다. 자격 증명 창 오른쪽 위 <code class="val">X</code>로 닫으면 <code class="val">시트에 기록</code> 설정 창으로 돌아옵니다. <span class="inote" id="inote-d1-p2-2" data-inote="check" data-ref="F59"><b class="inote-tag">강사 확인 F59</b>설정 창을 닫고 캔버스로 돌아가는 방법(창 바깥 누르기 / <code class="val">Back to canvas</code>) 표기</span></p>
         <figure class="capture" id="fig-d1-p2-3">
           <div class="capture-cap">[그림 1-2-3] <code class="val">Sign in with Google</code>로 연결된 자격 증명</div>
           <div class="capture-guide">Google Sheets 자격 증명 창의 Sign in with Google 버튼과, 연결 뒤 Account connected 표시</div>
@@ -172,8 +183,8 @@
         <code class="val">Credential</code> 칸에서 <code class="val">Create new credential</code>을 누릅니다.
         <code class="val">Use Gateway credits</code>와 <code class="val">Use my own credential</code> 선택지가 보이면 <code class="val">Use my own credential</code>을 고릅니다.
         <code class="val">API Key</code> 칸에 준비물에서 발급받은 <dfn>API 키</dfn>(Gemini를 쓸 수 있게 해 주는 비밀 번호표)를 붙여 넣고, <code class="val">Host</code>는 그대로 둔 채 저장합니다.
-        <span class="hint">키를 적어 둔 곳을 못 찾으면, 키를 발급받았던 화면(<code>aistudio.google.com/apikey</code>)에서 다시 복사할 수 있습니다. <!-- FACT-CHECK: F74 --></span>
-        <p>저장한 뒤 연결에 성공했다는 표시가 보이면 성공입니다. <code class="val">X</code>로 자격 증명 창을 닫습니다. <!-- FACT-CHECK: F73 --></p>
+        <span class="hint">키를 적어 둔 곳을 못 찾으면, 키를 발급받았던 화면(<code>aistudio.google.com/apikey</code>)에서 다시 복사할 수 있습니다. <span class="inote" id="inote-d1-p2-3" data-inote="check" data-ref="F74"><b class="inote-tag">강사 확인 F74</b>aistudio.google.com/apikey에서 이미 만든 키를 다시 복사할 수 있는지</span></span>
+        <p>저장한 뒤 연결에 성공했다는 표시가 보이면 성공입니다. <code class="val">X</code>로 자격 증명 창을 닫습니다. <span class="inote" id="inote-d1-p2-4" data-inote="check" data-ref="F73"><b class="inote-tag">강사 확인 F73</b>Gemini 자격 증명 만들기 화면 순서·버튼 글자, 저장할 때 연결 성공 표시</span></p>
         <figure class="capture" id="fig-d1-p2-6">
           <div class="capture-cap">[그림 1-2-6] Gemini 자격 증명</div>
           <div class="capture-guide">Google Gemini(PaLM) Api 자격 증명 창(API Key 칸 가림, Host 기본값)과 저장 뒤 연결 성공 표시</div>
@@ -221,7 +232,7 @@
           빨간 노드를 두 번 눌러 열면 오른쪽에 오류 글이 보입니다.
           <code class="val">시트에 기록</code>이면 3~5단계, <code class="val">접수 메일 보내기</code>면 6·7단계,
           <code class="val">AI 안내문 작성</code>이나 <code class="val">Google Gemini Chat Model</code>이면 8·9단계로 돌아가 확인하세요.
-          오류 글에 사용량 초과(quota) 같은 말이 있으면 <code class="val">Model</code>을 <code>models/gemini-3.5-flash-lite</code>로 바꾸고 다시 실행하세요. <!-- FACT-CHECK: F75 -->
+          오류 글에 사용량 초과(quota) 같은 말이 있으면 <code class="val">Model</code>을 <code>models/gemini-3.5-flash-lite</code>로 바꾸고 다시 실행하세요. <span class="inote" id="inote-d1-p2-5" data-inote="check" data-ref="F75"><b class="inote-tag">강사 확인 F75</b>Gemini 한도 초과 때 노드 오류 문구(quota 등), 가벼운 모델로 바꾸면 실행되는지</span>
         </div>
         <div class="note warn">
           <b>AI 안내문은 초안입니다</b>

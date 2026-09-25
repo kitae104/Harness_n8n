@@ -18,6 +18,17 @@
     <p class="sub">동료에게 앱을 보여 주고, 비밀값과 개인정보가 어디에 남는지 점검합니다</p>
   </header>
 
+  <div class="inote" id="inote-d2-p3-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li>공유 링크를 다른 계정·시크릿 창에서 열어 보기(F127), Secrets 값이 공유받은 사람에게 보이는지(F132)</li>
+      <li>점검표 <code>print/forms/security-checklist.html</code> 인쇄</li>
+      <li>이 교안 안의 <b>강사 확인</b> 표시 3곳(노란 점선 상자)</li>
+      <li>캡처 3장 촬영 → <code>assets/img/</code>에 넣고 <code>python scripts/apply_captures.py</code></li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
+
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
     <ul>
@@ -72,7 +83,7 @@
     <div class="note tip">
       <b>AI Studio <code class="val">Publish</code>는 소개만 합니다</b>
       <code class="val">Publish</code>는 앱을 Google Cloud Run에 올려 누구나 여는 공개 주소를 만드는 기능입니다. 조건이 맞는 개인 계정은 결제 등록 없이 앱 2개까지 올릴 수 있지만,
-      기관 계정이거나 예전에 Google Cloud 결제 계정을 만든 적이 있으면 결제 계정이 필요하고 사용량에 따라 요금이 나올 수 있습니다. 이 과정에서는 실습하지 않습니다. <!-- FACT-CHECK: F6 -->
+      기관 계정이거나 예전에 Google Cloud 결제 계정을 만든 적이 있으면 결제 계정이 필요하고 사용량에 따라 요금이 나올 수 있습니다. 이 과정에서는 실습하지 않습니다. <span class="inote" id="inote-d2-p3-1" data-inote="check" data-ref="F6"><b class="inote-tag">강사 확인 F6</b>AI Studio <code class="val">Publish</code>(Cloud Run)가 개인 계정·결제 계정 없이 어디까지 되는지, 버튼·안내 글자 확인</span>
     </div>
   </section>
 
@@ -80,7 +91,7 @@
     <h2 class="sec-title">따라하기</h2>
     <ol class="steps">
       <li><span class="step-title">공유 링크 만들기</span>
-        AI Studio에서 민원 접수 앱을 열고 오른쪽 위 <code class="val">Share</code>를 누릅니다. 공개 범위에서 링크가 있는 사람이 <b>볼 수 있게</b>(보기 권한) 고르고 공유 링크를 복사합니다. <!-- FACT-CHECK: F127 -->
+        AI Studio에서 민원 접수 앱을 열고 오른쪽 위 <code class="val">Share</code>를 누릅니다. 공개 범위에서 링크가 있는 사람이 <b>볼 수 있게</b>(보기 권한) 고르고 공유 링크를 복사합니다. <span class="inote" id="inote-d2-p3-2" data-inote="check" data-ref="F127"><b class="inote-tag">강사 확인 F127</b>AI Studio <code class="val">Share</code> 창의 공개 범위 선택지, 링크를 받은 사람이 로그인해야 하는지(F4 키트 ③)</span>
         <figure class="capture" id="fig-d2-p3-1">
           <div class="capture-cap">[그림 2-3-1] <code class="val">Share</code> 창</div>
           <div class="capture-guide">AI Studio 오른쪽 위 Share를 눌러 열린 창: 공개 범위 선택지, 권한(보기), 링크 복사 버튼 강조</div>
@@ -129,7 +140,7 @@
       <li><span class="step-title">비밀값이 있는 곳 둘러보기</span>
         <ol>
           <li>AI Studio: 앱 화면의 <code class="val">Settings</code> → <code class="val">Secrets</code>를 엽니다. Gemini 키(<code>GEMINI_API_KEY</code>)는 AI Studio가 자동으로 관리합니다. 내가 따로 넣을 비밀값이 생기면 여기에 넣습니다.</li>
-          <li>n8n: 왼쪽 메뉴의 <code class="val">Overview</code>를 누르고 가운데 위쪽 탭 중 <code class="val">Credentials</code>를 누릅니다. 구글 시트·Gmail·캘린더·Gemini·텔레그램 이름이 붙은 줄이 보이면 됩니다. 키와 토큰은 여기에만 있습니다. <!-- FACT-CHECK: F204 --></li>
+          <li>n8n: 왼쪽 메뉴의 <code class="val">Overview</code>를 누르고 가운데 위쪽 탭 중 <code class="val">Credentials</code>를 누릅니다. 구글 시트·Gmail·캘린더·Gemini·텔레그램 이름이 붙은 줄이 보이면 됩니다. 키와 토큰은 여기에만 있습니다. <span class="inote" id="inote-d2-p3-3" data-inote="check" data-ref="F204"><b class="inote-tag">강사 확인 F204</b>n8n에서 자격 증명 목록을 여는 위치(Overview → Credentials 탭 등)와 표기</span></li>
         </ol>
         <figure class="capture" id="fig-d2-p3-2">
           <div class="capture-cap">[그림 2-3-2] 비밀값이 있는 두 곳</div>

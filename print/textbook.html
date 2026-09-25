@@ -20,6 +20,18 @@
     <p class="sub">이틀 뒤에 손에 쥘 서비스를 먼저 봅니다 — 앱에서 접수하면 시트·메일·캘린더·AI 안내문까지</p>
   </header>
 
+  <div class="inote" id="inote-d1-p1-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li>강사 계정에 <code>workflows/d2-p2.json</code>을 Import → 자격 증명 연결 → Publish, 시연 앱의 <code>WEBHOOK_URL</code>을 강사 Production URL로 맞추기(이 교안 끝 "강사 시연 준비")</li>
+      <li>준비물 점검이 10분 안에 끝나는지, 교육망에서 aistudio.google.com·*.app.n8n.cloud·accounts.google.com 접속 확인(F11)</li>
+      <li>수강생에게 미리 안내: 만 18세 이상 개인 구글 계정, n8n Cloud 체험 가입 시점, 텔레그램 봇(선택)</li>
+      <li>이 교안 안의 <b>강사 확인</b> 표시 1곳(노란 점선 상자)</li>
+      <li>캡처 1장 촬영 → <code>assets/img/</code>에 넣고 <code>python scripts/apply_captures.py</code></li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
+
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
     <ul>
@@ -119,7 +131,7 @@
           <b>안 될 때</b>
           <ul>
             <li><b>Gemini API 키가 없거나 어디 뒀는지 모르겠어요</b> → 개인 구글 계정으로 <code>aistudio.google.com/apikey</code>에 들어가 <code class="val">Create API Key</code>를 누릅니다. 나온 키를 복사해 메모장에 붙여 넣고 바탕화면에 저장합니다. 2교시 시작 전까지만 있으면 됩니다.</li>
-            <li><b>n8n 체험 기간이 얼마나 남았는지 모르겠어요</b> → n8n 화면에 남은 기간 안내가 보이면 확인합니다. 이틀 이하로 남았거나 이미 끝났으면 보조강사에게 알립니다. 새 체험 계정을 만들어도 교시 끝 "완성본 가져오기"로 곧바로 따라올 수 있습니다. <!-- FACT-CHECK: F40 --></li>
+            <li><b>n8n 체험 기간이 얼마나 남았는지 모르겠어요</b> → n8n 화면에 남은 기간 안내가 보이면 확인합니다. 이틀 이하로 남았거나 이미 끝났으면 보조강사에게 알립니다. 새 체험 계정을 만들어도 교시 끝 "완성본 가져오기"로 곧바로 따라올 수 있습니다. <span class="inote" id="inote-d1-p1-1" data-inote="check" data-ref="F40"><b class="inote-tag">강사 확인 F40</b>n8n Cloud 무료 체험 기간(일수)과 남은 기간 표시 위치, 교육일에 수강생 체험이 끝나지 않는지(가입 시점 안내)</span></li>
             <li><b>주소가 열리지 않아요(교육망 차단)</b> → ① 주소 철자를 다시 봅니다. ② Chrome 브라우저로 다시 엽니다. ③ 그래도 안 되면 손을 듭니다. 강사가 준비한 다른 접속 방법으로 바꿔 드립니다. AI Studio는 4교시부터 쓰니 지금 안 열려도 1~3교시는 그대로 따라올 수 있습니다.</li>
           </ul>
         </div>
@@ -182,6 +194,17 @@
     <h1>n8n 핵심 복습</h1>
     <p class="sub">트리거–처리–결과, 표현식, 구글 시트·Gmail·Gemini — 모두 같은 완성본에서 출발합니다</p>
   </header>
+
+  <div class="inote" id="inote-d1-p2-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li>교안 그대로 Import → 시트·Gmail·Gemini 연결 → 실행 → 값 고쳐 보기가 40분 안에 끝나는지</li>
+      <li>새 Gemini API 키로 모델 목록 확인(F42), 20명 동시 실행 시 429 오류 여부</li>
+      <li>이 교안 안의 <b>강사 확인</b> 표시 5곳(노란 점선 상자)</li>
+      <li>캡처 9장 촬영 → <code>assets/img/</code>에 넣고 <code>python scripts/apply_captures.py</code></li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
 
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
@@ -265,7 +288,7 @@
            왼쪽 위 <code>제목 없는 스프레드시트</code>를 눌러 이름을 <code>민원대장 연습</code>으로 바꿉니다.
            첫째 줄 A1 칸을 누르고 아래 줄을 복사해 붙여 넣으면 여섯 칸에 나뉘어 들어갑니다.</p>
         <pre class="code-block">이름	연락처	이메일	종류	상세설명	등록일</pre>
-        <span class="hint">화면 아래쪽 탭 이름(보통 <code>시트1</code>)도 확인해 둡니다. 5단계에서 씁니다. <!-- FACT-CHECK: F72 --></span>
+        <span class="hint">화면 아래쪽 탭 이름(보통 <code>시트1</code>)도 확인해 둡니다. 5단계에서 씁니다. <span class="inote" id="inote-d1-p2-1" data-inote="check" data-ref="F72"><b class="inote-tag">강사 확인 F72</b>한국어 구글 계정에서 새 시트 첫 탭 이름이 <code>시트1</code>인지(영어 계정은 Sheet1)</span></span>
         <figure class="capture" id="fig-d1-p2-2">
           <div class="capture-cap">[그림 1-2-2] 머리글 여섯 칸을 입력한 새 구글 시트</div>
           <div class="capture-guide">이름을 민원대장 연습으로 바꾼 새 시트. 1행에 이름~등록일 여섯 머리글, 아래쪽 탭 이름, 오른쪽 위 프로필 사진 강조</div>
@@ -284,7 +307,7 @@
         <code class="val">Sign in with Google</code> → 3단계에서 확인한 계정 선택 → 허용 순서로 진행합니다.
         <span class="hint">구글 로그인 창이 뜨지 않으면 주소창 오른쪽의 팝업 차단 표시를 눌러 허용하세요. 허용 화면에 체크 칸이 있으면 모두 체크합니다.</span>
         <p>이렇게 만든 연결을 <dfn>자격 증명</dfn>(n8n이 내 구글·텔레그램 계정을 대신 쓰도록 맡겨 둔 열쇠)이라고 합니다.
-           <code class="val">Account connected</code>가 보이면 성공입니다. 자격 증명 창 오른쪽 위 <code class="val">X</code>로 닫으면 <code class="val">시트에 기록</code> 설정 창으로 돌아옵니다. <!-- FACT-CHECK: F59 --></p>
+           <code class="val">Account connected</code>가 보이면 성공입니다. 자격 증명 창 오른쪽 위 <code class="val">X</code>로 닫으면 <code class="val">시트에 기록</code> 설정 창으로 돌아옵니다. <span class="inote" id="inote-d1-p2-2" data-inote="check" data-ref="F59"><b class="inote-tag">강사 확인 F59</b>설정 창을 닫고 캔버스로 돌아가는 방법(창 바깥 누르기 / <code class="val">Back to canvas</code>) 표기</span></p>
         <figure class="capture" id="fig-d1-p2-3">
           <div class="capture-cap">[그림 1-2-3] <code class="val">Sign in with Google</code>로 연결된 자격 증명</div>
           <div class="capture-guide">Google Sheets 자격 증명 창의 Sign in with Google 버튼과, 연결 뒤 Account connected 표시</div>
@@ -337,8 +360,8 @@
         <code class="val">Credential</code> 칸에서 <code class="val">Create new credential</code>을 누릅니다.
         <code class="val">Use Gateway credits</code>와 <code class="val">Use my own credential</code> 선택지가 보이면 <code class="val">Use my own credential</code>을 고릅니다.
         <code class="val">API Key</code> 칸에 준비물에서 발급받은 <dfn>API 키</dfn>(Gemini를 쓸 수 있게 해 주는 비밀 번호표)를 붙여 넣고, <code class="val">Host</code>는 그대로 둔 채 저장합니다.
-        <span class="hint">키를 적어 둔 곳을 못 찾으면, 키를 발급받았던 화면(<code>aistudio.google.com/apikey</code>)에서 다시 복사할 수 있습니다. <!-- FACT-CHECK: F74 --></span>
-        <p>저장한 뒤 연결에 성공했다는 표시가 보이면 성공입니다. <code class="val">X</code>로 자격 증명 창을 닫습니다. <!-- FACT-CHECK: F73 --></p>
+        <span class="hint">키를 적어 둔 곳을 못 찾으면, 키를 발급받았던 화면(<code>aistudio.google.com/apikey</code>)에서 다시 복사할 수 있습니다. <span class="inote" id="inote-d1-p2-3" data-inote="check" data-ref="F74"><b class="inote-tag">강사 확인 F74</b>aistudio.google.com/apikey에서 이미 만든 키를 다시 복사할 수 있는지</span></span>
+        <p>저장한 뒤 연결에 성공했다는 표시가 보이면 성공입니다. <code class="val">X</code>로 자격 증명 창을 닫습니다. <span class="inote" id="inote-d1-p2-4" data-inote="check" data-ref="F73"><b class="inote-tag">강사 확인 F73</b>Gemini 자격 증명 만들기 화면 순서·버튼 글자, 저장할 때 연결 성공 표시</span></p>
         <figure class="capture" id="fig-d1-p2-6">
           <div class="capture-cap">[그림 1-2-6] Gemini 자격 증명</div>
           <div class="capture-guide">Google Gemini(PaLM) Api 자격 증명 창(API Key 칸 가림, Host 기본값)과 저장 뒤 연결 성공 표시</div>
@@ -386,7 +409,7 @@
           빨간 노드를 두 번 눌러 열면 오른쪽에 오류 글이 보입니다.
           <code class="val">시트에 기록</code>이면 3~5단계, <code class="val">접수 메일 보내기</code>면 6·7단계,
           <code class="val">AI 안내문 작성</code>이나 <code class="val">Google Gemini Chat Model</code>이면 8·9단계로 돌아가 확인하세요.
-          오류 글에 사용량 초과(quota) 같은 말이 있으면 <code class="val">Model</code>을 <code>models/gemini-3.5-flash-lite</code>로 바꾸고 다시 실행하세요. <!-- FACT-CHECK: F75 -->
+          오류 글에 사용량 초과(quota) 같은 말이 있으면 <code class="val">Model</code>을 <code>models/gemini-3.5-flash-lite</code>로 바꾸고 다시 실행하세요. <span class="inote" id="inote-d1-p2-5" data-inote="check" data-ref="F75"><b class="inote-tag">강사 확인 F75</b>Gemini 한도 초과 때 노드 오류 문구(quota 등), 가벼운 모델로 바꾸면 실행되는지</span>
         </div>
         <div class="note warn">
           <b>AI 안내문은 초안입니다</b>
@@ -499,6 +522,16 @@
     <p class="sub">앱과 자동화가 대화하는 방법 — n8n에 "부르면 답하는 주소"를 만듭니다</p>
   </header>
 
+  <div class="inote" id="inote-d1-p3-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li>교안 그대로 따라 하기: 캔버스 <code class="val">Execute workflow</code> → 주소창 호출 → 인사말 확인(F223), 설정 창 <code class="val">Listen for test event</code>로는 빈 화면인지</li>
+      <li>이 교안 안의 <b>강사 확인</b> 표시 4곳(노란 점선 상자)</li>
+      <li>캡처 9장 촬영 → <code>assets/img/</code>에 넣고 <code>python scripts/apply_captures.py</code></li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
+
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
     <ul>
@@ -565,7 +598,7 @@
       <li><span class="step-title">Webhook 노드 추가하기</span>
         캔버스 가운데의 <code class="val">+</code>를 누르고 검색창에 <code class="val">Webhook</code>을 입력합니다.
         목록에 <code class="val">Respond to Webhook</code>도 보이지만, 이름이 딱 <code class="val">Webhook</code>인 것을 고릅니다.
-        <!-- FACT-CHECK: F55 -->
+        <span class="inote" id="inote-d1-p3-1" data-inote="check" data-ref="F55"><b class="inote-tag">강사 확인 F55</b>노드 검색 칸에 <code>Webhook</code>을 쳤을 때 나오는 항목 표기</span>
         <figure class="capture" id="fig-d1-p3-2">
           <div class="capture-cap">[그림 1-3-2] 검색창에 <code class="val">Webhook</code>을 입력한 결과</div>
           <div class="capture-guide">노드 검색 패널에 Webhook을 입력한 상태. 트리거 Webhook 항목에 강조 표시</div>
@@ -576,7 +609,7 @@
       <li><span class="step-title">받는 방식과 주소 끝부분 정하기</span>
         <code class="val">HTTP Method</code>가 <code class="val">GET</code>인지 확인합니다.
         <code class="val">Path</code> 칸의 글자를 모두 지우고 <code class="val">hello</code>를 입력합니다.
-        <!-- FACT-CHECK: F56 -->
+        <span class="inote" id="inote-d1-p3-2" data-inote="check" data-ref="F56"><b class="inote-tag">강사 확인 F56</b>Webhook <code class="val">HTTP Method</code> 기본값이 <code class="val">GET</code>인지, <code class="val">Path</code> 칸 표기</span>
         <span class="hint"><code>GET</code>은 브라우저 주소창에 주소를 넣어 부르는 방식입니다. 오후에 앱이 민원을 보낼 때는 <code>POST</code>라는 다른 방식을 씁니다.
           Path는 주소의 맨 끝부분이며, 알아보기 쉬운 영어 단어로 정합니다.</span>
         <figure class="capture" id="fig-d1-p3-3">
@@ -612,7 +645,7 @@
         </figure>
         <p><code class="val">Allowed Origins (CORS)</code> 칸에 <code>*</code>가 보이면 성공입니다.
            설정 창 바깥의 빈 곳을 누르거나 창을 닫아 캔버스로 돌아갑니다. Webhook 노드 하나가 보이면 됩니다.
-           <!-- FACT-CHECK: F59 --></p>
+           <span class="inote" id="inote-d1-p3-3" data-inote="check" data-ref="F59"><b class="inote-tag">강사 확인 F59</b>설정 창을 닫고 캔버스로 돌아가는 방법(창 바깥 누르기 / <code class="val">Back to canvas</code>) 표기</span></p>
       </li>
 
       <li><span class="step-title">Respond to Webhook 노드 붙이기</span>
@@ -665,7 +698,7 @@
              <b>해결</b> 설정 창을 닫고 캔버스 아래 <code class="val">Execute workflow</code>를 누른 뒤 다시 부르세요</p>
           <p><b>증상</b> "안녕하세요, 님."처럼 이름이 빠져 있어요<br>
              <b>원인</b> 주소 끝의 <code>이름</code>과 표현식 <code>$json.query.이름</code>의 글자가 서로 달라요(예: <code>?이룸=</code>)<br>
-             <b>해결</b> 두 곳 모두 "이름" 두 글자로 똑같이 맞추고, <code class="val">Execute workflow</code>를 다시 누른 뒤 부르세요 <!-- FACT-CHECK: F58 --></p>
+             <b>해결</b> 두 곳 모두 "이름" 두 글자로 똑같이 맞추고, <code class="val">Execute workflow</code>를 다시 누른 뒤 부르세요</p>
         </div>
       </li>
 
@@ -766,7 +799,7 @@
     <div class="note warn">
       <b>먼저: 따라 만들던 워크플로우를 Publish했다면</b>
       그 워크플로우의 <code class="val">Publish</code> 오른쪽 작은 화살표를 눌러 목록 맨 아래 <code class="val">Unpublish</code>를 누르고, 뜨는 창에서 다시 <code class="val">Unpublish</code>를 누르세요.
-      같은 주소 끝부분(<code>hello</code>)과 같은 방식(GET)을 쓰는 Webhook은 하나만 동작할 수 있습니다. <!-- FACT-CHECK: F62 -->
+      같은 주소 끝부분(<code>hello</code>)과 같은 방식(GET)을 쓰는 Webhook은 하나만 동작할 수 있습니다. <span class="inote" id="inote-d1-p3-4" data-inote="check" data-ref="F62"><b class="inote-tag">강사 확인 F62</b>같은 경로 Webhook이 게시된 상태에서 두 번째 워크플로우를 Publish할 때 나오는 오류 문구(Unpublish 안내의 근거)</span>
     </div>
     <ol class="steps">
       <li><span class="step-title">파일 내려받기</span>
@@ -803,6 +836,17 @@
     <h1>AI 앱 빌더 첫 체험</h1>
     <p class="sub">Google AI Studio의 Build 모드에서 문장만으로 민원 접수 화면을 만듭니다</p>
   </header>
+
+  <div class="inote" id="inote-d1-p4-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li>주문서 <code>prompts/d1-p4-minwon-app.md</code>로 3회 생성 → 검증 기록 표 작성, 20명 동시 생성 시 한도(F7)</li>
+      <li>플랜 B 준비: 강사용 n8n Form Trigger 폼(교육망에서 AI Studio가 막힐 때)</li>
+      <li>이 교안 안의 <b>강사 확인</b> 표시 9곳(노란 점선 상자)</li>
+      <li>캡처 4장 촬영 → <code>assets/img/</code>에 넣고 <code>python scripts/apply_captures.py</code></li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
 
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
@@ -855,7 +899,7 @@
         브라우저 새 탭 주소창에 <code>aistudio.google.com/apps</code>를 입력하고 <kbd>Enter</kbd>를 누릅니다.
         <ul>
           <li>로그인 화면이 뜨면 준비물로 만든 <b>개인 구글 계정</b>으로 로그인합니다.</li>
-          <li>영어로 된 동의 창이 뜨면 체크 칸에 표시하고 파란 버튼을 누릅니다. <!-- FACT-CHECK: F83 --></li>
+          <li>영어로 된 동의 창이 뜨면 체크 칸에 표시하고 파란 버튼을 누릅니다. <span class="inote" id="inote-d1-p4-1" data-inote="check" data-ref="F83"><b class="inote-tag">강사 확인 F83</b>AI Studio 첫 접속 때 약관 동의·환영 창이 뜨는지와 모양</span></li>
           <li>오른쪽 위 프로필 사진을 누르면 계정 이메일이 보입니다. 기관 메일이 아닌 개인 Gmail인지 확인합니다.</li>
         </ul>
         <figure class="capture" id="fig-d1-p4-1">
@@ -902,9 +946,9 @@
 - 실제 사람의 이름이나 연락처를 예시로 넣지 마.</pre>
         <span class="hint">[접수하기를 눌렀을 때]에 나오는 WEBHOOK_URL, 상수, JSON, POST는 AI에게 하는 말입니다. 뜻을 몰라도 그대로 붙여 넣으면 됩니다.
           위 상자에서 복사가 잘 안 될 때만 <a href="../prompts/d1-p4-minwon-app.md">프롬프트 파일</a>을 여세요. 연 뒤에는 브라우저의 뒤로 가기(←)로 이 교안에 돌아옵니다.</span>
-        <p>붙여 넣은 뒤 입력창 오른쪽 아래의 보내기 버튼(화살표 모양)을 누릅니다. <kbd>Enter</kbd>는 줄만 바뀔 수 있으니 버튼을 누르세요. <!-- FACT-CHECK: F81 --></p>
+        <p>붙여 넣은 뒤 입력창 오른쪽 아래의 보내기 버튼(화살표 모양)을 누릅니다. <kbd>Enter</kbd>는 줄만 바뀔 수 있으니 버튼을 누르세요. <span class="inote" id="inote-d1-p4-2" data-inote="check" data-ref="F81"><b class="inote-tag">강사 확인 F81</b>Build 첫 화면 보내기 버튼 모양·위치, 여러 줄을 붙여 넣은 뒤 <kbd>Enter</kbd>가 전송인지 줄바꿈인지</span></p>
         <p>왼쪽에 AI의 작업 과정 글(영어일 수 있습니다)이 올라오기 시작하면 성공입니다. 읽지 않아도 됩니다.
-           앱이 완성될 때까지 1~3분쯤 걸립니다. 기다리는 동안 다른 요청을 보내지 않습니다. <!-- FACT-CHECK: F76 --></p>
+           앱이 완성될 때까지 1~3분쯤 걸립니다. 기다리는 동안 다른 요청을 보내지 않습니다. <span class="inote" id="inote-d1-p4-3" data-inote="check" data-ref="F76"><b class="inote-tag">강사 확인 F76</b>한국어 주문서로 3회 생성 → 3회 모두 화면 글자 한국어·칸 5개인지. 결과를 prompts 파일의 검증 기록 표에 적기</span></p>
         <div class="note mistake" data-section="mistakes">
           <b>자주 하는 실수</b>
           <p><b>증상</b> 만들어진 화면에 칸이 몇 개 빠져 있어요<br>
@@ -915,7 +959,7 @@
 
       <li><span class="step-title">미리보기에서 세 가지 확인하기</span>
         앱이 만들어지면 화면이 둘로 나뉩니다. 왼쪽은 AI와 주고받는 글과 그 아래 입력창, 오른쪽은 미리보기입니다.
-        앞으로 고쳐 달라는 말은 <b>왼쪽 아래 입력창</b>에 씁니다. <!-- FACT-CHECK: F82 -->
+        앞으로 고쳐 달라는 말은 <b>왼쪽 아래 입력창</b>에 씁니다. <span class="inote" id="inote-d1-p4-4" data-inote="check" data-ref="F82"><b class="inote-tag">강사 확인 F82</b>AI Studio 화면 배치(대화창·입력창·미리보기 위치), <code class="val">Preview</code>/<code class="val">Code</code> 탭 표기, Code 탭 파일 목록</span>
         <p>오른쪽 미리보기에서 아래 세 가지를 확인합니다.</p>
         <ul>
           <li>제목 <code>민원 접수</code>와 입력 칸 5개(이름·연락처·이메일·종류·상세설명)가 있나요?</li>
@@ -931,7 +975,7 @@
           <b>자주 하는 실수</b>
           <p><b>증상</b> 미리보기에 앱 대신 빨간 오류 문구가 보이거나, 5분이 지나도 아무것도 안 보여요<br>
              <b>원인</b> AI가 코드를 만들다 실수했어요. 내 잘못이 아닙니다<br>
-             <b>해결</b> 왼쪽 아래 입력창에 "오류를 고쳐 줘"라고 써서 보내세요. 오류 옆에 고치기 버튼이 보이면 그 버튼을 눌러도 됩니다. 두 번 해도 안 되면 손을 들어 강사를 부르세요 <!-- FACT-CHECK: F8 --></p>
+             <b>해결</b> 왼쪽 아래 입력창에 "오류를 고쳐 줘"라고 써서 보내세요. 오류 옆에 고치기 버튼이 보이면 그 버튼을 눌러도 됩니다. 두 번 해도 안 되면 손을 들어 강사를 부르세요 <span class="inote" id="inote-d1-p4-5" data-inote="check" data-ref="F8"><b class="inote-tag">강사 확인 F8</b>앱 오류 화면의 오류 표시와 자동 수정 버튼 이름(예: Fix errors / Auto-fix)을 캡처해 교안 표기와 맞추기</span></p>
           <p><b>증상</b> 칸 이름이나 버튼이 영어로 나왔어요(예: Submit)<br>
              <b>원인</b> AI가 한국어 지시를 일부 놓쳤어요<br>
              <b>해결</b> 왼쪽 아래 입력창에 "화면의 모든 글자를 한국어로 바꿔 줘"라고 보내세요</p>
@@ -952,7 +996,7 @@
 
       <li><span class="step-title"><code class="val">Code</code> 탭에서 주소 자리 찾아보기</span>
         미리보기 위쪽의 <code class="val">Code</code> 탭을 누릅니다. 왼쪽 파일 목록에서 이름에 <code>App</code>이 들어간 파일을 누르고, 코드 안에서 <code>WEBHOOK_URL</code>을 찾아봅니다.
-        그 파일에서 못 찾으면 다른 파일도 하나씩 눌러 봅니다. <!-- FACT-CHECK: F82 -->
+        그 파일에서 못 찾으면 다른 파일도 하나씩 눌러 봅니다. <span class="inote" id="inote-d1-p4-6" data-inote="check" data-ref="F82"><b class="inote-tag">강사 확인 F82</b>AI Studio 화면 배치(대화창·입력창·미리보기 위치), <code class="val">Preview</code>/<code class="val">Code</code> 탭 표기, Code 탭 파일 목록</span>
         <span class="hint">코드를 읽거나 고칠 필요는 없습니다. 6교시에 이 자리에 n8n 주소가 들어간다는 것만 눈으로 확인합니다.
           찾기 어려우면 코드 영역을 한 번 누르고 <kbd>Ctrl</kbd>+<kbd>F</kbd>로 <code>WEBHOOK_URL</code>을 검색합니다.
           코드 영역을 누른 뒤에는 글자를 치지 마세요. 실수로 무언가 쳤다면 바로 <kbd>Ctrl</kbd>+<kbd>Z</kbd>를 눌러 되돌립니다.</span>
@@ -972,7 +1016,7 @@
 
       <li><span class="step-title">내 앱이 저장됐는지 확인하기</span>
         왼쪽 메뉴의 <code class="val">Apps</code>를 누릅니다. 목록 맨 위(가장 최근)에 방금 만든 앱이 있으면 성공입니다. 앱 이름은 AI가 영어로 정했을 수 있습니다.
-        앱을 눌러 다시 열어 둡니다. <!-- FACT-CHECK: F77 -->
+        앱을 눌러 다시 열어 둡니다. <span class="inote" id="inote-d1-p4-7" data-inote="check" data-ref="F77"><b class="inote-tag">강사 확인 F77</b>되돌리기(체크포인트) 버튼 이름·위치, 새로고침 뒤 유지, <code class="val">Apps</code> 목록 자동 저장</span>
         <span class="hint">5교시에 이 앱을 계속 고칩니다. 새 앱을 또 만들지 말고 이 앱을 이어서 씁니다.</span>
         <div class="note mistake" data-section="mistakes">
           <b>자주 하는 실수</b>
@@ -985,7 +1029,7 @@
 
     <div class="note warn">
       <b>한 번에 너무 많이 요청하지 않기</b>
-      AI Studio는 무료지만 사용량 한도가 있습니다. 결과가 마음에 들지 않는다고 새 앱을 여러 번 만들지 말고, 5교시에 배우는 "고쳐 달라고 요청하기"를 쓰세요. 한도에 걸리면 사용량을 넘었다는 영어 안내가 뜹니다. 이때는 강사에게 알리세요. <!-- FACT-CHECK: F7 -->
+      AI Studio는 무료지만 사용량 한도가 있습니다. 결과가 마음에 들지 않는다고 새 앱을 여러 번 만들지 말고, 5교시에 배우는 "고쳐 달라고 요청하기"를 쓰세요. 한도에 걸리면 사용량을 넘었다는 영어 안내가 뜹니다. 이때는 강사에게 알리세요. <span class="inote" id="inote-d1-p4-8" data-inote="check" data-ref="F7"><b class="inote-tag">강사 확인 F7</b>AI Studio 무료 한도: 한 교시 분량(생성 1 + 수정 5~10)에서 한도에 걸리는지, 20명 동시 사용 시 문제, 한도 초과 문구 캡처</span>
     </div>
 
     <div class="note planb">
@@ -994,7 +1038,7 @@
       <ol>
         <li>강사에게 알려 다른 계정이나 개인 휴대폰 핫스팟으로 접속할 수 있는지 확인합니다.</li>
         <li>그래도 안 되면 강사가 n8n의 <code class="val">Form Trigger</code>(기초과정 08강의 입력 폼)로 같은 다섯 칸을 받는 폼을 화면에 띄워 함께 만듭니다. 이 폼으로 n8n 쪽 실습(시트 기록·접수번호·메일·캘린더)은 이어 갈 수 있습니다. 다만 <code class="val">민원 정리</code>의 값은 <code>{{ $json.이름 }}</code>처럼 <code>body</code> 없이 적고, 앱 화면을 고치는 단계는 건너뜁니다. 강사가 자리에서 도와 드립니다.</li>
-        <li>강사가 준비한 경우에는 Gemini 앱의 Canvas로 같은 프롬프트를 넣어 화면을 만들어 볼 수 있습니다. <!-- FACT-CHECK: F45 --></li>
+        <li>강사가 준비한 경우에는 Gemini 앱의 Canvas로 같은 프롬프트를 넣어 화면을 만들어 볼 수 있습니다. <span class="inote" id="inote-d1-p4-9" data-inote="check" data-ref="F45"><b class="inote-tag">강사 확인 F45</b>Gemini 앱 Canvas에서 만든 화면이 n8n 주소를 부를 수 있는지(플랜 B로 쓸지 결정)</span></li>
       </ol>
     </div>
   </section>
@@ -1046,6 +1090,16 @@
     <p class="sub">화면은 문장으로 고치고, 오류는 정해진 루틴으로 AI에게 고치게 합니다</p>
   </header>
 
+  <div class="inote" id="inote-d1-p5-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li>요청 1~3을 차례로 보내 칸 이름·<code>WEBHOOK_URL</code>이 유지되는지, 연습 오류 요청에 AI가 따르는지(F84)</li>
+      <li>이 교안 안의 <b>강사 확인</b> 표시 7곳(노란 점선 상자)</li>
+      <li>캡처 3장 촬영 → <code>assets/img/</code>에 넣고 <code>python scripts/apply_captures.py</code></li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
+
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
     <ul>
@@ -1096,7 +1150,7 @@
     <div class="note tip">
       <b>이번 시간의 공통 동작</b>
       상자 안 글을 처음부터 끝까지 끌어서 고르고 <kbd>Ctrl</kbd>+<kbd>C</kbd>로 복사합니다. AI Studio의 <b>대화 입력창</b>(4교시에 고쳐 달라는 말을 쓰던 곳)을 누르고 <kbd>Ctrl</kbd>+<kbd>V</kbd>로 붙여 넣은 뒤,
-      보내기 버튼(화살표 모양)을 누릅니다. <kbd>Enter</kbd>는 줄만 바뀔 수 있습니다. 고치는 데 1분쯤 걸리니 <b>미리보기가 바뀌기 전에는 다음 요청을 보내지 않습니다</b>. <!-- FACT-CHECK: F82 -->
+      보내기 버튼(화살표 모양)을 누릅니다. <kbd>Enter</kbd>는 줄만 바뀔 수 있습니다. 고치는 데 1분쯤 걸리니 <b>미리보기가 바뀌기 전에는 다음 요청을 보내지 않습니다</b>. <span class="inote" id="inote-d1-p5-1" data-inote="check" data-ref="F82"><b class="inote-tag">강사 확인 F82</b>AI Studio 화면 배치(대화창·입력창·미리보기 위치), <code class="val">Preview</code>/<code class="val">Code</code> 탭 표기, Code 탭 파일 목록</span>
     </div>
 
     <h3>A. 화면 고쳐 달라고 요청하기</h3>
@@ -1154,7 +1208,7 @@
         <pre class="code-block">배경을 아주 연한 하늘색으로, "접수하기" 버튼은 진한 파란색 바탕에 흰 글씨로 바꾸고 버튼을 화면 가로 폭에 꽉 차게 해 줘. 입력 칸의 이름과 순서는 바꾸지 마.</pre>
         <p>색이 바뀌었으면, 마음에 들지 않는다고 생각하고 아래 글로 되돌립니다. 색이 원래대로 돌아가면 성공입니다.</p>
         <pre class="code-block">방금 바꾼 것을 되돌려서 바로 전 상태로 돌아가 줘.</pre>
-        <span class="hint">대화 패널에 <code class="val">Restore</code> 같은 되돌리기 버튼이 보여도 오늘은 누르지 않습니다. 어느 요청의 버튼을 누르느냐에 따라 여러 단계가 한꺼번에 사라질 수 있습니다. <!-- FACT-CHECK: F77 --></span>
+        <span class="hint">대화 패널에 <code class="val">Restore</code> 같은 되돌리기 버튼이 보여도 오늘은 누르지 않습니다. 어느 요청의 버튼을 누르느냐에 따라 여러 단계가 한꺼번에 사라질 수 있습니다. <span class="inote" id="inote-d1-p5-2" data-inote="check" data-ref="F77"><b class="inote-tag">강사 확인 F77</b>되돌리기(체크포인트) 버튼 이름·위치, 새로고침 뒤 유지, <code class="val">Apps</code> 목록 자동 저장</span></span>
       </li>
     </ol>
 
@@ -1164,7 +1218,7 @@
         아래 글을 대화 입력창에 붙여 넣고 보냅니다.
         <pre class="code-block">연습을 위해 일부러 오류를 하나 만들어 줘. "접수하기" 버튼을 누르면 화면에 오류 문구가 뜨도록, 버튼을 눌렀을 때 실행되는 코드 안에서 존재하지 않는 함수를 부르게 바꿔 줘. 오류는 고치지 말고 그대로 둬. 다른 부분은 바꾸지 마.</pre>
         <p>바뀐 뒤 A-3과 같은 가상 값을 넣고 동의에 체크한 다음 <code>접수하기</code>를 누릅니다.
-           미리보기나 대화 패널에 오류 글(보통 영어, 예: <code>… is not defined</code>)이 보이면 성공입니다. 읽지 않아도 됩니다. <!-- FACT-CHECK: F84 --></p>
+           미리보기나 대화 패널에 오류 글(보통 영어, 예: <code>… is not defined</code>)이 보이면 성공입니다. 읽지 않아도 됩니다. <span class="inote" id="inote-d1-p5-3" data-inote="check" data-ref="F84"><b class="inote-tag">강사 확인 F84</b>"오류를 일부러 만들어 줘" 요청에 AI가 따르는지·거절하는지·스스로 고치는지. 안 따르면 연습 방법을 바꿔야 함</span></p>
         <div class="note planb">
           <b>오류 대신 "아직 접수 창구와 연결되지 않았습니다"가 뜨면</b>
           AI가 오류를 만들지 않았거나 스스로 고친 것입니다. 이때는 2단계대로 신고 문장을 입력창에 붙여 넣고, 오류 글 대신 아래 연습용 오류 문구를 복사해 <code>오류:</code> 아래에 붙여 넣는 데까지만 연습합니다. <b>보내지 않습니다.</b>
@@ -1185,10 +1239,10 @@
 
       <li><span class="step-title">오류 글 복사해 끼워 넣고 보내기</span>
         오류 글의 첫 글자 앞을 누른 채 끝까지 끌어서 고르고 <kbd>Ctrl</kbd>+<kbd>C</kbd>로 복사합니다.
-        입력창의 <code>오류:</code> 아래 빈 줄을 한 번 누르고 <kbd>Ctrl</kbd>+<kbd>V</kbd>로 붙여 넣은 뒤 보냅니다. <!-- FACT-CHECK: F85 -->
+        입력창의 <code>오류:</code> 아래 빈 줄을 한 번 누르고 <kbd>Ctrl</kbd>+<kbd>V</kbd>로 붙여 넣은 뒤 보냅니다. <span class="inote" id="inote-d1-p5-4" data-inote="check" data-ref="F85"><b class="inote-tag">강사 확인 F85</b>오류 글을 마우스로 골라 복사할 수 있는 위치(미리보기 오류 표시, 대화창 메시지)</span>
         <span class="hint">글이 선택되지 않으면 <kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd>를 누릅니다. 화면이 조금 어두워지면 오류 부분을 네모로 끌어 고르고, 신고 문장이 들어 있는 입력창을 눌러 <kbd>Ctrl</kbd>+<kbd>V</kbd>로 그림을 붙여 보냅니다.
           <kbd>F12</kbd> 키로 열리는 화면(개발자 도구)은 쓰지 않습니다.
-          대화 패널에 오류를 고치는 버튼(예: <code class="val">Fix errors</code>)이 보여도 <b>오늘 연습에서는 누르지 않고</b> 신고 문장을 씁니다. <!-- FACT-CHECK: F8 --></span>
+          대화 패널에 오류를 고치는 버튼(예: <code class="val">Fix errors</code>)이 보여도 <b>오늘 연습에서는 누르지 않고</b> 신고 문장을 씁니다. <span class="inote" id="inote-d1-p5-5" data-inote="check" data-ref="F8"><b class="inote-tag">강사 확인 F8</b>앱 오류 화면의 오류 표시와 자동 수정 버튼 이름(예: Fix errors / Auto-fix)을 캡처해 교안 표기와 맞추기</span></span>
         <figure class="capture" id="fig-d1-p5-3">
           <div class="capture-cap">[그림 1-5-3] 오류 글이 보이는 곳</div>
           <div class="capture-guide">연습 1 뒤 접수하기를 눌렀을 때 미리보기의 오류 글과 대화 패널에 나타난 오류 알림(오류 고치기 버튼이 있으면 함께) 강조. 입력창에 신고 문장과 오류 글이 들어간 모습도 한 장</div>
@@ -1229,12 +1283,12 @@
     </div>
     <div class="note warn">
       <b>요청마다 무료 사용량이 쓰입니다</b>
-      수정 요청도 AI Studio의 무료 사용량을 씁니다. 연습 요청은 오늘 교안에 있는 것만 보내고, 한도에 걸렸다는 안내가 나오면 강사에게 알리세요. <!-- FACT-CHECK: F86 -->
+      수정 요청도 AI Studio의 무료 사용량을 씁니다. 연습 요청은 오늘 교안에 있는 것만 보내고, 한도에 걸렸다는 안내가 나오면 강사에게 알리세요. <span class="inote" id="inote-d1-p5-6" data-inote="check" data-ref="F86"><b class="inote-tag">강사 확인 F86</b>수정 요청 10회 전후 한도 차감, 한도 초과 화면 문구</span>
     </div>
     <div class="note tip">
       <b>알아 두면 좋아요: 화면에 표시해서 요청하기</b>
       AI Studio에는 미리보기 화면의 한 부분에 상자를 그리고 고칠 내용을 적어 요청하는 기능(Annotation)이 있습니다.
-      상자 그리기 → 글 쓰기 → <code class="val">Add to chat</code> → 보내기 순서입니다. 오늘은 해 보지 않아도 됩니다. 시간이 남으면 강사 화면을 보며 함께 해 봅니다. <!-- FACT-CHECK: F82 -->
+      상자 그리기 → 글 쓰기 → <code class="val">Add to chat</code> → 보내기 순서입니다. 오늘은 해 보지 않아도 됩니다. 시간이 남으면 강사 화면을 보며 함께 해 봅니다. <span class="inote" id="inote-d1-p5-7" data-inote="check" data-ref="F82"><b class="inote-tag">강사 확인 F82</b>AI Studio 화면 배치(대화창·입력창·미리보기 위치), <code class="val">Preview</code>/<code class="val">Code</code> 탭 표기, Code 탭 파일 목록</span>
     </div>
   </section>
 
@@ -1285,6 +1339,17 @@
     <h1>앱 ↔ n8n 연동 ①</h1>
     <p class="sub">앱에 n8n 주소를 넣고, 앱에서 접수한 민원이 구글 시트에 한 줄로 쌓이게 합니다</p>
   </header>
+
+  <div class="inote" id="inote-d1-p6-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li><b>가장 먼저 F4 키트 시험</b>(docs/instructor-kit/f4-test.md) — 결과를 Claude 세션에 전달</li>
+      <li>그 뒤 교안 그대로 15:35까지 7단계에 도달하는지</li>
+      <li>이 교안 안의 <b>강사 확인</b> 표시 2곳(노란 점선 상자)</li>
+      <li>캡처 5장 촬영 → <code>assets/img/</code>에 넣고 <code>python scripts/apply_captures.py</code></li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
 
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
@@ -1372,7 +1437,7 @@
         <ol>
           <li>아래 문장을 복사해 AI Studio 대화 입력창에 붙여 넣습니다. <b>아직 보내지 않습니다.</b></li>
           <li>입력창에서 <code>{Test URL}</code> 글자(중괄호 포함)를 끌어서 고르고 지웁니다. 따옴표 <code>" "</code>는 남깁니다.</li>
-          <li>n8n 탭의 <code class="val">민원 받기</code> 설정 창 위쪽에서 <code class="val">Test URL</code>이 골라져 있는지 보고, 그 주소를 복사합니다. <!-- FACT-CHECK: F60 --></li>
+          <li>n8n 탭의 <code class="val">민원 받기</code> 설정 창 위쪽에서 <code class="val">Test URL</code>이 골라져 있는지 보고, 그 주소를 복사합니다.</li>
           <li>AI Studio 탭으로 돌아와 따옴표 사이를 한 번 누르고 <kbd>Ctrl</kbd>+<kbd>V</kbd>를 누른 뒤 보냅니다.</li>
         </ol>
         <pre class="code-block">코드 맨 위 WEBHOOK_URL 값을 "{Test URL}"로 바꿔 줘. 다른 부분은 바꾸지 마.</pre>
@@ -1392,7 +1457,7 @@
           <div class="capture-guide">민원 받기 설정 창 오른쪽 OUTPUT에서 body를 펼쳐 이름·연락처·이메일·종류·상세설명 다섯 값이 보이는 모습(headers는 접어 둠)</div>
         </figure>
         <p><code class="val">민원 받기</code> 설정 창 오른쪽 <code class="val">OUTPUT</code>에서 <code>body</code>를 눌러 펼쳤을 때 다섯 값이 보이면 성공입니다.
-           앱이 n8n을 부르는 데 성공했다는 뜻이므로 CORS도 통과한 것입니다. <!-- FACT-CHECK: F4 --></p>
+           앱이 n8n을 부르는 데 성공했다는 뜻이므로 CORS도 통과한 것입니다. <span class="inote" id="inote-d1-p6-1" data-inote="check" data-ref="F4"><b class="inote-tag">강사 확인 F4</b>앱 → n8n 호출이 되는지 <b>F4 키트</b>(docs/instructor-kit/f4-test.md)로 시험하고 결과를 Claude 세션에 전달. 결과에 따라 이 단계의 기본 방법이 바뀔 수 있음</span></p>
         <p><b>성공 여부는 n8n 쪽으로 판단합니다.</b> n8n에 다섯 값이 보였다면 앱 화면에 무엇이 뜨든(빈 접수번호, 실패 문구 모두) 이 단계는 성공입니다. 앱 화면의 답은 7교시에 고칩니다.</p>
         <div class="note mistake" data-section="mistakes">
           <b>자주 하는 실수</b>
@@ -1413,7 +1478,7 @@
         <code class="val">민원 받기</code> 오른쪽의 <code class="val">+</code>를 누르고 <code class="val">Edit Fields (Set)</code>를 고릅니다. 설정 창 맨 위 노드 이름을 한 번 눌러 <code class="val">민원 정리</code>로 고칩니다.
         <p>왼쪽 입력 목록에서 <code>body</code>를 펼치고, <code>이름</code>·<code>연락처</code>·<code>이메일</code>·<code>종류</code>·<code>상세설명</code>을 하나씩
            가운데 <code class="val">Drag input fields here</code> 자리로 끌어다 놓습니다.</p>
-        <p>끌어다 놓으면 왼쪽 이름 칸이 <code>body['이름']</code>처럼 들어갑니다. <b>다섯 줄 모두 왼쪽 이름 칸만 눌러 <code>이름</code>, <code>연락처</code>처럼 글자만 남기고</b>, 오른쪽 값은 그대로 둡니다. <!-- FACT-CHECK: F87 --></p>
+        <p>끌어다 놓으면 왼쪽 이름 칸이 <code>body['이름']</code>처럼 들어갑니다. <b>다섯 줄 모두 왼쪽 이름 칸만 눌러 <code>이름</code>, <code>연락처</code>처럼 글자만 남기고</b>, 오른쪽 값은 그대로 둡니다. <span class="inote" id="inote-d1-p6-2" data-inote="check" data-ref="F87"><b class="inote-tag">강사 확인 F87</b><code class="val">body</code> 아래 한글 필드를 끌어 놓으면 이름이 <code>body['이름']</code>이 되는지 캡처</span></p>
         <figure class="capture" id="fig-d1-p6-3">
           <div class="capture-cap">[그림 1-6-3] 이름을 고친 <code class="val">민원 정리</code></div>
           <div class="capture-guide">Edit Fields 창: 왼쪽 INPUT의 body 아래 다섯 값, 가운데 Fields to Set에 이름~상세설명 다섯 줄. 왼쪽 이름은 이름·연락처…, 오른쪽 값은 {{ $json.body['이름'] }} 형태인 모습(끌어 놓은 직후의 body['이름'] 모습도 한 장)</div>
@@ -1452,7 +1517,7 @@
         <ol>
           <li>앱의 <code>새 민원 접수</code>를 눌러 입력 화면으로 돌아갑니다.</li>
           <li>김민원 / 010-0000-0002 / minwon@example.com / 음식물 / 매주 화요일 음식물 쓰레기 수거가 되지 않고 있습니다. 를 넣고 동의에 체크합니다. <b>아직 누르지 않습니다.</b></li>
-          <li>n8n 탭에서 캔버스 아래쪽 <code class="val">Execute workflow</code>를 누릅니다. 이번에도 2분 동안 기다립니다. <!-- FACT-CHECK: F90 --></li>
+          <li>n8n 탭에서 캔버스 아래쪽 <code class="val">Execute workflow</code>를 누릅니다. 이번에도 2분 동안 기다립니다.</li>
           <li>AI Studio 탭에서 <code>접수하기</code>를 누릅니다.</li>
         </ol>
         <figure class="capture" id="fig-d1-p6-5">
@@ -1578,6 +1643,16 @@
     <p class="sub">접수번호를 만들어 시트에 적고, 앱 화면에 돌려준 뒤 1일차를 정리합니다</p>
   </header>
 
+  <div class="inote" id="inote-d1-p7-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li>교안 그대로 16:30까지 5단계 도달 가능한지, 접수번호 001→002 증가, 시트 날짜·접수번호 서식(F101), JSON 모드 한 줄 표현식(F102)</li>
+      <li>이 교안 안의 <b>강사 확인</b> 표시 1곳(노란 점선 상자)</li>
+      <li>캡처 5장 촬영 → <code>assets/img/</code>에 넣고 <code>python scripts/apply_captures.py</code></li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
+
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
     <ul>
@@ -1648,7 +1723,7 @@
 
     <ol class="steps">
       <li><span class="step-title">워크플로우 시간대를 서울로 맞추기</span>
-        캔버스 오른쪽 위 <code class="val">…</code> → <code class="val">Settings</code>를 누르고 <code class="val">Timezone</code> 목록에서 서울(<code>Asia/Seoul</code>)을 고른 뒤 저장 버튼을 누릅니다. <!-- FACT-CHECK: F100 -->
+        캔버스 오른쪽 위 <code class="val">…</code> → <code class="val">Settings</code>를 누르고 <code class="val">Timezone</code> 목록에서 서울(<code>Asia/Seoul</code>)을 고른 뒤 저장 버튼을 누릅니다. <span class="inote" id="inote-d1-p7-1" data-inote="check" data-ref="F100"><b class="inote-tag">강사 확인 F100</b>워크플로우 시간대 설정 화면(<code class="val">Settings</code> → <code class="val">Timezone</code>) 표기와 위치</span>
         <span class="hint">이 설정이 없으면 n8n이 미국 시간을 써서, 오전에는 날짜가 하루 전으로 찍힙니다.</span>
         <p><code class="val">Timezone</code>에 서울이 보이면 성공입니다.</p>
       </li>
@@ -1845,7 +1920,7 @@
       </li>
       <li><span class="step-title">Publish하고 앱 주소 확인하기</span>
         <code class="val">Publish</code> → 확인 창의 <code class="val">Publish</code>. 새로 가져온 워크플로우는 주소가 같으므로 앱의 <code>WEBHOOK_URL</code>은 6교시에 넣은 Production URL 그대로 둡니다.
-        다르게 보이면 6교시 9단계 순서로 <code class="val">민원 받기</code>의 Production URL을 앱에 넣습니다. 앱에서 접수해 번호가 보이면 복구 완료입니다. <!-- FACT-CHECK: F60 -->
+        다르게 보이면 6교시 9단계 순서로 <code class="val">민원 받기</code>의 Production URL을 앱에 넣습니다. 앱에서 접수해 번호가 보이면 복구 완료입니다.
       </li>
     </ol>
   </section>
@@ -1864,6 +1939,16 @@
     <h1>앱 ↔ n8n 연동 ②</h1>
     <p class="sub">접수와 동시에 담당자 메일, 캘린더 처리 마감, AI 안내문까지 — 앱 화면에는 안내문을 함께 돌려줍니다</p>
   </header>
+
+  <div class="inote" id="inote-d2-p1-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li>교안 그대로 9:30까지 5단계, 20명 동시 접수 시 Gemini 429, 캘린더 동의 화면(F116)</li>
+      <li>이 교안 안의 <b>강사 확인</b> 표시 3곳(노란 점선 상자)</li>
+      <li>캡처 3장 촬영 → <code>assets/img/</code>에 넣고 <code>python scripts/apply_captures.py</code></li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
 
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
@@ -1949,7 +2034,7 @@
       <li><span class="step-title">Gemini 모델 붙이기</span>
         <code class="val">AI 안내문 작성</code> 아래 <code class="val">Model</code> 자리의 <code class="val">+</code>를 누르고 <code class="val">Google Gemini Chat Model</code>을 고릅니다.
         <code class="val">Credential</code>은 1일차 2교시에 만든 Gemini <dfn>자격 증명</dfn>(n8n이 내 계정을 대신 쓰도록 맡겨 둔 열쇠)을 목록에서 고릅니다. 이 자격 증명에는 <dfn>API 키</dfn>(Gemini를 쓸 수 있게 해 주는 비밀 번호표)가 들어 있습니다.
-        <code class="val">Model</code>은 <code>models/gemini-3.8-flash</code>를 고릅니다(목록에 없으면 <code>models/gemini-3.5-flash-lite</code>). <!-- FACT-CHECK: F42 -->
+        <code class="val">Model</code>은 <code>models/gemini-3.8-flash</code>를 고릅니다(목록에 없으면 <code>models/gemini-3.5-flash-lite</code>). <span class="inote" id="inote-d2-p1-1" data-inote="check" data-ref="F42"><b class="inote-tag">강사 확인 F42</b>새 API 키 계정의 Gemini <code class="val">Model</code> 목록에 <code>models/gemini-3.8-flash</code>가 있고 실행되는지. 없으면 교안 모델 이름을 바꿔야 함</span>
         <p><code class="val">AI 안내문 작성</code> 아래에 작은 동그라미 <code class="val">Google Gemini Chat Model</code>이 붙으면 성공입니다.</p>
       </li>
 
@@ -1963,7 +2048,7 @@
       </li>
 
       <li><span class="step-title"><code class="val">담당자 메일</code> 추가하기</span>
-        <code class="val">시트에 기록</code> 오른쪽의 작은 동그란 점을 마우스로 누른 채 오른쪽 아래 빈 곳으로 끌었다가 놓습니다. 노드 고르는 창이 열리면 검색 칸에 <code>Gmail</code>을 치고 메일 보내기(<code class="val">Send a message</code>)를 고릅니다(점 옆에 <code class="val">+</code>가 보이면 그것을 눌러도 됩니다). <!-- FACT-CHECK: F200 -->
+        <code class="val">시트에 기록</code> 오른쪽의 작은 동그란 점을 마우스로 누른 채 오른쪽 아래 빈 곳으로 끌었다가 놓습니다. 노드 고르는 창이 열리면 검색 칸에 <code>Gmail</code>을 치고 메일 보내기(<code class="val">Send a message</code>)를 고릅니다(점 옆에 <code class="val">+</code>가 보이면 그것을 눌러도 됩니다). <span class="inote" id="inote-d2-p1-2" data-inote="check" data-ref="F200"><b class="inote-tag">강사 확인 F200</b>연결된 출력 점을 끌어 빈 곳에 놓으면 새 가지가 생기는지, Gmail 동작 이름 <code class="val">Send a message</code></span>
         이름을 <code class="val">담당자 메일</code>로 고칩니다.
         <ul>
           <li><code class="val">Credential</code>: 1일차 2교시에 만든 Gmail 자격 증명</li>
@@ -2000,7 +2085,7 @@
         <ol>
           <li><code class="val">Credential</code> 칸 목록에서 <code class="val">Create new credential</code>을 누릅니다.</li>
           <li>열린 창에서 <code class="val">Sign in with Google</code>을 누릅니다.</li>
-          <li>새로 뜬 구글 창에서 시트·메일 때와 같은 계정을 고르고, 권한을 묻는 화면에서 허용 버튼을 누릅니다. <!-- FACT-CHECK: F116 --></li>
+          <li>새로 뜬 구글 창에서 시트·메일 때와 같은 계정을 고르고, 권한을 묻는 화면에서 허용 버튼을 누릅니다. <span class="inote" id="inote-d2-p1-3" data-inote="check" data-ref="F116"><b class="inote-tag">강사 확인 F116</b>캘린더 <code class="val">Sign in with Google</code> 권한 동의 화면, 캘린더 목록 이름, 3일 뒤 일정이 한국 시각인지</span></li>
           <li>n8n 창에 연결되었다는 표시(<code class="val">Account connected</code>)가 보이면 <code class="val">X</code>로 닫습니다.</li>
         </ol>
         <p><code class="val">Credential</code> 칸에 새 캘린더 자격 증명 이름이 보이면 성공입니다.</p>
@@ -2176,6 +2261,16 @@
     <h1>연동 ② 완성</h1>
     <p class="sub">종류별 담당자 나누기, 텔레그램 알림, 그리고 민원인이 스스로 보는 처리 상태 조회 화면</p>
   </header>
+
+  <div class="inote" id="inote-d2-p2-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li>A·C를 10:35까지(B 텔레그램 선택), 트리거 둘일 때 <code class="val">Execute workflow</code> → <code class="val">from 상태 조회</code>(F123), 교육망에서 api.telegram.org 접속</li>
+      <li>이 교안 안의 <b>강사 확인</b> 표시 2곳(노란 점선 상자)</li>
+      <li>캡처 3장 촬영 → <code>assets/img/</code>에 넣고 <code>python scripts/apply_captures.py</code></li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
 
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
@@ -2369,7 +2464,7 @@
     <h3>B. 텔레그램 알림 (선택 — C를 마친 뒤 시간이 남으면)</h3>
     <ol class="steps" start="10" style="counter-reset: s 9">
       <li><span class="step-title"><code class="val">텔레그램 알림</code> 추가하기</span>
-        <code class="val">시트에 기록</code>의 오른쪽 점을 누른 채 맨 아래 빈 곳으로 끌었다가 놓고, <code>Telegram</code>을 검색해 <code class="val">Send a text message</code>를 고릅니다. 이름을 <code class="val">텔레그램 알림</code>으로 고칩니다. <!-- FACT-CHECK: F200 -->
+        <code class="val">시트에 기록</code>의 오른쪽 점을 누른 채 맨 아래 빈 곳으로 끌었다가 놓고, <code>Telegram</code>을 검색해 <code class="val">Send a text message</code>를 고릅니다. 이름을 <code class="val">텔레그램 알림</code>으로 고칩니다. <span class="inote" id="inote-d2-p2-1" data-inote="check" data-ref="F200"><b class="inote-tag">강사 확인 F200</b>연결된 출력 점을 끌어 빈 곳에 놓으면 새 가지가 생기는지, Gmail 동작 이름 <code class="val">Send a message</code></span>
         <p>새 가지는 캔버스 <b>맨 아래</b>에 둡니다(AI 가지가 맨 위여야 앱이 먼저 답을 받습니다).</p>
       </li>
 
@@ -2389,7 +2484,7 @@
         <div class="note planb">
           <b>텔레그램 봇이 없거나 토큰을 모를 때</b>
           <ul>
-            <li><b>봇은 있는데 토큰을 모를 때:</b> 텔레그램에서 <code>@BotFather</code> 대화방을 열고 <code>/mybots</code> → 내 봇 이름 → 토큰 보기를 누르면 다시 보입니다. <!-- FACT-CHECK: F202 --></li>
+            <li><b>봇은 있는데 토큰을 모를 때:</b> 텔레그램에서 <code>@BotFather</code> 대화방을 열고 <code>/mybots</code> → 내 봇 이름 → 토큰 보기를 누르면 다시 보입니다. <span class="inote" id="inote-d2-p2-2" data-inote="check" data-ref="F202"><b class="inote-tag">강사 확인 F202</b>BotFather에서 기존 봇 토큰을 다시 보는 메뉴(<code>/mybots</code> → 봇 → API Token) 표기</span></li>
             <li><b>봇이 없을 때:</b> <code>@BotFather</code>에게 <code>/newbot</code>을 보내고, 봇 이름과 끝이 <code>bot</code>인 사용자 이름을 차례로 보내면 토큰을 줍니다. 만든 봇을 열어 아무 말이나 한 번 보냅니다(봇은 먼저 말을 걸 수 없습니다).</li>
             <li><b>chat id:</b> 브라우저 주소창에 <code>https://api.telegram.org/bot(토큰)/getUpdates</code>를 넣으면 <code>"chat":{"id":숫자</code>가 보입니다. 그 숫자가 chat id입니다.</li>
           </ul>
@@ -2504,6 +2599,17 @@
     <p class="sub">동료에게 앱을 보여 주고, 비밀값과 개인정보가 어디에 남는지 점검합니다</p>
   </header>
 
+  <div class="inote" id="inote-d2-p3-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li>공유 링크를 다른 계정·시크릿 창에서 열어 보기(F127), Secrets 값이 공유받은 사람에게 보이는지(F132)</li>
+      <li>점검표 <code>print/forms/security-checklist.html</code> 인쇄</li>
+      <li>이 교안 안의 <b>강사 확인</b> 표시 3곳(노란 점선 상자)</li>
+      <li>캡처 3장 촬영 → <code>assets/img/</code>에 넣고 <code>python scripts/apply_captures.py</code></li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
+
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
     <ul>
@@ -2558,7 +2664,7 @@
     <div class="note tip">
       <b>AI Studio <code class="val">Publish</code>는 소개만 합니다</b>
       <code class="val">Publish</code>는 앱을 Google Cloud Run에 올려 누구나 여는 공개 주소를 만드는 기능입니다. 조건이 맞는 개인 계정은 결제 등록 없이 앱 2개까지 올릴 수 있지만,
-      기관 계정이거나 예전에 Google Cloud 결제 계정을 만든 적이 있으면 결제 계정이 필요하고 사용량에 따라 요금이 나올 수 있습니다. 이 과정에서는 실습하지 않습니다. <!-- FACT-CHECK: F6 -->
+      기관 계정이거나 예전에 Google Cloud 결제 계정을 만든 적이 있으면 결제 계정이 필요하고 사용량에 따라 요금이 나올 수 있습니다. 이 과정에서는 실습하지 않습니다. <span class="inote" id="inote-d2-p3-1" data-inote="check" data-ref="F6"><b class="inote-tag">강사 확인 F6</b>AI Studio <code class="val">Publish</code>(Cloud Run)가 개인 계정·결제 계정 없이 어디까지 되는지, 버튼·안내 글자 확인</span>
     </div>
   </section>
 
@@ -2566,7 +2672,7 @@
     <h2 class="sec-title">따라하기</h2>
     <ol class="steps">
       <li><span class="step-title">공유 링크 만들기</span>
-        AI Studio에서 민원 접수 앱을 열고 오른쪽 위 <code class="val">Share</code>를 누릅니다. 공개 범위에서 링크가 있는 사람이 <b>볼 수 있게</b>(보기 권한) 고르고 공유 링크를 복사합니다. <!-- FACT-CHECK: F127 -->
+        AI Studio에서 민원 접수 앱을 열고 오른쪽 위 <code class="val">Share</code>를 누릅니다. 공개 범위에서 링크가 있는 사람이 <b>볼 수 있게</b>(보기 권한) 고르고 공유 링크를 복사합니다. <span class="inote" id="inote-d2-p3-2" data-inote="check" data-ref="F127"><b class="inote-tag">강사 확인 F127</b>AI Studio <code class="val">Share</code> 창의 공개 범위 선택지, 링크를 받은 사람이 로그인해야 하는지(F4 키트 ③)</span>
         <figure class="capture" id="fig-d2-p3-1">
           <div class="capture-cap">[그림 2-3-1] <code class="val">Share</code> 창</div>
           <div class="capture-guide">AI Studio 오른쪽 위 Share를 눌러 열린 창: 공개 범위 선택지, 권한(보기), 링크 복사 버튼 강조</div>
@@ -2615,7 +2721,7 @@
       <li><span class="step-title">비밀값이 있는 곳 둘러보기</span>
         <ol>
           <li>AI Studio: 앱 화면의 <code class="val">Settings</code> → <code class="val">Secrets</code>를 엽니다. Gemini 키(<code>GEMINI_API_KEY</code>)는 AI Studio가 자동으로 관리합니다. 내가 따로 넣을 비밀값이 생기면 여기에 넣습니다.</li>
-          <li>n8n: 왼쪽 메뉴의 <code class="val">Overview</code>를 누르고 가운데 위쪽 탭 중 <code class="val">Credentials</code>를 누릅니다. 구글 시트·Gmail·캘린더·Gemini·텔레그램 이름이 붙은 줄이 보이면 됩니다. 키와 토큰은 여기에만 있습니다. <!-- FACT-CHECK: F204 --></li>
+          <li>n8n: 왼쪽 메뉴의 <code class="val">Overview</code>를 누르고 가운데 위쪽 탭 중 <code class="val">Credentials</code>를 누릅니다. 구글 시트·Gmail·캘린더·Gemini·텔레그램 이름이 붙은 줄이 보이면 됩니다. 키와 토큰은 여기에만 있습니다. <span class="inote" id="inote-d2-p3-3" data-inote="check" data-ref="F204"><b class="inote-tag">강사 확인 F204</b>n8n에서 자격 증명 목록을 여는 위치(Overview → Credentials 탭 등)와 표기</span></li>
         </ol>
         <figure class="capture" id="fig-d2-p3-2">
           <div class="capture-cap">[그림 2-3-2] 비밀값이 있는 두 곳</div>
@@ -2694,6 +2800,14 @@
     <h1>프로젝트 기획</h1>
     <p class="sub">내 업무 하나를 골라 입력–처리–출력 설계서 한 장으로 정리하고, AI Studio 주문서로 옮깁니다</p>
   </header>
+
+  <div class="inote" id="inote-d2-p4-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li>설계서 <code>print/forms/design-sheet.html</code> 인쇄, 강사·보조강사 검토 줄 운영 방법(40분 안에 설계서·주문서까지)</li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
 
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
@@ -2854,6 +2968,15 @@
     <p class="sub">설계서대로 앱 화면을 만들고, 민원 접수 완성본을 고쳐 내 워크플로우를 만듭니다</p>
   </header>
 
+  <div class="inote" id="inote-d2-p5-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li>현장점검 예시 Import(<code>workflows/d2-p5.json</code>) → 칸 이름 바꾸기 → 연결까지 14:35 기준에 맞는지, <code class="val">Duplicate</code>(F203)</li>
+      <li>이 교안 안의 <b>강사 확인</b> 표시 1곳(노란 점선 상자)</li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
+
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
     <ul>
@@ -2929,7 +3052,7 @@
 
       <li><span class="step-title">워크플로우 뼈대 준비하기 (5분)</span>
         이 교시 끝 "완성본 가져오기"로 <b>현장점검 예시</b>를 가져오는 것이 가장 쉽습니다(노드 여섯 개가 이미 한 줄로 이어져 있습니다).
-        <span class="hint">민원 접수 워크플로우를 복제해 쓰려면: n8n에서 그 워크플로우를 열고 오른쪽 위 <code class="val">…</code> → <code class="val">Duplicate</code>를 누른 뒤, 복사본에서 <code class="val">민원 받기</code>·<code class="val">민원 정리</code>·<code class="val">오늘 접수 조회</code>·<code class="val">접수번호 만들기</code>·<code class="val">시트에 기록</code>·<code class="val">앱에 답하기</code> 여섯 개만 남기고 나머지(메일·캘린더·AI·If·텔레그램·조회 흐름)는 한 번 눌러 <kbd>Delete</kbd>로 지웁니다. <!-- FACT-CHECK: F203 -->
+        <span class="hint">민원 접수 워크플로우를 복제해 쓰려면: n8n에서 그 워크플로우를 열고 오른쪽 위 <code class="val">…</code> → <code class="val">Duplicate</code>를 누른 뒤, 복사본에서 <code class="val">민원 받기</code>·<code class="val">민원 정리</code>·<code class="val">오늘 접수 조회</code>·<code class="val">접수번호 만들기</code>·<code class="val">시트에 기록</code>·<code class="val">앱에 답하기</code> 여섯 개만 남기고 나머지(메일·캘린더·AI·If·텔레그램·조회 흐름)는 한 번 눌러 <kbd>Delete</kbd>로 지웁니다. <span class="inote" id="inote-d2-p5-1" data-inote="check" data-ref="F203"><b class="inote-tag">강사 확인 F203</b>워크플로우 오른쪽 위 <code class="val">…</code> → <code class="val">Duplicate</code> 메뉴와 이름 입력 창</span>
           지운 뒤 <code class="val">시트에 기록</code> 오른쪽 점에서 <code class="val">앱에 답하기</code> 왼쪽 점으로 선을 다시 잇고, <code class="val">앱에 답하기</code>의 <code class="val">Response Body</code>를 1일차 7교시 답장 글(<code>접수번호</code>·<code>메시지</code> 두 줄)로 바꿉니다. AI 안내문을 지웠으므로 <code>$json.text</code>가 남아 있으면 안 됩니다.</span>
         <p>캔버스에 노드 여섯 개가 한 줄로 이어져 있으면 성공입니다.</p>
       </li>
@@ -3054,6 +3177,14 @@
     <h1>프로젝트 제작 ②</h1>
     <p class="sub">처음부터 끝까지 시험하고, 막히면 점검 순서표로 원인을 좁히고, 시간이 남으면 기능을 더합니다</p>
   </header>
+
+  <div class="inote" id="inote-d2-p6-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li>확장 예시(<code>workflows/d2-p6.json</code>) 보수필요 → AI 조치 요약 → 팀장 메일·텔레그램 동작, 점검 순서표로 오류 찾기가 되는지</li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
 
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
@@ -3259,6 +3390,15 @@
     <p class="sub">내 서비스를 5분 동안 뽐내고, 부서에 적용하기까지의 길을 한 장에 적습니다</p>
   </header>
 
+  <div class="inote" id="inote-d2-p7-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li>팀 수에 맞춘 발표 시간, 발표 화면 띄우는 방식, <b>수료 설문 링크</b>(아래 해당 단계), 로드맵 양식 <code>print/forms/roadmap.html</code> 인쇄</li>
+      <li>이 교안 안의 <b>강사 확인</b> 표시 1곳(노란 점선 상자)</li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
+
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
     <ul>
@@ -3337,7 +3477,7 @@
       </li>
 
       <li><span class="step-title">수료 설문과 마무리 (5분)</span>
-        수료 설문을 작성합니다. 교안 사이트와 완성본 파일은 수료 뒤에도 볼 수 있습니다. 선택 실습(<a href="../lessons/opt-pdf.html">PDF 공문 요약</a>, <a href="../lessons/opt-voice.html">음성 입력 접수</a>)은 혼자 해 볼 수 있게 만들어 두었습니다.
+        수료 설문을 작성합니다. <span class="inote" id="inote-d2-p7-1" data-inote="prep"><b class="inote-tag">강사 준비</b>수료 설문 링크(또는 QR)를 여기에 넣거나 화면에 띄울 준비</span> 교안 사이트와 완성본 파일은 수료 뒤에도 볼 수 있습니다. 선택 실습(<a href="../lessons/opt-pdf.html">PDF 공문 요약</a>, <a href="../lessons/opt-voice.html">음성 입력 접수</a>)은 혼자 해 볼 수 있게 만들어 두었습니다.
       </li>
     </ol>
   </section>
@@ -3365,6 +3505,16 @@
     <h1>PDF 공문 요약 앱</h1>
     <p class="sub">앱에서 PDF 공문을 올리면 n8n이 글자를 뽑아 Gemini로 요약하고, 앱·메일·텔레그램으로 돌려줍니다</p>
   </header>
+
+  <div class="inote" id="inote-opt-pdf-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li>PDF 전송 시험(F216), 가상 공문 HTML → PDF로 저장이 글자 PDF가 되는지</li>
+      <li>이 교안 안의 <b>강사 확인</b> 표시 2곳(노란 점선 상자)</li>
+      <li>캡처 2장 촬영 → <code>assets/img/</code>에 넣고 <code>python scripts/apply_captures.py</code></li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
 
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
@@ -3520,7 +3670,7 @@
           <li>n8n 탭으로 가서 <code class="val">공문 받기</code>를 두 번 눌러 열고, 위쪽 <code class="val">Test URL</code>을 눌러 주소를 복사합니다.</li>
           <li>AI Studio 탭으로 돌아와 따옴표 사이를 한 번 누르고 <kbd>Ctrl</kbd>+<kbd>V</kbd>를 누른 뒤 보냅니다.</li>
         </ol>
-        <p><code class="val">Code</code> 탭의 <code>WEBHOOK_URL</code>에 <code>webhook-test</code>가 들어간 주소가 보이면 성공입니다. <!-- FACT-CHECK: F82 --></p>
+        <p><code class="val">Code</code> 탭의 <code>WEBHOOK_URL</code>에 <code>webhook-test</code>가 들어간 주소가 보이면 성공입니다. <span class="inote" id="inote-opt-pdf-1" data-inote="check" data-ref="F82"><b class="inote-tag">강사 확인 F82</b>AI Studio 화면 배치(대화창·입력창·미리보기 위치), <code class="val">Preview</code>/<code class="val">Code</code> 탭 표기, Code 탭 파일 목록</span></p>
       </li>
 
       <li><span class="step-title">시험하기</span>
@@ -3534,7 +3684,7 @@
           <div class="capture-guide">왼쪽: 공문 받기 출력(OUTPUT)의 Binary 탭에 file(가상공문.pdf), 오른쪽: 앱 화면에 다섯 줄 요약</div>
         </figure>
         <p>앱에 목적·주요 내용·지원 사항·대상·일정 요약이 보이고, 메일(과 텔레그램)이 오면 성공입니다.
-           n8n에서도 확인합니다: <code class="val">공문 받기</code>를 두 번 눌러 열고, 오른쪽 결과(<code class="val">OUTPUT</code>) 칸 위쪽의 <code class="val">Binary</code> 탭을 누르면 <!-- FACT-CHECK: F10, F216 --> <code>file</code> 이름표 아래 <code>가상공문.pdf</code>가 보입니다.</p>
+           n8n에서도 확인합니다: <code class="val">공문 받기</code>를 두 번 눌러 열고, 오른쪽 결과(<code class="val">OUTPUT</code>) 칸 위쪽의 <code class="val">Binary</code> 탭을 누르면 <span class="inote" id="inote-opt-pdf-2" data-inote="check" data-ref="F10,F216"><b class="inote-tag">강사 확인 F10, F216</b>앱에서 고른 PDF가 n8n <code class="val">공문 받기</code> 결과의 <code class="val">Binary</code> 탭에 <code>file</code>로 들어오는지 / PDF 전송 시험: 1·5·15MB 파일, 100초 안에 끝나는지, 한글 PDF 글자 추출, <code class="val">Extract From PDF</code> 화면</span> <code>file</code> 이름표 아래 <code>가상공문.pdf</code>가 보입니다.</p>
         <div class="note mistake" data-section="mistakes">
           <b>자주 하는 실수</b>
           <p><b>증상</b> 요약하기를 누르자마자 앱에 실패가 떠요<br>
@@ -3629,6 +3779,16 @@
     <p class="sub">민원 접수 앱에 "음성으로 입력" 버튼을 더합니다 — n8n은 그대로 둡니다</p>
   </header>
 
+  <div class="inote" id="inote-opt-voice-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li>교육장 PC 마이크·헤드셋 유무, 마이크 권한 창·브라우저별 동작(F221)</li>
+      <li>이 교안 안의 <b>강사 확인</b> 표시 4곳(노란 점선 상자)</li>
+      <li>캡처 3장 촬영 → <code>assets/img/</code>에 넣고 <code>python scripts/apply_captures.py</code></li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
+
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
     <ul>
@@ -3659,7 +3819,7 @@
     <div class="note warn">
       <b>알아 둘 점</b>
       <ul>
-        <li>크롬·엣지에서만 됩니다. 파이어폭스는 음성 입력을 지원하지 않습니다. 다른 브라우저(웨일 등)는 확인되지 않았으므로 크롬이나 엣지를 씁니다. <!-- FACT-CHECK: F221 --></li>
+        <li>크롬·엣지에서만 됩니다. 파이어폭스는 음성 입력을 지원하지 않습니다. 다른 브라우저(웨일 등)는 확인되지 않았으므로 크롬이나 엣지를 씁니다. <span class="inote" id="inote-opt-voice-1" data-inote="check" data-ref="F221"><b class="inote-tag">강사 확인 F221</b>마이크 권한 창 순서·버튼 글자, 크롬·엣지·웨일에서 동작, 공유 링크에서도 되는지, 한국어 인식</span></li>
         <li>말소리는 글로 바꾸기 위해 인터넷(구글 서버)으로 보내집니다. <b>실제 민원인 이름·연락처·사연은 말로 입력하지 않고</b>, 아래의 가상 문장만 말합니다.</li>
         <li>교육망에서 막히면 인터넷 문제 안내가 뜰 수 있습니다. 그때는 손으로 입력합니다.</li>
       </ul>
@@ -3711,7 +3871,7 @@
       </li>
 
       <li><span class="step-title">마이크 허용하기</span>
-        미리보기에서 <code>음성으로 입력</code>을 누릅니다. 처음에는 마이크 사용을 묻는 창이 두 번(AI Studio 확인 창 → 브라우저 허용 창) 뜰 수 있습니다. 두 창 모두 허용을 누릅니다. 허용 버튼이 여러 개면 "방문할 때마다 허용"에 해당하는 버튼을, 영어 창이면 <code class="val">Allow</code>를 누릅니다. <!-- FACT-CHECK: F221 -->
+        미리보기에서 <code>음성으로 입력</code>을 누릅니다. 처음에는 마이크 사용을 묻는 창이 두 번(AI Studio 확인 창 → 브라우저 허용 창) 뜰 수 있습니다. 두 창 모두 허용을 누릅니다. 허용 버튼이 여러 개면 "방문할 때마다 허용"에 해당하는 버튼을, 영어 창이면 <code class="val">Allow</code>를 누릅니다. <span class="inote" id="inote-opt-voice-2" data-inote="check" data-ref="F221"><b class="inote-tag">강사 확인 F221</b>마이크 권한 창 순서·버튼 글자, 크롬·엣지·웨일에서 동작, 공유 링크에서도 되는지, 한국어 인식</span>
         <figure class="capture" id="fig-opt-voice-2">
           <div class="capture-cap">[그림 opt-voice-2] 마이크 허용 창</div>
           <div class="capture-guide">AI Studio 확인 창과 브라우저 마이크 허용 창을 뜨는 순서대로 두 장</div>
@@ -3732,7 +3892,7 @@
           <b>자주 하는 실수</b>
           <p><b>증상</b> "마이크 사용을 허용해 주세요"가 떠요<br>
              <b>원인</b> 허용 창에서 거부를 눌렀거나, 브라우저의 마이크 설정이 차단으로 되어 있어요<br>
-             <b>해결</b> 주소창 맨 왼쪽의 작은 표시(자물쇠나 조절 모양)를 누릅니다. 목록에서 <code class="val">마이크</code>를 찾아 <code class="val">허용</code>으로 바꾸고 <kbd>F5</kbd>로 새로고침한 뒤 버튼을 다시 누릅니다. AI Studio 확인 창에서 거부했다면 새로고침 뒤 다시 물어볼 때 허용합니다 <!-- FACT-CHECK: F221 --></p>
+             <b>해결</b> 주소창 맨 왼쪽의 작은 표시(자물쇠나 조절 모양)를 누릅니다. 목록에서 <code class="val">마이크</code>를 찾아 <code class="val">허용</code>으로 바꾸고 <kbd>F5</kbd>로 새로고침한 뒤 버튼을 다시 누릅니다. AI Studio 확인 창에서 거부했다면 새로고침 뒤 다시 물어볼 때 허용합니다 <span class="inote" id="inote-opt-voice-3" data-inote="check" data-ref="F221"><b class="inote-tag">강사 확인 F221</b>마이크 권한 창 순서·버튼 글자, 크롬·엣지·웨일에서 동작, 공유 링크에서도 되는지, 한국어 인식</span></p>
           <p><b>증상</b> "말소리가 들리지 않았습니다" 또는 "마이크를 찾을 수 없습니다"가 떠요<br>
              <b>원인</b> 마이크가 연결되어 있지 않거나, 헤드셋 마이크가 꺼져 있거나, 말을 시작하기 전에 듣기가 끝났어요<br>
              <b>해결</b> 헤드셋 선의 음소거 스위치를 확인하고 버튼을 다시 눌러 바로 말합니다. 마이크가 없으면 손으로 입력하고 6단계로 갑니다</p>
@@ -3752,7 +3912,7 @@
         이름 <code>김민원</code>, 연락처 <code>010-0000-0009</code>, 이메일 <code>minwon@example.com</code>을 넣고, 종류는 <code>생활</code>을 고릅니다. 동의 칸이 있으면 체크하고 <code>접수하기</code>를 누릅니다.
         <p>앱에 접수번호가 보이고, 시트 <code>민원대장 연습</code>의 <code>시트1</code> 탭 맨 아래 새 줄의 <code>상세설명</code> 칸에 말로 입력한 문장이 보이면 완성입니다. 담당자 메일과 텔레그램 알림도 평소처럼 옵니다. n8n은 한 곳도 고치지 않았습니다.
            음성 입력이 막혀 손으로 적었다면, 적은 문장이 시트에 들어가면 성공입니다.</p>
-        <span class="hint">이 실습은 AI Studio 편집 화면의 미리보기에서 합니다. 2일차 3교시에 만든 공유 링크에 바로 반영되는지는 강사 안내를 따릅니다. <!-- FACT-CHECK: F221 --></span>
+        <span class="hint">이 실습은 AI Studio 편집 화면의 미리보기에서 합니다. 2일차 3교시에 만든 공유 링크에 바로 반영되는지는 강사 안내를 따릅니다. <span class="inote" id="inote-opt-voice-4" data-inote="check" data-ref="F221"><b class="inote-tag">강사 확인 F221</b>마이크 권한 창 순서·버튼 글자, 크롬·엣지·웨일에서 동작, 공유 링크에서도 되는지, 한국어 인식</span></span>
         <div class="note mistake">
           <b>자주 하는 실수</b>
           <p><b>증상</b> 음성 버튼을 넣은 뒤 접수가 안 돼요<br>

@@ -98,3 +98,37 @@ dfn {
   details.quiz-answer { display: none; }  /* 정답은 인쇄하지 않음 */
   a.dl::after { content: " (" attr(href) ")"; font-size: .85em; }
 }
+
+/* ── 강사 표시(inote): 준비 기간에만 쓰는 임시 표시 ─────────────
+   수강생용 내용이 아니다. 강의 준비가 끝나면 python scripts/strip_inotes.py 로 모두 지운다.
+   span.inote(본문 안 한 줄) / div.inote(교시 맨 위 요약 상자) 두 가지만 쓴다. */
+:root { --inote: #8a5a00; --inote-soft: #fff6d6; }
+@media (prefers-color-scheme: dark) { :root { --inote: #ffd27a; --inote-soft: #33290f; } }
+.inote {
+  display: block;
+  margin: .5rem 0;
+  padding: .45rem .7rem;
+  border: 2px dashed var(--inote);
+  border-radius: 6px;
+  background: var(--inote-soft);
+  font-size: .9em;
+  line-height: 1.55;
+}
+.inote .inote-tag {
+  display: inline-block;
+  margin-right: .4rem;
+  padding: 0 .45rem;
+  border-radius: 999px;
+  background: var(--inote);
+  color: var(--inote-soft);
+  font-size: .78em;
+  font-weight: 700;
+}
+.inote[data-inote="prep"] .inote-tag::before { content: "수업 전 "; }
+div.inote { margin: 1rem 0 1.4rem; }
+div.inote ul { margin: .3rem 0 0; padding-left: 1.2rem; }
+div.inote li { margin: .1rem 0; }
+@media print {
+  .inote { background: #fff !important; border: 2px dashed #000; break-inside: avoid; }
+  .inote .inote-tag { background: #000; color: #fff; }
+}

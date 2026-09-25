@@ -18,6 +18,16 @@
     <p class="sub">앱과 자동화가 대화하는 방법 — n8n에 "부르면 답하는 주소"를 만듭니다</p>
   </header>
 
+  <div class="inote" id="inote-d1-p3-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li>교안 그대로 따라 하기: 캔버스 <code class="val">Execute workflow</code> → 주소창 호출 → 인사말 확인(F223), 설정 창 <code class="val">Listen for test event</code>로는 빈 화면인지</li>
+      <li>이 교안 안의 <b>강사 확인</b> 표시 4곳(노란 점선 상자)</li>
+      <li>캡처 9장 촬영 → <code>assets/img/</code>에 넣고 <code>python scripts/apply_captures.py</code></li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
+
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
     <ul>
@@ -84,7 +94,7 @@
       <li><span class="step-title">Webhook 노드 추가하기</span>
         캔버스 가운데의 <code class="val">+</code>를 누르고 검색창에 <code class="val">Webhook</code>을 입력합니다.
         목록에 <code class="val">Respond to Webhook</code>도 보이지만, 이름이 딱 <code class="val">Webhook</code>인 것을 고릅니다.
-        <!-- FACT-CHECK: F55 -->
+        <span class="inote" id="inote-d1-p3-1" data-inote="check" data-ref="F55"><b class="inote-tag">강사 확인 F55</b>노드 검색 칸에 <code>Webhook</code>을 쳤을 때 나오는 항목 표기</span>
         <figure class="capture" id="fig-d1-p3-2">
           <div class="capture-cap">[그림 1-3-2] 검색창에 <code class="val">Webhook</code>을 입력한 결과</div>
           <div class="capture-guide">노드 검색 패널에 Webhook을 입력한 상태. 트리거 Webhook 항목에 강조 표시</div>
@@ -95,7 +105,7 @@
       <li><span class="step-title">받는 방식과 주소 끝부분 정하기</span>
         <code class="val">HTTP Method</code>가 <code class="val">GET</code>인지 확인합니다.
         <code class="val">Path</code> 칸의 글자를 모두 지우고 <code class="val">hello</code>를 입력합니다.
-        <!-- FACT-CHECK: F56 -->
+        <span class="inote" id="inote-d1-p3-2" data-inote="check" data-ref="F56"><b class="inote-tag">강사 확인 F56</b>Webhook <code class="val">HTTP Method</code> 기본값이 <code class="val">GET</code>인지, <code class="val">Path</code> 칸 표기</span>
         <span class="hint"><code>GET</code>은 브라우저 주소창에 주소를 넣어 부르는 방식입니다. 오후에 앱이 민원을 보낼 때는 <code>POST</code>라는 다른 방식을 씁니다.
           Path는 주소의 맨 끝부분이며, 알아보기 쉬운 영어 단어로 정합니다.</span>
         <figure class="capture" id="fig-d1-p3-3">
@@ -131,7 +141,7 @@
         </figure>
         <p><code class="val">Allowed Origins (CORS)</code> 칸에 <code>*</code>가 보이면 성공입니다.
            설정 창 바깥의 빈 곳을 누르거나 창을 닫아 캔버스로 돌아갑니다. Webhook 노드 하나가 보이면 됩니다.
-           <!-- FACT-CHECK: F59 --></p>
+           <span class="inote" id="inote-d1-p3-3" data-inote="check" data-ref="F59"><b class="inote-tag">강사 확인 F59</b>설정 창을 닫고 캔버스로 돌아가는 방법(창 바깥 누르기 / <code class="val">Back to canvas</code>) 표기</span></p>
       </li>
 
       <li><span class="step-title">Respond to Webhook 노드 붙이기</span>
@@ -184,7 +194,7 @@
              <b>해결</b> 설정 창을 닫고 캔버스 아래 <code class="val">Execute workflow</code>를 누른 뒤 다시 부르세요</p>
           <p><b>증상</b> "안녕하세요, 님."처럼 이름이 빠져 있어요<br>
              <b>원인</b> 주소 끝의 <code>이름</code>과 표현식 <code>$json.query.이름</code>의 글자가 서로 달라요(예: <code>?이룸=</code>)<br>
-             <b>해결</b> 두 곳 모두 "이름" 두 글자로 똑같이 맞추고, <code class="val">Execute workflow</code>를 다시 누른 뒤 부르세요 <!-- FACT-CHECK: F58 --></p>
+             <b>해결</b> 두 곳 모두 "이름" 두 글자로 똑같이 맞추고, <code class="val">Execute workflow</code>를 다시 누른 뒤 부르세요</p>
         </div>
       </li>
 
@@ -285,7 +295,7 @@
     <div class="note warn">
       <b>먼저: 따라 만들던 워크플로우를 Publish했다면</b>
       그 워크플로우의 <code class="val">Publish</code> 오른쪽 작은 화살표를 눌러 목록 맨 아래 <code class="val">Unpublish</code>를 누르고, 뜨는 창에서 다시 <code class="val">Unpublish</code>를 누르세요.
-      같은 주소 끝부분(<code>hello</code>)과 같은 방식(GET)을 쓰는 Webhook은 하나만 동작할 수 있습니다. <!-- FACT-CHECK: F62 -->
+      같은 주소 끝부분(<code>hello</code>)과 같은 방식(GET)을 쓰는 Webhook은 하나만 동작할 수 있습니다. <span class="inote" id="inote-d1-p3-4" data-inote="check" data-ref="F62"><b class="inote-tag">강사 확인 F62</b>같은 경로 Webhook이 게시된 상태에서 두 번째 워크플로우를 Publish할 때 나오는 오류 문구(Unpublish 안내의 근거)</span>
     </div>
     <ol class="steps">
       <li><span class="step-title">파일 내려받기</span>

@@ -4,3 +4,4 @@ __pycache__/
 print/*.pdf
 .DS_Store
 Thumbs.db
+.playwright-mcp/

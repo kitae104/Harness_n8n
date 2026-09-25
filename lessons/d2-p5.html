@@ -18,6 +18,15 @@
     <p class="sub">설계서대로 앱 화면을 만들고, 민원 접수 완성본을 고쳐 내 워크플로우를 만듭니다</p>
   </header>
 
+  <div class="inote" id="inote-d2-p5-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li>현장점검 예시 Import(<code>workflows/d2-p5.json</code>) → 칸 이름 바꾸기 → 연결까지 14:35 기준에 맞는지, <code class="val">Duplicate</code>(F203)</li>
+      <li>이 교안 안의 <b>강사 확인</b> 표시 1곳(노란 점선 상자)</li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
+
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
     <ul>
@@ -93,7 +102,7 @@
 
       <li><span class="step-title">워크플로우 뼈대 준비하기 (5분)</span>
         이 교시 끝 "완성본 가져오기"로 <b>현장점검 예시</b>를 가져오는 것이 가장 쉽습니다(노드 여섯 개가 이미 한 줄로 이어져 있습니다).
-        <span class="hint">민원 접수 워크플로우를 복제해 쓰려면: n8n에서 그 워크플로우를 열고 오른쪽 위 <code class="val">…</code> → <code class="val">Duplicate</code>를 누른 뒤, 복사본에서 <code class="val">민원 받기</code>·<code class="val">민원 정리</code>·<code class="val">오늘 접수 조회</code>·<code class="val">접수번호 만들기</code>·<code class="val">시트에 기록</code>·<code class="val">앱에 답하기</code> 여섯 개만 남기고 나머지(메일·캘린더·AI·If·텔레그램·조회 흐름)는 한 번 눌러 <kbd>Delete</kbd>로 지웁니다. <!-- FACT-CHECK: F203 -->
+        <span class="hint">민원 접수 워크플로우를 복제해 쓰려면: n8n에서 그 워크플로우를 열고 오른쪽 위 <code class="val">…</code> → <code class="val">Duplicate</code>를 누른 뒤, 복사본에서 <code class="val">민원 받기</code>·<code class="val">민원 정리</code>·<code class="val">오늘 접수 조회</code>·<code class="val">접수번호 만들기</code>·<code class="val">시트에 기록</code>·<code class="val">앱에 답하기</code> 여섯 개만 남기고 나머지(메일·캘린더·AI·If·텔레그램·조회 흐름)는 한 번 눌러 <kbd>Delete</kbd>로 지웁니다. <span class="inote" id="inote-d2-p5-1" data-inote="check" data-ref="F203"><b class="inote-tag">강사 확인 F203</b>워크플로우 오른쪽 위 <code class="val">…</code> → <code class="val">Duplicate</code> 메뉴와 이름 입력 창</span>
           지운 뒤 <code class="val">시트에 기록</code> 오른쪽 점에서 <code class="val">앱에 답하기</code> 왼쪽 점으로 선을 다시 잇고, <code class="val">앱에 답하기</code>의 <code class="val">Response Body</code>를 1일차 7교시 답장 글(<code>접수번호</code>·<code>메시지</code> 두 줄)로 바꿉니다. AI 안내문을 지웠으므로 <code>$json.text</code>가 남아 있으면 안 됩니다.</span>
         <p>캔버스에 노드 여섯 개가 한 줄로 이어져 있으면 성공입니다.</p>
       </li>

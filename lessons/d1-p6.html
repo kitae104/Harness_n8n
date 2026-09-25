@@ -18,6 +18,17 @@
     <p class="sub">앱에 n8n 주소를 넣고, 앱에서 접수한 민원이 구글 시트에 한 줄로 쌓이게 합니다</p>
   </header>
 
+  <div class="inote" id="inote-d1-p6-0" data-inote="prep">
+    <b class="inote-tag">강사 준비·확인</b>이 교시에서 수업 전에 강사가 할 일입니다. 수강생용 내용이 아니며, 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 모두 지웁니다.
+    <ul>
+      <li><b>가장 먼저 F4 키트 시험</b>(docs/instructor-kit/f4-test.md) — 결과를 Claude 세션에 전달</li>
+      <li>그 뒤 교안 그대로 15:35까지 7단계에 도달하는지</li>
+      <li>이 교안 안의 <b>강사 확인</b> 표시 2곳(노란 점선 상자)</li>
+      <li>캡처 5장 촬영 → <code>assets/img/</code>에 넣고 <code>python scripts/apply_captures.py</code></li>
+      <li>확인이 끝나면 <code>docs/instructor-checklist.md</code>의 이 교시 행에 체크</li>
+    </ul>
+  </div>
+
   <section class="sec" id="objectives" data-section="objectives">
     <h2 class="sec-title">학습목표</h2>
     <ul>
@@ -104,7 +115,7 @@
         <ol>
           <li>아래 문장을 복사해 AI Studio 대화 입력창에 붙여 넣습니다. <b>아직 보내지 않습니다.</b></li>
           <li>입력창에서 <code>{Test URL}</code> 글자(중괄호 포함)를 끌어서 고르고 지웁니다. 따옴표 <code>" "</code>는 남깁니다.</li>
-          <li>n8n 탭의 <code class="val">민원 받기</code> 설정 창 위쪽에서 <code class="val">Test URL</code>이 골라져 있는지 보고, 그 주소를 복사합니다. <!-- FACT-CHECK: F60 --></li>
+          <li>n8n 탭의 <code class="val">민원 받기</code> 설정 창 위쪽에서 <code class="val">Test URL</code>이 골라져 있는지 보고, 그 주소를 복사합니다.</li>
           <li>AI Studio 탭으로 돌아와 따옴표 사이를 한 번 누르고 <kbd>Ctrl</kbd>+<kbd>V</kbd>를 누른 뒤 보냅니다.</li>
         </ol>
         <pre class="code-block">코드 맨 위 WEBHOOK_URL 값을 "{Test URL}"로 바꿔 줘. 다른 부분은 바꾸지 마.</pre>
@@ -124,7 +135,7 @@
           <div class="capture-guide">민원 받기 설정 창 오른쪽 OUTPUT에서 body를 펼쳐 이름·연락처·이메일·종류·상세설명 다섯 값이 보이는 모습(headers는 접어 둠)</div>
         </figure>
         <p><code class="val">민원 받기</code> 설정 창 오른쪽 <code class="val">OUTPUT</code>에서 <code>body</code>를 눌러 펼쳤을 때 다섯 값이 보이면 성공입니다.
-           앱이 n8n을 부르는 데 성공했다는 뜻이므로 CORS도 통과한 것입니다. <!-- FACT-CHECK: F4 --></p>
+           앱이 n8n을 부르는 데 성공했다는 뜻이므로 CORS도 통과한 것입니다. <span class="inote" id="inote-d1-p6-1" data-inote="check" data-ref="F4"><b class="inote-tag">강사 확인 F4</b>앱 → n8n 호출이 되는지 <b>F4 키트</b>(docs/instructor-kit/f4-test.md)로 시험하고 결과를 Claude 세션에 전달. 결과에 따라 이 단계의 기본 방법이 바뀔 수 있음</span></p>
         <p><b>성공 여부는 n8n 쪽으로 판단합니다.</b> n8n에 다섯 값이 보였다면 앱 화면에 무엇이 뜨든(빈 접수번호, 실패 문구 모두) 이 단계는 성공입니다. 앱 화면의 답은 7교시에 고칩니다.</p>
         <div class="note mistake" data-section="mistakes">
           <b>자주 하는 실수</b>
@@ -145,7 +156,7 @@
         <code class="val">민원 받기</code> 오른쪽의 <code class="val">+</code>를 누르고 <code class="val">Edit Fields (Set)</code>를 고릅니다. 설정 창 맨 위 노드 이름을 한 번 눌러 <code class="val">민원 정리</code>로 고칩니다.
         <p>왼쪽 입력 목록에서 <code>body</code>를 펼치고, <code>이름</code>·<code>연락처</code>·<code>이메일</code>·<code>종류</code>·<code>상세설명</code>을 하나씩
            가운데 <code class="val">Drag input fields here</code> 자리로 끌어다 놓습니다.</p>
-        <p>끌어다 놓으면 왼쪽 이름 칸이 <code>body['이름']</code>처럼 들어갑니다. <b>다섯 줄 모두 왼쪽 이름 칸만 눌러 <code>이름</code>, <code>연락처</code>처럼 글자만 남기고</b>, 오른쪽 값은 그대로 둡니다. <!-- FACT-CHECK: F87 --></p>
+        <p>끌어다 놓으면 왼쪽 이름 칸이 <code>body['이름']</code>처럼 들어갑니다. <b>다섯 줄 모두 왼쪽 이름 칸만 눌러 <code>이름</code>, <code>연락처</code>처럼 글자만 남기고</b>, 오른쪽 값은 그대로 둡니다. <span class="inote" id="inote-d1-p6-2" data-inote="check" data-ref="F87"><b class="inote-tag">강사 확인 F87</b><code class="val">body</code> 아래 한글 필드를 끌어 놓으면 이름이 <code>body['이름']</code>이 되는지 캡처</span></p>
         <figure class="capture" id="fig-d1-p6-3">
           <div class="capture-cap">[그림 1-6-3] 이름을 고친 <code class="val">민원 정리</code></div>
           <div class="capture-guide">Edit Fields 창: 왼쪽 INPUT의 body 아래 다섯 값, 가운데 Fields to Set에 이름~상세설명 다섯 줄. 왼쪽 이름은 이름·연락처…, 오른쪽 값은 {{ $json.body['이름'] }} 형태인 모습(끌어 놓은 직후의 body['이름'] 모습도 한 장)</div>
@@ -184,7 +195,7 @@
         <ol>
           <li>앱의 <code>새 민원 접수</code>를 눌러 입력 화면으로 돌아갑니다.</li>
           <li>김민원 / 010-0000-0002 / minwon@example.com / 음식물 / 매주 화요일 음식물 쓰레기 수거가 되지 않고 있습니다. 를 넣고 동의에 체크합니다. <b>아직 누르지 않습니다.</b></li>
-          <li>n8n 탭에서 캔버스 아래쪽 <code class="val">Execute workflow</code>를 누릅니다. 이번에도 2분 동안 기다립니다. <!-- FACT-CHECK: F90 --></li>
+          <li>n8n 탭에서 캔버스 아래쪽 <code class="val">Execute workflow</code>를 누릅니다. 이번에도 2분 동안 기다립니다.</li>
           <li>AI Studio 탭에서 <code>접수하기</code>를 누릅니다.</li>
         </ol>
         <figure class="capture" id="fig-d1-p6-5">

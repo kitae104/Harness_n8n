@@ -4,6 +4,8 @@ verify.py는 **구조만** 검사한다. 실제 n8n·AI Studio에서 동작하�
 교시 status가 `instructor-check`이면 아래 공통 항목과 그 교시 항목을 확인한 뒤 `done`으로 바꾼다.
 Claude 세션은 이 확인을 대신할 수 없다. 확인 결과를 사용자에게 받아 이 파일과 progress.md에 기록한다.
 
+> 교안 화면에서 보며 확인하려면: 사이트 목차의 **강사 준비 목록**(`instructor-notes.html`) 또는 각 교안의 노란 점선 상자(강사 표시). 이 파일은 전체 목록이고, 강사 표시는 교안 속 위치를 알려 준다. 준비가 끝나면 `python scripts/strip_inotes.py`로 강사 표시를 모두 지운다.
+
 ## 공통 (워크플로우가 있는 교시)
 
 - [ ] n8n Cloud(최신 버전)에서 `workflows/{id}.json`을 Import → 오류 없이 열림
@@ -36,7 +38,7 @@ Claude 세션은 이 확인을 대신할 수 없다. 확인 결과를 사용자�
 
 | 교시 | 확인할 것 |
 |---|---|
-| d1-p3 | 교안 그대로 따라 해 보기: Webhook(GET, `hello`) → Respond to Webhook(JSON, 표현식) → Test URL을 주소창에 `?이름=홍길동` 붙여 호출 → Publish → Production URL 호출. 확인할 표기: 노드 검색 결과(F55), HTTP Method 기본값·Path(F56), Respond With/Response Body/Expression(F57), 한글 쿼리 `이름`(F58), Webhook 노드 위쪽 Test URL/Production URL 선택 위치. 오류 문구 두 개(F50)가 교안과 같은지, Test URL 대기 시간이 2분(120초)인지(F21). **캔버스 `Execute workflow`로 대기해야 인사말이 오고, 설정 창 `Listen for test event`로는 빈 응답인지(F223, F4 키트 ⑥)**. 한글 쿼리 `?이름=` 인코딩(F58) |
+| d1-p3 | 교안 그대로 따라 해 보기: Webhook(GET, `hello`) → Respond to Webhook(JSON, 표현식) → Test URL을 주소창에 `?이름=홍길동` 붙여 호출 → Publish → Production URL 호출. 확인할 표기: 노드 검색 결과(F55), HTTP Method 기본값·Path(F56), Respond With/Response Body/Expression(F57), 한글 쿼리 `이름`(F58), Webhook 노드 위쪽 Test URL/Production URL 선택 위치. 오류 문구 두 개(F50)가 교안과 같은지, Test URL 대기 시간이 2분(120초)인지(F21). **캔버스 `Execute workflow`로 대기해야 인사말이 오고, 설정 창 `Listen for test event`로는 빈 응답인지(F223, F4 키트 ⑥)** |
 | d1-p2 | 교안 그대로 Import → 시트(sheets.new, 머리글 6칸)·Gmail·Gemini 연결 → Execute workflow → 표현식·샘플 값 고쳐 보기가 **40분 안에** 끝나는지. `models/gemini-3.8-flash`가 새 API 키 계정 목록에 보이는지(F42), Gemini 자격 증명 저장 흐름(F73), `Use Gateway credits` 표시 여부(F71), 한국어 계정 새 시트 탭 이름 `시트1`(F72), Gmail 안내 문구가 빠지는지(F66) |
 | d1-p4 | 템플릿(`prompts/d1-p4-minwon-app.md`)을 붙여 3회 생성 → 3회 모두 칸 5개·종류 목록·접수하기·`WEBHOOK_URL` 생성(F76 한국어 프롬프트). 보내기 버튼 표기, `Apps` 목록 자동 저장(F77), 생성 소요 시간, 수강생 20명 동시 생성 시 한도(F7). 플랜 B(n8n Form / Gemini Canvas, F44·F45) 동작 |
 | d1-p5 | 요청 1~3을 차례로 보내 칸 이름·`WEBHOOK_URL`이 유지되는지. 연습 오류 1·2가 만들어지는지/AI가 거절·자가 수정하는지(F84), 오류 글 위치와 복사 가능 여부(F85), 오류 고치기 버튼 표기(F8), 되돌리기 버튼(F77), 대화 패널 위치·Annotation 도구(F82), 요청 10회 전후 한도 화면(F86) |

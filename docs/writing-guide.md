@@ -166,7 +166,26 @@
 ## 9. 사실 확인
 
 - AI Studio Build 모드, n8n Webhook(CORS, Test/Production URL, Respond to Webhook), Publish UI 같은 기능 서술은 **`docs/fact-check.md`에서 '확인'된 내용만** 단정적으로 쓴다.
-- 제안서 내용도 검증 전에는 사실로 가정하지 않는다. 확인되지 않은 채 써야 하면 `<!-- FACT-CHECK: F번호 -->` 주석을 남긴다(verify가 경고로 알려 줌).
+- 제안서 내용도 검증 전에는 사실로 가정하지 않는다. 확인되지 않은 채 써야 하면 그 자리에 **강사 확인 표시**(아래 9-1)를 단다. 예전 방식의 `<!-- FACT-CHECK: F번호 -->` 주석도 verify가 경고로 알려 주지만, 새로 쓰지 않는다.
+
+### 9-1. 강사 표시(inote) — 준비 기간 임시 표시
+
+강사가 수업 전에 확인·준비할 곳을 교안 안에 **눈에 보이게** 남긴다. 수강생용 내용이 아니며, 준비가 끝나면 한 번에 지운다.
+
+```html
+<!-- 본문 안 한 줄(확인 항목): fact-check 번호를 data-ref에 -->
+<span class="inote" id="inote-d1-p3-1" data-inote="check" data-ref="F58"><b class="inote-tag">강사 확인 F58</b>확인할 내용</span>
+<!-- 본문 안 한 줄(준비 항목) -->
+<span class="inote" id="inote-d2-p7-2" data-inote="prep"><b class="inote-tag">강사 준비</b>준비할 내용</span>
+<!-- 교시 맨 위(</header> 바로 뒤) 요약 상자: id 번호 0 -->
+<div class="inote" id="inote-d1-p3-0" data-inote="prep"><b class="inote-tag">강사 준비·확인</b>… <ul><li>…</li></ul></div>
+```
+
+- `span`/`div` 두 가지만, class는 `inote` 하나만 쓴다. id는 `inote-{교시 id}-{번호}`(교시 안에서 겹치지 않게), `data-inote`는 `check` 또는 `prep`. 첫 자식은 `<b class="inote-tag">`.
+- `ul`·`ol`·`table`·`pre` 바로 안에는 넣지 않는다(`li`·`p`·`td` 안은 된다).
+- 표시 안의 글은 용어 검사·풀이 검사에서 빠진다. **개인정보·비밀값 검사는 그대로** 받는다.
+- verify는 개수를 경고로 알린다. `python scripts/build.py`가 `instructor-notes.html`(강사 준비 목록)을 만들고 목차에 링크를 단다.
+- 지우기: `python scripts/strip_inotes.py --list`(목록) / `--ref F42`(확인 끝난 항목만) / `--lesson d1-p3` / 옵션 없이 전부. 지운 뒤 verify·build.
 
 ## 10. 인쇄
 

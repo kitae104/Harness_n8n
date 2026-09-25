@@ -261,3 +261,24 @@
 - d2-p6 텔레그램 알림에 사용자가 적은 `점검장소`가 들어감 — `_` 등 Markdown 기호가 있으면 전송 실패 가능(가능성 낮음, 그대로 둠)
 - d2-p2 조회에서 `등록일`이 빈 옛 줄은 처리마감이 `Invalid DateTime`(오류 없이 표시) — d1-p7 이후 줄은 정상
 - fact-check.md에 "반영됨" 상태가 없어 반영된 `수정 필요` 항목이 그대로 남음(개선 과제)
+
+## 11회차 — 2026-09-25 — 강사 표시(inote) 도입, 교안 완성 마무리 (사용자 지시 "강사가 확인할 부분을 교안에 따로 표시, 이후 쉽게 제거")
+
+### 한 일
+- **강사 표시(inote)** 도입(D49 성격, writing-guide 9-1): 준비 기간에만 쓰는 임시 표시. `span.inote`(본문 안, `data-inote="check"` + `data-ref="F.."` 또는 `prep`), `div.inote`(교시 맨 위 "수업 전 강사 준비·확인" 요약 상자). 노란 점선 상자 + "강사 확인 F번호" 배지(lesson.css, 다크 모드·인쇄 포함)
+- 교안의 `<!-- FACT-CHECK -->` 주석 41곳을 모두 **눈에 보이는 강사 확인 표시**로 바꿈(확인할 내용 한 줄씩). 이미 '확인'된 F60·F90·F58은 표시하지 않음 → 확인 표시 43 + 준비 표시 1(d2-p7 수료 설문 링크) + 교시별 요약 상자 16 = **61곳**
+- 요약 상자: 교시별 준비 할 일(instructor-checklist 행 요약), 강사 확인 표시 수, 캡처 장수, 체크리스트 안내
+- `scripts/strip_inotes.py`: `--list`/`--dry-run`/전체/`--lesson`/`--kind`/`--ref F42`. 왕복 시험: 모두 지우면 표시 넣기 전 교안과 같음(주석만 빠짐), verify 통과
+- `build.py`: `instructor-notes.html`(강사 준비 목록 — 교시별, 항목을 누르면 교안 위치로) 생성, 목차에 안내 상자. 표시가 0곳이면 파일과 안내를 자동으로 지움
+- `verify.py`: 강사 표시 안은 용어·풀이 검사 제외(개인정보·비밀값 검사는 유지), 모양 검사(span/div, id 형식·중복, data-inote, 머리표), 개수 경고. 회귀 샘플 3개 추가(37개)
+- fact-checker: **F58·F91 확인**(n8n 쿼리 파서 qs가 한글 키를 디코딩, 표현식 엔진 계산) → d1-p3 한글 쿼리 유지 근거 확정
+- 브라우저(로컬 서버)로 d1-p3·d1-p4·강사 준비 목록 화면을 캡처해 표시 모양 확인
+
+### 검증 결과
+- verify.py --all: 16개 교시 PASS(실패 0, 경고 = 강사 표시 개수) / test_verify.py 37개 불일치 0
+- build.py: index 16, textbook 16, instructor-notes 61곳, 링크 81개 모두 유효
+
+### 다음 할 일(강사)
+1. 사이트 목차 → **강사 준비 목록**(instructor-notes.html)을 보며 교시별 확인·준비. F4 키트가 최우선
+2. 결과는 Claude 세션에 전달 → 교안·fact-check 반영 후 `python scripts/strip_inotes.py --ref F번호`로 해당 표시만 지움
+3. 강의와 관련 없는 부분 정리(사용자 예정). 준비가 모두 끝나면 `python scripts/strip_inotes.py` → verify → build
