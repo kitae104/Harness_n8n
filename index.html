@@ -5,34 +5,113 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI 앱과 n8n으로 만드는 나만의 업무 자동화 서비스</title>
 <link rel="stylesheet" href="assets/css/style.css">
-<link rel="stylesheet" href="assets/css/lecture.css">
 <link rel="stylesheet" href="assets/css/lesson.css">
+<link rel="stylesheet" href="assets/css/home.css">
 </head>
-<body class="lecture-mode">
-<main class="wrap">
-<header class="page-head"><h1>AI 앱과 n8n으로 만드는 나만의 업무 자동화 서비스</h1><p class="sub">2일(14시간) 중급 과정 — 화면은 AI가, 일은 n8n이</p></header>
-<section class="sec" id="day1"><h2 class="sec-title">1일차</h2><ol class="toc">
-<li><a href="lessons/d1-p1.html"><span class="n">1-1</span> 입과 안내 및 과정 소개 — 완성 서비스 시연 <span class="d">09:00~09:50</span></a></li>
-<li><a href="lessons/d1-p2.html"><span class="n">1-2</span> n8n 핵심 복습 실습 — 트리거–처리–결과, 표현식, 시트·Gmail·Gemini <span class="d">10:00~10:50</span></a></li>
-<li><a href="lessons/d1-p3.html"><span class="n">1-3</span> Webhook 이해와 실습 — 앱과 자동화가 대화하는 방법 <span class="d">11:00~11:50</span></a></li>
-<li><a href="lessons/d1-p4.html"><span class="n">1-4</span> AI 앱 빌더 첫 체험 — Google AI Studio Build로 민원 접수 화면 만들기 <span class="d">13:00~13:50</span></a></li>
-<li><a href="lessons/d1-p5.html"><span class="n">1-5</span> 첫 앱 다듬기 — 화면 수정 요청과 오류 대처 루틴 <span class="d">14:00~14:50</span></a></li>
-<li><a href="lessons/d1-p6.html"><span class="n">1-6</span> 앱 ↔ n8n 연동 ① — Webhook 주소 넣기, 접수 데이터 시트 기록 <span class="d">15:00~15:50</span></a></li>
-<li><a href="lessons/d1-p7.html"><span class="n">1-7</span> 연동 ① 완성 — 접수번호 생성·회신, 앱 화면에 결과 표시, 1일차 정리 <span class="d">16:00~16:50</span></a></li>
-</ol></section>
-<section class="sec" id="day2"><h2 class="sec-title">2일차</h2><ol class="toc">
-<li><a href="lessons/d2-p1.html"><span class="n">2-1</span> 앱 ↔ n8n 연동 ② — 담당자 메일, 캘린더 처리 마감, Gemini 안내문 <span class="d">09:00~09:50</span></a></li>
-<li><a href="lessons/d2-p2.html"><span class="n">2-2</span> 연동 ② 완성 — If 조건 분기, 텔레그램 알림, 처리 상태 조회 화면 <span class="d">10:00~10:50</span></a></li>
-<li><a href="lessons/d2-p3.html"><span class="n">2-3</span> 앱 배포·공유·보안 — 공유 링크, 비밀값 관리, 개인정보 점검표 <span class="d">11:00~11:50</span></a></li>
-<li><a href="lessons/d2-p4.html"><span class="n">2-4</span> 프로젝트 기획 — 부서별 시나리오 확정, 입력–처리–출력 설계서 <span class="d">13:00~13:50</span></a></li>
-<li><a href="lessons/d2-p5.html"><span class="n">2-5</span> 프로젝트 제작 ① — 앱 화면 생성, n8n 워크플로우 구성(완성 파일 변형) <span class="d">14:00~14:50</span></a></li>
-<li><a href="lessons/d2-p6.html"><span class="n">2-6</span> 프로젝트 제작 ② — 앱–n8n 연동·테스트·오류 수정 <span class="d">15:00~15:50</span></a></li>
-<li><a href="lessons/d2-p7.html"><span class="n">2-7</span> 발표·피드백 및 적용 로드맵 — 내 서비스 뽐내기 <span class="d">16:00~16:50</span></a></li>
-<li><a href="lessons/opt-pdf.html"><span class="n">선택</span> 선택 실습 ① — PDF 공문 업로드 요약 앱 <span class="d">선택</span></a></li>
-<li><a href="lessons/opt-voice.html"><span class="n">선택</span> 선택 실습 ② — 음성 입력 민원 접수 <span class="d">선택</span></a></li>
-</ol></section>
-<section class="sec" id="print"><h2 class="sec-title">인쇄용 교재</h2><p><a href="print/textbook.html">인쇄용 교재 열기</a> — 브라우저에서 "PDF로 인쇄"하세요.</p></section>
-<div class="inote" data-inote="prep"><b class="inote-tag">강사 준비·확인</b>교안 안에 강사가 확인할 표시가 61곳 있습니다. <a href="instructor-notes.html">강사 준비 목록 열기</a> — 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 지우고 다시 build 하면 이 안내도 사라집니다.</div>
+<body class="home">
+<header class="hero">
+  <div class="hero-text">
+    <p class="kicker">「AI를 활용한 나만의 비서 만들기(n8n)」 심화 과정</p>
+    <h1>AI 앱과 n8n으로 만드는 나만의 업무 자동화 서비스</h1>
+    <p class="lead">코딩 없이 앱 화면을 만들고, 이미 배운 n8n 자동화에 연결합니다.
+    이틀 동안 민원 접수 서비스를 함께 완성하고, 내 업무로 만든 서비스 하나를 더 가지고 돌아갑니다.</p>
+    <dl class="facts">
+      <div><dt>기간</dt><dd>2일, 14시간</dd></div>
+      <div><dt>난이도</dt><dd>중급</dd></div>
+      <div><dt>대상</dt><dd>n8n 기초 과정 수료 공무원</dd></div>
+      <div><dt>코딩</dt><dd>필요 없음</dd></div>
+    </dl>
+    <p class="cta"><a class="btn primary" href="lessons/d1-p1.html">1교시부터 시작하기</a>
+    <a class="btn" href="#schedule">시간표 보기</a></p>
+  </div>
+  <figure class="hero-flow">
+    <svg class="flow wide" viewBox="0 0 820 420" role="img" aria-labelledby="flow-cap"><defs><marker id="arr-w" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ah"/></marker></defs><path class="w" d="M224,210 L290,210" pathLength="1"/><path class="w" d="M460,210 C502,210 498,37 540,37" pathLength="1"/><path class="w" d="M460,210 C502,210 498,119 540,119" pathLength="1"/><path class="w" d="M460,210 C502,210 498,201 540,201" pathLength="1"/><path class="w" d="M460,210 C502,210 498,283 540,283" pathLength="1"/><path class="w" d="M460,210 C502,210 498,365 540,365" pathLength="1"/><path class="back" d="M375,244 C375,345 114,350 114,268" marker-end="url(#arr-w)"/><text class="bl" x="245" y="352" text-anchor="middle">접수번호·안내문 회신</text><g class="node n-app"><rect class="box" x="4" y="158" width="220" height="104" rx="10"/><rect class="bar" x="14" y="170" width="4" height="80" rx="2"/><text class="nt" x="30" y="206.0">민원 접수 앱</text><text class="ns" x="30" y="226.0">AI Studio로 만든 화면</text><circle class="port" cx="224" cy="210" r="4.5"/></g><g class="node n-hook"><rect class="box" x="290" y="176" width="170" height="68" rx="10"/><rect class="bar" x="300" y="188" width="4" height="44" rx="2"/><text class="nt" x="316" y="206.0">Webhook</text><text class="ns" x="316" y="226.0">앱의 요청 받기</text><circle class="port" cx="290" cy="210" r="4.5"/><circle class="port" cx="460" cy="210" r="4.5"/></g><g class="node n-out"><rect class="box" x="540" y="6" width="276" height="62" rx="10"/><rect class="bar" x="550" y="18" width="4" height="38" rx="2"/><text class="nt" x="566" y="33.0">구글 시트</text><text class="ns" x="566" y="53.0">접수 내용 기록</text><circle class="port" cx="540" cy="37" r="4.5"/></g><g class="node n-out"><rect class="box" x="540" y="88" width="276" height="62" rx="10"/><rect class="bar" x="550" y="100" width="4" height="38" rx="2"/><text class="nt" x="566" y="115.0">Gmail</text><text class="ns" x="566" y="135.0">담당자에게 배정 메일</text><circle class="port" cx="540" cy="119" r="4.5"/></g><g class="node n-out"><rect class="box" x="540" y="170" width="276" height="62" rx="10"/><rect class="bar" x="550" y="182" width="4" height="38" rx="2"/><text class="nt" x="566" y="197.0">구글 캘린더</text><text class="ns" x="566" y="217.0">처리 마감 등록</text><circle class="port" cx="540" cy="201" r="4.5"/></g><g class="node n-out"><rect class="box" x="540" y="252" width="276" height="62" rx="10"/><rect class="bar" x="550" y="264" width="4" height="38" rx="2"/><text class="nt" x="566" y="279.0">Gemini</text><text class="ns" x="566" y="299.0">민원인 안내문 작성</text><circle class="port" cx="540" cy="283" r="4.5"/></g><g class="node n-out"><rect class="box" x="540" y="334" width="276" height="62" rx="10"/><rect class="bar" x="550" y="346" width="4" height="38" rx="2"/><text class="nt" x="566" y="361.0">텔레그램</text><text class="ns" x="566" y="381.0">새 민원 알림</text><circle class="port" cx="540" cy="365" r="4.5"/></g></svg>
+    <svg class="flow tall" viewBox="0 0 360 636" role="img" aria-labelledby="flow-cap"><defs><marker id="arr-t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ah"/></marker></defs><path class="w" d="M180,102 L180,156" pathLength="1"/><path class="w" d="M180,218 C180,252 24,236 24,274 L24,285 Q24,299 38,299 L60,299" pathLength="1"/><path class="w" d="M180,218 C180,252 24,236 24,274 L24,357 Q24,371 38,371 L60,371" pathLength="1"/><path class="w" d="M180,218 C180,252 24,236 24,274 L24,429 Q24,443 38,443 L60,443" pathLength="1"/><path class="w" d="M180,218 C180,252 24,236 24,274 L24,501 Q24,515 38,515 L60,515" pathLength="1"/><path class="w" d="M180,218 C180,252 24,236 24,274 L24,573 Q24,587 38,587 L60,587" pathLength="1"/><path class="back" d="M265,187 C350,187 352,55 326,55" marker-end="url(#arr-t)"/><text class="bl" x="318" y="136" text-anchor="end">접수번호 회신</text><g class="node n-app"><rect class="box" x="40" y="8" width="280" height="94" rx="10"/><rect class="bar" x="50" y="20" width="4" height="70" rx="2"/><text class="nt" x="66" y="51.0">민원 접수 앱</text><text class="ns" x="66" y="71.0">AI Studio로 만든 화면</text><circle class="port" cx="180" cy="102" r="4.5"/></g><g class="node n-hook"><rect class="box" x="95" y="156" width="170" height="62" rx="10"/><rect class="bar" x="105" y="168" width="4" height="38" rx="2"/><text class="nt" x="121" y="183.0">Webhook</text><text class="ns" x="121" y="203.0">앱의 요청 받기</text><circle class="port" cx="180" cy="156" r="4.5"/><circle class="port" cx="180" cy="218" r="4.5"/></g><g class="node n-out"><rect class="box" x="60" y="272" width="280" height="54" rx="10"/><rect class="bar" x="70" y="284" width="4" height="30" rx="2"/><text class="nt" x="86" y="295.0">구글 시트</text><text class="ns" x="86" y="315.0">접수 내용 기록</text><circle class="port" cx="60" cy="299" r="4.5"/></g><g class="node n-out"><rect class="box" x="60" y="344" width="280" height="54" rx="10"/><rect class="bar" x="70" y="356" width="4" height="30" rx="2"/><text class="nt" x="86" y="367.0">Gmail</text><text class="ns" x="86" y="387.0">담당자에게 배정 메일</text><circle class="port" cx="60" cy="371" r="4.5"/></g><g class="node n-out"><rect class="box" x="60" y="416" width="280" height="54" rx="10"/><rect class="bar" x="70" y="428" width="4" height="30" rx="2"/><text class="nt" x="86" y="439.0">구글 캘린더</text><text class="ns" x="86" y="459.0">처리 마감 등록</text><circle class="port" cx="60" cy="443" r="4.5"/></g><g class="node n-out"><rect class="box" x="60" y="488" width="280" height="54" rx="10"/><rect class="bar" x="70" y="500" width="4" height="30" rx="2"/><text class="nt" x="86" y="511.0">Gemini</text><text class="ns" x="86" y="531.0">민원인 안내문 작성</text><circle class="port" cx="60" cy="515" r="4.5"/></g><g class="node n-out"><rect class="box" x="60" y="560" width="280" height="54" rx="10"/><rect class="bar" x="70" y="572" width="4" height="30" rx="2"/><text class="nt" x="86" y="583.0">텔레그램</text><text class="ns" x="86" y="603.0">새 민원 알림</text><circle class="port" cx="60" cy="587" r="4.5"/></g></svg>
+    <figcaption id="flow-cap"><span class="key k-app">화면은 AI가</span><span class="key k-n8n">일은 n8n이</span>
+    이틀 뒤 완성하는 민원 접수 서비스입니다. 앱에서 접수하면 n8n이 기록·메일·마감 등록·안내문·알림을 처리하고, 접수번호를 앱 화면에 돌려줍니다.</figcaption>
+  </figure>
+</header>
+
+<main class="sheet">
+  <section class="block" id="about">
+    <h2>이 과정은</h2>
+    <p class="intro">n8n으로 만든 자동화에는 동료나 민원인이 직접 쓸 수 있는 <b>입구</b>가 없었습니다.
+    이 과정에서는 그 입구인 앱 화면을 Google AI Studio에 한국어 문장으로 부탁해 만들고,
+    뒤에서 일하는 부분은 이미 익숙한 n8n이 맡도록 둘을 연결합니다.</p>
+    <div class="roles">
+      <div class="role r-app">
+        <h3>화면은 AI가</h3>
+        <p class="tool">Google AI Studio Build</p>
+        <ul>
+          <li>문장으로 민원 접수 입력 화면 만들기</li>
+          <li>“버튼을 크게 해 줘”처럼 말로 화면 고치기</li>
+          <li>오류 문구를 복사해 AI에게 고쳐 달라고 하기</li>
+          <li>처리 상태 조회 화면 추가하기</li>
+        </ul>
+      </div>
+      <div class="role r-n8n">
+        <h3>일은 n8n이</h3>
+        <p class="tool">n8n 워크플로우</p>
+        <ul>
+          <li><code>Webhook</code>으로 앱이 보낸 접수 내용 받기</li>
+          <li>구글 시트 기록, 담당자 메일, 캘린더 마감 등록</li>
+          <li>Gemini로 민원인 안내문 쓰기, 유형별 담당자 나누기</li>
+          <li>텔레그램 알림, 접수번호를 앱에 돌려주기</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="ready">
+    <h2>수업 전에 확인하세요</h2>
+    <div class="cols3">
+      <div>
+        <h3>이런 분을 위한 과정입니다</h3>
+        <p>「AI를 활용한 나만의 비서 만들기(n8n)」를 수료했거나, 트리거–처리–결과로 이어지는 n8n 워크플로우를 만들어 본 공무원.
+        프로그래밍 경험은 없어도 됩니다.</p>
+      </div>
+      <div>
+        <h3>준비물</h3>
+        <ul>
+          <li>개인 구글 계정</li>
+          <li>텔레그램 계정</li>
+          <li>기초 과정에서 쓰던 n8n(또는 강사가 안내하는 n8n)</li>
+          <li>자동화하고 싶은 내 업무 한 가지</li>
+        </ul>
+      </div>
+      <div>
+        <h3>수업은 이렇게 진행합니다</h3>
+        <ul>
+          <li>교시마다 앞 10분은 왜 필요한지 설명, 나머지는 실습</li>
+          <li>진도가 밀려도 교시별 완성 파일을 가져와 따라잡기</li>
+          <li>웹 교안과 인쇄 교재를 함께 사용</li>
+        </ul>
+      </div>
+    </div>
+    <p class="promise"><b>실습에는 가상 자료만 씁니다.</b> 실제 민원, 공문, 실명, 연락처는 앱이나 n8n에 넣지 않습니다. 교안에 나오는 이름과 연락처도 모두 지어낸 것입니다.</p>
+  </section>
+
+  <section class="block" id="schedule">
+    <h2>이틀 시간표</h2>
+    <p class="muted">교시를 누르면 그 시간의 웹 교안이 열립니다. 오전 3교시, 오후 4교시이고 교시마다 50분입니다.</p>
+    <div class="days"><div class="day"><h3><span class="dn">1일차</span>n8n 다지기, 첫 앱, 그리고 연결</h3><ol class="periods"><li><a href="lessons/d1-p1.html"><span class="pn">1교시</span><span class="pt"><b>입과 안내 및 과정 소개</b><span class="ps">완성 서비스 시연</span></span><span class="pm">09:00~09:50</span></a></li><li><a href="lessons/d1-p2.html"><span class="pn">2교시</span><span class="pt"><b>n8n 핵심 복습 실습</b><span class="ps">트리거–처리–결과, 표현식, 시트·Gmail·Gemini</span></span><span class="pm">10:00~10:50</span></a></li><li><a href="lessons/d1-p3.html"><span class="pn">3교시</span><span class="pt"><b>Webhook 이해와 실습</b><span class="ps">앱과 자동화가 대화하는 방법</span></span><span class="pm">11:00~11:50</span></a></li><li><a href="lessons/d1-p4.html"><span class="pn">4교시</span><span class="pt"><b>AI 앱 빌더 첫 체험</b><span class="ps">Google AI Studio Build로 민원 접수 화면 만들기</span></span><span class="pm">13:00~13:50</span></a></li><li><a href="lessons/d1-p5.html"><span class="pn">5교시</span><span class="pt"><b>첫 앱 다듬기</b><span class="ps">화면 수정 요청과 오류 대처 루틴</span></span><span class="pm">14:00~14:50</span></a></li><li><a href="lessons/d1-p6.html"><span class="pn">6교시</span><span class="pt"><b>앱 ↔ n8n 연동 ①</b><span class="ps">Webhook 주소 넣기, 접수 데이터 시트 기록</span></span><span class="pm">15:00~15:50</span></a></li><li><a href="lessons/d1-p7.html"><span class="pn">7교시</span><span class="pt"><b>연동 ① 완성</b><span class="ps">접수번호 생성·회신, 앱 화면에 결과 표시, 1일차 정리</span></span><span class="pm">16:00~16:50</span></a></li></ol></div><div class="day"><h3><span class="dn">2일차</span>자동화 확장과 나만의 업무 서비스</h3><ol class="periods"><li><a href="lessons/d2-p1.html"><span class="pn">1교시</span><span class="pt"><b>앱 ↔ n8n 연동 ②</b><span class="ps">담당자 메일, 캘린더 처리 마감, Gemini 안내문</span></span><span class="pm">09:00~09:50</span></a></li><li><a href="lessons/d2-p2.html"><span class="pn">2교시</span><span class="pt"><b>연동 ② 완성</b><span class="ps">If 조건 분기, 텔레그램 알림, 처리 상태 조회 화면</span></span><span class="pm">10:00~10:50</span></a></li><li><a href="lessons/d2-p3.html"><span class="pn">3교시</span><span class="pt"><b>앱 배포·공유·보안</b><span class="ps">공유 링크, 비밀값 관리, 개인정보 점검표</span></span><span class="pm">11:00~11:50</span></a></li><li><a href="lessons/d2-p4.html"><span class="pn">4교시</span><span class="pt"><b>프로젝트 기획</b><span class="ps">부서별 시나리오 확정, 입력–처리–출력 설계서</span></span><span class="pm">13:00~13:50</span></a></li><li><a href="lessons/d2-p5.html"><span class="pn">5교시</span><span class="pt"><b>프로젝트 제작 ①</b><span class="ps">앱 화면 생성, n8n 워크플로우 구성(완성 파일 변형)</span></span><span class="pm">14:00~14:50</span></a></li><li><a href="lessons/d2-p6.html"><span class="pn">6교시</span><span class="pt"><b>프로젝트 제작 ②</b><span class="ps">앱–n8n 연동·테스트·오류 수정</span></span><span class="pm">15:00~15:50</span></a></li><li><a href="lessons/d2-p7.html"><span class="pn">7교시</span><span class="pt"><b>발표·피드백 및 적용 로드맵</b><span class="ps">내 서비스 뽐내기</span></span><span class="pm">16:00~16:50</span></a></li></ol></div></div>
+    <div class="opt"><h3>선택 실습</h3><p>2일차 프로젝트 시간에 원하는 사람만, 또는 수료 뒤 혼자 해 보는 실습입니다.</p><ol class="periods"><li><a href="lessons/opt-pdf.html"><span class="pn">선택</span><span class="pt"><b>선택 실습 ①</b><span class="ps">PDF 공문 업로드 요약 앱</span></span><span class="pm">자율 실습</span></a></li><li><a href="lessons/opt-voice.html"><span class="pn">선택</span><span class="pt"><b>선택 실습 ②</b><span class="ps">음성 입력 민원 접수</span></span><span class="pm">자율 실습</span></a></li></ol></div>
+  </section>
+
+  <section class="block" id="outcome">
+    <h2>과정을 마치면 가져가는 것</h2>
+    <ul class="outcomes">
+      <li><h3>민원 접수 서비스</h3><p>앱에서 접수하면 시트에 기록되고, 담당자 메일과 캘린더 마감이 만들어지고, Gemini가 쓴 안내문과 접수번호가 앱에 표시됩니다.</p></li>
+      <li><h3>내 업무 자동화 서비스</h3><p>내 부서 업무로 설계서를 쓰고 앱과 워크플로우를 만들어 발표합니다. 예: 현장점검 보고, 교육·행사 신청 접수, 회의록 정리.</p></li>
+      <li><h3>설계서와 적용 계획</h3><p>입력–처리–출력 설계서, 개인정보 점검표, 부서에 적용할 때 확인할 항목을 정리해 갑니다.</p></li>
+    </ul>
+  </section>
+
+  <footer class="foot">
+    <p><a href="print/textbook.html">인쇄용 교재 열기</a> — 브라우저에서 “PDF로 인쇄”하면 교시마다 새 쪽에서 시작합니다.</p>
+    <p class="muted">사용 도구: Google AI Studio, n8n, Gemini API, 구글 시트·Gmail·구글 캘린더, 텔레그램(모두 무료로 사용)</p>
+    <div class="inote" data-inote="prep"><b class="inote-tag">강사 준비·확인</b>교안 안에 강사가 확인할 표시가 61곳 있습니다. <a href="instructor-notes.html">강사 준비 목록 열기</a> — 준비가 끝나면 <code>python scripts/strip_inotes.py</code>로 지우고 다시 build 하면 이 안내도 사라집니다.</div>
+  </footer>
 </main>
 </body>
 </html>

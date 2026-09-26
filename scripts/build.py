@@ -2,7 +2,7 @@
 
 사용법:  python scripts/build.py
 
-- index.html: lessons.json 순서대로 목차. 아직 없는 교시는 링크 없이 "준비 중"으로 표시
+- index.html: 첫 화면 — 과정 소개, 완성 서비스 흐름 그림, lessons.json 순서의 시간표(없는 교시는 "준비 중"). 스타일은 assets/css/home.css
 - instructor-notes.html: 교안 안의 강사 표시(inote)를 교시별로 모은 준비 목록. 표시가 하나도 없으면 만들지 않고 지운다
 - print/textbook.html: 존재하는 교시 HTML의 <main>을 시간표 순서로 이어 붙인 인쇄용 한 파일.
   브라우저로 열어 "PDF로 인쇄"하면 교시마다 새 페이지에서 시작한다(lesson.css의 @media print).
@@ -25,8 +25,8 @@ RE_MAIN = re.compile(r"<main\b[^>]*>.*?</main>", re.S)
 RE_REL_ATTR = re.compile(r'(href|src)="(?!https?:|//|#|mailto:|tel:|data:|\.\./)([^"]+)"')
 
 
-def head(title: str, css_prefix: str) -> str:
-    links = "\n".join(f'<link rel="stylesheet" href="{css_prefix}assets/css/{c}">' for c in CSS)
+def head(title: str, css_prefix: str, css=None) -> str:
+    links = "\n".join(f'<link rel="stylesheet" href="{css_prefix}assets/css/{c}">' for c in (css or CSS))
     return (f'<!doctype html>\n<html lang="ko">\n<head>\n<meta charset="utf-8">\n'
             f'<meta name="viewport" content="width=device-width, initial-scale=1">\n'
             f"<title>{html.escape(title)}</title>\n{links}\n</head>\n")
@@ -38,33 +38,221 @@ def label(l) -> str:
     return f'{l["day"]}-{l["period"]}'
 
 
+# ── 첫 화면(index.html) ─────────────────────────────────────
+# 과정 소개 문구는 docs/proposal.md 3·5·8·9절을 수강생 눈높이로 옮긴 것이다.
+# 첫 화면 그림은 2일차 완성 서비스(workflows/d2-p2.json)의 흐름을 n8n 노드 모양으로 그린 것.
+
+FLOW_OUT = [  # (제목, 설명) — 앱 요청을 받은 n8n이 하는 일
+    ("구글 시트", "접수 내용 기록"),
+    ("Gmail", "담당자에게 배정 메일"),
+    ("구글 캘린더", "처리 마감 등록"),
+    ("Gemini", "민원인 안내문 작성"),
+    ("텔레그램", "새 민원 알림"),
+]
+
+
+def _node(x, y, w, h, title, sub, kind, ports):
+    """n8n 노드처럼 생긴 상자 하나. ports: [(cx, cy)] 연결점."""
+    t = html.escape(title)
+    s = html.escape(sub)
+    ty = y + h / 2 - (4 if sub else -5)
+    out = [f'<g class="node {kind}">',
+           f'<rect class="box" x="{x}" y="{y}" width="{w}" height="{h}" rx="10"/>',
+           f'<rect class="bar" x="{x + 10}" y="{y + 12}" width="4" height="{h - 24}" rx="2"/>',
+           f'<text class="nt" x="{x + 26}" y="{ty}">{t}</text>']
+    if sub:
+        out.append(f'<text class="ns" x="{x + 26}" y="{ty + 20}">{s}</text>')
+    out += [f'<circle class="port" cx="{cx}" cy="{cy}" r="4.5"/>' for cx, cy in ports]
+    out.append("</g>")
+    return "".join(out)
+
+
+def flow_svg(tall: bool) -> str:
+    """완성 서비스 흐름 그림. tall=True는 좁은 화면(휴대폰)용 세로 배치."""
+    wires, nodes = [], []
+    if not tall:
+        vb, cls = "0 0 820 420", "flow wide"
+        nodes.append(_node(4, 158, 220, 104, "민원 접수 앱", "AI Studio로 만든 화면", "n-app", [(224, 210)]))
+        nodes.append(_node(290, 176, 170, 68, "Webhook", "앱의 요청 받기", "n-hook", [(290, 210), (460, 210)]))
+        wires.append('<path class="w" d="M224,210 L290,210" pathLength="1"/>')
+        for i, (t, s) in enumerate(FLOW_OUT):
+            y = 6 + i * 82
+            cy = y + 31
+            nodes.append(_node(540, y, 276, 62, t, s, "n-out", [(540, cy)]))
+            wires.append(f'<path class="w" d="M460,210 C502,210 498,{cy} 540,{cy}" pathLength="1"/>')
+        back = ('<path class="back" d="M375,244 C375,345 114,350 114,268" marker-end="url(#arr-w)"/>'
+                '<text class="bl" x="245" y="352" text-anchor="middle">접수번호·안내문 회신</text>')
+    else:
+        vb, cls = "0 0 360 636", "flow tall"
+        nodes.append(_node(40, 8, 280, 94, "민원 접수 앱", "AI Studio로 만든 화면", "n-app", [(180, 102)]))
+        nodes.append(_node(95, 156, 170, 62, "Webhook", "앱의 요청 받기", "n-hook", [(180, 156), (180, 218)]))
+        wires.append('<path class="w" d="M180,102 L180,156" pathLength="1"/>')
+        for i, (t, s) in enumerate(FLOW_OUT):
+            y = 272 + i * 72
+            cy = y + 27
+            nodes.append(_node(60, y, 280, 54, t, s, "n-out", [(60, cy)]))
+            wires.append(f'<path class="w" d="M180,218 C180,252 24,236 24,274 L24,{cy - 14} '
+                         f'Q24,{cy} 38,{cy} L60,{cy}" pathLength="1"/>')
+        back = ('<path class="back" d="M265,187 C350,187 352,55 326,55" marker-end="url(#arr-t)"/>'
+                '<text class="bl" x="318" y="136" text-anchor="end">접수번호 회신</text>')
+    mid = "arr-t" if tall else "arr-w"
+    defs = (f'<defs><marker id="{mid}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" '
+            'orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ah"/></marker></defs>')
+    return (f'<svg class="{cls}" viewBox="{vb}" role="img" aria-labelledby="flow-cap">'
+            + defs + "".join(wires) + back + "".join(nodes) + "</svg>")
+
+
+def _split(title: str):
+    main, _, sub = title.partition(" — ")
+    return main, sub
+
+
+def _period(l) -> str:
+    main, sub = _split(l["title"])
+    path = ROOT / "lessons" / f'{l["id"]}.html'
+    num = "선택" if l["period"] is None else f'{l["period"]}교시'
+    time = html.escape(l["time"].split("(")[0]) if l["period"] is not None else "자율 실습"
+    inner = (f'<span class="pn">{num}</span>'
+             f'<span class="pt"><b>{html.escape(main)}</b>'
+             + (f'<span class="ps">{html.escape(sub)}</span>' if sub else "")
+             + f'</span><span class="pm">{time}</span>')
+    if path.exists():
+        return f'<li><a href="lessons/{l["id"]}.html">{inner}</a></li>'
+    return f'<li class="todo"><span class="row">{inner}<span class="pm">준비 중</span></span></li>'
+
+
+DAY_THEME = {1: "n8n 다지기, 첫 앱, 그리고 연결", 2: "자동화 확장과 나만의 업무 서비스"}
+
+
 def build_index(lessons, notes_total: int = 0) -> str:
-    rows = {1: [], 2: []}
+    days = {1: [], 2: []}
+    extra = []
     for l in lessons:
-        path = ROOT / "lessons" / f'{l["id"]}.html'
-        title = html.escape(l["title"])
-        time = html.escape(l["time"].split("(")[0])
-        if path.exists():
-            item = (f'<li><a href="lessons/{l["id"]}.html"><span class="n">{label(l)}</span> '
-                    f'{title} <span class="d">{time}</span></a></li>')
-        else:
-            item = f'<li><span class="toc-todo"><span class="n">{label(l)}</span> {title} (준비 중)</span></li>'
-        rows[l["day"]].append(item)
-    body = [f'<body class="lecture-mode">\n<main class="wrap">\n'
-            f'<header class="page-head"><h1>{html.escape(COURSE)}</h1>'
-            f'<p class="sub">2일(14시간) 중급 과정 — 화면은 AI가, 일은 n8n이</p></header>']
-    for day in (1, 2):
-        body.append(f'<section class="sec" id="day{day}"><h2 class="sec-title">{day}일차</h2>'
-                    f'<ol class="toc">\n' + "\n".join(rows[day]) + "\n</ol></section>")
-    body.append('<section class="sec" id="print"><h2 class="sec-title">인쇄용 교재</h2>'
-                '<p><a href="print/textbook.html">인쇄용 교재 열기</a> — 브라우저에서 "PDF로 인쇄"하세요.</p></section>')
+        (extra if l["period"] is None else days[l["day"]]).append(_period(l))
+    first = next((l for l in lessons if l["period"] == 1 and l["day"] == 1), lessons[0])
+
+    day_cols = "".join(
+        f'<div class="day"><h3><span class="dn">{d}일차</span>{DAY_THEME[d]}</h3>'
+        f'<ol class="periods">{"".join(days[d])}</ol></div>' for d in (1, 2))
+    opt = (f'<div class="opt"><h3>선택 실습</h3><p>2일차 프로젝트 시간에 원하는 사람만, '
+           f'또는 수료 뒤 혼자 해 보는 실습입니다.</p><ol class="periods">{"".join(extra)}</ol></div>') if extra else ""
+
+    note = ""
     if notes_total:
-        body.append('<div class="inote" data-inote="prep"><b class="inote-tag">강사 준비·확인</b>'
-                    f'교안 안에 강사가 확인할 표시가 {notes_total}곳 있습니다. '
-                    '<a href="instructor-notes.html">강사 준비 목록 열기</a> — 준비가 끝나면 '
-                    '<code>python scripts/strip_inotes.py</code>로 지우고 다시 build 하면 이 안내도 사라집니다.</div>')
-    body.append("</main>\n</body>\n</html>\n")
-    return head(COURSE, "") + "\n".join(body)
+        note = ('<div class="inote" data-inote="prep"><b class="inote-tag">강사 준비·확인</b>'
+                f'교안 안에 강사가 확인할 표시가 {notes_total}곳 있습니다. '
+                '<a href="instructor-notes.html">강사 준비 목록 열기</a> — 준비가 끝나면 '
+                '<code>python scripts/strip_inotes.py</code>로 지우고 다시 build 하면 이 안내도 사라집니다.</div>')
+
+    body = f'''<body class="home">
+<header class="hero">
+  <div class="hero-text">
+    <p class="kicker">「AI를 활용한 나만의 비서 만들기(n8n)」 심화 과정</p>
+    <h1>{html.escape(COURSE)}</h1>
+    <p class="lead">코딩 없이 앱 화면을 만들고, 이미 배운 n8n 자동화에 연결합니다.
+    이틀 동안 민원 접수 서비스를 함께 완성하고, 내 업무로 만든 서비스 하나를 더 가지고 돌아갑니다.</p>
+    <dl class="facts">
+      <div><dt>기간</dt><dd>2일, 14시간</dd></div>
+      <div><dt>난이도</dt><dd>중급</dd></div>
+      <div><dt>대상</dt><dd>n8n 기초 과정 수료 공무원</dd></div>
+      <div><dt>코딩</dt><dd>필요 없음</dd></div>
+    </dl>
+    <p class="cta"><a class="btn primary" href="lessons/{first["id"]}.html">1교시부터 시작하기</a>
+    <a class="btn" href="#schedule">시간표 보기</a></p>
+  </div>
+  <figure class="hero-flow">
+    {flow_svg(False)}
+    {flow_svg(True)}
+    <figcaption id="flow-cap"><span class="key k-app">화면은 AI가</span><span class="key k-n8n">일은 n8n이</span>
+    이틀 뒤 완성하는 민원 접수 서비스입니다. 앱에서 접수하면 n8n이 기록·메일·마감 등록·안내문·알림을 처리하고, 접수번호를 앱 화면에 돌려줍니다.</figcaption>
+  </figure>
+</header>
+
+<main class="sheet">
+  <section class="block" id="about">
+    <h2>이 과정은</h2>
+    <p class="intro">n8n으로 만든 자동화에는 동료나 민원인이 직접 쓸 수 있는 <b>입구</b>가 없었습니다.
+    이 과정에서는 그 입구인 앱 화면을 Google AI Studio에 한국어 문장으로 부탁해 만들고,
+    뒤에서 일하는 부분은 이미 익숙한 n8n이 맡도록 둘을 연결합니다.</p>
+    <div class="roles">
+      <div class="role r-app">
+        <h3>화면은 AI가</h3>
+        <p class="tool">Google AI Studio Build</p>
+        <ul>
+          <li>문장으로 민원 접수 입력 화면 만들기</li>
+          <li>“버튼을 크게 해 줘”처럼 말로 화면 고치기</li>
+          <li>오류 문구를 복사해 AI에게 고쳐 달라고 하기</li>
+          <li>처리 상태 조회 화면 추가하기</li>
+        </ul>
+      </div>
+      <div class="role r-n8n">
+        <h3>일은 n8n이</h3>
+        <p class="tool">n8n 워크플로우</p>
+        <ul>
+          <li><code>Webhook</code>으로 앱이 보낸 접수 내용 받기</li>
+          <li>구글 시트 기록, 담당자 메일, 캘린더 마감 등록</li>
+          <li>Gemini로 민원인 안내문 쓰기, 유형별 담당자 나누기</li>
+          <li>텔레그램 알림, 접수번호를 앱에 돌려주기</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="ready">
+    <h2>수업 전에 확인하세요</h2>
+    <div class="cols3">
+      <div>
+        <h3>이런 분을 위한 과정입니다</h3>
+        <p>「AI를 활용한 나만의 비서 만들기(n8n)」를 수료했거나, 트리거–처리–결과로 이어지는 n8n 워크플로우를 만들어 본 공무원.
+        프로그래밍 경험은 없어도 됩니다.</p>
+      </div>
+      <div>
+        <h3>준비물</h3>
+        <ul>
+          <li>개인 구글 계정</li>
+          <li>텔레그램 계정</li>
+          <li>기초 과정에서 쓰던 n8n(또는 강사가 안내하는 n8n)</li>
+          <li>자동화하고 싶은 내 업무 한 가지</li>
+        </ul>
+      </div>
+      <div>
+        <h3>수업은 이렇게 진행합니다</h3>
+        <ul>
+          <li>교시마다 앞 10분은 왜 필요한지 설명, 나머지는 실습</li>
+          <li>진도가 밀려도 교시별 완성 파일을 가져와 따라잡기</li>
+          <li>웹 교안과 인쇄 교재를 함께 사용</li>
+        </ul>
+      </div>
+    </div>
+    <p class="promise"><b>실습에는 가상 자료만 씁니다.</b> 실제 민원, 공문, 실명, 연락처는 앱이나 n8n에 넣지 않습니다. 교안에 나오는 이름과 연락처도 모두 지어낸 것입니다.</p>
+  </section>
+
+  <section class="block" id="schedule">
+    <h2>이틀 시간표</h2>
+    <p class="muted">교시를 누르면 그 시간의 웹 교안이 열립니다. 오전 3교시, 오후 4교시이고 교시마다 50분입니다.</p>
+    <div class="days">{day_cols}</div>
+    {opt}
+  </section>
+
+  <section class="block" id="outcome">
+    <h2>과정을 마치면 가져가는 것</h2>
+    <ul class="outcomes">
+      <li><h3>민원 접수 서비스</h3><p>앱에서 접수하면 시트에 기록되고, 담당자 메일과 캘린더 마감이 만들어지고, Gemini가 쓴 안내문과 접수번호가 앱에 표시됩니다.</p></li>
+      <li><h3>내 업무 자동화 서비스</h3><p>내 부서 업무로 설계서를 쓰고 앱과 워크플로우를 만들어 발표합니다. 예: 현장점검 보고, 교육·행사 신청 접수, 회의록 정리.</p></li>
+      <li><h3>설계서와 적용 계획</h3><p>입력–처리–출력 설계서, 개인정보 점검표, 부서에 적용할 때 확인할 항목을 정리해 갑니다.</p></li>
+    </ul>
+  </section>
+
+  <footer class="foot">
+    <p><a href="print/textbook.html">인쇄용 교재 열기</a> — 브라우저에서 “PDF로 인쇄”하면 교시마다 새 쪽에서 시작합니다.</p>
+    <p class="muted">사용 도구: Google AI Studio, n8n, Gemini API, 구글 시트·Gmail·구글 캘린더, 텔레그램(모두 무료로 사용)</p>
+    {note}
+  </footer>
+</main>
+</body>
+</html>
+'''
+    return head(COURSE, "", ["style.css", "lesson.css", "home.css"]) + body
 
 
 def collect_notes(lessons):

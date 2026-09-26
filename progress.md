@@ -288,3 +288,17 @@
 - ⑥(설정 창 Listen for test event) 시험은 게시 중이면 Test URL이 등록되지 않을 수 있어 Publish 전 또는 Unpublish 뒤에 하도록 f4-test.md와 함께 고침
 - 강사 준비 목록·d1-p6 요약 상자에서 체크리스트로 링크
 - **다음 세션 시작: 강사가 F4 시험 결과 블록을 붙여 넣으면 → fact-check F4 등 반영 → 결과별 조치(f4-test.md 표) → 해당 강사 표시 지우기**
+
+## 12회차 — 2026-09-27 — GitHub·Vercel 배포, 첫 화면(랜딩) 새로 만들기 (사용자 지시 "랜딩 페이지 이쁘게, 수업 소개 추가")
+
+### 한 일
+- GitHub 원격 `origin` = https://github.com/kitae104/Harness_n8n (공개), Vercel 프로젝트 `harness-n8n` → https://harness-n8n.vercel.app
+- `build.py` `build_index`를 첫 화면으로 다시 씀: 완성 서비스 흐름 그림(앱 → Webhook → 시트·Gmail·캘린더·Gemini·텔레그램, 접수번호 회신 점선, 넓은 화면/휴대폰 두 가지 SVG), 과정 소개(화면은 AI가 / 일은 n8n이), 대상·준비물·진행 방식, 가상 자료 원칙, 이틀 시간표(교시 링크), 가져가는 결과물, 인쇄 교재·강사 준비 안내. 문구 출처는 proposal 3·5·8·9절
+- 새 스타일 `assets/css/home.css`(첫 화면만 사용, style.css 토큰 재사용. 파랑 = 화면, 코럴 = n8n). 교안·인쇄 교재 스타일은 그대로
+
+### 검증 결과
+- verify.py --all PASS(실패 0), test_verify.py 37개 불일치 0
+- 브라우저 1440px·390px 확인(가로 스크롤 없음, 연결선 애니메이션은 동작 줄이기 설정 시 꺼짐)
+
+### 다음 할 일
+- 강사용 파일(instructor-notes.html, docs/, progress.md)이 공개 사이트에 함께 올라감 → 숨길지 결정(.vercelignore)
