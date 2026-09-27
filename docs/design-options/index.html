@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>디자인 시안 비교</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css">
+<style>
+:root { --bg: #f4f5f7; --ink: #1d232c; --muted: #68717d; --line: #d9dde3; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.7 "Pretendard Variable", Pretendard, "Malgun Gothic", sans-serif; word-break: keep-all; }
+.wrap { max-width: 78rem; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
+h1 { font-size: 1.8rem; margin: 0 0 .4rem; }
+.lead { color: var(--muted); margin: 0 0 2rem; max-width: 46rem; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem; }
+.opt { background: #fff; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; }
+.shot { position: relative; height: 330px; overflow: hidden; border-bottom: 1px solid var(--line); background: #fff; }
+.shot iframe { width: 1280px; height: 1100px; border: 0; transform: scale(.45); transform-origin: 0 0; pointer-events: none; }
+.body { padding: 1rem 1.2rem 1.2rem; display: flex; flex-direction: column; gap: .5rem; flex: 1; }
+.body h2 { margin: 0; font-size: 1.2rem; }
+.body p { margin: 0; }
+.body dl { margin: .2rem 0 0; display: grid; grid-template-columns: 4.2rem 1fr; gap: .15rem .6rem; font-size: .93rem; }
+.body dt { color: var(--muted); }
+.body dd { margin: 0; }
+.body a.open { margin-top: auto; align-self: flex-start; padding: .4rem .9rem; border-radius: 6px; background: var(--ink); color: #fff; text-decoration: none; font-weight: 700; font-size: .92rem; }
+.body a.open:focus-visible { outline: 3px solid #4a7fd6; outline-offset: 2px; }
+@media (max-width: 860px) {
+  .grid { grid-template-columns: 1fr; }
+  .shot { height: 240px; }
+  .shot iframe { transform: scale(.3); }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>교안 사이트 디자인 시안 4가지</h1>
+  <p class="lead">네 시안 모두 같은 내용(첫 화면 + 1일차 6교시 교안 일부)으로 만들었습니다. 각 시안을 열어 “성공 확인” 버튼, 복사 버튼, 휴대폰 폭에서의 모습을 직접 눌러 보고 비교해 주세요.</p>
+
+  <div class="grid">
+    <section class="opt">
+      <div class="shot"><iframe src="a-canvas.html" title="시안 A 미리보기" tabindex="-1" loading="lazy"></iframe></div>
+      <div class="body">
+        <h2>A. 캔버스 — n8n 편집 화면 그대로</h2>
+        <p>단계 하나가 노드 하나입니다. 성공을 확인하면 실행된 노드처럼 초록 테두리가 켜집니다. 첫 화면에서는 완성 워크플로우가 한 번 실행됩니다.</p>
+        <dl>
+          <dt>강점</dt><dd>수업 중 보는 n8n 화면과 교안이 같은 말투라 옮겨 다닐 때 덜 헷갈림</dd>
+          <dt>약점</dt><dd>n8n이 아닌 AI Studio 단계도 노드 모양이라 조금 어색함</dd>
+          <dt>부품</dt><dd>실수 = 오류 노드 창, 막혔을 때 = 캔버스 스티커 메모</dd>
+        </dl>
+        <a class="open" href="a-canvas.html">시안 A 열기</a>
+      </div>
+    </section>
+
+    <section class="opt">
+      <div class="shot"><iframe src="b-document.html" title="시안 B 미리보기" tabindex="-1" loading="lazy"></iframe></div>
+      <div class="body">
+        <h2>B. 행정 서식 — 공문과 결재 도장</h2>
+        <p>첫 화면은 과정 안내 공문, 교안은 서식 한 장입니다. 1. 가. 1) 번호, 서식 표, 문서 끝 “끝.”을 씁니다. 단계를 마치면 빨간 확인 도장이 찍히고 결재란이 채워집니다.</p>
+        <dl>
+          <dt>강점</dt><dd>공무원 수강생에게 가장 익숙한 문서 형식, 인쇄 교재와 가장 잘 맞음</dd>
+          <dt>약점</dt><dd>딱딱하게 느껴질 수 있음, 화면(프로젝터)에서 글자가 빽빽해 보임</dd>
+          <dt>부품</dt><dd>실수 = ※ 유의사항, 막혔을 때 = 조치 방법, 요청문 = 서식 칸</dd>
+        </dl>
+        <a class="open" href="b-document.html">시안 B 열기</a>
+      </div>
+    </section>
+
+    <section class="opt">
+      <div class="shot"><iframe src="c-route.html" title="시안 C 미리보기" tabindex="-1" loading="lazy"></iframe></div>
+      <div class="body">
+        <h2>C. 노선도 — 이틀 과정을 지하철 노선으로</h2>
+        <p>1일차·2일차가 두 노선이고 교시가 역입니다. “지금 여기”가 한눈에 보입니다. 교안의 단계는 정차역이고, 막혔을 때는 점선 우회 경로로 표시합니다.</p>
+        <dl>
+          <dt>강점</dt><dd>전체 흐름과 현재 위치를 가장 쉽게 파악, 프로젝터에서도 선명함</dd>
+          <dt>약점</dt><dd>n8n다운 느낌은 약함(흐름·연결이라는 공통점만 가져옴)</dd>
+          <dt>부품</dt><dd>실수 = 노란 주의 표지, 요청문 = 남색 안내판, 이전·다음 = 역 안내판</dd>
+        </dl>
+        <a class="open" href="c-route.html">시안 C 열기</a>
+      </div>
+    </section>
+
+    <section class="opt">
+      <div class="shot"><iframe src="d-notebook.html" title="시안 D 미리보기" tabindex="-1" loading="lazy"></iframe></div>
+      <div class="body">
+        <h2>D. 실습 노트 — 강사가 펜으로 적어 준 공책</h2>
+        <p>모눈 종이 위에 교안을 쓰고, 왼쪽 여백에 손글씨 도움말을 둡니다. 성공 조건은 형광펜, 요청문은 오려 붙이는 쪽지, 단계는 펜으로 체크합니다. 시간표는 학교 시간표 모양입니다.</p>
+        <dl>
+          <dt>강점</dt><dd>처음 배우는 사람에게 가장 친근하고 겁을 덜 줌, 강사 한마디를 넣기 좋음</dd>
+          <dt>약점</dt><dd>장식이 많아 보일 수 있음, 손글씨 글꼴은 짧은 말에만 써야 함</dd>
+          <dt>부품</dt><dd>실수 = 빨간 펜 동그라미, 막혔을 때 = 메모지, 캡처 = 테이프 붙인 사진</dd>
+        </dl>
+        <a class="open" href="d-notebook.html">시안 D 열기</a>
+      </div>
+    </section>
+  </div>
+</div>
+</body>
+</html>

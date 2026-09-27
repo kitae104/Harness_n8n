@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>시안 A 캔버스</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* 시안 A — n8n 편집 화면을 그대로 교안의 틀로.
+   단계 = 노드, 성공 확인 = 실행된 노드의 초록 테두리, 막혔을 때 = 캔버스 스티커 메모 */
+:root {
+  --canvas: #eef0f3;
+  --dot: #cfd4db;
+  --node: #ffffff;
+  --node-line: #a9b0bb;
+  --ink: #2b2f36;
+  --ink-2: #555c67;
+  --muted: #7d8591;
+  --primary: #ff6d5a;      /* n8n 편집기 주황 */
+  --primary-ink: #c7412f;
+  --ok: #2b9a5f;           /* 실행 성공 초록 */
+  --ok-soft: #e6f5ec;
+  --err: #d23f3f;
+  --err-soft: #fdeeee;
+  --sticky: #fff4c9;
+  --sticky-line: #eccf6a;
+  --chip: #f1f3f6;
+  --radius-node: 10px;
+  --font: "Pretendard Variable", Pretendard, "Malgun Gothic", system-ui, sans-serif;
+  --mono: "JetBrains Mono", "D2Coding", Consolas, monospace;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--canvas);
+  background-image: radial-gradient(circle at 1px 1px, var(--dot) 1.1px, transparent 0);
+  background-size: 22px 22px;
+  color: var(--ink);
+  font: 18px/1.75 var(--font);
+  word-break: keep-all;
+}
+a { color: var(--primary-ink); }
+:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+
+/* ── 위쪽 막대: n8n 편집기 머리 ── */
+.bar {
+  position: sticky; top: 0; z-index: 5;
+  display: flex; align-items: center; gap: 1rem;
+  padding: .55rem 1.25rem;
+  background: #fff; border-bottom: 1px solid #dfe3e8;
+  font-size: .9rem;
+}
+.bar .path { color: var(--muted); }
+.bar .path b { color: var(--ink); }
+.bar .spacer { flex: 1; }
+.bar .runs {
+  display: inline-flex; align-items: center; gap: .4rem;
+  padding: .2rem .7rem; border-radius: 99px;
+  background: var(--chip); font-weight: 600; font-variant-numeric: tabular-nums;
+}
+.bar .runs i { width: .6rem; height: .6rem; border-radius: 50%; background: var(--node-line); }
+.bar .runs.all i { background: var(--ok); }
+.btn {
+  display: inline-block; padding: .45rem .95rem; border-radius: 6px;
+  background: var(--primary); color: #fff; font-weight: 700; text-decoration: none;
+  border: 0; font: inherit; font-weight: 700; cursor: pointer;
+}
+.btn.ghost { background: #fff; color: var(--ink); border: 1px solid var(--node-line); }
+
+.page { max-width: 64rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+.divider {
+  margin: 4.5rem 0 2rem; font-size: .85rem; color: var(--muted);
+  display: flex; align-items: center; gap: .8rem;
+}
+.divider::before, .divider::after { content: ""; flex: 1; border-top: 1px dashed var(--node-line); }
+
+/* ── 첫 화면 ── */
+.hero h1 { font-size: clamp(1.9rem, 3.6vw, 2.9rem); line-height: 1.3; letter-spacing: -.02em; margin: 0 0 .8rem; font-weight: 800; }
+.hero .lead { font-size: 1.1rem; color: var(--ink-2); max-width: 38rem; margin: 0 0 1.4rem; }
+.facts { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0 0 2.2rem; padding: 0; list-style: none; }
+.facts li { background: #fff; border: 1px solid #dfe3e8; border-radius: 6px; padding: .25rem .7rem; font-size: .92rem; }
+.facts b { color: var(--muted); font-weight: 500; margin-right: .35rem; }
+
+/* 흐름: 노드 한 줄 — 첫 화면에서 한 번 "실행"된다 */
+.flow {
+  list-style: none; margin: 0 0 1rem; padding: 1.6rem 1.2rem 1.2rem;
+  display: grid; grid-template-columns: repeat(8, 1fr); gap: 0;
+  background: rgba(255,255,255,.55); border: 1px solid #dfe3e8; border-radius: 12px;
+}
+.flow li { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.flow .n {
+  position: relative; z-index: 1;
+  width: 68px; height: 68px; display: grid; place-items: center;
+  background: var(--node); border: 2px solid var(--node-line); border-radius: var(--radius-node);
+  transition: border-color .25s, box-shadow .25s;
+}
+.flow li.trigger .n { border-radius: 34px var(--radius-node) var(--radius-node) 34px; }
+.flow .n svg { width: 30px; height: 30px; color: var(--ink-2); }
+.flow li.app .n svg { color: #2f6fd6; }
+.flow .t { margin-top: .55rem; font-size: .88rem; font-weight: 700; line-height: 1.35; }
+.flow .s { font-size: .78rem; color: var(--muted); line-height: 1.35; }
+.flow li:not(:last-child)::after {
+  content: ""; position: absolute; top: 34px; left: calc(50% + 36px); right: calc(-50% + 36px);
+  border-top: 2px solid var(--node-line); transition: border-color .25s;
+}
+.flow li.ran .n { border-color: var(--ok); box-shadow: 0 0 0 4px var(--ok-soft); }
+.flow li.ran .n::after {
+  content: ""; position: absolute; right: -9px; bottom: -9px; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--ok) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10.5l3.2 3L15 7' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat;
+}
+.flow li.ran:not(:last-child)::after { border-color: var(--ok); }
+.flow-cap { font-size: .92rem; color: var(--ink-2); margin: 0 0 2.5rem; }
+.flow-cap b.a { color: #2f6fd6; }
+.flow-cap b.b { color: var(--primary-ink); }
+
+/* 시간표: n8n 워크플로우 목록처럼 */
+.days { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.list { background: #fff; border: 1px solid #dfe3e8; border-radius: 10px; overflow: hidden; }
+.list h3 { margin: 0; padding: .8rem 1rem; font-size: 1rem; border-bottom: 1px solid #e6e9ee; }
+.list h3 span { color: var(--muted); font-weight: 500; margin-left: .4rem; }
+.list a { display: grid; grid-template-columns: 3.4rem 1fr auto; gap: .6rem; align-items: baseline; padding: .6rem 1rem; color: var(--ink); text-decoration: none; border-bottom: 1px solid #f0f2f5; }
+.list a:last-child { border-bottom: 0; }
+.list a:hover { background: #f8f9fb; }
+.list .p { color: var(--muted); font-size: .85rem; font-variant-numeric: tabular-nums; }
+.list .nm { font-weight: 600; line-height: 1.4; }
+.list .tm { font-size: .8rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.list a.now { background: #fff6f4; box-shadow: inset 3px 0 0 var(--primary); }
+
+/* ── 교안 ── */
+.lhead h2 { font-size: clamp(1.7rem, 3vw, 2.3rem); margin: .2rem 0 .3rem; letter-spacing: -.02em; }
+.lhead .when { color: var(--muted); font-size: .95rem; margin: 0; }
+.lhead .sub { color: var(--ink-2); margin: .3rem 0 1.5rem; }
+.goals { background: #fff; border: 1px solid #dfe3e8; border-radius: 10px; padding: 1rem 1.3rem; margin-bottom: 1.2rem; }
+.goals h3, .concept h3 { margin: 0 0 .4rem; font-size: 1rem; }
+.goals ul { margin: 0; padding-left: 1.2rem; }
+.concept { background: #fff; border: 1px solid #dfe3e8; border-left: 4px solid #2f6fd6; border-radius: 10px; padding: 1rem 1.3rem; margin-bottom: 2.5rem; }
+.concept p { margin: 0; }
+code, .val { font-family: var(--mono); font-size: .86em; }
+.val {
+  font-family: var(--font); font-weight: 600; font-size: .9em;
+  background: var(--chip); border: 1px solid #dde1e7; border-radius: 4px; padding: .02em .38em;
+}
+kbd { font-family: var(--font); font-size: .82em; border: 1px solid var(--node-line); border-bottom-width: 2px; border-radius: 4px; padding: 0 .35em; background: #fff; }
+
+/* 단계 = 노드. 사이를 선이 잇는다 */
+.chain { list-style: none; margin: 0; padding: 0; counter-reset: s; }
+.step { position: relative; display: grid; grid-template-columns: 64px 1fr; gap: 1.1rem; padding-bottom: 2.2rem; }
+.step::before {
+  content: ""; position: absolute; left: 31px; top: 64px; bottom: 0; border-left: 2px solid var(--node-line);
+}
+.step:last-child::before { display: none; }
+.step .ico {
+  counter-increment: s;
+  width: 64px; height: 64px; display: grid; place-items: center;
+  background: #fff; border: 2px solid var(--node-line); border-radius: var(--radius-node);
+  font-weight: 800; font-size: 1.4rem; color: var(--ink-2); position: relative;
+}
+.step .ico::before { content: counter(s); }
+.step .card { background: #fff; border: 2px solid var(--node-line); border-radius: var(--radius-node); padding: 1rem 1.3rem 1.1rem; }
+.step h4 { margin: 0 0 .5rem; font-size: 1.15rem; line-height: 1.45; }
+.step p { margin: .5rem 0; }
+.step ul, .step ol { margin: .4rem 0; padding-left: 1.3rem; }
+.check {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem;
+  margin-top: 1rem; padding-top: .8rem; border-top: 1px dashed #dde1e7;
+}
+.check p { margin: 0; flex: 1 1 18rem; font-size: .95rem; color: var(--ink-2); }
+.check p b { color: var(--ink); }
+.done-btn { background: #fff; border: 2px solid var(--ok); color: var(--ok); border-radius: 6px; padding: .35rem .8rem; font: inherit; font-size: .9rem; font-weight: 700; cursor: pointer; }
+.step.ok .ico, .step.ok .card { border-color: var(--ok); }
+.step.ok .ico { background: var(--ok); color: #fff; }
+.step.ok .done-btn { background: var(--ok); color: #fff; }
+.step.ok::before { border-color: var(--ok); }
+
+.capture { margin: .9rem 0; border: 1px solid #dde1e7; border-radius: 8px; overflow: hidden; }
+.capture .ph { aspect-ratio: 16/7; background: repeating-linear-gradient(135deg, #f4f6f8 0 12px, #eceff3 12px 24px); display: grid; place-items: center; color: var(--muted); font-size: .85rem; padding: 1rem; text-align: center; }
+.capture figcaption { padding: .45rem .8rem; font-size: .85rem; border-top: 1px solid #dde1e7; background: #fafbfc; }
+
+.prompt { margin: .9rem 0; border: 1px solid #c9d7ee; border-radius: 8px; background: #f5f8fe; }
+.prompt .hd { display: flex; justify-content: space-between; align-items: center; padding: .4rem .5rem .4rem .9rem; font-size: .85rem; color: #2f6fd6; font-weight: 700; border-bottom: 1px solid #dbe5f5; }
+.prompt .hd button { font: inherit; font-size: .82rem; background: #fff; border: 1px solid #c9d7ee; border-radius: 5px; padding: .15rem .6rem; cursor: pointer; }
+.prompt pre { margin: 0; padding: .8rem .9rem; white-space: pre-wrap; font: 1rem/1.6 var(--font); }
+
+/* 자주 하는 실수 = 오류가 난 노드의 오류 창 */
+.err { margin: 1rem 0; border: 2px solid var(--err); border-radius: 8px; background: var(--err-soft); }
+.err .hd { display: flex; gap: .5rem; align-items: center; padding: .45rem .9rem; background: var(--err); color: #fff; font-weight: 700; font-size: .92rem; }
+.err .hd svg { width: 18px; height: 18px; }
+.err dl { margin: 0; padding: .7rem .9rem; display: grid; grid-template-columns: 3.5rem 1fr; gap: .3rem .6rem; font-size: .96rem; }
+.err dt { font-weight: 700; color: var(--err); }
+.err dd { margin: 0; }
+
+/* 막혔을 때 = 캔버스 스티커 메모 */
+.sticky { margin: 1rem 0; background: var(--sticky); border: 1px solid var(--sticky-line); border-radius: 4px; padding: .9rem 1.1rem; box-shadow: 0 2px 0 var(--sticky-line); }
+.sticky h5 { margin: 0 0 .3rem; font-size: 1rem; }
+.sticky p { margin: .3rem 0; font-size: .96rem; }
+
+.next { display: flex; justify-content: space-between; gap: 1rem; margin-top: 1rem; }
+
+@media (max-width: 760px) {
+  body { font-size: 17px; }
+  .bar .path span { display: none; }
+  .flow { grid-template-columns: 1fr; gap: 1.1rem; padding: 1.2rem; }
+  .flow li { flex-direction: row; text-align: left; gap: .9rem; }
+  .flow .n { width: 52px; height: 52px; flex: none; }
+  .flow li.trigger .n { border-radius: 26px 10px 10px 26px; }
+  .flow .n svg { width: 24px; height: 24px; }
+  .flow .t { margin: 0; }
+  .flow li:not(:last-child)::after { top: 52px; left: 25px; right: auto; bottom: -1.1rem; border-top: 0; border-left: 2px solid var(--node-line); }
+  .flow li.ran:not(:last-child)::after { border-color: var(--ok); }
+  .days { grid-template-columns: 1fr; }
+  .step { grid-template-columns: 1fr; gap: 0; }
+  .step::before { display: none; }
+  .step .ico { width: 44px; height: 44px; font-size: 1.1rem; margin-bottom: -22px; margin-left: 1rem; z-index: 1; }
+  .step .card { padding-top: 1.6rem; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-app" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 8.5h18" stroke="currentColor" stroke-width="1.8"/><path d="M7 13h6M7 16h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-hook" viewBox="0 0 24 24"><circle cx="12" cy="6" r="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="5.5" cy="17" r="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="18.5" cy="17" r="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10.6 8.3L7 14.6M8.1 17h7.8M13.4 8.3l3.7 6.3" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-sheet" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 9h16M4 15h16M10 9v12" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 6l8.5 7 8.5-7" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="13" y="13.5" width="4" height="4" rx=".6" fill="currentColor"/></symbol>
+  <symbol id="i-ai" viewBox="0 0 24 24"><path d="M12 2.5c.8 5.2 4.3 8.7 9.5 9.5-5.2.8-8.7 4.3-9.5 9.5-.8-5.2-4.3-8.7-9.5-9.5 5.2-.8 8.7-4.3 9.5-9.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M21 3L3 10.5l7 2.5 2.5 7L21 3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M10 13l5-5" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M9 7L4 12l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 12h11a5 5 0 010 10h-2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 3l10 18H2L12 3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 10v5M12 17.5v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+</svg>
+
+<header class="bar">
+  <span class="path"><span>AI 앱과 n8n 업무 자동화 / </span><b>1일차 6교시</b></span>
+  <span class="spacer"></span>
+  <span class="runs" id="runs"><i></i><span id="runs-t">성공 0 / 3</span></span>
+  <a class="btn ghost" href="#lesson">교안 보기</a>
+</header>
+
+<div class="page">
+  <!-- ─────────── 첫 화면 ─────────── -->
+  <section class="hero" aria-labelledby="h1">
+    <h1 id="h1">AI 앱과 n8n으로 만드는<br>나만의 업무 자동화 서비스</h1>
+    <p class="lead">코딩 없이 앱 화면을 만들고, 이미 배운 n8n 자동화에 연결합니다. 이틀 뒤에는 아래 워크플로우가 여러분의 n8n에서 돌아갑니다.</p>
+    <ul class="facts">
+      <li><b>기간</b>2일, 14시간</li>
+      <li><b>난이도</b>중급</li>
+      <li><b>대상</b>n8n 기초 과정 수료 공무원</li>
+      <li><b>코딩</b>필요 없음</li>
+    </ul>
+
+    <ol class="flow" id="flow" aria-label="이틀 뒤 완성하는 민원 접수 서비스">
+      <li class="app trigger"><span class="n"><svg><use href="#i-app"/></svg></span><span class="t">민원 접수 앱</span><span class="s">AI Studio 화면</span></li>
+      <li><span class="n"><svg><use href="#i-hook"/></svg></span><span class="t">민원 받기</span><span class="s">Webhook</span></li>
+      <li><span class="n"><svg><use href="#i-sheet"/></svg></span><span class="t">시트에 기록</span><span class="s">구글 시트</span></li>
+      <li><span class="n"><svg><use href="#i-mail"/></svg></span><span class="t">담당자 메일</span><span class="s">Gmail</span></li>
+      <li><span class="n"><svg><use href="#i-cal"/></svg></span><span class="t">마감 등록</span><span class="s">구글 캘린더</span></li>
+      <li><span class="n"><svg><use href="#i-ai"/></svg></span><span class="t">안내문 작성</span><span class="s">Gemini</span></li>
+      <li><span class="n"><svg><use href="#i-send"/></svg></span><span class="t">새 민원 알림</span><span class="s">텔레그램</span></li>
+      <li><span class="n"><svg><use href="#i-back"/></svg></span><span class="t">접수번호 회신</span><span class="s">앱 화면에 표시</span></li>
+    </ol>
+    <p class="flow-cap"><b class="a">화면은 AI가</b> 만들고, <b class="b">일은 n8n이</b> 합니다. 앱에서 접수하면 n8n이 기록·메일·마감 등록·안내문·알림을 처리하고 접수번호를 돌려줍니다.</p>
+
+    <div class="days" id="schedule">
+      <div class="list">
+        <h3>1일차<span>n8n 다지기, 첫 앱, 그리고 연결</span></h3>
+        <a href="#"><span class="p">1교시</span><span class="nm">입과 안내 및 과정 소개</span><span class="tm">09:00</span></a>
+        <a href="#"><span class="p">2교시</span><span class="nm">n8n 핵심 복습 실습</span><span class="tm">10:00</span></a>
+        <a href="#"><span class="p">3교시</span><span class="nm">Webhook 이해와 실습</span><span class="tm">11:00</span></a>
+        <a href="#"><span class="p">4교시</span><span class="nm">AI 앱 빌더 첫 체험</span><span class="tm">13:00</span></a>
+        <a href="#"><span class="p">5교시</span><span class="nm">첫 앱 다듬기</span><span class="tm">14:00</span></a>
+        <a href="#lesson" class="now"><span class="p">6교시</span><span class="nm">앱 ↔ n8n 연동 ①</span><span class="tm">15:00</span></a>
+        <a href="#"><span class="p">7교시</span><span class="nm">연동 ① 완성</span><span class="tm">16:00</span></a>
+      </div>
+      <div class="list">
+        <h3>2일차<span>자동화 확장과 나만의 업무 서비스</span></h3>
+        <a href="#"><span class="p">1교시</span><span class="nm">앱 ↔ n8n 연동 ②</span><span class="tm">09:00</span></a>
+        <a href="#"><span class="p">2교시</span><span class="nm">연동 ② 완성</span><span class="tm">10:00</span></a>
+        <a href="#"><span class="p">3교시</span><span class="nm">앱 배포·공유·보안</span><span class="tm">11:00</span></a>
+        <a href="#"><span class="p">4교시</span><span class="nm">프로젝트 기획</span><span class="tm">13:00</span></a>
+        <a href="#"><span class="p">5교시</span><span class="nm">프로젝트 제작 ①</span><span class="tm">14:00</span></a>
+        <a href="#"><span class="p">6교시</span><span class="nm">프로젝트 제작 ②</span><span class="tm">15:00</span></a>
+        <a href="#"><span class="p">7교시</span><span class="nm">발표·피드백 및 적용 로드맵</span><span class="tm">16:00</span></a>
+      </div>
+    </div>
+  </section>
+
+  <p class="divider">아래는 교시 교안 화면 예시입니다</p>
+
+  <!-- ─────────── 교안 ─────────── -->
+  <section id="lesson" class="lhead">
+    <p class="when">1일차 6교시 · 15:00~15:50</p>
+    <h2>앱 ↔ n8n 연동 ①</h2>
+    <p class="sub">앱에 n8n 주소를 넣고, 앱에서 접수한 민원이 구글 시트에 한 줄로 쌓이게 합니다.</p>
+
+    <div class="goals">
+      <h3>학습목표</h3>
+      <ul>
+        <li>앱에 n8n Production URL을 넣어 접수 데이터를 보낼 수 있습니다(Test URL로 먼저 시험한 뒤).</li>
+        <li>받은 데이터가 구글 시트에 한 줄로 기록되는 것을 확인합니다.</li>
+      </ul>
+    </div>
+    <div class="concept">
+      <h3>왜 이 단계가 필요한가</h3>
+      <p>지금까지 세 조각을 따로 만들었습니다. 2교시의 일하는 워크플로우, 3교시의 초인종인 Webhook, 4·5교시의 창구 화면인 앱입니다. 이번 시간에 이 셋을 이어 붙여, 앱에서 누른 접수가 시트까지 가게 합니다.</p>
+    </div>
+
+    <ol class="chain">
+      <li class="step">
+        <span class="ico" aria-hidden="true"></span>
+        <div class="card">
+          <h4>새 워크플로우에 <span class="val">민원 받기</span> 만들기</h4>
+          <p>n8n에서 <span class="val">Create workflow</span>를 누르고, 3교시처럼 <span class="val">Webhook</span> 노드를 추가합니다.</p>
+          <ul>
+            <li><span class="val">HTTP Method</span>: <span class="val">POST</span></li>
+            <li><span class="val">Path</span>: 글자를 모두 지우고 <code>minwon</code>만 적습니다</li>
+            <li><span class="val">Allowed Origins (CORS)</span>: <code>*</code></li>
+          </ul>
+          <figure class="capture"><div class="ph">캡처 자리 — Webhook 설정 창</div><figcaption>[그림 1-6-1] <span class="val">민원 받기</span> 설정</figcaption></figure>
+          <div class="check"><p><b>성공 확인</b> 설정 창 위쪽 주소가 <code>…/webhook-test/minwon</code>으로 끝납니다.</p><button class="done-btn" type="button">됐어요</button></div>
+        </div>
+      </li>
+      <li class="step">
+        <span class="ico" aria-hidden="true"></span>
+        <div class="card">
+          <h4>앱에 Test URL 넣기</h4>
+          <p>아래 문장을 AI Studio 입력창에 붙여 넣고, <code>{Test URL}</code> 자리에 n8n에서 복사한 주소를 넣은 뒤 보냅니다.</p>
+          <div class="prompt"><div class="hd">AI Studio에 보낼 말<button type="button" class="copy">복사</button></div><pre>코드 맨 위 WEBHOOK_URL 값을 "{Test URL}"로 바꿔 줘. 다른 부분은 바꾸지 마.</pre></div>
+          <div class="check"><p><b>성공 확인</b> <span class="val">Code</span> 탭의 <code>WEBHOOK_URL</code>에 <code>webhook-test</code> 주소가 보입니다.</p><button class="done-btn" type="button">됐어요</button></div>
+        </div>
+      </li>
+      <li class="step">
+        <span class="ico" aria-hidden="true"></span>
+        <div class="card">
+          <h4>첫 시험 — 앱에서 보내 보기</h4>
+          <p><span class="val">Listen for test event</span>를 누르면 n8n은 <b>2분 동안만</b> 기다립니다. 앱 입력을 먼저 끝내 두고, 누른 뒤 곧바로 앱의 <code>접수하기</code>를 누릅니다.</p>
+          <div class="err" role="note">
+            <div class="hd"><svg><use href="#i-warn"/></svg>자주 하는 실수</div>
+            <dl><dt>증상</dt><dd>n8n에 아무것도 오지 않아요</dd><dt>원인</dt><dd>2분이 지났거나, 주소가 틀렸거나, CORS 설정이 빠졌어요</dd><dt>해결</dt><dd>세 가지를 차례로 확인하고 1~3을 다시 합니다</dd></dl>
+          </div>
+          <aside class="sticky">
+            <h5>세 가지가 다 맞는데도 안 되면</h5>
+            <p>AI Studio에 “n8n 주소 호출은 서버 쪽 코드에서 하도록 바꿔 줘”라고 보낸 뒤 다시 시험합니다. 그래도 안 되면 손을 들어 강사에게 알립니다.</p>
+          </aside>
+          <div class="check"><p><b>성공 확인</b> <span class="val">OUTPUT</span>의 <code>body</code>에 다섯 값이 보입니다.</p><button class="done-btn" type="button">됐어요</button></div>
+        </div>
+      </li>
+    </ol>
+    <div class="next"><a class="btn ghost" href="#">5교시 첫 앱 다듬기</a><a class="btn" href="#">7교시 연동 ① 완성</a></div>
+  </section>
+</div>
+
+<script>
+// 첫 화면: 워크플로우가 한 번 실행되는 모습(동작 줄이기 설정이면 바로 완료 상태)
+(function () {
+  var nodes = document.querySelectorAll('#flow li');
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  nodes.forEach(function (li, i) {
+    if (still) li.classList.add('ran');
+    else setTimeout(function () { li.classList.add('ran'); }, 500 + i * 260);
+  });
+})();
+// 단계 성공 확인 → 노드가 초록으로
+(function () {
+  var steps = document.querySelectorAll('.step'), runs = document.getElementById('runs'), t = document.getElementById('runs-t');
+  function upd() {
+    var n = document.querySelectorAll('.step.ok').length;
+    t.textContent = '성공 ' + n + ' / ' + steps.length;
+    runs.classList.toggle('all', n === steps.length);
+  }
+  steps.forEach(function (s) {
+    var b = s.querySelector('.done-btn');
+    b.addEventListener('click', function () {
+      var on = s.classList.toggle('ok');
+      b.textContent = on ? '성공' : '됐어요';
+      b.setAttribute('aria-pressed', on);
+      upd();
+    });
+  });
+  document.querySelectorAll('.copy').forEach(function (c) {
+    c.addEventListener('click', function () {
+      var txt = c.closest('.prompt').querySelector('pre').textContent;
+      if (navigator.clipboard) navigator.clipboard.writeText(txt);
+      c.textContent = '복사됨';
+      setTimeout(function () { c.textContent = '복사'; }, 1500);
+    });
+  });
+})();
+</script>
+</body>
+</html>

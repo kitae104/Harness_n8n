@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>시안 D 실습 노트</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<style>
+/* 시안 D — 옆자리 강사가 펜으로 적어 준 실습 노트.
+   모눈 종이, 여백의 손글씨 도움말, 성공 조건은 형광펜, 요청문은 오려 붙이는 쪽지.
+   처음 배우는 사람에게 겁을 덜 주는 쪽을 택한 안. */
+:root {
+  --desk: #e8ebef;
+  --paper: #fdfdfb;
+  --grid: #e3ebf4;
+  --margin: #f0a8a8;        /* 노트 여백 빨간 줄 */
+  --ink: #1e2430;
+  --ink-2: #464f5d;
+  --muted: #737c89;
+  --pen: #1f4fb5;           /* 파란 펜 손글씨 */
+  --red-pen: #cc2f2f;
+  --marker: #fff06a;        /* 형광펜 */
+  --memo: #dff3cf;          /* 메모지 */
+  --cover: #23395d;
+  --font: "Pretendard Variable", Pretendard, "Malgun Gothic", system-ui, sans-serif;
+  --hand: "Nanum Pen Script", cursive;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--desk); color: var(--ink); font: 18px/1.8 var(--font); word-break: keep-all; }
+a { color: var(--pen); }
+:focus-visible { outline: 3px solid var(--pen); outline-offset: 2px; }
+
+/* ── 첫 화면: 공책 표지 ── */
+.cover { background: var(--cover); color: #fff; padding: 3.5rem 1.25rem 3rem; }
+.cover .in { max-width: 62rem; margin: 0 auto; display: grid; grid-template-columns: 1.2fr 1fr; gap: 3rem; align-items: center; }
+.cover h1 { font-size: clamp(2rem, 3.8vw, 3rem); line-height: 1.3; margin: 0 0 .9rem; letter-spacing: -.02em; }
+.cover p { margin: 0 0 1rem; color: #d5deeb; max-width: 30rem; }
+.label { background: #fff; color: var(--ink); border-radius: 8px; padding: 1.2rem 1.4rem; box-shadow: 0 0 0 5px #fff, 0 0 0 6px #b9c3d1; }
+.label dl { margin: 0; display: grid; grid-template-columns: 3.5rem 1fr; }
+.label dt, .label dd { border-bottom: 1px solid #b9c3d1; padding: .35rem 0; }
+.label dt { color: var(--muted); font-size: .9rem; padding-top: .5rem; }
+.label dd { margin: 0; font-weight: 600; }
+.label dd.hand { font-family: var(--hand); font-size: 1.7rem; color: var(--pen); font-weight: 400; line-height: 1.3; }
+.label dl > :nth-last-child(-n+2) { border-bottom: 0; }
+
+.page {
+  max-width: 62rem; margin: 2.2rem auto; background-color: var(--paper);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 14px 24px -18px rgba(0,0,0,.3);
+  padding: 2.6rem 2.6rem 3rem;
+}
+.page h2 { font-size: 1.5rem; margin: 0 0 1rem; }
+
+/* 학교 시간표 */
+.timetable { width: 100%; border-collapse: collapse; background: #fff; font-size: .95rem; }
+.timetable th, .timetable td { border: 2px solid var(--ink); padding: .5rem .7rem; vertical-align: middle; }
+.timetable thead th { background: #f2f4f7; font-size: 1rem; }
+.timetable tbody th { width: 5.5rem; text-align: center; font-weight: 700; line-height: 1.3; }
+.timetable tbody th small { display: block; font-weight: 400; color: var(--muted); font-size: .78rem; }
+.timetable a { color: var(--ink); text-decoration: none; font-weight: 600; }
+.timetable a:hover { text-decoration: underline; }
+.timetable td.now { background: linear-gradient(transparent 12%, var(--marker) 12%, var(--marker) 88%, transparent 88%); }
+.timetable tr.lunch td { text-align: center; font-family: var(--hand); font-size: 1.5rem; color: var(--pen); padding: .1rem; }
+.tt-note { font-family: var(--hand); font-size: 1.45rem; color: var(--pen); margin: .6rem 0 0; line-height: 1.3; }
+
+.between { text-align: center; color: #5f6873; font-size: .88rem; margin: 3rem 0 0; }
+
+/* ── 교안 ── */
+.lesson { display: grid; grid-template-columns: 11rem 1fr; column-gap: 1.8rem; padding-left: 0; position: relative; }
+.lesson::before { content: ""; position: absolute; top: -2.6rem; bottom: -3rem; left: 11.9rem; border-left: 2px solid var(--margin); }
+.lesson > * { grid-column: 2; }
+.side { grid-column: 1; font-family: var(--hand); color: var(--pen); font-size: 1.45rem; line-height: 1.25; text-align: right; margin: 0; padding-top: .2rem; }
+.side.red { color: var(--red-pen); }
+.date { font-family: var(--hand); color: var(--pen); font-size: 1.5rem; margin: 0; }
+.lesson h2 { font-size: clamp(1.7rem, 3vw, 2.3rem); margin: 0 0 .3rem; letter-spacing: -.02em; line-height: 1.3; }
+.lesson .sub { color: var(--ink-2); margin: 0 0 1.4rem; }
+.lesson h3.sec { font-size: 1.1rem; margin: 1.6rem 0 .3rem; }
+.lesson ul.goals { margin: 0; padding-left: 1.2rem; }
+.lesson p { margin: .4rem 0; }
+
+.val { font-weight: 700; background: #fff; border: 1.5px solid var(--ink); border-radius: 4px; padding: 0 .3em; font-size: .9em; }
+code { font-family: Consolas, "D2Coding", monospace; font-size: .88em; background: #eef1f5; padding: 0 .25em; border-radius: 3px; }
+
+.todo { list-style: none; margin: .6rem 0 0; padding: 0; }
+.todo > li { display: grid; grid-template-columns: 2.4rem 1fr; gap: .9rem; margin-bottom: 2rem; }
+.box {
+  width: 2.2rem; height: 2.2rem; margin-top: .1rem; border: 2.5px solid var(--ink); border-radius: 3px 6px 4px 5px;
+  background: #fff; cursor: pointer; padding: 0; position: relative;
+}
+.box svg { position: absolute; inset: -6px -8px -2px -2px; width: calc(100% + 10px); height: calc(100% + 8px); }
+.box path { fill: none; stroke: var(--pen); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 60; stroke-dashoffset: 60; transition: stroke-dashoffset .35s ease-out; }
+.todo li.done .box path { stroke-dashoffset: 0; }
+.todo h4 { margin: 0 0 .3rem; font-size: 1.15rem; line-height: 1.45; }
+.todo li.done h4 { text-decoration: line-through; text-decoration-color: var(--pen); text-decoration-thickness: 2px; }
+.todo ul, .todo ol { margin: .3rem 0; padding-left: 1.3rem; }
+.hl { background: linear-gradient(100deg, transparent 0 1%, var(--marker) 2% 97%, transparent 98%); padding: .05em .2em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+
+.snap { position: relative; margin: 1.1rem .6rem 1rem; background: #fff; padding: .6rem .6rem .3rem; box-shadow: 0 1px 3px rgba(0,0,0,.18); max-width: 36rem; }
+.snap::before, .snap::after { content: ""; position: absolute; top: -10px; width: 70px; height: 22px; background: rgba(233, 219, 170, .85); }
+.snap::before { left: -14px; transform: rotate(-12deg); }
+.snap::after { right: -14px; transform: rotate(10deg); }
+.snap .ph { aspect-ratio: 16/8; background: #eef1f5; display: grid; place-items: center; color: var(--muted); font-size: .85rem; }
+.snap figcaption { font-size: .85rem; padding: .3rem 0 0; color: var(--ink-2); }
+
+.cut { margin: .9rem 0; border: 2px dashed var(--ink-2); border-radius: 4px; background: #fff; position: relative; padding: .7rem 1rem .8rem; }
+.cut .hd { display: flex; justify-content: space-between; align-items: center; font-size: .85rem; color: var(--muted); margin-bottom: .2rem; }
+.cut .hd button { font: inherit; font-size: .85rem; font-weight: 700; background: var(--ink); color: #fff; border: 0; border-radius: 4px; padding: .12rem .7rem; cursor: pointer; }
+.cut pre { margin: 0; font: 600 1.05rem/1.6 var(--font); white-space: pre-wrap; }
+
+.oops { margin: 1rem 0; border: 2.5px solid var(--red-pen); border-radius: 14px 8px 16px 10px; padding: .7rem 1rem; position: relative; background: #fff; }
+.oops .tag { position: absolute; top: -1.2rem; left: .8rem; background: var(--paper); padding: 0 .4rem; font-family: var(--hand); color: var(--red-pen); font-size: 1.6rem; line-height: 1.3; }
+.oops dl { margin: .3rem 0 0; display: grid; grid-template-columns: 3rem 1fr; gap: .1rem .5rem; }
+.oops dt { font-weight: 700; } .oops dd { margin: 0; }
+.memo { margin: 1.2rem 0; background: var(--memo); padding: .8rem 1rem; transform: rotate(-.6deg); box-shadow: 0 2px 4px rgba(0,0,0,.12); max-width: 34rem; }
+.memo b { display: block; }
+
+.turn { display: flex; justify-content: space-between; gap: 1rem; margin-top: 1.2rem; padding-top: .8rem; border-top: 2px solid var(--ink); }
+.turn a { color: var(--ink); font-weight: 700; text-decoration: none; }
+.turn a:hover { text-decoration: underline; }
+
+@media (max-width: 780px) {
+  body { font-size: 17px; }
+  .cover .in { grid-template-columns: 1fr; gap: 1.8rem; }
+  .page { margin: 0; padding: 1.8rem 1.1rem 2.4rem; box-shadow: none; }
+  .timetable { font-size: .88rem; }
+  .timetable th, .timetable td { padding: .35rem .4rem; }
+  .timetable tbody th { width: 3.6rem; }
+  .lesson { grid-template-columns: 1fr; }
+  .lesson::before { display: none; }
+  .lesson > *, .side { grid-column: 1; }
+  .side { text-align: left; border-left: 3px solid var(--margin); padding-left: .6rem; margin: .4rem 0; }
+  .todo > li { grid-template-columns: 2rem 1fr; gap: .7rem; }
+  .box { width: 1.9rem; height: 1.9rem; }
+}
+@media (prefers-reduced-motion: reduce) { .box path { transition: none; } }
+</style>
+</head>
+<body>
+
+<!-- ─────────── 첫 화면 ─────────── -->
+<header class="cover">
+  <div class="in">
+    <div>
+      <h1>AI 앱과 n8n으로 만드는<br>나만의 업무 자동화 서비스</h1>
+      <p>코딩 없이 앱 화면을 만들고, 이미 배운 n8n 자동화에 연결합니다. 이틀 동안 민원 접수 서비스를 함께 완성하고, 내 업무로 만든 서비스 하나를 더 가지고 돌아갑니다.</p>
+    </div>
+    <div class="label">
+      <dl>
+        <dt>과목</dt><dd>화면은 AI가, 일은 n8n이</dd>
+        <dt>기간</dt><dd>2일, 14시간(중급)</dd>
+        <dt>대상</dt><dd>n8n 기초 과정 수료 공무원</dd>
+        <dt>메모</dt><dd class="hand">코딩 몰라도 됩니다</dd>
+      </dl>
+    </div>
+  </div>
+</header>
+
+<section class="page" id="schedule" aria-labelledby="tt">
+  <h2 id="tt">이틀 시간표</h2>
+  <table class="timetable">
+    <thead><tr><th scope="col">교시</th><th scope="col">1일차 · n8n 다지기, 첫 앱, 연결</th><th scope="col">2일차 · 자동화 확장과 내 서비스</th></tr></thead>
+    <tbody>
+      <tr><th>1<small>09:00</small></th><td><a href="#">입과 안내 및 과정 소개</a></td><td><a href="#">앱 ↔ n8n 연동 ②</a></td></tr>
+      <tr><th>2<small>10:00</small></th><td><a href="#">n8n 핵심 복습 실습</a></td><td><a href="#">연동 ② 완성</a></td></tr>
+      <tr><th>3<small>11:00</small></th><td><a href="#">Webhook 이해와 실습</a></td><td><a href="#">앱 배포·공유·보안</a></td></tr>
+      <tr class="lunch"><td colspan="3">점심시간</td></tr>
+      <tr><th>4<small>13:00</small></th><td><a href="#">AI 앱 빌더 첫 체험</a></td><td><a href="#">프로젝트 기획</a></td></tr>
+      <tr><th>5<small>14:00</small></th><td><a href="#">첫 앱 다듬기</a></td><td><a href="#">프로젝트 제작 ①</a></td></tr>
+      <tr><th>6<small>15:00</small></th><td class="now"><a href="#lesson">앱 ↔ n8n 연동 ①</a></td><td><a href="#">프로젝트 제작 ②</a></td></tr>
+      <tr><th>7<small>16:00</small></th><td><a href="#">연동 ① 완성</a></td><td><a href="#">발표·피드백 및 적용 로드맵</a></td></tr>
+    </tbody>
+  </table>
+  <p class="tt-note">진도가 밀려도 괜찮아요. 교시마다 완성 파일이 있어요.</p>
+</section>
+
+<p class="between">아래는 교시 교안 화면 예시입니다</p>
+
+<!-- ─────────── 교안 ─────────── -->
+<article class="page" id="lesson">
+  <div class="lesson">
+    <p class="side">1일차<br>6교시</p>
+    <p class="date">15:00 ~ 15:50</p>
+    <h2>앱 ↔ n8n 연동 ①</h2>
+    <p class="sub">앱에 n8n 주소를 넣고, 앱에서 접수한 민원이 구글 시트에 한 줄로 쌓이게 합니다.</p>
+
+    <h3 class="sec">오늘 할 수 있게 되는 것</h3>
+    <ul class="goals">
+      <li>앱에 n8n Production URL을 넣어 접수 데이터를 보낼 수 있습니다(Test URL로 먼저 시험한 뒤).</li>
+      <li>받은 데이터가 구글 시트에 한 줄로 기록되는 것을 확인합니다.</li>
+    </ul>
+
+    <p class="side">초인종 비유,<br>3교시에서<br>했죠?</p>
+    <div>
+      <h3 class="sec">왜 이 단계가 필요한가</h3>
+      <p>지금까지 세 조각을 따로 만들었습니다. 2교시의 일하는 워크플로우, 3교시의 초인종인 Webhook, 4·5교시의 창구 화면인 앱입니다. 이번 시간에 이 셋을 이어 붙여, 앱에서 누른 접수가 시트까지 가게 합니다.</p>
+    </div>
+
+    <h3 class="sec">따라하기</h3>
+    <ol class="todo">
+      <li>
+        <button type="button" class="box" aria-label="1단계 마침 표시"><svg viewBox="0 0 40 40"><path d="M7 21l9 9L36 6"/></svg></button>
+        <div>
+          <h4>새 워크플로우에 <span class="val">민원 받기</span> 만들기</h4>
+          <p>n8n에서 <span class="val">Create workflow</span>를 누르고 <span class="val">Webhook</span> 노드를 추가합니다.</p>
+          <ul><li><span class="val">HTTP Method</span>: <span class="val">POST</span></li><li><span class="val">Path</span>: 글자를 모두 지우고 <code>minwon</code>만 적습니다</li><li><span class="val">Allowed Origins (CORS)</span>: <code>*</code></li></ul>
+          <figure class="snap"><div class="ph">캡처 자리 — Webhook 설정 창</div><figcaption>[그림 1-6-1] 민원 받기 설정</figcaption></figure>
+          <p><span class="hl">설정 창 위쪽 주소가 <code>…/webhook-test/minwon</code>으로 끝나면 성공입니다.</span></p>
+        </div>
+      </li>
+    </ol>
+
+    <p class="side">복사할 땐<br>중괄호까지<br>지우기!</p>
+    <ol class="todo" start="2">
+      <li>
+        <button type="button" class="box" aria-label="2단계 마침 표시"><svg viewBox="0 0 40 40"><path d="M7 21l9 9L36 6"/></svg></button>
+        <div>
+          <h4>앱에 Test URL 넣기</h4>
+          <p>아래 쪽지를 AI Studio 입력창에 붙여 넣고, <code>{Test URL}</code> 자리에 n8n에서 복사한 주소를 넣은 뒤 보냅니다.</p>
+          <div class="cut"><div class="hd">AI Studio에 보낼 쪽지<button type="button" class="copy">복사</button></div><pre>코드 맨 위 WEBHOOK_URL 값을 "{Test URL}"로 바꿔 줘. 다른 부분은 바꾸지 마.</pre></div>
+          <p><span class="hl"><span class="val">Code</span> 탭의 <code>WEBHOOK_URL</code>에 <code>webhook-test</code> 주소가 보이면 성공입니다.</span></p>
+        </div>
+      </li>
+    </ol>
+
+    <p class="side red">2분 안에!</p>
+    <ol class="todo" start="3">
+      <li>
+        <button type="button" class="box" aria-label="3단계 마침 표시"><svg viewBox="0 0 40 40"><path d="M7 21l9 9L36 6"/></svg></button>
+        <div>
+          <h4>첫 시험 — 앱에서 보내 보기</h4>
+          <p><span class="val">Listen for test event</span>를 누르면 n8n은 <b>2분 동안만</b> 기다립니다. 앱 입력을 먼저 끝내 두고, 누른 뒤 곧바로 앱의 <code>접수하기</code>를 누릅니다.</p>
+          <div class="oops" role="note"><span class="tag">여기서 많이 틀려요</span>
+            <dl><dt>증상</dt><dd>n8n에 아무것도 오지 않아요</dd><dt>원인</dt><dd>2분이 지났거나, 주소가 틀렸거나, CORS 설정이 빠졌어요</dd><dt>해결</dt><dd>세 가지를 차례로 확인하고 다시 보냅니다</dd></dl>
+          </div>
+          <div class="memo"><b>세 가지가 다 맞는데도 안 되면</b>AI Studio에 “n8n 주소 호출은 서버 쪽 코드에서 하도록 바꿔 줘”라고 보낸 뒤 다시 시험합니다. 그래도 안 되면 손을 들어 강사에게 알립니다.</div>
+          <p><span class="hl"><span class="val">OUTPUT</span>의 <code>body</code>에 다섯 값이 보이면 성공입니다.</span></p>
+        </div>
+      </li>
+    </ol>
+
+    <nav class="turn"><a href="#">앞 장: 5교시 첫 앱 다듬기</a><a href="#">다음 장: 7교시 연동 ① 완성</a></nav>
+  </div>
+</article>
+
+<script>
+(function () {
+  document.querySelectorAll('.todo > li').forEach(function (li) {
+    var b = li.querySelector('.box');
+    b.addEventListener('click', function () {
+      var on = li.classList.toggle('done');
+      b.setAttribute('aria-pressed', on);
+    });
+  });
+  document.querySelectorAll('.copy').forEach(function (c) {
+    c.addEventListener('click', function () {
+      var txt = c.closest('.cut').querySelector('pre').textContent;
+      if (navigator.clipboard) navigator.clipboard.writeText(txt);
+      c.textContent = '복사됨'; setTimeout(function () { c.textContent = '복사'; }, 1500);
+    });
+  });
+})();
+</script>
+</body>
+</html>

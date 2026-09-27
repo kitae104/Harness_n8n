@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>시안 C 노선도</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* 시안 C — 이틀 과정을 지하철 노선도로.
+   교시 = 역, 1일차·2일차 = 두 노선, 단계 = 정차역, 막혔을 때 = 우회 경로.
+   이전·다음 교시는 역 안내판처럼. */
+:root {
+  --bg: #ffffff;
+  --ink: #16202e;
+  --ink-2: #424d5c;
+  --muted: #6f7a88;
+  --sign: #1d2b45;          /* 안내판 남색 */
+  --line-1: #1f9d55;        /* 1일차 노선 */
+  --line-2: #2566c9;        /* 2일차 노선 */
+  --line-opt: #8b5cc4;      /* 선택 실습 지선 */
+  --caution: #ffcf1f;
+  --soft: #f3f5f8;
+  --rule: #dfe3e9;
+  --font: "IBM Plex Sans KR", "Malgun Gothic", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 18px/1.8 var(--font); word-break: keep-all; }
+a { color: var(--line-2); }
+:focus-visible { outline: 3px solid var(--caution); outline-offset: 2px; }
+
+/* 안내판 막대 */
+.signbar { background: var(--sign); color: #fff; }
+.signbar .in { max-width: 72rem; margin: 0 auto; padding: .7rem 1.25rem; display: flex; align-items: center; gap: .9rem; flex-wrap: wrap; }
+.badge { display: inline-grid; place-items: center; min-width: 2rem; height: 2rem; padding: 0 .55rem; border-radius: 1rem; color: #fff; font-weight: 700; font-size: .9rem; }
+.b1 { background: var(--line-1); } .b2 { background: var(--line-2); } .bo { background: var(--line-opt); }
+.signbar .name { font-weight: 700; font-size: 1.05rem; }
+.signbar .sp { flex: 1; }
+.signbar a { color: #fff; text-decoration: none; font-size: .92rem; opacity: .9; }
+.signbar a:hover { opacity: 1; text-decoration: underline; }
+
+.wrap { max-width: 72rem; margin: 0 auto; padding: 2.8rem 1.25rem 5rem; }
+
+/* 첫 화면 */
+.hero h1 { font-size: clamp(1.9rem, 3.7vw, 3rem); line-height: 1.3; letter-spacing: -.02em; margin: 0 0 .7rem; }
+.hero .lead { max-width: 40rem; color: var(--ink-2); margin: 0 0 1rem; font-size: 1.08rem; }
+.hero .meta { color: var(--muted); font-size: .95rem; margin: 0 0 2.6rem; }
+.hero .meta b { color: var(--ink); font-weight: 500; }
+
+.map { border-top: 1px solid var(--rule); padding-top: 1.6rem; }
+.route { display: grid; grid-template-columns: 7.5rem 1fr; gap: 1rem; align-items: start; margin-bottom: 2.4rem; }
+.route .lbl { padding-top: .1rem; }
+.route .lbl b { display: block; font-size: 1rem; margin-top: .4rem; line-height: 1.4; }
+.stations { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, 1fr); position: relative; }
+.stations::before { content: ""; position: absolute; left: calc(100% / 14); right: calc(100% / 14); top: 13px; height: 8px; border-radius: 4px; background: var(--c); }
+.stations li { position: relative; text-align: center; padding: 0 .25rem; }
+.stations a { color: var(--ink); text-decoration: none; display: block; }
+.stations .dot { display: block; margin: 0 auto .55rem; width: 34px; height: 34px; border-radius: 50%; background: #fff; border: 5px solid var(--c); position: relative; z-index: 1; font-size: .78rem; font-weight: 700; line-height: 24px; color: var(--c); }
+.stations .nm { display: block; font-weight: 700; font-size: .95rem; line-height: 1.4; }
+.stations .tm { display: block; font-size: .78rem; color: var(--muted); }
+.stations a:hover .nm { text-decoration: underline; }
+.stations li.here .dot { background: var(--c); color: #fff; box-shadow: 0 0 0 5px #fff, 0 0 0 8px var(--c); }
+.stations li.here .nm::after { content: "지금 여기"; display: block; font-size: .75rem; font-weight: 700; color: var(--c); }
+.r1 { --c: var(--line-1); } .r2 { --c: var(--line-2); }
+.spur { display: grid; grid-template-columns: 7.5rem 1fr; gap: 1rem; margin: -1.6rem 0 2rem; }
+.spur .cols { grid-column: 2; display: grid; grid-template-columns: repeat(7, 1fr); }
+.spur .br { grid-column: 5 / span 3; margin-left: calc(100% / 6 - 3px); border-left: 6px dashed var(--line-opt); padding: .6rem 0 .2rem 1rem; font-size: .9rem; }
+.spur .br b { color: var(--line-opt); }
+
+/* 교안 */
+.divider { margin: 4.5rem 0 0; padding-top: 1rem; border-top: 1px dashed var(--rule); text-align: center; color: var(--muted); font-size: .88rem; }
+.lesson { display: grid; grid-template-columns: 15rem 1fr; gap: 3rem; margin-top: 2rem; }
+.mini { position: sticky; top: 1.2rem; align-self: start; }
+.mini h2 { font-size: .9rem; color: var(--muted); font-weight: 500; margin: 0 0 .6rem; }
+.mini ol { list-style: none; margin: 0; padding: 0; position: relative; }
+.mini ol::before { content: ""; position: absolute; left: 9px; top: 12px; bottom: 12px; width: 5px; background: var(--line-1); border-radius: 3px; }
+.mini li a { display: flex; gap: .7rem; align-items: center; padding: .3rem 0; color: var(--ink); text-decoration: none; font-size: .95rem; line-height: 1.4; }
+.mini li i { flex: none; width: 23px; height: 23px; border-radius: 50%; border: 4px solid var(--line-1); background: #fff; position: relative; z-index: 1; }
+.mini li.passed i { background: var(--line-1); }
+
+.lh .kicker { display: flex; align-items: center; gap: .6rem; margin: 0 0 .3rem; color: var(--muted); font-size: .95rem; }
+.lh h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); line-height: 1.3; margin: 0 0 .4rem; letter-spacing: -.02em; }
+.lh .sub { color: var(--ink-2); margin: 0 0 1.6rem; }
+.goal { background: var(--soft); padding: 1rem 1.3rem; border-radius: 6px; margin-bottom: 1.2rem; }
+.goal h3, .why h3 { font-size: 1rem; margin: 0 0 .3rem; }
+.goal ul { margin: 0; padding-left: 1.2rem; }
+.why { margin-bottom: 2.4rem; }
+.why p { margin: 0; }
+
+.val { font-weight: 700; background: var(--soft); border: 1px solid var(--rule); border-radius: 4px; padding: 0 .35em; font-size: .92em; }
+code { font-family: Consolas, "D2Coding", monospace; font-size: .88em; background: var(--soft); padding: 0 .3em; border-radius: 3px; }
+
+.stops { list-style: none; margin: 0; padding: 0; counter-reset: st; }
+.stop { position: relative; padding: 0 0 2.4rem 3.6rem; counter-increment: st; }
+.stop::before { content: ""; position: absolute; left: 17px; top: 20px; bottom: -20px; width: 7px; background: var(--line-1); }
+.stop:last-child::before { display: none; }
+.stop > .num { position: absolute; left: 0; top: 0; width: 41px; height: 41px; border-radius: 50%; border: 6px solid var(--line-1); background: #fff; display: grid; place-items: center; font-weight: 700; color: var(--line-1); z-index: 1; }
+.stop > .num::before { content: counter(st); }
+.stop h3 { font-size: 1.2rem; margin: 0 0 .4rem; line-height: 1.45; padding-top: .35rem; }
+.stop p { margin: .45rem 0; }
+.stop ul, .stop ol { margin: .3rem 0; padding-left: 1.3rem; }
+.stop.passed > .num { background: var(--line-1); color: #fff; }
+.arrive { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: center; margin-top: .9rem; }
+.arrive p { margin: 0; flex: 1 1 16rem; font-size: .96rem; }
+.arrive button { font: inherit; font-size: .9rem; font-weight: 700; padding: .35rem .9rem; border-radius: 99px; border: 2px solid var(--line-1); background: #fff; color: var(--line-1); cursor: pointer; }
+.stop.passed .arrive button { background: var(--line-1); color: #fff; }
+
+.capture { margin: .8rem 0; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+.capture .ph { aspect-ratio: 16/6.5; display: grid; place-items: center; color: var(--muted); font-size: .85rem; background: var(--soft); }
+.capture figcaption { font-size: .86rem; padding: .35rem .8rem; border-top: 1px solid var(--rule); }
+
+.say { margin: .8rem 0; background: var(--sign); color: #fff; border-radius: 6px; }
+.say .hd { display: flex; justify-content: space-between; align-items: center; padding: .45rem .6rem .45rem 1rem; font-size: .85rem; border-bottom: 1px solid rgba(255,255,255,.15); }
+.say .hd button { font: inherit; font-size: .82rem; color: var(--sign); background: var(--caution); border: 0; border-radius: 99px; padding: .1rem .75rem; font-weight: 700; cursor: pointer; }
+.say pre { margin: 0; padding: .8rem 1rem; font: 1.02rem/1.65 var(--font); white-space: pre-wrap; }
+
+.caution { margin: 1rem 0; display: grid; grid-template-columns: 2.6rem 1fr; gap: .8rem; background: var(--caution); color: #1b1b1b; padding: .8rem 1rem; border-radius: 6px; }
+.caution svg { width: 2.6rem; height: 2.6rem; }
+.caution b.t { display: block; }
+.caution dl { margin: .2rem 0 0; display: grid; grid-template-columns: 3rem 1fr; gap: 0 .6rem; }
+.caution dt { font-weight: 700; } .caution dd { margin: 0; }
+
+.detour { margin: 1rem 0; border-left: 6px dashed var(--muted); padding: .2rem 0 .2rem 1rem; }
+.detour b { display: block; }
+
+.platform { display: grid; grid-template-columns: 1fr 1fr; margin-top: 1.4rem; border-radius: 6px; overflow: hidden; background: var(--sign); }
+.platform a { color: #fff; text-decoration: none; padding: .9rem 1.2rem; display: block; line-height: 1.45; }
+.platform a:hover { background: #2a3b5c; }
+.platform a + a { text-align: right; border-left: 1px solid rgba(255,255,255,.2); }
+.platform small { display: block; opacity: .75; font-size: .82rem; }
+.platform b { font-size: 1.05rem; }
+
+@media (max-width: 860px) {
+  .route { grid-template-columns: 1fr; gap: .6rem; }
+  .route .lbl { display: flex; align-items: center; gap: .6rem; }
+  .route .lbl b { margin: 0; }
+  .stations { grid-template-columns: 1fr; }
+  .stations::before { left: 13px; right: auto; top: 17px; bottom: 17px; width: 8px; height: auto; }
+  .stations li { text-align: left; }
+  .stations a { display: grid; grid-template-columns: 34px 1fr auto; gap: .8rem; align-items: center; padding: .25rem 0; }
+  .stations .dot { margin: 0; }
+  .stations li.here .nm::after { display: inline; margin-left: .5rem; }
+  .spur { display: block; margin: -1.4rem 0 2rem 0; }
+  .spur .cols { display: block; }
+  .spur .br { margin-left: 14px; }
+  .lesson { grid-template-columns: 1fr; gap: 1rem; }
+  .mini { display: none; }
+  .stop { padding-left: 3rem; }
+  .stop > .num { width: 34px; height: 34px; border-width: 5px; }
+  .stop::before { left: 14px; width: 6px; }
+}
+</style>
+</head>
+<body>
+<div class="signbar"><div class="in">
+  <span class="badge b1">1일차</span><span class="name">6교시 앱 ↔ n8n 연동 ①</span>
+  <span class="sp"></span>
+  <a href="#">이전 5교시 첫 앱 다듬기</a>
+  <a href="#">다음 7교시 연동 ① 완성</a>
+</div></div>
+
+<div class="wrap">
+  <!-- ─────────── 첫 화면 ─────────── -->
+  <section class="hero">
+    <h1>AI 앱과 n8n으로 만드는<br>나만의 업무 자동화 서비스</h1>
+    <p class="lead">14개 교시를 지나면 민원 접수 서비스가 완성됩니다. 화면은 AI Studio가 만들고, 뒤에서 일하는 부분은 이미 익숙한 n8n이 맡습니다.</p>
+    <p class="meta"><b>2일, 14시간</b>, 중급 과정입니다. n8n 기초 과정 수료 공무원 대상, 코딩은 필요 없습니다.</p>
+
+    <div class="map" id="schedule" aria-label="이틀 과정 노선도">
+      <div class="route r1">
+        <div class="lbl"><span class="badge b1">1일차</span><b>n8n 다지기, 첫 앱, 연결</b></div>
+        <ol class="stations">
+          <li><a href="#"><span class="dot">1</span><span class="nm">과정 소개</span><span class="tm">09:00</span></a></li>
+          <li><a href="#"><span class="dot">2</span><span class="nm">n8n 복습</span><span class="tm">10:00</span></a></li>
+          <li><a href="#"><span class="dot">3</span><span class="nm">Webhook</span><span class="tm">11:00</span></a></li>
+          <li><a href="#"><span class="dot">4</span><span class="nm">첫 앱 만들기</span><span class="tm">13:00</span></a></li>
+          <li><a href="#"><span class="dot">5</span><span class="nm">앱 다듬기</span><span class="tm">14:00</span></a></li>
+          <li class="here"><a href="#lesson"><span class="dot">6</span><span class="nm">연동 ①</span><span class="tm">15:00</span></a></li>
+          <li><a href="#"><span class="dot">7</span><span class="nm">연동 ① 완성</span><span class="tm">16:00</span></a></li>
+        </ol>
+      </div>
+      <div class="route r2">
+        <div class="lbl"><span class="badge b2">2일차</span><b>자동화 확장과 내 서비스</b></div>
+        <ol class="stations">
+          <li><a href="#"><span class="dot">1</span><span class="nm">연동 ②</span><span class="tm">09:00</span></a></li>
+          <li><a href="#"><span class="dot">2</span><span class="nm">연동 ② 완성</span><span class="tm">10:00</span></a></li>
+          <li><a href="#"><span class="dot">3</span><span class="nm">배포·보안</span><span class="tm">11:00</span></a></li>
+          <li><a href="#"><span class="dot">4</span><span class="nm">프로젝트 기획</span><span class="tm">13:00</span></a></li>
+          <li><a href="#"><span class="dot">5</span><span class="nm">제작 ①</span><span class="tm">14:00</span></a></li>
+          <li><a href="#"><span class="dot">6</span><span class="nm">제작 ②</span><span class="tm">15:00</span></a></li>
+          <li><a href="#"><span class="dot">7</span><span class="nm">발표</span><span class="tm">16:00</span></a></li>
+        </ol>
+      </div>
+      <div class="spur"><div class="cols"><div class="br"><b>선택 실습 지선</b> 제작 시간에 원하는 사람만: <a href="#">PDF 공문 요약 앱</a>, <a href="#">음성 입력 민원 접수</a></div></div></div>
+    </div>
+  </section>
+
+  <p class="divider">아래는 교시 교안 화면 예시입니다</p>
+
+  <!-- ─────────── 교안 ─────────── -->
+  <div class="lesson" id="lesson">
+    <nav class="mini" aria-label="이 교시의 정차역">
+      <h2>이 교시의 정차역</h2>
+      <ol id="mini">
+        <li><a href="#s1"><i></i>민원 받기 만들기</a></li>
+        <li><a href="#s2"><i></i>Test URL 넣기</a></li>
+        <li><a href="#s3"><i></i>첫 시험</a></li>
+        <li><a href="#"><i></i>민원 정리 노드</a></li>
+        <li><a href="#"><i></i>시트에 기록 잇기</a></li>
+        <li><a href="#"><i></i>Publish하기</a></li>
+        <li><a href="#"><i></i>실제 접수해 보기</a></li>
+      </ol>
+    </nav>
+
+    <article class="lh">
+      <p class="kicker"><span class="badge b1">1일차</span>6교시, 15:00~15:50</p>
+      <h2>앱 ↔ n8n 연동 ①</h2>
+      <p class="sub">앱에 n8n 주소를 넣고, 앱에서 접수한 민원이 구글 시트에 한 줄로 쌓이게 합니다.</p>
+      <div class="goal"><h3>학습목표</h3><ul>
+        <li>앱에 n8n Production URL을 넣어 접수 데이터를 보낼 수 있습니다(Test URL로 먼저 시험한 뒤).</li>
+        <li>받은 데이터가 구글 시트에 한 줄로 기록되는 것을 확인합니다.</li></ul></div>
+      <div class="why"><h3>왜 이 단계가 필요한가</h3>
+        <p>지금까지 세 조각을 따로 만들었습니다. 2교시의 일하는 워크플로우, 3교시의 초인종인 Webhook, 4·5교시의 창구 화면인 앱입니다. 이번 시간에 이 셋을 이어 붙여, 앱에서 누른 접수가 시트까지 가게 합니다.</p></div>
+
+      <ol class="stops">
+        <li class="stop" id="s1"><span class="num" aria-hidden="true"></span>
+          <h3>새 워크플로우에 <span class="val">민원 받기</span> 만들기</h3>
+          <p>n8n에서 <span class="val">Create workflow</span>를 누르고 <span class="val">Webhook</span> 노드를 추가합니다.</p>
+          <ul><li><span class="val">HTTP Method</span>: <span class="val">POST</span></li><li><span class="val">Path</span>: 글자를 모두 지우고 <code>minwon</code>만 적습니다</li><li><span class="val">Allowed Origins (CORS)</span>: <code>*</code></li></ul>
+          <figure class="capture"><div class="ph">캡처 자리 — Webhook 설정 창</div><figcaption>[그림 1-6-1] 민원 받기 설정</figcaption></figure>
+          <div class="arrive"><p>설정 창 위쪽 주소가 <code>…/webhook-test/minwon</code>으로 끝나면 이 역에 도착한 것입니다.</p><button type="button">도착</button></div>
+        </li>
+        <li class="stop" id="s2"><span class="num" aria-hidden="true"></span>
+          <h3>앱에 Test URL 넣기</h3>
+          <p>아래 문장을 AI Studio 입력창에 붙여 넣고, <code>{Test URL}</code> 자리에 n8n에서 복사한 주소를 넣은 뒤 보냅니다.</p>
+          <div class="say"><div class="hd">AI Studio에 보낼 말<button type="button" class="copy">복사</button></div><pre>코드 맨 위 WEBHOOK_URL 값을 "{Test URL}"로 바꿔 줘. 다른 부분은 바꾸지 마.</pre></div>
+          <div class="arrive"><p><span class="val">Code</span> 탭의 <code>WEBHOOK_URL</code>에 <code>webhook-test</code> 주소가 보이면 도착입니다.</p><button type="button">도착</button></div>
+        </li>
+        <li class="stop" id="s3"><span class="num" aria-hidden="true"></span>
+          <h3>첫 시험 — 앱에서 보내 보기</h3>
+          <p><span class="val">Listen for test event</span>를 누르면 n8n은 <b>2분 동안만</b> 기다립니다. 앱 입력을 먼저 끝내 두고, 누른 뒤 곧바로 앱의 <code>접수하기</code>를 누릅니다.</p>
+          <div class="caution" role="note">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 3l18 33H2z" fill="#1b1b1b"/><path d="M20 14v11M20 29v1.5" stroke="#ffcf1f" stroke-width="3.4" stroke-linecap="round"/></svg>
+            <div><b class="t">자주 하는 실수</b><dl><dt>증상</dt><dd>n8n에 아무것도 오지 않아요</dd><dt>원인</dt><dd>2분이 지났거나, 주소가 틀렸거나, CORS 설정이 빠졌어요</dd><dt>해결</dt><dd>세 가지를 차례로 확인하고 다시 보냅니다</dd></dl></div>
+          </div>
+          <div class="detour"><b>우회 경로: 세 가지가 다 맞는데도 안 되면</b>AI Studio에 “n8n 주소 호출은 서버 쪽 코드에서 하도록 바꿔 줘”라고 보낸 뒤 다시 시험합니다. 그래도 안 되면 손을 들어 강사에게 알립니다.</div>
+          <div class="arrive"><p><span class="val">OUTPUT</span>의 <code>body</code>에 다섯 값이 보이면 도착입니다.</p><button type="button">도착</button></div>
+        </li>
+      </ol>
+
+      <nav class="platform" aria-label="교시 이동">
+        <a href="#"><small>이전 교시</small><b>5교시 첫 앱 다듬기</b></a>
+        <a href="#"><small>다음 교시</small><b>7교시 연동 ① 완성</b></a>
+      </nav>
+    </article>
+  </div>
+</div>
+
+<script>
+(function () {
+  var stops = document.querySelectorAll('.stop'), mini = document.querySelectorAll('#mini li');
+  stops.forEach(function (s, i) {
+    var b = s.querySelector('.arrive button');
+    b.addEventListener('click', function () {
+      var on = s.classList.toggle('passed');
+      b.textContent = on ? '도착함' : '도착';
+      b.setAttribute('aria-pressed', on);
+      if (mini[i]) mini[i].classList.toggle('passed', on);
+    });
+  });
+  document.querySelectorAll('.copy').forEach(function (c) {
+    c.addEventListener('click', function () {
+      var txt = c.closest('.say').querySelector('pre').textContent;
+      if (navigator.clipboard) navigator.clipboard.writeText(txt);
+      c.textContent = '복사됨'; setTimeout(function () { c.textContent = '복사'; }, 1500);
+    });
+  });
+})();
+</script>
+</body>
+</html>
