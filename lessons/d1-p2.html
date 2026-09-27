@@ -100,8 +100,8 @@
           <div class="capture-cap">[그림 1-2-1] 가져온 복습 완성본</div>
           <div class="capture-guide">Import 직후 캔버스 전체. 수동 실행 → 샘플 민원에서 세 갈래(시트에 기록, 접수 메일 보내기, AI 안내문 작성)로 갈라지고 AI 안내문 작성 아래 작은 동그라미 Google Gemini Chat Model이 붙은 모습. 경고 표시가 보이는 노드 강조</div>
         </figure>
-        <p>왼쪽부터 <code class="val">수동 실행</code>, <code class="val">샘플 민원</code>, 세 갈래(<code class="val">시트에 기록</code>, <code class="val">접수 메일 보내기</code>, <code class="val">AI 안내문 작성</code>),
-           그리고 <code class="val">AI 안내문 작성</code> 아래 작은 동그라미 <code class="val">Google Gemini Chat Model</code>까지 노드 6개가 보이면 성공입니다.
+        <p><mark class="ok">왼쪽부터 <code class="val">수동 실행</code>, <code class="val">샘플 민원</code>, 세 갈래(<code class="val">시트에 기록</code>, <code class="val">접수 메일 보내기</code>, <code class="val">AI 안내문 작성</code>),
+           그리고 <code class="val">AI 안내문 작성</code> 아래 작은 동그라미 <code class="val">Google Gemini Chat Model</code>까지 노드 6개가 보이면 성공입니다.</mark>
            몇몇 노드의 경고 표시는 정상이며, 4~9단계에서 연결합니다.</p>
       </li>
 
@@ -116,7 +116,7 @@
           <div class="capture-cap">[그림 1-2-2] 머리글 여섯 칸을 입력한 새 구글 시트</div>
           <div class="capture-guide">이름을 민원대장 연습으로 바꾼 새 시트. 1행에 이름~등록일 여섯 머리글, 아래쪽 탭 이름, 오른쪽 위 프로필 사진 강조</div>
         </figure>
-        <p>첫째 줄에 여섯 단어가 한 칸씩 들어가면 성공입니다.</p>
+        <p><mark class="ok">첫째 줄에 여섯 단어가 한 칸씩 들어가면 성공입니다.</mark></p>
         <div class="note mistake" data-section="mistakes">
           <b>자주 하는 실수</b>
           <p><b>증상</b> 실행했는데 시트의 일부 칸이 비어 있어요<br>
@@ -130,7 +130,7 @@
         <code class="val">Sign in with Google</code> → 3단계에서 확인한 계정 선택 → 허용 순서로 진행합니다.
         <span class="hint">구글 로그인 창이 뜨지 않으면 주소창 오른쪽의 팝업 차단 표시를 눌러 허용하세요. 허용 화면에 체크 칸이 있으면 모두 체크합니다.</span>
         <p>이렇게 만든 연결을 <dfn>자격 증명</dfn>(n8n이 내 구글·텔레그램 계정을 대신 쓰도록 맡겨 둔 열쇠)이라고 합니다.
-           <code class="val">Account connected</code>가 보이면 성공입니다. 자격 증명 창 오른쪽 위 <code class="val">X</code>로 닫으면 <code class="val">시트에 기록</code> 설정 창으로 돌아옵니다. <span class="inote" id="inote-d1-p2-2" data-inote="check" data-ref="F59"><b class="inote-tag">강사 확인 F59</b>설정 창을 닫고 캔버스로 돌아가는 방법(창 바깥 누르기 / <code class="val">Back to canvas</code>) 표기</span></p>
+           <mark class="ok"><code class="val">Account connected</code>가 보이면 성공입니다.</mark> 자격 증명 창 오른쪽 위 <code class="val">X</code>로 닫으면 <code class="val">시트에 기록</code> 설정 창으로 돌아옵니다. <span class="inote" id="inote-d1-p2-2" data-inote="check" data-ref="F59"><b class="inote-tag">강사 확인 F59</b>설정 창을 닫고 캔버스로 돌아가는 방법(창 바깥 누르기 / <code class="val">Back to canvas</code>) 표기</span></p>
         <figure class="capture" id="fig-d1-p2-3">
           <div class="capture-cap">[그림 1-2-3] <code class="val">Sign in with Google</code>로 연결된 자격 증명</div>
           <div class="capture-guide">Google Sheets 자격 증명 창의 Sign in with Google 버튼과, 연결 뒤 Account connected 표시</div>
@@ -154,12 +154,12 @@
           <div class="capture-cap">[그림 1-2-4] <code class="val">Document</code>와 <code class="val">Sheet</code> 설정</div>
           <div class="capture-guide">Document = From list에서 민원대장 연습, Sheet에 탭 이름, 아래 열 매핑 여섯 칸에 fx 표시가 보이는 모습</div>
         </figure>
-        <p>아래쪽에 <code>이름</code>~<code>등록일</code> 여섯 칸이 <code>fx</code> 표시와 함께 보이면 성공입니다. 창 바깥 빈 곳을 눌러 캔버스로 돌아갑니다.</p>
+        <p><mark class="ok">아래쪽에 <code>이름</code>~<code>등록일</code> 여섯 칸이 <code>fx</code> 표시와 함께 보이면 성공입니다.</mark> 창 바깥 빈 곳을 눌러 캔버스로 돌아갑니다.</p>
       </li>
 
       <li><span class="step-title">Gmail 연결하기</span>
         <code class="val">접수 메일 보내기</code>를 두 번 눌러 열고 4단계와 같은 방법으로 <b>같은 구글 계정</b>을 연결합니다(Gmail용 자격 증명이 따로 하나 생깁니다).
-        <p><code class="val">Credential</code> 칸에 Gmail 자격 증명 이름이 보이면 성공입니다. 창 바깥 빈 곳을 눌러 캔버스로 돌아갑니다.</p>
+        <p><mark class="ok"><code class="val">Credential</code> 칸에 Gmail 자격 증명 이름이 보이면 성공입니다.</mark> 창 바깥 빈 곳을 눌러 캔버스로 돌아갑니다.</p>
       </li>
 
       <li><span class="step-title">받는 사람 바꾸기</span>
@@ -169,7 +169,7 @@
           <div class="capture-cap">[그림 1-2-5] <code class="val">샘플 민원</code>의 다섯 칸</div>
           <div class="capture-guide">Edit Fields 창에서 이름=홍길동, 연락처=010-1234-5678, 이메일(본인 주소 부분은 가림), 종류=생활, 상세설명 칸</div>
         </figure>
-        <p><code>이메일</code> 칸에 내 Gmail 주소가 보이면 성공입니다.</p>
+        <p><mark class="ok"><code>이메일</code> 칸에 내 Gmail 주소가 보이면 성공입니다.</mark></p>
         <div class="note mistake" data-section="mistakes">
           <b>자주 하는 실수</b>
           <p><b>증상</b> 실행은 초록색인데 메일이 오지 않아요<br>
@@ -184,7 +184,7 @@
         <code class="val">Use Gateway credits</code>와 <code class="val">Use my own credential</code> 선택지가 보이면 <code class="val">Use my own credential</code>을 고릅니다.
         <code class="val">API Key</code> 칸에 준비물에서 발급받은 <dfn>API 키</dfn>(Gemini를 쓸 수 있게 해 주는 비밀 번호표)를 붙여 넣고, <code class="val">Host</code>는 그대로 둔 채 저장합니다.
         <span class="hint">키를 적어 둔 곳을 못 찾으면, 키를 발급받았던 화면(<code>aistudio.google.com/apikey</code>)에서 다시 복사할 수 있습니다. <span class="inote" id="inote-d1-p2-3" data-inote="check" data-ref="F74"><b class="inote-tag">강사 확인 F74</b>aistudio.google.com/apikey에서 이미 만든 키를 다시 복사할 수 있는지</span></span>
-        <p>저장한 뒤 연결에 성공했다는 표시가 보이면 성공입니다. <code class="val">X</code>로 자격 증명 창을 닫습니다. <span class="inote" id="inote-d1-p2-4" data-inote="check" data-ref="F73"><b class="inote-tag">강사 확인 F73</b>Gemini 자격 증명 만들기 화면 순서·버튼 글자, 저장할 때 연결 성공 표시</span></p>
+        <p><mark class="ok">저장한 뒤 연결에 성공했다는 표시가 보이면 성공입니다.</mark> <code class="val">X</code>로 자격 증명 창을 닫습니다. <span class="inote" id="inote-d1-p2-4" data-inote="check" data-ref="F73"><b class="inote-tag">강사 확인 F73</b>Gemini 자격 증명 만들기 화면 순서·버튼 글자, 저장할 때 연결 성공 표시</span></p>
         <figure class="capture" id="fig-d1-p2-6">
           <div class="capture-cap">[그림 1-2-6] Gemini 자격 증명</div>
           <div class="capture-guide">Google Gemini(PaLM) Api 자격 증명 창(API Key 칸 가림, Host 기본값)과 저장 뒤 연결 성공 표시</div>
@@ -248,7 +248,7 @@
         <pre class="code-block">[{{ $json.종류 }}] 민원 접수 - {{ $json.이름 }}</pre>
         <p>② <code class="val">샘플 민원</code>을 열어 이름을 <code>김민원</code>, 종류를 <code>음식물</code>, 상세설명을 <code>매주 화요일 음식물 쓰레기 수거가 되지 않고 있습니다.</code>로 바꿉니다.</p>
         <p>③ 창을 닫고 다시 <code class="val">Execute workflow</code>를 누릅니다. 시트에 줄이 하나 더 생기는 것은 정상입니다.</p>
-        <p>시트의 새 줄과 AI 안내문이 김민원·음식물 내용으로 바뀌고, 메일 제목이 <code>[음식물] 민원 접수 - 김민원</code>이면 성공입니다.
+        <p><mark class="ok">시트의 새 줄과 AI 안내문이 김민원·음식물 내용으로 바뀌고, 메일 제목이 <code>[음식물] 민원 접수 - 김민원</code>이면 성공입니다.</mark>
            재료(<code class="val">샘플 민원</code>)를 바꾸면 결과 세 곳이 함께 바뀝니다. 오후에는 이 재료를 앱이 채웁니다.</p>
         <div class="note mistake" data-section="mistakes">
           <b>자주 하는 실수</b>

@@ -100,12 +100,12 @@
           <div class="capture-cap">[그림 opt-voice-1] 상세설명 칸 옆에 생긴 음성으로 입력 버튼</div>
           <div class="capture-guide">주문을 보낸 뒤 미리보기 전체, 상세설명 칸과 음성으로 입력 버튼 강조</div>
         </figure>
-        <p>미리보기의 상세설명 칸 옆에 <code>음성으로 입력</code> 버튼이 보이면 성공입니다. 버튼이 없거나 미리보기에 오류 글이 보이면 <a href="d1-p5.html">1일차 5교시</a> 오류 신고 루틴 문장을 보냅니다.</p>
+        <p><mark class="ok">미리보기의 상세설명 칸 옆에 <code>음성으로 입력</code> 버튼이 보이면 성공입니다.</mark> 버튼이 없거나 미리보기에 오류 글이 보이면 <a href="d1-p5.html">1일차 5교시</a> 오류 신고 루틴 문장을 보냅니다.</p>
       </li>
 
       <li><span class="step-title">마이크 권한이 들어갔는지 확인하기</span>
         미리보기 위쪽의 <code class="val">Code</code> 탭을 누릅니다. 왼쪽 파일 목록에서 <code>metadata.json</code>(앱의 설정 파일)을 누릅니다. 목록이 길면 아래로 내려 찾습니다.
-        <p><code>"requestFramePermissions": ["microphone"]</code>처럼 <code>microphone</code>이라는 글자가 보이면 성공입니다. 확인했으면 미리보기 탭을 눌러 돌아갑니다.</p>
+        <p><mark class="ok"><code>"requestFramePermissions": ["microphone"]</code>처럼 <code>microphone</code>이라는 글자가 보이면 성공입니다.</mark> 확인했으면 미리보기 탭을 눌러 돌아갑니다.</p>
         <p>없으면 주문서의 "3) 마이크 권한이 빠졌을 때" 문장을 보내고, AI의 답이 끝나면 이 단계를 한 번 더 합니다.</p>
       </li>
 
@@ -115,7 +115,7 @@
           <div class="capture-cap">[그림 opt-voice-2] 마이크 허용 창</div>
           <div class="capture-guide">AI Studio 확인 창과 브라우저 마이크 허용 창을 뜨는 순서대로 두 장</div>
         </figure>
-        <p>버튼이 "듣는 중…"으로 바뀌면 성공입니다.</p>
+        <p><mark class="ok">버튼이 "듣는 중…"으로 바뀌면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title">말로 입력해 보기</span>
@@ -126,7 +126,7 @@
           <div class="capture-cap">[그림 opt-voice-3] 말한 내용이 상세설명 칸에 들어간 모습</div>
           <div class="capture-guide">"듣는 중…" 표시, 인식된 문장이 상세설명 칸에 들어간 미리보기 두 장</div>
         </figure>
-        <p>상세설명 칸에 말한 문장이 글로 들어가면 성공입니다. 틀린 글자는 칸에서 손으로 고칩니다.</p>
+        <p><mark class="ok">상세설명 칸에 말한 문장이 글로 들어가면 성공입니다.</mark> 틀린 글자는 칸에서 손으로 고칩니다.</p>
         <div class="note mistake" data-section="mistakes">
           <b>자주 하는 실수</b>
           <p><b>증상</b> "마이크 사용을 허용해 주세요"가 떠요<br>
@@ -150,7 +150,7 @@
       <li><span class="step-title">접수하고 시트 확인하기</span>
         이름 <code>김민원</code>, 연락처 <code>010-0000-0009</code>, 이메일 <code>minwon@example.com</code>을 넣고, 종류는 <code>생활</code>을 고릅니다. 동의 칸이 있으면 체크하고 <code>접수하기</code>를 누릅니다.
         <p>앱에 접수번호가 보이고, 시트 <code>민원대장 연습</code>의 <code>시트1</code> 탭 맨 아래 새 줄의 <code>상세설명</code> 칸에 말로 입력한 문장이 보이면 완성입니다. 담당자 메일과 텔레그램 알림도 평소처럼 옵니다. n8n은 한 곳도 고치지 않았습니다.
-           음성 입력이 막혀 손으로 적었다면, 적은 문장이 시트에 들어가면 성공입니다.</p>
+           <mark class="ok">음성 입력이 막혀 손으로 적었다면, 적은 문장이 시트에 들어가면 성공입니다.</mark></p>
         <span class="hint">이 실습은 AI Studio 편집 화면의 미리보기에서 합니다. 2일차 3교시에 만든 공유 링크에 바로 반영되는지는 강사 안내를 따릅니다. <span class="inote" id="inote-opt-voice-4" data-inote="check" data-ref="F221"><b class="inote-tag">강사 확인 F221</b>마이크 권한 창 순서·버튼 글자, 크롬·엣지·웨일에서 동작, 공유 링크에서도 되는지, 한국어 인식</span></span>
         <div class="note mistake">
           <b>자주 하는 실수</b>
@@ -183,7 +183,7 @@
         <a class="dl" href="../workflows/d2-p2.json" download>최종 완성본 내려받기 <span class="dl-name">d2-p2.json</span></a>
       </li>
       <li><span class="step-title">n8n에서 가져오기</span>
-        n8n 첫 화면 오른쪽 위 <code class="val">Create workflow</code> → 캔버스 오른쪽 위 <code class="val">…</code> → <code class="val">Import</code> → <code class="val">From file</code>. 노드 열여덟 개가 보이면 성공입니다.
+        n8n 첫 화면 오른쪽 위 <code class="val">Create workflow</code> → 캔버스 오른쪽 위 <code class="val">…</code> → <code class="val">Import</code> → <code class="val">From file</code>. <mark class="ok">노드 열여덟 개가 보이면 성공입니다.</mark>
       </li>
       <li><span class="step-title">자격 증명 다시 연결하기</span>
         아래 노드를 차례로 두 번 눌러 열고 내 <dfn>자격 증명</dfn>(n8n이 내 계정을 대신 쓰도록 맡겨 둔 열쇠)을 고릅니다.

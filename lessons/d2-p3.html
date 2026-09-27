@@ -96,7 +96,7 @@
           <div class="capture-cap">[그림 2-3-1] <code class="val">Share</code> 창</div>
           <div class="capture-guide">AI Studio 오른쪽 위 Share를 눌러 열린 창: 공개 범위 선택지, 권한(보기), 링크 복사 버튼 강조</div>
         </figure>
-        <p>링크가 복사되면 성공입니다. 편집 권한은 주지 않습니다(받은 사람이 코드를 고칠 수 있게 됩니다).</p>
+        <p><mark class="ok">링크가 복사되면 성공입니다.</mark> 편집 권한은 주지 않습니다(받은 사람이 코드를 고칠 수 있게 됩니다).</p>
       </li>
 
       <li><span class="step-title">옆 사람과 서로 시험하기</span>
@@ -106,7 +106,7 @@
         </div>
         옆 사람과 링크를 주고받습니다. 개인 메신저·연락처를 주고받지 않도록, 링크가 뜬 화면을 옆 사람에게 보여 주고 그 사람이 자기 브라우저 주소창에 옮겨 적게 합니다(강사가 교실 공유 문서를 준비했다면 거기에 붙여 넣습니다). 받은 링크를 새 탭에서 열고 가상 민원(이접수 / 010-0000-0008 / minwon@example.com / 생활 / 공원 벤치가 부서졌습니다.)을 접수합니다.
         <span class="hint">받은 사람은 구글 계정으로 로그인해야 열릴 수 있습니다. 공유 앱에서 쓰는 AI 사용량은 앱을 만든 사람 몫입니다.</span>
-        <p>옆 사람이 접수한 민원이 <b>내</b> 시트 <code>민원대장 연습</code>에 쌓이고, 내 메일로 담당자 메일이 오면 성공입니다. 내 앱은 내 n8n으로 연결되어 있기 때문입니다.</p>
+        <p><mark class="ok">옆 사람이 접수한 민원이 <b>내</b> 시트 <code>민원대장 연습</code>에 쌓이고, 내 메일로 담당자 메일이 오면 성공입니다.</mark> 내 앱은 내 n8n으로 연결되어 있기 때문입니다.</p>
         <div class="note mistake" data-section="mistakes">
           <b>자주 하는 실수</b>
           <p><b>증상</b> 옆 사람이 링크를 열었는데 "권한이 없습니다" 같은 화면이 떠요<br>
@@ -128,7 +128,7 @@
           <li><code>key</code>, <code>token</code> — 여러 개 나오는 것이 보통입니다. 찾은 줄에서 따옴표 안에 알 수 없는 긴 영어·숫자 섞인 글자(20자 넘게)가 붙어 있는지만 봅니다. <code>GEMINI_API_KEY</code>처럼 이름만 있는 것은 정상입니다.</li>
           <li><code>@gmail.com</code> 같은 실제 이메일 주소, 실제 이름·전화번호</li>
         </ul>
-        <p><code>AIza</code>가 나오지 않고, <code>key</code>·<code>token</code> 옆에 긴 비밀 글자가 없고, 실제 이메일·이름이 없으면 성공입니다. <code>WEBHOOK_URL</code>의 n8n 주소는 보이는 것이 정상이지만, 공유받은 사람도 이 주소를 볼 수 있다는 점을 기억합니다.</p>
+        <p><mark class="ok"><code>AIza</code>가 나오지 않고, <code>key</code>·<code>token</code> 옆에 긴 비밀 글자가 없고, 실제 이메일·이름이 없으면 성공입니다.</mark> <code>WEBHOOK_URL</code>의 n8n 주소는 보이는 것이 정상이지만, 공유받은 사람도 이 주소를 볼 수 있다는 점을 기억합니다.</p>
         <div class="note mistake" data-section="mistakes">
           <b>자주 하는 실수</b>
           <p><b>증상</b> 코드에 <code>AIza…</code>로 시작하는 키가 보여요<br>
@@ -146,7 +146,7 @@
           <div class="capture-cap">[그림 2-3-2] 비밀값이 있는 두 곳</div>
           <div class="capture-guide">왼쪽: AI Studio Settings → Secrets 화면(값은 가림), 오른쪽: n8n 자격 증명 목록</div>
         </figure>
-        <p>두 곳을 찾으면 성공입니다. 워크플로우를 <code class="val">Export JSON</code>으로 내려받아도 자격 증명의 키 값은 파일에 들어가지 않습니다. 다만 노드에 직접 적은 주소·chat id·이메일은 들어가므로, 파일을 남에게 줄 때는 확인합니다.</p>
+        <p><mark class="ok">두 곳을 찾으면 성공입니다.</mark> 워크플로우를 <code class="val">Export JSON</code>으로 내려받아도 자격 증명의 키 값은 파일에 들어가지 않습니다. 다만 노드에 직접 적은 주소·chat id·이메일은 들어가므로, 파일을 남에게 줄 때는 확인합니다.</p>
       </li>
 
       <li><span class="step-title">실행 기록에 남은 값 보기</span>
@@ -155,7 +155,7 @@
           <div class="capture-cap">[그림 2-3-3] 실행 기록에 남은 값</div>
           <div class="capture-guide">Executions에서 연 실행의 민원 받기 출력(body의 이름·연락처, 가상 값)</div>
         </figure>
-        <p>실행 기록에 입력값이 남는 것을 봤으면 성공입니다.</p>
+        <p><mark class="ok">실행 기록에 입력값이 남는 것을 봤으면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title">저장 설정 찾아보기 (바꾸지 않음)</span>
@@ -166,7 +166,7 @@
       <li><span class="step-title">점검표 쓰기</span>
         <a href="../print/forms/security-checklist.html">실제 적용 전 개인정보·보안 점검표</a>를 열어(인쇄본이면 손으로) 내 서비스 기준으로 표시합니다. <b>오늘은 A~C 묶음만</b> 표시하고(10분), D·E는 7교시 로드맵을 쓸 때 봅니다.
         <p>각 줄의 "됨 / 아직 / 모름" 중 하나에 ○를 합니다. 교육 중에는 대부분 "아직"이나 "모름"인 것이 정상입니다. "모름"은 7교시 로드맵의 "협의" 단계로 옮겨 적습니다.
-           A~C의 모든 줄에 ○가 하나씩 있으면 성공입니다.</p>
+           <mark class="ok">A~C의 모든 줄에 ○가 하나씩 있으면 성공입니다.</mark></p>
       </li>
     </ol>
 

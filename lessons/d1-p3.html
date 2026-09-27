@@ -88,7 +88,7 @@
           <div class="capture-cap">[그림 1-3-1] <code class="val">Create workflow</code>를 누른 뒤의 빈 캔버스</div>
           <div class="capture-guide">n8n Cloud 첫 화면에서 Create workflow를 누른 직후의 빈 캔버스 전체. 가운데 첫 노드 추가 버튼이 보이게</div>
         </figure>
-        <p>가운데에 <code class="val">+</code>가 있는 빈 캔버스가 보이면 성공입니다.</p>
+        <p><mark class="ok">가운데에 <code class="val">+</code>가 있는 빈 캔버스가 보이면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title">Webhook 노드 추가하기</span>
@@ -99,7 +99,7 @@
           <div class="capture-cap">[그림 1-3-2] 검색창에 <code class="val">Webhook</code>을 입력한 결과</div>
           <div class="capture-guide">노드 검색 패널에 Webhook을 입력한 상태. 트리거 Webhook 항목에 강조 표시</div>
         </figure>
-        <p>Webhook 설정 창이 열리면 성공입니다.</p>
+        <p><mark class="ok">Webhook 설정 창이 열리면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title">받는 방식과 주소 끝부분 정하기</span>
@@ -112,7 +112,7 @@
           <div class="capture-cap">[그림 1-3-3] <code class="val">HTTP Method</code>와 <code class="val">Path</code> 설정</div>
           <div class="capture-guide">Webhook 설정 창에서 HTTP Method = GET, Path = hello 부분을 강조. 위쪽 주소가 hello로 끝나는 것이 함께 보이게</div>
         </figure>
-        <p>설정 창 위쪽 주소가 <code>…/hello</code>로 끝나면 성공입니다.</p>
+        <p><mark class="ok">설정 창 위쪽 주소가 <code>…/hello</code>로 끝나면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title">답장 방식 바꾸기</span>
@@ -121,7 +121,7 @@
           <div class="capture-cap">[그림 1-3-4] <code class="val">Respond</code> 목록에서 고르기</div>
           <div class="capture-guide">Respond 드롭다운을 연 상태에서 Using 'Respond to Webhook' Node 항목 강조</div>
         </figure>
-        <p><code class="val">Respond</code> 칸에 <code class="val">Using 'Respond to Webhook' Node</code>가 보이면 성공입니다.</p>
+        <p><mark class="ok"><code class="val">Respond</code> 칸에 <code class="val">Using 'Respond to Webhook' Node</code>가 보이면 성공입니다.</mark></p>
         <div class="note mistake" data-section="mistakes">
           <b>자주 하는 실수</b>
           <p><b>증상</b> 우리가 쓴 인사말 대신 <code>{"message":"Workflow was started"}</code>만 보여요<br>
@@ -139,14 +139,14 @@
           <div class="capture-cap">[그림 1-3-5] <code class="val">Allowed Origins (CORS)</code> 옵션</div>
           <div class="capture-guide">Add option으로 추가된 Allowed Origins (CORS) 칸과 값 * 강조</div>
         </figure>
-        <p><code class="val">Allowed Origins (CORS)</code> 칸에 <code>*</code>가 보이면 성공입니다.
+        <p><mark class="ok"><code class="val">Allowed Origins (CORS)</code> 칸에 <code>*</code>가 보이면 성공입니다.</mark>
            설정 창 바깥의 빈 곳을 누르거나 창을 닫아 캔버스로 돌아갑니다. Webhook 노드 하나가 보이면 됩니다.
            <span class="inote" id="inote-d1-p3-3" data-inote="check" data-ref="F59"><b class="inote-tag">강사 확인 F59</b>설정 창을 닫고 캔버스로 돌아가는 방법(창 바깥 누르기 / <code class="val">Back to canvas</code>) 표기</span></p>
       </li>
 
       <li><span class="step-title">Respond to Webhook 노드 붙이기</span>
         Webhook 노드 오른쪽의 <code class="val">+</code>를 누르고 <code class="val">Respond to Webhook</code>을 검색해 고릅니다.
-        <p>두 노드가 선으로 이어지고 Respond to Webhook 설정 창이 열리면 성공입니다.</p>
+        <p><mark class="ok">두 노드가 선으로 이어지고 Respond to Webhook 설정 창이 열리면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title">답장 글 넣기</span>
@@ -182,7 +182,7 @@
           <div class="capture-cap">[그림 1-3-7] 브라우저 화면에 돌아온 답</div>
           <div class="capture-guide">새 탭 주소창에 Test URL?이름=홍길동을 넣고 Enter를 누른 결과. 화면의 메시지 글자와 주소창의 webhook-test 부분 강조(주소의 고유 부분은 가림)</div>
         </figure>
-        <p>브라우저 화면에 "안녕하세요, 홍길동님. 잘 받았습니다."라는 글이 보이면 성공입니다(앞뒤 기호 모양은 조금 달라도 됩니다).
+        <p><mark class="ok">브라우저 화면에 "안녕하세요, 홍길동님. 잘 받았습니다."라는 글이 보이면 성공입니다(앞뒤 기호 모양은 조금 달라도 됩니다).</mark>
            n8n 캔버스의 두 노드에도 초록색 표시가 생깁니다.</p>
         <div class="note mistake" data-section="mistakes">
           <b>자주 하는 실수</b>
@@ -204,7 +204,7 @@
           <div class="capture-cap">[그림 1-3-8] <code class="val">Publish</code> 버튼과 확인 창</div>
           <div class="capture-guide">캔버스 위쪽 Publish 버튼과, 누른 뒤 뜨는 확인 창의 Publish 버튼 강조. 게시 뒤 버튼 모양이 바뀐 모습도 한 장 더</div>
         </figure>
-        <p>확인 창이 닫히고 위쪽 버튼 글자가 <code class="val">Published</code>로 바뀌면 성공입니다([그림 1-3-8]).</p>
+        <p><mark class="ok">확인 창이 닫히고 위쪽 버튼 글자가 <code class="val">Published</code>로 바뀌면 성공입니다([그림 1-3-8]).</mark></p>
         <div class="note tip">
           <b>설정을 바꾸면 다시 Publish</b>
           Publish한 뒤에 설정을 고치면, Production URL은 <b>다시 Publish할 때까지</b> 예전 설정으로 동작합니다.
@@ -217,7 +217,7 @@
         새 탭 주소창에 붙여 넣고 끝에 <code>?이름=김민원</code>을 붙여 <kbd>Enter</kbd>를 누릅니다.
         이번에는 기다리는 버튼을 누르지 않아도 되고, 시간 제한도 없습니다.
         <pre class="code-block">https://(내 n8n 주소)/webhook/hello?이름=김민원</pre>
-        <p>"안녕하세요, 김민원님"이 보이면 성공입니다. 실행 기록은 캔버스가 아니라 위쪽 <code class="val">Executions</code> 탭에 남습니다.</p>
+        <p><mark class="ok">"안녕하세요, 김민원님"이 보이면 성공입니다.</mark> 실행 기록은 캔버스가 아니라 위쪽 <code class="val">Executions</code> 탭에 남습니다.</p>
         <figure class="capture" id="fig-d1-p3-9">
           <div class="capture-cap">[그림 1-3-9] <code class="val">Executions</code> 탭에 남은 실행 기록</div>
           <div class="capture-guide">Production URL로 부른 뒤 Executions 탭에 새 실행 기록이 한 줄 생긴 모습</div>

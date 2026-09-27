@@ -40,15 +40,15 @@ body.lecture-mode ul.bullets > li::before {
   top: .62em;
   width: .5rem;
   height: .5rem;
-  border-radius: 2px;
-  background: var(--brand);
+  border-radius: 50%;
+  background: var(--pen);
 }
 
 /* 확인 문제 — 참여도를 높이기 위한 객관식·단답식 퀴즈 */
 .quiz-item {
-  border: 1px solid var(--line);
+  border: 1.5px solid var(--line-2);
   border-radius: var(--radius-sm);
-  background: var(--paper-2);
+  background: var(--card);
   padding: 1.1rem 1.25rem;
   margin: 0 0 1rem;
 }
@@ -62,9 +62,9 @@ body.lecture-mode ul.bullets > li::before {
   display: inline-block;
   margin-right: .5rem;
   padding: .1rem .5rem;
-  border-radius: 999px;
-  background: var(--brand-soft);
-  color: var(--brand-ink);
+  border: 1.5px solid var(--pen);
+  border-radius: var(--hand-radius);
+  color: var(--pen);
   font-size: .78rem;
   font-weight: 700;
   vertical-align: middle;
@@ -77,22 +77,27 @@ ol.quiz-choices {
   display: grid;
   gap: .45rem;
 }
+/* 선택지 번호는 정답 표기("정답: ②")와 같은 동그라미 숫자 */
+@counter-style circled {
+  system: fixed;
+  symbols: "①" "②" "③" "④" "⑤" "⑥" "⑦" "⑧" "⑨" "⑩";
+  suffix: "";
+}
 ol.quiz-choices > li {
   counter-increment: qc;
   position: relative;
-  padding: .55rem .8rem .55rem 2.3rem;
-  border: 1px solid var(--line);
-  border-radius: 7px;
-  background: var(--panel);
-  font-size: .95em;
+  padding: .45rem .8rem .45rem 2.4rem;
+  border-bottom: 1px dashed var(--line-2);
+  font-size: .97em;
 }
+ol.quiz-choices > li:last-child { border-bottom: 0; }
 ol.quiz-choices > li::before {
-  content: counter(qc, decimal-leading-zero);
+  content: counter(qc, circled);
   position: absolute;
-  left: .75rem;
-  color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: .82em;
+  left: .6rem;
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 1.1em;
 }
 details.quiz-answer summary {
   cursor: pointer;
@@ -112,9 +117,9 @@ details.quiz-answer[open] summary::before {
 details.quiz-answer[open] summary { margin-bottom: .5rem; }
 details.quiz-answer .quiz-a {
   padding: .7rem .9rem;
-  border-left: 3px solid var(--brand);
-  background: var(--brand-soft);
-  border-radius: 0 7px 7px 0;
+  border-left: 3px solid var(--red-pen);
+  background: var(--red-soft);
+  border-radius: 0 4px 4px 0;
   font-size: .92rem;
   line-height: 1.6;
 }
@@ -125,7 +130,10 @@ details.quiz-answer .quiz-a b { color: var(--ink); }
 table.tbl {
   width: 100%;
   border-collapse: collapse;
-  font-size: .92rem;
+  font-size: .94em;
+  background: var(--card);
+  border-top: 2px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
 }
 table.tbl th,
 table.tbl td {
@@ -136,11 +144,12 @@ table.tbl td {
 }
 table.tbl th {
   background: var(--paper-2);
+  border-bottom: 1.5px solid var(--ink);
   font-weight: 700;
   color: var(--ink-2);
   white-space: nowrap;
 }
-table.tbl tbody tr:nth-child(even) td { background: var(--paper-2); }
+table.tbl tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--paper-2) 60%, var(--card)); }
 
 
 /* 좁은 화면(모바일)에서는 원래 읽기용 레이아웃으로 되돌림 */

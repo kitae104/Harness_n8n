@@ -100,7 +100,7 @@
       <li><span class="step-title">워크플로우 시간대를 서울로 맞추기</span>
         캔버스 오른쪽 위 <code class="val">…</code> → <code class="val">Settings</code>를 누르고 <code class="val">Timezone</code> 목록에서 서울(<code>Asia/Seoul</code>)을 고른 뒤 저장 버튼을 누릅니다. <span class="inote" id="inote-d1-p7-1" data-inote="check" data-ref="F100"><b class="inote-tag">강사 확인 F100</b>워크플로우 시간대 설정 화면(<code class="val">Settings</code> → <code class="val">Timezone</code>) 표기와 위치</span>
         <span class="hint">이 설정이 없으면 n8n이 미국 시간을 써서, 오전에는 날짜가 하루 전으로 찍힙니다.</span>
-        <p><code class="val">Timezone</code>에 서울이 보이면 성공입니다.</p>
+        <p><mark class="ok"><code class="val">Timezone</code>에 서울이 보이면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title">시트에 머리글 두 칸 더하기</span>
@@ -109,7 +109,7 @@
           <div class="capture-cap">[그림 1-7-1] 머리글이 여덟 칸이 된 시트</div>
           <div class="capture-guide">민원대장 연습 1행: 이름~등록일 여섯 칸 오른쪽에 접수번호, 처리상태가 더해진 모습</div>
         </figure>
-        <p>1행이 <code>이름</code>~<code>처리상태</code> 여덟 칸이면 성공입니다.</p>
+        <p><mark class="ok">1행이 <code>이름</code>~<code>처리상태</code> 여덟 칸이면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title"><code class="val">오늘 접수 조회</code> 끼워 넣기</span>
@@ -120,7 +120,7 @@
           <li><code class="val">Filters</code>는 비워 둡니다(모든 줄을 읽습니다)</li>
         </ul>
         설정 창 맨 위 이름을 한 번 눌러 <code class="val">오늘 접수 조회</code>로 고칩니다.
-        <p>캔버스가 <code class="val">민원 정리</code> → <code class="val">오늘 접수 조회</code> → <code class="val">시트에 기록</code>으로 이어지면 성공입니다.</p>
+        <p><mark class="ok">캔버스가 <code class="val">민원 정리</code> → <code class="val">오늘 접수 조회</code> → <code class="val">시트에 기록</code>으로 이어지면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title"><code class="val">Always Output Data</code> 켜기</span>
@@ -130,7 +130,7 @@
           <div class="capture-cap">[그림 1-7-2] <code class="val">오늘 접수 조회</code> 설정</div>
           <div class="capture-guide">Google Sheets Get Row(s) 설정(Document·Sheet), 그리고 Settings 탭의 Always Output Data 켜진 모습 두 장</div>
         </figure>
-        <p>스위치가 켜진 모양이면 성공입니다. 창 바깥을 눌러 캔버스로 돌아갑니다.</p>
+        <p><mark class="ok">스위치가 켜진 모양이면 성공입니다.</mark> 창 바깥을 눌러 캔버스로 돌아갑니다.</p>
       </li>
 
       <li><span class="step-title"><code class="val">접수번호 만들기</code> 끼워 넣기</span>
@@ -148,7 +148,7 @@
           <div class="capture-cap">[그림 1-7-3] <code class="val">접수번호 만들기</code> 설정</div>
           <div class="capture-guide">Edit Fields Mode = JSON, JSON 칸이 Expression 모드로 위 표현식을 담은 모습, Settings 탭의 Execute Once 켜진 모습</div>
         </figure>
-        <p>JSON 칸이 <code>{{ Object.assign(</code>로 시작해 <code>}) }}</code>로 끝나고 <code class="val">Execute Once</code>가 켜져 있으면 성공입니다.</p>
+        <p><mark class="ok">JSON 칸이 <code>{{ Object.assign(</code>로 시작해 <code>}) }}</code>로 끝나고 <code class="val">Execute Once</code>가 켜져 있으면 성공입니다.</mark></p>
         <div class="note mistake" data-section="mistakes">
           <b>자주 하는 실수</b>
           <p><b>증상</b> 실행하면 <code class="val">접수번호 만들기</code>가 빨갛게 멈춰요<br>
@@ -165,7 +165,7 @@
           <li>설정 창을 맨 아래까지 내려 <code class="val">Add option</code>을 누르고 <code class="val">Cell Format</code>을 고른 뒤, 생긴 칸에서 <code class="val">Let n8n format</code>을 고릅니다</li>
         </ul>
         <span class="hint">마지막 옵션은 시트가 <code>2026-0925-001</code>을 날짜로 바꿔 버리지 않게 합니다.</span>
-        <p>여덟 칸 모두 <code>fx</code> 표시와 함께 채워져 있고 맨 아래 <code class="val">Cell Format</code> 칸이 생겼으면 성공입니다.</p>
+        <p><mark class="ok">여덟 칸 모두 <code>fx</code> 표시와 함께 채워져 있고 맨 아래 <code class="val">Cell Format</code> 칸이 생겼으면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title"><code class="val">앱에 답하기</code> 붙이기</span>
@@ -179,18 +179,18 @@
           <div class="capture-cap">[그림 1-7-4] 여섯 노드가 이어진 완성 워크플로우</div>
           <div class="capture-guide">민원 받기 → 민원 정리 → 오늘 접수 조회 → 접수번호 만들기 → 시트에 기록 → 앱에 답하기 여섯 노드가 한 줄로 이어진 캔버스</div>
         </figure>
-        <p>여섯 노드가 한 줄로 이어지면 성공입니다.</p>
+        <p><mark class="ok">여섯 노드가 한 줄로 이어지면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title"><code class="val">민원 받기</code>의 답장 방식 바꾸기</span>
         <code class="val">민원 받기</code>를 열어 <code class="val">Respond</code>를 <code class="val">Using 'Respond to Webhook' Node</code>로 바꿉니다(3교시 4단계와 같음).
-        <p><code class="val">Respond</code> 칸에 <code class="val">Using 'Respond to Webhook' Node</code>가 보이면 성공입니다.</p>
+        <p><mark class="ok"><code class="val">Respond</code> 칸에 <code class="val">Using 'Respond to Webhook' Node</code>가 보이면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title">다시 Publish하기</span>
         화면 위쪽 <code class="val">Publish</code> → 확인 창의 <code class="val">Publish</code>를 누릅니다. 설정을 여러 곳 바꿨으므로 꼭 다시 누릅니다.
         <span class="hint">앱에는 6교시에 넣은 Production URL이 그대로 있으므로 앱 주소는 바꾸지 않습니다.</span>
-        <p>확인 창이 닫히고 버튼이 게시된 모양(3교시 [그림 1-3-8])이면 성공입니다.</p>
+        <p><mark class="ok">확인 창이 닫히고 버튼이 게시된 모양(3교시 [그림 1-3-8])이면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title">앱에서 접수하고 접수번호 받기</span>
@@ -203,8 +203,8 @@
           <div class="capture-cap">[그림 1-7-5] 앱 화면에 표시된 접수번호</div>
           <div class="capture-guide">앱의 접수 완료 화면에 2026-0925-001 모양의 접수번호와 "접수되었습니다"가 보이는 모습, 옆에 같은 번호가 적힌 시트 줄</div>
         </figure>
-        <p>앱 화면에 <code>오늘날짜-001</code> 모양(예: <code>2026-0925-001</code>)의 번호가 보이고, 시트의 새 줄에도 같은 접수번호와 <code>접수</code>가 적혀 있으면 성공입니다.</p>
-        <p>한 번 더 <code>새 민원 접수</code>를 눌러 최주민 / 010-0000-0004 / minwon@example.com / 음식물 / 음식물 수거함이 넘칩니다. 로 접수합니다. 번호가 <code>…-002</code>로 늘어나면 성공입니다.</p>
+        <p><mark class="ok">앱 화면에 <code>오늘날짜-001</code> 모양(예: <code>2026-0925-001</code>)의 번호가 보이고, 시트의 새 줄에도 같은 접수번호와 <code>접수</code>가 적혀 있으면 성공입니다.</mark></p>
+        <p>한 번 더 <code>새 민원 접수</code>를 눌러 최주민 / 010-0000-0004 / minwon@example.com / 음식물 / 음식물 수거함이 넘칩니다. 로 접수합니다. <mark class="ok">번호가 <code>…-002</code>로 늘어나면 성공입니다.</mark></p>
         <span class="hint">2교시와 6교시에 쌓인 줄에는 접수번호가 없는데, 이 줄들은 순번에 세지 않으므로 괜찮습니다.</span>
         <div class="note mistake" data-section="mistakes">
           <b>자주 하는 실수</b>

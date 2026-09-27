@@ -82,12 +82,12 @@
         <a href="../assets/samples/gongmun-sample.html">가상 공문</a> 링크를 마우스 오른쪽 버튼으로 눌러 <code class="val">새 탭에서 링크 열기</code>로 엽니다. <kbd>Ctrl</kbd>+<kbd>P</kbd>를 누르고 대상(프린터)을 <code class="val">PDF로 저장</code>으로 바꿉니다.
         <code class="val">설정 더보기</code>에서 <code class="val">머리글 및 바닥글</code> 체크를 끕니다(켜 두면 내 PC 폴더 경로가 PDF에 찍힙니다). <code class="val">저장</code>을 누르고 <b>바탕 화면</b>에 <code>가상공문.pdf</code>로 저장합니다.
         <span class="hint">인쇄 창의 글자는 브라우저마다 조금 다릅니다. 크롬·엣지 모두 "PDF로 저장"이 대상 목록에 있습니다.</span>
-        <p>저장한 PDF를 열어 글자를 마우스로 끌어 고를 수 있으면 성공입니다(글자가 들어 있는 PDF라는 뜻입니다).</p>
+        <p><mark class="ok">저장한 PDF를 열어 글자를 마우스로 끌어 고를 수 있으면 성공입니다(글자가 들어 있는 PDF라는 뜻입니다).</mark></p>
       </li>
 
       <li><span class="step-title">새 워크플로우 만들고 이름 붙이기</span>
         n8n 첫 화면에서 <code class="val">Create workflow</code>를 누릅니다. 맨 위 제목(<code class="val">My workflow</code>)을 눌러 <code>PDF 공문 요약</code>으로 바꿉니다.
-        <p>맨 위 제목이 <code>PDF 공문 요약</code>이면 성공입니다. 이후 단계마다 <kbd>Ctrl</kbd>+<kbd>S</kbd>로 저장합니다.</p>
+        <p><mark class="ok">맨 위 제목이 <code>PDF 공문 요약</code>이면 성공입니다.</mark> 이후 단계마다 <kbd>Ctrl</kbd>+<kbd>S</kbd>로 저장합니다.</p>
       </li>
 
       <li><span class="step-title"><code class="val">공문 받기</code> 만들기</span>
@@ -98,7 +98,7 @@
           <li>설정 창 맨 아래 <code class="val">Add option</code> → <code class="val">Allowed Origins (CORS)</code>: <code>*</code></li>
         </ul>
         <span class="hint"><code class="val">Add option</code> 목록의 <code class="val">Field Name for Binary Data</code>는 넣지 않습니다. 넣으면 봉투 이름표가 <code>file</code>이 아니라 다른 이름으로 바뀝니다.</span>
-        <p>설정 창 위쪽 주소가 <code>…/gongmun-summary</code>로 끝나면 성공입니다.</p>
+        <p><mark class="ok">설정 창 위쪽 주소가 <code>…/gongmun-summary</code>로 끝나면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title"><code class="val">글자 뽑기</code> 잇기</span>
@@ -129,7 +129,7 @@
 
       <li><span class="step-title">Gemini 붙이기</span>
         설정 창을 닫고, 캔버스에서 <code class="val">AI 공문 요약</code> 아래의 작은 <code class="val">+</code>(<code class="val">Model</code> 글자 옆)를 눌러 <code class="val">Google Gemini Chat Model</code>을 고릅니다. 내 Gemini 자격 증명과 <code>models/gemini-3.8-flash</code>를 고릅니다.
-        <p><code class="val">AI 공문 요약</code> 아래에 Gemini가 붙으면 성공입니다.</p>
+        <p><mark class="ok"><code class="val">AI 공문 요약</code> 아래에 Gemini가 붙으면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title"><code class="val">앱에 답하기</code> 잇기 — 세 갈래 중 맨 위</span>
@@ -168,12 +168,12 @@
           <div class="capture-cap">[그림 opt-pdf-1] 세 갈래로 갈라진 캔버스</div>
           <div class="capture-guide">공문 받기 → 글자 뽑기 → AI 공문 요약(아래 Gemini) → 위부터 앱에 답하기·요약 메일·텔레그램 알림이 이어진 캔버스 전체</div>
         </figure>
-        <p><code class="val">AI 공문 요약</code>에서 갈래가 나뉘고 <code class="val">앱에 답하기</code>가 맨 위면 성공입니다. <kbd>Ctrl</kbd>+<kbd>S</kbd>로 저장합니다.</p>
+        <p><mark class="ok"><code class="val">AI 공문 요약</code>에서 갈래가 나뉘고 <code class="val">앱에 답하기</code>가 맨 위면 성공입니다.</mark> <kbd>Ctrl</kbd>+<kbd>S</kbd>로 저장합니다.</p>
       </li>
 
       <li><span class="step-title">앱 만들기</span>
         AI Studio(<code>aistudio.google.com/apps</code>)에서 <b>새 앱</b>을 만듭니다. <a href="../prompts/opt-pdf-upload-app.md">PDF 공문 요약 앱 주문서</a>를 열어 "1) 새 앱 만들기" 아래 <code>```text</code> 줄과 <code>```</code> 줄 <b>사이의 글만</b> 복사해 붙여 넣고 보냅니다(기호 줄과 제목은 복사하지 않습니다).
-        <p>오른쪽 미리보기에 <code>공문 요약</code> 제목, 파일 고르는 칸, <code>요약하기</code> 버튼이 보이면 성공입니다. 다 만들어지기 전에는 다음 문장을 보내지 않습니다.</p>
+        <p><mark class="ok">오른쪽 미리보기에 <code>공문 요약</code> 제목, 파일 고르는 칸, <code>요약하기</code> 버튼이 보이면 성공입니다.</mark> 다 만들어지기 전에는 다음 문장을 보내지 않습니다.</p>
       </li>
 
       <li><span class="step-title">앱에 Test URL 넣기 — 문장 먼저, 주소 나중</span>
@@ -182,7 +182,7 @@
           <li>n8n 탭으로 가서 <code class="val">공문 받기</code>를 두 번 눌러 열고, 위쪽 <code class="val">Test URL</code>을 눌러 주소를 복사합니다.</li>
           <li>AI Studio 탭으로 돌아와 따옴표 사이를 한 번 누르고 <kbd>Ctrl</kbd>+<kbd>V</kbd>를 누른 뒤 보냅니다.</li>
         </ol>
-        <p><code class="val">Code</code> 탭의 <code>WEBHOOK_URL</code>에 <code>webhook-test</code>가 들어간 주소가 보이면 성공입니다. <span class="inote" id="inote-opt-pdf-1" data-inote="check" data-ref="F82"><b class="inote-tag">강사 확인 F82</b>AI Studio 화면 배치(대화창·입력창·미리보기 위치), <code class="val">Preview</code>/<code class="val">Code</code> 탭 표기, Code 탭 파일 목록</span></p>
+        <p><mark class="ok"><code class="val">Code</code> 탭의 <code>WEBHOOK_URL</code>에 <code>webhook-test</code>가 들어간 주소가 보이면 성공입니다.</mark> <span class="inote" id="inote-opt-pdf-1" data-inote="check" data-ref="F82"><b class="inote-tag">강사 확인 F82</b>AI Studio 화면 배치(대화창·입력창·미리보기 위치), <code class="val">Preview</code>/<code class="val">Code</code> 탭 표기, Code 탭 파일 목록</span></p>
       </li>
 
       <li><span class="step-title">시험하기</span>
@@ -195,7 +195,7 @@
           <div class="capture-cap">[그림 opt-pdf-2] Binary 탭의 file과 앱의 요약</div>
           <div class="capture-guide">왼쪽: 공문 받기 출력(OUTPUT)의 Binary 탭에 file(가상공문.pdf), 오른쪽: 앱 화면에 다섯 줄 요약</div>
         </figure>
-        <p>앱에 목적·주요 내용·지원 사항·대상·일정 요약이 보이고, 메일(과 텔레그램)이 오면 성공입니다.
+        <p><mark class="ok">앱에 목적·주요 내용·지원 사항·대상·일정 요약이 보이고, 메일(과 텔레그램)이 오면 성공입니다.</mark>
            n8n에서도 확인합니다: <code class="val">공문 받기</code>를 두 번 눌러 열고, 오른쪽 결과(<code class="val">OUTPUT</code>) 칸 위쪽의 <code class="val">Binary</code> 탭을 누르면 <span class="inote" id="inote-opt-pdf-2" data-inote="check" data-ref="F10,F216"><b class="inote-tag">강사 확인 F10, F216</b>앱에서 고른 PDF가 n8n <code class="val">공문 받기</code> 결과의 <code class="val">Binary</code> 탭에 <code>file</code>로 들어오는지 / PDF 전송 시험: 1·5·15MB 파일, 100초 안에 끝나는지, 한글 PDF 글자 추출, <code class="val">Extract From PDF</code> 화면</span> <code>file</code> 이름표 아래 <code>가상공문.pdf</code>가 보입니다.</p>
         <div class="note mistake" data-section="mistakes">
           <b>자주 하는 실수</b>
@@ -258,7 +258,7 @@
         <a class="dl" href="../workflows/opt-pdf.json" download>워크플로우 내려받기 <span class="dl-name">opt-pdf.json</span></a>
       </li>
       <li><span class="step-title">n8n에서 가져오기</span>
-        <code class="val">Create workflow</code> → 오른쪽 위 <code class="val">…</code> → <code class="val">Import</code> → <code class="val">From file</code>. 노드 일곱 개가 보이면 성공입니다.
+        <code class="val">Create workflow</code> → 오른쪽 위 <code class="val">…</code> → <code class="val">Import</code> → <code class="val">From file</code>. <mark class="ok">노드 일곱 개가 보이면 성공입니다.</mark>
       </li>
       <li><span class="step-title">자격 증명 다시 연결하기</span>
         <code class="val">Google Gemini Chat Model</code>(Gemini API 키), <code class="val">요약 메일</code>(Gmail), <code class="val">텔레그램 알림</code>(봇 토큰, 봇이 없으면 이 노드를 눌러 <kbd>Delete</kbd>로 지웁니다)을 차례로 두 번 눌러 열고 내 자격 증명을 고릅니다.
@@ -267,7 +267,7 @@
         <code class="val">요약 메일</code>의 <code class="val">To</code>: <code>본인이메일@example.com</code> → 내 Gmail 주소. <code class="val">텔레그램 알림</code>의 <code class="val">Chat ID</code>: <code>여기에_본인_채팅_ID</code> → 내 chat id. Gemini <code class="val">Model</code>: <code>models/gemini-3.8-flash</code> 다시 고르기.
       </li>
       <li><span class="step-title">저장하기</span>
-        <kbd>Ctrl</kbd>+<kbd>S</kbd>로 저장합니다. 빨간 경고 표시가 붙은 노드가 없으면 성공입니다.
+        <kbd>Ctrl</kbd>+<kbd>S</kbd>로 저장합니다. <mark class="ok">빨간 경고 표시가 붙은 노드가 없으면 성공입니다.</mark>
       </li>
       <li><span class="step-title">앱 만들고 연결하기</span>
         따라하기 1단계로 가상 공문 PDF를 만들고, 10단계로 앱을 만든 뒤 11·12단계로 Test URL을 넣어 시험합니다. 마지막으로 13단계대로 <code class="val">Publish</code>하고 <b>내</b> <code class="val">공문 받기</code>의 Production URL을 앱에 넣습니다.

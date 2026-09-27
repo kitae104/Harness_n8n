@@ -88,7 +88,7 @@
           <li>보내기 버튼을 누르면 "아직 연결되지 않았습니다."가 뜨나요?</li>
           <li><code class="val">Code</code> 탭에서 <kbd>Ctrl</kbd>+<kbd>F</kbd>로 <code>WEBHOOK_URL</code>과 내 칸 이름(예: <code>점검장소</code>)을 찾았을 때 한글 그대로 보이나요?</li>
         </ul>
-        <p>셋 다 그렇다면 성공입니다.</p>
+        <p><mark class="ok">셋 다 그렇다면 성공입니다.</mark></p>
         <span class="hint">예시 주문서: <a href="../prompts/d2-p5-field-inspection-app.md">현장점검 보고 앱 주문서</a>. 화면이 마음에 들지 않으면 1일차 5교시의 수정 요청 문장을 씁니다. 연습에 넣는 값도 가상 값(예: OO동 체육공원 / 오점검)입니다.</span>
       </li>
 
@@ -97,20 +97,20 @@
         1행에 <b>입력 칸 이름</b> + <code>등록일</code>, <code>접수번호</code>, <code>처리상태</code>를 한 칸씩 적습니다.
         <pre class="code-block">점검장소	점검결과	특이사항	점검자	등록일	접수번호	처리상태</pre>
         <span class="hint">위는 예시입니다. 앞 네 칸을 내 입력 칸 이름으로 바꿔 적습니다. 띄어쓰기 없이, 설계서와 똑같이 씁니다.</span>
-        <p>1행이 내 칸 이름 + 세 칸으로 채워지면 성공입니다.</p>
+        <p><mark class="ok">1행이 내 칸 이름 + 세 칸으로 채워지면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title">워크플로우 뼈대 준비하기 (5분)</span>
         이 교시 끝 "완성본 가져오기"로 <b>현장점검 예시</b>를 가져오는 것이 가장 쉽습니다(노드 여섯 개가 이미 한 줄로 이어져 있습니다).
         <span class="hint">민원 접수 워크플로우를 복제해 쓰려면: n8n에서 그 워크플로우를 열고 오른쪽 위 <code class="val">…</code> → <code class="val">Duplicate</code>를 누른 뒤, 복사본에서 <code class="val">민원 받기</code>·<code class="val">민원 정리</code>·<code class="val">오늘 접수 조회</code>·<code class="val">접수번호 만들기</code>·<code class="val">시트에 기록</code>·<code class="val">앱에 답하기</code> 여섯 개만 남기고 나머지(메일·캘린더·AI·If·텔레그램·조회 흐름)는 한 번 눌러 <kbd>Delete</kbd>로 지웁니다. <span class="inote" id="inote-d2-p5-1" data-inote="check" data-ref="F203"><b class="inote-tag">강사 확인 F203</b>워크플로우 오른쪽 위 <code class="val">…</code> → <code class="val">Duplicate</code> 메뉴와 이름 입력 창</span>
           지운 뒤 <code class="val">시트에 기록</code> 오른쪽 점에서 <code class="val">앱에 답하기</code> 왼쪽 점으로 선을 다시 잇고, <code class="val">앱에 답하기</code>의 <code class="val">Response Body</code>를 1일차 7교시 답장 글(<code>접수번호</code>·<code>메시지</code> 두 줄)로 바꿉니다. AI 안내문을 지웠으므로 <code>$json.text</code>가 남아 있으면 안 됩니다.</span>
-        <p>캔버스에 노드 여섯 개가 한 줄로 이어져 있으면 성공입니다.</p>
+        <p><mark class="ok">캔버스에 노드 여섯 개가 한 줄로 이어져 있으면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title">받기 노드 고치기</span>
         받기(Webhook) 노드를 엽니다. <code class="val">Path</code>를 새 영어 단어로 바꿉니다(예시는 <code>field-check</code>, 내 서비스면 <code>my-report</code> 같은 다른 단어). 민원 접수와 같은 <code>minwon</code>을 쓰면 충돌합니다.
         <code class="val">Allowed Origins (CORS)</code> <code>*</code>, <code class="val">Respond</code>는 그대로 둡니다.
-        <p>위쪽 주소가 새 단어로 끝나면 성공입니다.</p>
+        <p><mark class="ok">위쪽 주소가 새 단어로 끝나면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title">정리 노드 고치기</span>
@@ -121,14 +121,14 @@
           <li>오른쪽 칸에 마우스를 올려 <code class="val">Expression</code>을 누르고 <code>{{ $json.body['점검장소'] }}</code>처럼 적습니다(따옴표 안에 내 칸 이름).</li>
           <li>칸 수만큼 2~3을 되풀이합니다.</li>
         </ol>
-        <p>줄 수가 칸 개수와 같고, 왼쪽 이름과 <code>body['…']</code> 안의 이름이 설계서와 한 글자도 다르지 않으면 성공입니다.</p>
+        <p><mark class="ok">줄 수가 칸 개수와 같고, 왼쪽 이름과 <code>body['…']</code> 안의 이름이 설계서와 한 글자도 다르지 않으면 성공입니다.</mark></p>
         <span class="hint">아직 앱에서 보낸 적이 없어 왼쪽 입력 목록이 비어 있으므로, 1일차 6교시처럼 끌어다 놓는 방법 대신 직접 적습니다.</span>
       </li>
 
       <li><span class="step-title"><code class="val">접수번호 만들기</code> 고치기</span>
         정리 노드 이름을 바꾸지 않았으면 건너뜁니다. 바꿨으면 JSON 칸을 <kbd>Ctrl</kbd>+<kbd>A</kbd>, <kbd>Delete</kbd>로 비우고, 아래 줄을 세 번 눌러 복사해 붙여 넣은 뒤 <code>점검 정리</code> 네 글자만 내 정리 노드 이름으로 고칩니다.
         <pre class="code-block">{{ Object.assign({}, $('점검 정리').first().json, { "접수번호": $now.toFormat('yyyy-MMdd') + '-' + String($('오늘 접수 조회').all().filter(i => String(i.json['접수번호'] || '').startsWith($now.toFormat('yyyy-MMdd'))).length + 1).padStart(3, '0'), "처리상태": "접수" }) }}</pre>
-        <p>JSON 칸 안에 내 정리 노드 이름이 보이고 <code>}) }}</code>로 끝나면 성공입니다.</p>
+        <p><mark class="ok">JSON 칸 안에 내 정리 노드 이름이 보이고 <code>}) }}</code>로 끝나면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title">시트 노드 두 개 고치기</span>
@@ -139,7 +139,7 @@
           <li>나머지 세 칸: <code>등록일</code> = <code>{{ $now.toFormat('yyyy-MM-dd') }}</code>, <code>접수번호</code> = <code>{{ $json.접수번호 }}</code>, <code>처리상태</code> = <code>{{ $json.처리상태 }}</code></li>
           <li>맨 아래 <code class="val">Cell Format</code>이 <code class="val">Let n8n format</code>인지 봅니다.</li>
         </ol>
-        <p>열 목록이 새 시트 머리글과 같고 모든 칸에 <code>fx</code> 표시가 있으면 성공입니다. <code class="val">앱에 답하기</code>는 <code>메시지</code> 문구만 내 서비스에 맞게 바꿉니다(예: "점검 보고가 접수되었습니다").</p>
+        <p><mark class="ok">열 목록이 새 시트 머리글과 같고 모든 칸에 <code>fx</code> 표시가 있으면 성공입니다.</mark> <code class="val">앱에 답하기</code>는 <code>메시지</code> 문구만 내 서비스에 맞게 바꿉니다(예: "점검 보고가 접수되었습니다").</p>
         <div class="note mistake" data-section="mistakes">
           <b>자주 하는 실수</b>
           <p><b>증상</b> 시트에 줄은 생기는데 칸이 비어 있어요<br>
@@ -155,7 +155,7 @@
         <ol>
           <li>받기 노드의 Test URL을 앱의 <code>WEBHOOK_URL</code>에 넣습니다(1일차 6교시 2단계 문장, "문장 먼저 → 주소 나중" 순서).</li>
           <li>앱에 가상 값을 채우고 <b>아직 누르지 않습니다.</b></li>
-          <li>n8n 캔버스 아래 <code class="val">Execute workflow</code>를 누르고 2분 안에 앱에서 보냅니다. 여섯 노드가 초록이고 시트에 한 줄이 생기면 성공입니다.</li>
+          <li>n8n 캔버스 아래 <code class="val">Execute workflow</code>를 누르고 2분 안에 앱에서 보냅니다. <mark class="ok">여섯 노드가 초록이고 시트에 한 줄이 생기면 성공입니다.</mark></li>
           <li><code class="val">Publish</code> → 확인 창의 <code class="val">Publish</code>를 누릅니다.</li>
           <li>받기 노드의 Production URL(<code>/webhook/</code>)을 같은 방법으로 앱에 넣고 한 번 더 보냅니다. 앱에 접수번호가 보이면 이 교시의 목표를 이룬 것입니다.</li>
         </ol>
@@ -199,7 +199,7 @@
         <a class="dl" href="../workflows/d2-p5.json" download>예시 워크플로우 내려받기 <span class="dl-name">d2-p5.json</span></a>
       </li>
       <li><span class="step-title">n8n에서 가져오기</span>
-        <code class="val">Create workflow</code> → 오른쪽 위 <code class="val">…</code> → <code class="val">Import</code> → <code class="val">From file</code>. 노드 여섯 개가 보이면 성공입니다.
+        <code class="val">Create workflow</code> → 오른쪽 위 <code class="val">…</code> → <code class="val">Import</code> → <code class="val">From file</code>. <mark class="ok">노드 여섯 개가 보이면 성공입니다.</mark>
       </li>
       <li><span class="step-title">자격 증명 다시 연결하기</span>
         <code class="val">오늘 접수 조회</code>와 <code class="val">시트에 기록</code>을 열어 <code class="val">Credential</code> 칸에서 내 구글 시트 <dfn>자격 증명</dfn>(n8n이 내 계정을 대신 쓰도록 맡겨 둔 열쇠)을 고릅니다.

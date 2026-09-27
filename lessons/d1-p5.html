@@ -85,7 +85,7 @@
     <ol class="steps">
       <li><span class="step-title">4교시 앱 다시 열기</span>
         AI Studio(<code>aistudio.google.com/apps</code>) 왼쪽 메뉴의 <code class="val">Apps</code>를 누르고, 목록 맨 위(가장 최근)의 앱을 누릅니다. 앱 이름은 영어일 수 있습니다.
-        <p>오른쪽 미리보기에 민원 접수 화면이 보이면 성공입니다.</p>
+        <p><mark class="ok">오른쪽 미리보기에 민원 접수 화면이 보이면 성공입니다.</mark></p>
         <span class="hint">앱을 찾지 못하면 <a href="d1-p4.html#practice">4교시 따라하기</a> 2단계의 프롬프트를 다시 붙여 넣어 새로 만듭니다(3분). 다 만들어지면 브라우저의 뒤로 가기(←)로 이 교안에 돌아옵니다.</span>
       </li>
 
@@ -96,7 +96,7 @@
           <div class="capture-cap">[그림 1-5-1] 제목과 안내 문구가 바뀐 미리보기</div>
           <div class="capture-guide">요청 1을 보낸 뒤 대화 패널의 요청 글과, 오른쪽 미리보기의 바뀐 제목·안내 문구 강조. 대화 입력창과 보내기 버튼 위치가 보이게</div>
         </figure>
-        <p>미리보기의 제목과 안내 문구가 바뀌고 입력 칸은 그대로면 성공입니다.</p>
+        <p><mark class="ok">미리보기의 제목과 안내 문구가 바뀌고 입력 칸은 그대로면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title">요청 3 — 개인정보 동의 칸 넣기</span>
@@ -108,18 +108,18 @@
           <div class="capture-guide">접수하기 버튼 위 동의 체크 칸, 체크하지 않고 눌렀을 때의 동의 안내 문구</div>
         </figure>
         <p>미리보기에 가상 값(이름 <code>홍길동</code>, 연락처 <code>010-1234-5678</code>, 이메일 <code>minwon@example.com</code>, 종류 <code>생활</code>, 상세설명 <code>보도블록이 깨져 있습니다.</code>)을 모두 넣고,
-           <b>동의 칸만 비운 채</b> <code>접수하기</code>를 누릅니다. "개인정보 수집·이용에 동의해 주세요."가 뜨면 성공입니다. 실제 이름·연락처는 넣지 않습니다.</p>
+           <b>동의 칸만 비운 채</b> <code>접수하기</code>를 누릅니다. <mark class="ok">"개인정보 수집·이용에 동의해 주세요."가 뜨면 성공입니다.</mark> 실제 이름·연락처는 넣지 않습니다.</p>
       </li>
 
       <li><span class="step-title">접수하기로 확인하기</span>
         이번에는 동의 칸에 체크하고 <code>접수하기</code>를 누릅니다.
-        <p>"아직 접수 창구와 연결되지 않았습니다"가 뜨면 성공입니다.</p>
+        <p><mark class="ok">"아직 접수 창구와 연결되지 않았습니다"가 뜨면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title"><code class="val">Code</code> 탭에서 주소 자리 확인하기</span>
         미리보기 위쪽의 <code class="val">Code</code> 탭을 누르고, 4교시 5단계([그림 1-4-4])처럼 코드 영역을 한 번 누른 뒤 <kbd>Ctrl</kbd>+<kbd>F</kbd>로 <code>WEBHOOK_URL</code>을 검색합니다.
         코드 영역을 누른 뒤에는 글자를 치지 않습니다.
-        <p><code>WEBHOOK_URL</code>이 보이면 성공입니다. 확인했으면 미리보기 탭을 눌러 돌아갑니다. 화면을 고칠 때마다 4·5단계 확인을 한 번씩 하는 습관을 들입니다.</p>
+        <p><mark class="ok"><code>WEBHOOK_URL</code>이 보이면 성공입니다.</mark> 확인했으면 미리보기 탭을 눌러 돌아갑니다. 화면을 고칠 때마다 4·5단계 확인을 한 번씩 하는 습관을 들입니다.</p>
         <div class="note mistake" data-section="mistakes">
           <b>자주 하는 실수</b>
           <p><b>증상</b> 입력 칸 이름이 바뀌었어요(예: <code>이름</code>이 <code>성함</code>으로)<br>
@@ -134,7 +134,7 @@
       <li><span class="step-title">(시간이 남으면) 요청 2와 되돌리기 연습</span>
         옆 사람보다 늦었다면 이 단계는 건너뛰고 B로 갑니다. 아래 요청 2를 보내 색과 버튼을 바꿔 봅니다.
         <pre class="code-block">배경을 아주 연한 하늘색으로, "접수하기" 버튼은 진한 파란색 바탕에 흰 글씨로 바꾸고 버튼을 화면 가로 폭에 꽉 차게 해 줘. 입력 칸의 이름과 순서는 바꾸지 마.</pre>
-        <p>색이 바뀌었으면, 마음에 들지 않는다고 생각하고 아래 글로 되돌립니다. 색이 원래대로 돌아가면 성공입니다.</p>
+        <p>색이 바뀌었으면, 마음에 들지 않는다고 생각하고 아래 글로 되돌립니다. <mark class="ok">색이 원래대로 돌아가면 성공입니다.</mark></p>
         <pre class="code-block">방금 바꾼 것을 되돌려서 바로 전 상태로 돌아가 줘.</pre>
         <span class="hint">대화 패널에 <code class="val">Restore</code> 같은 되돌리기 버튼이 보여도 오늘은 누르지 않습니다. 어느 요청의 버튼을 누르느냐에 따라 여러 단계가 한꺼번에 사라질 수 있습니다. <span class="inote" id="inote-d1-p5-2" data-inote="check" data-ref="F77"><b class="inote-tag">강사 확인 F77</b>되돌리기(체크포인트) 버튼 이름·위치, 새로고침 뒤 유지, <code class="val">Apps</code> 목록 자동 저장</span></span>
       </li>
@@ -146,7 +146,7 @@
         아래 글을 대화 입력창에 붙여 넣고 보냅니다.
         <pre class="code-block">연습을 위해 일부러 오류를 하나 만들어 줘. "접수하기" 버튼을 누르면 화면에 오류 문구가 뜨도록, 버튼을 눌렀을 때 실행되는 코드 안에서 존재하지 않는 함수를 부르게 바꿔 줘. 오류는 고치지 말고 그대로 둬. 다른 부분은 바꾸지 마.</pre>
         <p>바뀐 뒤 A-3과 같은 가상 값을 넣고 동의에 체크한 다음 <code>접수하기</code>를 누릅니다.
-           미리보기나 대화 패널에 오류 글(보통 영어, 예: <code>… is not defined</code>)이 보이면 성공입니다. 읽지 않아도 됩니다. <span class="inote" id="inote-d1-p5-3" data-inote="check" data-ref="F84"><b class="inote-tag">강사 확인 F84</b>"오류를 일부러 만들어 줘" 요청에 AI가 따르는지·거절하는지·스스로 고치는지. 안 따르면 연습 방법을 바꿔야 함</span></p>
+           <mark class="ok">미리보기나 대화 패널에 오류 글(보통 영어, 예: <code>… is not defined</code>)이 보이면 성공입니다.</mark> 읽지 않아도 됩니다. <span class="inote" id="inote-d1-p5-3" data-inote="check" data-ref="F84"><b class="inote-tag">강사 확인 F84</b>"오류를 일부러 만들어 줘" 요청에 AI가 따르는지·거절하는지·스스로 고치는지. 안 따르면 연습 방법을 바꿔야 함</span></p>
         <div class="note planb">
           <b>오류 대신 "아직 접수 창구와 연결되지 않았습니다"가 뜨면</b>
           AI가 오류를 만들지 않았거나 스스로 고친 것입니다. 이때는 2단계대로 신고 문장을 입력창에 붙여 넣고, 오류 글 대신 아래 연습용 오류 문구를 복사해 <code>오류:</code> 아래에 붙여 넣는 데까지만 연습합니다. <b>보내지 않습니다.</b>
@@ -162,7 +162,7 @@
 
 오류:
 (여기에 복사한 오류 문구를 붙여 넣기)</pre>
-        <p><code>오류:</code> 아래가 빈 줄이면 성공입니다.</p>
+        <p><mark class="ok"><code>오류:</code> 아래가 빈 줄이면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title">오류 글 복사해 끼워 넣고 보내기</span>
@@ -175,7 +175,7 @@
           <div class="capture-cap">[그림 1-5-3] 오류 글이 보이는 곳</div>
           <div class="capture-guide">연습 1 뒤 접수하기를 눌렀을 때 미리보기의 오류 글과 대화 패널에 나타난 오류 알림(오류 고치기 버튼이 있으면 함께) 강조. 입력창에 신고 문장과 오류 글이 들어간 모습도 한 장</div>
         </figure>
-        <p>AI가 원인을 한 줄로 설명하고, 다시 <code>접수하기</code>를 눌렀을 때 "아직 접수 창구와 연결되지 않았습니다"가 뜨면 성공입니다.</p>
+        <p><mark class="ok">AI가 원인을 한 줄로 설명하고, 다시 <code>접수하기</code>를 눌렀을 때 "아직 접수 창구와 연결되지 않았습니다"가 뜨면 성공입니다.</mark></p>
         <div class="note mistake" data-section="mistakes">
           <b>자주 하는 실수</b>
           <p><b>증상</b> 입력창에 붙여 넣었더니 오류 글이 아니라 신고 문장이 또 들어가요<br>
@@ -190,7 +190,7 @@
       <li><span class="step-title">두 번째 연습 (2회차)</span>
         이번에는 다른 오류로 1~3단계를 한 번 더 합니다. 아래 글을 붙여 넣고 보냅니다.
         <pre class="code-block">연습을 위해 일부러 오류를 하나 더 만들어 줘. 이번에는 앱이 열리자마자 미리보기에 오류가 보이도록, 화면을 그리는 코드에서 닫는 괄호 하나를 지워 줘. 오류는 고치지 말고 그대로 둬. 다른 부분은 바꾸지 마.</pre>
-        <p>미리보기가 다시 민원 접수 화면으로 돌아오면 성공입니다.</p>
+        <p><mark class="ok">미리보기가 다시 민원 접수 화면으로 돌아오면 성공입니다.</mark></p>
         <span class="hint">미리보기가 하얗게 비어 있고 오류 글이 어디에도 보이지 않으면, 신고 문장의 <code>오류:</code> 아래에 "미리보기가 하얗게 비어 있고 아무것도 안 보여"라고 직접 적어서 보냅니다. 이것도 루틴 연습입니다.</span>
       </li>
 

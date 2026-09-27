@@ -86,7 +86,7 @@
           <div class="capture-cap">[그림 2-2-1] <code class="val">생활인가?</code> 조건</div>
           <div class="capture-guide">If 설정: Conditions에 {{ $json['종류'] }} / is equal to / 생활, 캔버스에서 true 갈래가 담당자 메일로 이어진 모습</div>
         </figure>
-        <p><code class="val">생활인가?</code>의 <code class="val">true</code> 갈래(위)가 <code class="val">담당자 메일</code>로 이어져 있으면 성공입니다. 이어져 있지 않으면 <code class="val">true</code> 점에서 <code class="val">담당자 메일</code>로 끌어 잇습니다.</p>
+        <p><mark class="ok"><code class="val">생활인가?</code>의 <code class="val">true</code> 갈래(위)가 <code class="val">담당자 메일</code>로 이어져 있으면 성공입니다.</mark> 이어져 있지 않으면 <code class="val">true</code> 점에서 <code class="val">담당자 메일</code>로 끌어 잇습니다.</p>
       </li>
 
       <li><span class="step-title"><code class="val">일반 담당자 메일</code> 만들기</span>
@@ -94,7 +94,7 @@
         <code class="val">생활인가?</code>의 <code class="val">false</code> 점(아래)에서 <code class="val">일반 담당자 메일</code>로 끌어 잇습니다.
         <p><code class="val">일반 담당자 메일</code>의 <code class="val">Subject</code>를 지우고(<code class="val">Expression</code> 상태 유지) 아래 한 줄을 붙여 넣어 두 메일을 구분합니다.</p>
         <pre class="code-block">[{{ $json.종류 }}·강처리] 민원 접수 {{ $json.접수번호 }}</pre>
-        <p><code class="val">생활인가?</code>에서 <code class="val">true</code> → <code class="val">담당자 메일</code>, <code class="val">false</code> → <code class="val">일반 담당자 메일</code>로 갈라지면 성공입니다. 실습에서는 두 메일 모두 내 주소로 옵니다.</p>
+        <p><mark class="ok"><code class="val">생활인가?</code>에서 <code class="val">true</code> → <code class="val">담당자 메일</code>, <code class="val">false</code> → <code class="val">일반 담당자 메일</code>로 갈라지면 성공입니다.</mark> 실습에서는 두 메일 모두 내 주소로 옵니다.</p>
       </li>
     </ol>
 
@@ -108,7 +108,7 @@
           <li><code class="val">Respond</code>: <code class="val">Using 'Respond to Webhook' Node</code></li>
           <li><code class="val">Add option</code> → <code class="val">Allowed Origins (CORS)</code>: <code>*</code> — <b>체크리스트 1번, 이 입구도 앱이 부릅니다</b></li>
         </ul>
-        <p>위쪽 주소가 <code>…/minwon-status</code>로 끝나면 성공입니다.</p>
+        <p><mark class="ok">위쪽 주소가 <code>…/minwon-status</code>로 끝나면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title"><code class="val">접수번호로 찾기</code> 잇기</span>
@@ -121,7 +121,7 @@
           <li><code class="val">Settings</code> 탭 → <code class="val">Always Output Data</code> 켜기</li>
         </ul>
         <span class="hint"><code>query.no</code>는 주소 뒤 <code>?no=</code>에 붙여 보낸 접수번호입니다.</span>
-        <p><code class="val">Filters</code>에 한 줄, <code class="val">Always Output Data</code>가 켜져 있으면 성공입니다.</p>
+        <p><mark class="ok"><code class="val">Filters</code>에 한 줄, <code class="val">Always Output Data</code>가 켜져 있으면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title"><code class="val">찾았나?</code>와 답하기 둘</span>
@@ -140,7 +140,7 @@
           <div class="capture-cap">[그림 2-2-2] 조회 흐름</div>
           <div class="capture-guide">캔버스 아래쪽: 상태 조회 → 접수번호로 찾기 → 찾았나? → true 조회 결과 답하기 / false 없음 답하기</div>
         </figure>
-        <p><code class="val">찾았나?</code>에서 두 답하기로 갈라지면 성공입니다.</p>
+        <p><mark class="ok"><code class="val">찾았나?</code>에서 두 답하기로 갈라지면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title">주소창으로 먼저 시험하기</span>
@@ -151,8 +151,8 @@
           <li>2분 안에 <kbd>Enter</kbd>를 누릅니다.</li>
         </ol>
         <pre class="code-block">https://(내 n8n 주소)/webhook-test/minwon-status?no=2026-0925-001</pre>
-        <p>브라우저에 <code>"찾음": true</code>와 처리상태·담당자·처리마감이 보이면 성공입니다.</p>
-        <span class="hint">시간이 남으면: <code class="val">Execute workflow</code>를 다시 눌러 <code class="val">from 상태 조회</code>로 기다리게 한 뒤, 주소 끝 번호만 <code>2026-0101-999</code>로 바꿔 <kbd>Enter</kbd>를 누릅니다. <code>"찾음": false</code>가 보이면 성공입니다.</span>
+        <p><mark class="ok">브라우저에 <code>"찾음": true</code>와 처리상태·담당자·처리마감이 보이면 성공입니다.</mark></p>
+        <span class="hint">시간이 남으면: <code class="val">Execute workflow</code>를 다시 눌러 <code class="val">from 상태 조회</code>로 기다리게 한 뒤, 주소 끝 번호만 <code>2026-0101-999</code>로 바꿔 <kbd>Enter</kbd>를 누릅니다. <mark class="ok"><code>"찾음": false</code>가 보이면 성공입니다.</mark></span>
         <div class="note mistake" data-section="mistakes">
           <b>자주 하는 실수</b>
           <p><b>증상</b> 브라우저에 <code>The requested webhook "…" is not registered.</code> 같은 영어 글이 떠요<br>
@@ -175,7 +175,7 @@
         </div>
         앱에서 가상 민원 두 건을 접수합니다: ① 최주민 / 010-0000-0006 / minwon@example.com / <b>생활</b> / 가로등이 깜빡입니다. ② 박시민 / 010-0000-0007 / minwon@example.com / <b>음식물</b> / 수거함이 넘칩니다.
         <b>①의 접수번호를 메모해 둡니다</b>(9단계에서 조회합니다).
-        <p>①은 원래 제목(<code>[생활] 민원 접수 …</code>), ②는 <code>[음식물·강처리]</code> 제목으로 메일이 오면 성공입니다.</p>
+        <p><mark class="ok">①은 원래 제목(<code>[생활] 민원 접수 …</code>), ②는 <code>[음식물·강처리]</code> 제목으로 메일이 오면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title">앱에 조회 화면 만들기</span>
@@ -197,7 +197,7 @@
 
 [바꾸지 말 것]
 - 민원 접수 화면, 입력 칸 이름, WEBHOOK_URL은 그대로 둬.</pre>
-        <p>AI의 답이 끝나고 미리보기 위쪽에 <code>민원 접수</code>와 <code>처리 상태 조회</code> 두 탭(또는 버튼)이 보이면 성공입니다.</p>
+        <p><mark class="ok">AI의 답이 끝나고 미리보기 위쪽에 <code>민원 접수</code>와 <code>처리 상태 조회</code> 두 탭(또는 버튼)이 보이면 성공입니다.</mark></p>
       </li>
 
       <li><span class="step-title">앱에서 조회해 보기</span>
@@ -206,7 +206,7 @@
           <div class="capture-cap">[그림 2-2-3] 앱의 처리 상태 조회 화면</div>
           <div class="capture-guide">앱 조회 탭: 접수번호 입력, 결과 표(접수번호·처리상태 접수·담당자 정담당·처리마감), 없는 번호일 때 빨간 오류 글 두 장</div>
         </figure>
-        <p>처리상태 <code>접수</code>, 담당자 <code>정담당</code>, 처리마감(등록일 + 3일)이 표로 보이면 성공입니다.</p>
+        <p><mark class="ok">처리상태 <code>접수</code>, 담당자 <code>정담당</code>, 처리마감(등록일 + 3일)이 표로 보이면 성공입니다.</mark></p>
         <span class="hint">시간이 남으면: 시트에서 그 줄의 처리상태를 <code>처리중</code>으로 고친 뒤 다시 조회해, 바뀐 상태가 보이는지 확인합니다.</span>
         <div class="note mistake" data-section="mistakes">
           <b>자주 하는 실수</b>
@@ -236,7 +236,7 @@
 종류: {{ $json.종류 }}
 접수자: {{ $json.이름 }}</pre>
         <span class="hint">알림에는 상세 설명을 넣지 않습니다. 민원인이 쓴 글에 <code>_</code>, <code>*</code> 같은 기호가 있으면 텔레그램 전송이 실패할 수 있고, 메신저에 개인정보가 덜 남게 하기 위해서입니다.</span>
-        <p>다시 <code class="val">Publish</code>하고 앱에서 가상 민원을 한 건 접수했을 때 텔레그램에 알림이 오면 성공입니다.</p>
+        <p><mark class="ok">다시 <code class="val">Publish</code>하고 앱에서 가상 민원을 한 건 접수했을 때 텔레그램에 알림이 오면 성공입니다.</mark></p>
         <div class="note planb">
           <b>텔레그램 봇이 없거나 토큰을 모를 때</b>
           <ul>
@@ -314,7 +314,7 @@
         <a class="dl" href="../workflows/d2-p2.json" download>워크플로우 내려받기 <span class="dl-name">d2-p2.json</span></a>
       </li>
       <li><span class="step-title">n8n에서 가져오기</span>
-        <code class="val">Create workflow</code> → 오른쪽 위 <code class="val">…</code> → <code class="val">Import</code> → <code class="val">From file</code>. 노드 열여덟 개가 보이면 성공입니다.
+        <code class="val">Create workflow</code> → 오른쪽 위 <code class="val">…</code> → <code class="val">Import</code> → <code class="val">From file</code>. <mark class="ok">노드 열여덟 개가 보이면 성공입니다.</mark>
       </li>
       <li><span class="step-title">자격 증명 다시 연결하기</span>
         <ul>
