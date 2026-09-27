@@ -2,7 +2,7 @@
 
 사용법:  python scripts/build.py
 
-- index.html: 첫 화면(공책 표지) — 과정 소개, 완성 서비스 흐름 그림, 학교 시간표 모양의 이틀 시간표(없는 교시는 "준비 중"). 스타일은 assets/css/home.css
+- index.html: 첫 화면(n8n 캔버스) — 과정 소개, 한 번 "실행"되는 완성 서비스 흐름 그림, 워크플로우 목록 모양의 이틀 시간표(없는 교시는 "준비 중"). 스타일은 assets/css/home.css
 - instructor-notes.html: 교안 안의 강사 표시(inote)를 교시별로 모은 준비 목록. 표시가 하나도 없으면 만들지 않고 지운다
 - print/textbook.html: 존재하는 교시 HTML의 <main>을 시간표 순서로 이어 붙인 인쇄용 한 파일.
   브라우저로 열어 "PDF로 인쇄"하면 교시마다 새 페이지에서 시작한다(lesson.css의 @media print).
@@ -63,6 +63,10 @@ def _node(x, y, w, h, title, sub, kind, ports):
     if sub:
         out.append(f'<text class="ns" x="{x + 26}" y="{ty + 20}">{s}</text>')
     out += [f'<circle class="port" cx="{cx}" cy="{cy}" r="4.5"/>' for cx, cy in ports]
+    # 실행 성공 표시(초록 체크) — home.css가 차례로 보이게 한다
+    bx, by = x + w - 6, y + h - 6
+    out.append(f'<g class="ran"><circle cx="{bx}" cy="{by}" r="10"/>'
+               f'<path d="M{bx - 4.5},{by} l3,3 l6,-6.5"/></g>')
     out.append("</g>")
     return "".join(out)
 
@@ -107,51 +111,33 @@ def _split(title: str):
     return main, sub
 
 
-def _cell(l) -> str:
-    """시간표 한 칸. 교안이 있으면 링크, 없으면 "준비 중"."""
-    if l is None:
-        return "<td></td>"
+def _row(l) -> str:
+    """시간표(워크플로우 목록 모양) 한 줄. 교안이 있으면 링크, 없으면 "준비 중"."""
     main, sub = _split(l["title"])
-    inner = f'<b>{html.escape(main)}</b>' + (f'<span class="ps">{html.escape(sub)}</span>' if sub else "")
-    if (ROOT / "lessons" / f'{l["id"]}.html').exists():
-        return f'<td><a href="lessons/{l["id"]}.html">{inner}</a></td>'
-    return f'<td class="todo">{inner}<span class="ps">준비 중</span></td>'
-
-
-def _opt(l) -> str:
-    main, sub = _split(l["title"])
-    inner = f'<b>{html.escape(main)}</b>' + (f' {html.escape(sub)}' if sub else "")
+    num = "선택" if l["period"] is None else f'{l["period"]}교시'
+    tm = html.escape(l["time"].split("~")[0]) if l["period"] is not None else "자율"
+    inner = (f'<span class="p">{num}</span><span class="nm"><b>{html.escape(main)}</b>'
+             + (f'<span class="ps">{html.escape(sub)}</span>' if sub else "")
+             + f'</span><span class="tm">{tm}</span>')
     if (ROOT / "lessons" / f'{l["id"]}.html').exists():
         return f'<li><a href="lessons/{l["id"]}.html">{inner}</a></li>'
-    return f'<li class="todo">{inner} (준비 중)</li>'
+    return f'<li class="todo"><span class="row">{inner}</span></li>'
 
 
 DAY_THEME = {1: "n8n 다지기, 첫 앱, 그리고 연결", 2: "자동화 확장과 나만의 업무 서비스"}
-LUNCH_AFTER = 3  # 오전 3교시 뒤 점심
 
 
 def build_index(lessons, notes_total: int = 0) -> str:
-    grid, extra = {}, []
+    days, extra = {1: [], 2: []}, []
     for l in lessons:
-        if l["period"] is None:
-            extra.append(_opt(l))
-        else:
-            grid[(l["day"], l["period"])] = l
+        (extra if l["period"] is None else days[l["day"]]).append(_row(l))
     first = next((l for l in lessons if l["period"] == 1 and l["day"] == 1), lessons[0])
 
-    rows = []
-    for p in range(1, max(k[1] for k in grid) + 1):
-        any_l = grid.get((1, p)) or grid.get((2, p))
-        tm = html.escape(any_l["time"].split("~")[0]) if any_l else ""
-        rows.append(f'<tr><th scope="row">{p}<small>{tm}</small></th>'
-                    f'{_cell(grid.get((1, p)))}{_cell(grid.get((2, p)))}</tr>')
-        if p == LUNCH_AFTER:
-            rows.append('<tr class="lunch"><td colspan="3">점심시간</td></tr>')
-    table = ('<div class="tt-wrap"><table class="timetable"><thead><tr><th scope="col">교시</th>'
-             + "".join(f'<th scope="col">{d}일차<span class="ps">{DAY_THEME[d]}</span></th>' for d in (1, 2))
-             + "</tr></thead><tbody>" + "".join(rows) + "</tbody></table></div>")
-    opt = (f'<div class="opt"><h3>선택 실습</h3><p>2일차 프로젝트 시간에 원하는 사람만, '
-           f'또는 수료 뒤 혼자 해 보는 실습입니다.</p><ul>{"".join(extra)}</ul></div>') if extra else ""
+    lists = "".join(
+        f'<div class="wf-list"><h3>{d}일차<span>{DAY_THEME[d]}</span></h3><ol>{"".join(days[d])}</ol></div>'
+        for d in (1, 2))
+    opt = (f'<div class="wf-list opt"><h3>선택 실습<span>2일차 프로젝트 시간에 원하는 사람만, 또는 수료 뒤 혼자 해 보는 실습</span></h3>'
+           f'<ol>{"".join(extra)}</ol></div>') if extra else ""
 
     note = ""
     if notes_total:
@@ -161,35 +147,37 @@ def build_index(lessons, notes_total: int = 0) -> str:
                 '<code>python scripts/strip_inotes.py</code>로 지우고 다시 build 하면 이 안내도 사라집니다.</div>')
 
     body = f'''<body class="home">
-<header class="cover">
-  <div class="cover-in">
-    <div class="cover-text">
-      <h1>{html.escape(COURSE)}</h1>
-      <p class="lead">코딩 없이 앱 화면을 만들고, 이미 배운 n8n 자동화에 연결합니다.
-      이틀 동안 민원 접수 서비스를 함께 완성하고, 내 업무로 만든 서비스 하나를 더 가지고 돌아갑니다.</p>
-      <p class="cta"><a class="btn primary" href="lessons/{first["id"]}.html">1교시부터 시작하기</a>
-      <a class="btn" href="#schedule">시간표 보기</a></p>
-    </div>
-    <dl class="label">
-      <dt>과목</dt><dd>화면은 AI가, 일은 n8n이</dd>
-      <dt>기간</dt><dd>2일, 14시간(중급)</dd>
-      <dt>대상</dt><dd>n8n 기초 과정 수료 공무원</dd>
-      <dt>메모</dt><dd class="hand">코딩은 몰라도 됩니다</dd>
-    </dl>
-  </div>
+<header class="topbar">
+  <span class="path">「AI를 활용한 나만의 비서 만들기(n8n)」 심화 과정</span>
+  <a class="btn small" href="#schedule">시간표</a>
 </header>
 
-<main class="sheet">
+<main class="home-main">
+  <section class="hero">
+    <h1>{html.escape(COURSE)}</h1>
+    <p class="lead">코딩 없이 앱 화면을 만들고, 이미 배운 n8n 자동화에 연결합니다.
+    이틀 뒤에는 아래 워크플로우가 여러분의 n8n에서 돌아갑니다.</p>
+    <ul class="facts">
+      <li><b>기간</b>2일, 14시간</li>
+      <li><b>난이도</b>중급</li>
+      <li><b>대상</b>n8n 기초 과정 수료 공무원</li>
+      <li><b>코딩</b>필요 없음</li>
+    </ul>
+    <p class="cta"><a class="btn primary" href="lessons/{first["id"]}.html">1교시부터 시작하기</a>
+    <a class="btn" href="#schedule">시간표 보기</a></p>
+    <figure class="hero-flow">
+      {flow_svg(False)}
+      {flow_svg(True)}
+      <figcaption id="flow-cap"><span class="key k-app">화면은 AI가</span><span class="key k-n8n">일은 n8n이</span>
+      이틀 뒤 완성하는 민원 접수 서비스입니다. 앱에서 접수하면 n8n이 기록·메일·마감 등록·안내문·알림을 처리하고, 접수번호를 앱 화면에 돌려줍니다.</figcaption>
+    </figure>
+  </section>
+
   <section class="block" id="about">
     <h2>이 과정은</h2>
     <p class="intro">n8n으로 만든 자동화에는 동료나 민원인이 직접 쓸 수 있는 <b>입구</b>가 없었습니다.
     이 과정에서는 그 입구인 앱 화면을 Google AI Studio에 한국어 문장으로 부탁해 만들고,
     뒤에서 일하는 부분은 이미 익숙한 n8n이 맡도록 둘을 연결합니다.</p>
-    <figure class="hero-flow">
-      {flow_svg(False)}
-      {flow_svg(True)}
-      <figcaption id="flow-cap">이틀 뒤 완성하는 민원 접수 서비스입니다. 앱에서 접수하면 n8n이 기록·메일·마감 등록·안내문·알림을 처리하고, 접수번호를 앱 화면에 돌려줍니다.</figcaption>
-    </figure>
     <div class="roles">
       <div class="role r-app">
         <h3>화면은 AI가</h3>
@@ -216,9 +204,8 @@ def build_index(lessons, notes_total: int = 0) -> str:
 
   <section class="block" id="schedule">
     <h2>이틀 시간표</h2>
-    <p class="muted">교시를 누르면 그 시간의 웹 교안이 열립니다. 교시마다 50분입니다.</p>
-    {table}
-    <p class="hand-note">진도가 밀려도 괜찮아요. 교시마다 완성 파일이 있어요.</p>
+    <p class="muted">교시를 누르면 그 시간의 웹 교안이 열립니다. 오전 3교시, 오후 4교시이고 교시마다 50분입니다.</p>
+    <div class="days">{lists}</div>
     {opt}
   </section>
 

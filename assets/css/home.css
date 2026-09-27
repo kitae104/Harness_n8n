@@ -1,180 +1,170 @@
 /* ══════════════════════════════════════════════════════════
-   첫 화면(index.html) — 실습 노트의 표지와 첫 장
+   첫 화면(index.html) — n8n 편집 화면처럼 (D49)
 
-   style.css 토큰을 그대로 쓴다. 표지(남색 공책 + 흰 이름표) 아래에
-   모눈 종이 한 장을 펴고, 시간표는 학교 시간표 모양(교시 × 1·2일차).
-   색: 파란 펜 = 화면(AI Studio), 먹색 = n8n.
+   style.css 토큰을 그대로 쓴다. 캔버스 위에 과정 제목, 그 아래
+   완성 워크플로우가 한 번 "실행"되며 노드가 차례로 초록 체크를 받는다
+   (페이지에서 움직이는 것은 이것 하나). 시간표는 n8n 워크플로우 목록 모양.
+   색: 파랑 = 화면(AI Studio), 주황 = n8n.
    ══════════════════════════════════════════════════════════ */
 
 body.home { padding: 0 0 4rem; }
 
-/* ── 표지 ─────────────────────────────────────────────── */
-.cover { background: var(--cover); color: #fff; padding: 3.6rem 1.25rem 3.2rem; }
-.cover-in {
-  max-width: 66rem; margin: 0 auto;
-  display: grid; grid-template-columns: 1.25fr 1fr; gap: 3rem; align-items: center;
+/* ── 편집기 머리 막대 ─────────────────────────────────── */
+.topbar {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; gap: 1rem;
+  padding: .55rem 1.25rem;
+  background: var(--node);
+  border-bottom: 1px solid var(--line);
+  font-size: .9rem; color: var(--muted);
 }
-.cover h1 {
-  margin: 0 0 1rem;
-  font-size: clamp(2rem, 3.8vw, 3.1rem);
+.topbar .path { flex: 1; }
+
+.btn {
+  display: inline-block;
+  padding: .65rem 1.15rem;
+  border: 1px solid var(--node-line);
+  border-radius: var(--radius-sm);
+  background: var(--node);
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: none;
+}
+.btn:hover { border-color: var(--primary); }
+.btn.primary { background: var(--primary); border-color: var(--primary); color: #fff; }
+.btn.primary:hover { background: var(--primary-ink); border-color: var(--primary-ink); }
+.btn.small { padding: .3rem .8rem; font-size: .88rem; }
+@media (prefers-color-scheme: dark) {
+  .btn.primary { color: #2a0f0a; }
+}
+
+.home-main { max-width: 68rem; margin: 0 auto; padding: 0 1.25rem; }
+
+/* ── 머리 ─────────────────────────────────────────────── */
+.hero { padding-top: 2.8rem; }
+.hero h1 {
+  margin: 0 0 .9rem;
+  max-width: 40rem;
+  font-size: clamp(2rem, 3.8vw, 3rem);
   line-height: 1.3;
   letter-spacing: -0.03em;
   text-wrap: balance;
 }
-.cover .lead { margin: 0 0 1.6rem; color: #d6deea; font-size: 1.06rem; max-width: 34rem; }
-.cta { display: flex; flex-wrap: wrap; gap: .7rem; margin: 0; }
-.btn {
-  display: inline-block;
-  padding: .7rem 1.2rem;
-  border: 2px solid #fff;
-  border-radius: var(--hand-radius);
-  color: #fff;
-  font-weight: 700;
-  text-decoration: none;
-}
-.btn:hover { background: rgba(255, 255, 255, .12); }
-.btn.primary { background: #fff; color: var(--cover); box-shadow: 4px 4px 0 #7fa1e6; }
-.btn.primary:hover { background: #eef3ff; }
-.cover :focus-visible { outline-color: #fff; }
+.hero .lead { max-width: 40rem; margin: 0 0 1.2rem; color: var(--ink-2); font-size: 1.08rem; }
+.facts { list-style: none; display: flex; flex-wrap: wrap; gap: .5rem; margin: 0 0 1.5rem; padding: 0; }
+.facts li { background: var(--node); border: 1px solid var(--line); border-radius: 6px; padding: .2rem .7rem; font-size: .93rem; }
+.facts b { color: var(--muted); font-weight: 500; margin-right: .4rem; }
+.cta { display: flex; flex-wrap: wrap; gap: .6rem; margin: 0 0 2rem; }
 
-/* 공책 이름표 */
-.label {
+/* 완성 워크플로우 — 캔버스 위 노드들 */
+.hero-flow {
   margin: 0;
-  display: grid;
-  grid-template-columns: 3.6rem 1fr;
-  background: #fff;
-  color: #1e2430;
-  border-radius: 8px;
-  padding: .9rem 1.4rem;
-  box-shadow: 0 0 0 5px #fff, 0 0 0 6.5px #b9c3d1;
+  padding: 1.6rem 1.4rem 1.1rem;
+  background: color-mix(in srgb, var(--node) 55%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 12px;
 }
-.label dt, .label dd { padding: .5rem 0; border-bottom: 1px solid #c9d1dc; }
-.label dt { color: #6b7482; font-size: .9rem; padding-top: .6rem; }
-.label dd { margin: 0; font-weight: 700; }
-.label dd.hand { font-family: var(--font-hand); font-size: 1.75rem; font-weight: 400; line-height: 1.25; color: #1f4fb5; }
-.label > :nth-last-child(-n+2) { border-bottom: 0; }
-
-/* ── 모눈 종이 한 장 ─────────────────────────────────── */
-.sheet {
-  position: relative;
-  max-width: 66rem;
-  margin: 2.4rem auto 0;
-  padding: 0 2.6rem 3rem;
-  background-color: var(--paper);
-  background-image:
-    linear-gradient(var(--grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-  background-size: 28px 28px;
-  box-shadow: 0 1px 2px rgba(16, 24, 32, .08), 0 16px 28px -22px rgba(16, 24, 32, .35);
-}
-.sheet::before {
-  content: ""; position: absolute; top: 0; bottom: 0; left: 1.3rem;
-  border-left: 2px solid var(--margin); pointer-events: none;
-}
-
-.block { padding-top: 2.8rem; scroll-margin-top: 1rem; }
-.block h2 { font-size: 1.55rem; margin: 0 0 1rem; }
-.block h3 { margin: 0 0 .45rem; font-size: 1.08rem; }
-.block ul { margin: 0; padding-left: 1.15rem; }
-.block li { margin: .2rem 0; }
-.intro { font-size: 1.08rem; max-width: 46rem; }
-.muted { color: var(--muted); }
-
-/* 완성 서비스 흐름 그림 — 종이 위에 붙인 흰 카드 */
-.hero-flow { margin: 1.6rem 0 1.8rem; padding: 1.4rem 1.4rem 1rem; background: var(--card); border: 1.5px solid var(--line-2); }
 .flow { display: block; width: 100%; height: auto; overflow: visible; }
 .flow.tall { display: none; max-width: 24rem; margin: 0 auto; }
-.flow .box  { fill: var(--card); stroke: var(--ink); stroke-width: 2; }
-.flow .bar  { fill: var(--ink); }
-.flow .n-app .box { stroke: var(--pen); stroke-width: 2.4; }
-.flow .n-app .bar { fill: var(--pen); }
-.flow .n-hook .box { stroke-width: 2.4; }
+.flow .box  { fill: var(--node); stroke: var(--node-line); stroke-width: 2; }
+.flow .bar  { fill: var(--primary); }
+.flow .n-app .bar { fill: var(--info); }
 .flow .nt   { fill: var(--ink); font: 700 19px var(--font-body); }
 .flow .ns   { fill: var(--muted); font: 400 15px var(--font-body); }
-.flow .port { fill: var(--card); stroke: var(--ink-2); stroke-width: 1.5; }
-.flow .w    { fill: none; stroke: var(--ink-2); stroke-width: 1.8; }
-.flow .back { fill: none; stroke: var(--pen); stroke-width: 1.8; stroke-dasharray: 6 5; }
-.flow .ah   { fill: var(--pen); }
-.flow .bl   { fill: var(--pen); font: 700 15px var(--font-body); }
-.hero-flow figcaption { margin-top: .8rem; color: var(--ink-2); font-size: .95rem; }
+.flow .port { fill: var(--node); stroke: var(--node-line); stroke-width: 1.5; }
+.flow .w    { fill: none; stroke: var(--node-line); stroke-width: 2; }
+.flow .back { fill: none; stroke: var(--info); stroke-width: 1.8; stroke-dasharray: 6 5; }
+.flow .ah   { fill: var(--info); }
+.flow .bl   { fill: var(--info); font: 700 15px var(--font-body); }
+/* 실행 결과: 초록 테두리 + 체크 */
+.flow .ran circle { fill: var(--ok-line); }
+.flow .ran path { fill: none; stroke: #fff; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.flow .box  { animation: ran-box .3s ease-out forwards; }
+.flow .ran  { opacity: 0; animation: ran-show .3s ease-out forwards; }
+.flow .w    { animation: ran-wire .3s ease-out forwards; }
+.flow .node:nth-of-type(1) :is(.box, .ran) { animation-delay: .5s; }
+.flow .node:nth-of-type(2) :is(.box, .ran) { animation-delay: .85s; }
+.flow .node:nth-of-type(3) :is(.box, .ran) { animation-delay: 1.2s; }
+.flow .node:nth-of-type(4) :is(.box, .ran) { animation-delay: 1.35s; }
+.flow .node:nth-of-type(5) :is(.box, .ran) { animation-delay: 1.5s; }
+.flow .node:nth-of-type(6) :is(.box, .ran) { animation-delay: 1.65s; }
+.flow .node:nth-of-type(7) :is(.box, .ran) { animation-delay: 1.8s; }
+.flow .w:nth-of-type(1) { animation-delay: .7s; }
+.flow .w { animation-delay: 1.05s; }
+.flow .back, .flow .bl { opacity: 0; animation: ran-show .4s ease-out 2.1s forwards; }
+@keyframes ran-box  { to { stroke: var(--ok-line); } }
+@keyframes ran-wire { to { stroke: var(--ok-line); } }
+@keyframes ran-show { to { opacity: 1; } }
 
-/* 첫 화면에서 한 번만: 선이 그어지고 결과 노드가 차례로 나타남 */
-@media (prefers-reduced-motion: no-preference) {
-  .flow .w { stroke-dasharray: 1; stroke-dashoffset: 1; animation: wire .9s ease-out .25s forwards; }
-  .flow .n-out { opacity: 0; animation: show .45s ease-out forwards; }
-  .flow .n-out:nth-of-type(3) { animation-delay: .8s; }
-  .flow .n-out:nth-of-type(4) { animation-delay: .88s; }
-  .flow .n-out:nth-of-type(5) { animation-delay: .96s; }
-  .flow .n-out:nth-of-type(6) { animation-delay: 1.04s; }
-  .flow .n-out:nth-of-type(7) { animation-delay: 1.12s; }
-  .flow .back, .flow .bl { opacity: 0; animation: show .5s ease-out 1.4s forwards; }
+.hero-flow figcaption { margin-top: .9rem; color: var(--ink-2); font-size: .95rem; }
+.key {
+  display: inline-block; margin-right: .4rem; padding: 0 .55rem;
+  border-radius: 999px; font-size: .85rem; font-weight: 700;
 }
-@keyframes wire { to { stroke-dashoffset: 0; } }
-@keyframes show { to { opacity: 1; } }
+.k-app { background: var(--info-soft); color: var(--info); }
+.k-n8n { background: var(--primary-soft); color: var(--primary-ink); }
+
+/* ── 본문 블록 ───────────────────────────────────────── */
+.block { padding-top: 3.2rem; scroll-margin-top: 3rem; }
+.block h2 { font-size: 1.5rem; margin: 0 0 1rem; }
+.block h3 { margin: 0 0 .45rem; font-size: 1.06rem; }
+.block ul { margin: 0; padding-left: 1.15rem; }
+.block li { margin: .2rem 0; }
+.intro { font-size: 1.07rem; max-width: 46rem; }
+.muted { color: var(--muted); }
 
 .roles { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
-.role { background: var(--card); padding: 1.1rem 1.3rem 1.2rem; border: 2px solid var(--ink); border-radius: var(--hand-radius); }
-.role.r-app { border-color: var(--pen); }
-.role.r-app h3 { color: var(--pen); }
+.role { background: var(--node); padding: 1.1rem 1.3rem 1.2rem; border: 2px solid var(--node-line); border-radius: var(--radius); border-top-width: 5px; }
+.role.r-app { border-top-color: var(--info); }
+.role.r-n8n { border-top-color: var(--primary); }
 .role .tool { margin: 0 0 .5rem; color: var(--muted); font-size: .9rem; }
 
-/* ── 학교 시간표 ─────────────────────────────────────── */
-.tt-wrap { overflow-x: auto; }
-.timetable { width: 100%; border-collapse: collapse; background: var(--card); font-size: .97rem; }
-.timetable th, .timetable td { border: 2px solid var(--ink); padding: .55rem .8rem; vertical-align: middle; line-height: 1.45; }
-.timetable thead th { background: var(--paper-2); font-size: 1.02rem; text-align: center; }
-.timetable thead th .ps { display: block; font-weight: 400; font-size: .82rem; color: var(--muted); }
-.timetable tbody th { width: 5.2rem; text-align: center; font-weight: 800; font-size: 1.1rem; }
-.timetable tbody th small { display: block; font-weight: 400; font-size: .78rem; color: var(--muted); }
-.timetable td a { display: block; color: var(--ink); text-decoration: none; }
-.timetable td a:hover b { color: var(--pen); text-decoration: underline; }
-.timetable td b { display: block; }
-.timetable td .ps { display: block; font-size: .84rem; color: var(--muted); }
-.timetable td.todo { color: var(--muted); }
-.timetable tr.lunch td { text-align: center; padding: .15rem; font-family: var(--font-hand); font-size: 1.5rem; color: var(--pen); line-height: 1.3; }
-.hand-note { font-family: var(--font-hand); font-size: 1.55rem; color: var(--pen); line-height: 1.3; margin: .7rem 0 0; }
+/* 시간표 = n8n 워크플로우 목록 */
+.days { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.wf-list { background: var(--node); border: 1px solid var(--line-2); border-radius: var(--radius); overflow: hidden; }
+.wf-list h3 { margin: 0; padding: .75rem 1rem; font-size: 1.02rem; border-bottom: 1px solid var(--line); }
+.wf-list h3 span { margin-left: .5rem; color: var(--muted); font-weight: 400; font-size: .88rem; }
+.wf-list ol { list-style: none; margin: 0; padding: 0; }
+.wf-list li { margin: 0; border-bottom: 1px solid var(--line); }
+.wf-list li:last-child { border-bottom: 0; }
+.wf-list a, .wf-list .row {
+  display: grid; grid-template-columns: 3.4rem 1fr auto; gap: .7rem; align-items: baseline;
+  padding: .6rem 1rem; color: var(--ink); text-decoration: none;
+}
+.wf-list a:hover { background: var(--primary-soft); }
+.wf-list a:hover b { color: var(--primary-ink); }
+.wf-list .p  { color: var(--muted); font-size: .85rem; font-variant-numeric: tabular-nums; }
+.wf-list .nm { line-height: 1.45; }
+.wf-list .nm b { display: block; }
+.wf-list .ps { display: block; font-size: .84rem; color: var(--muted); }
+.wf-list .tm { color: var(--muted); font-size: .82rem; font-variant-numeric: tabular-nums; }
+.wf-list li.todo { color: var(--muted); }
+.wf-list.opt { margin-top: 1.2rem; }
 
-.opt { margin-top: 1.6rem; }
-.opt p { margin: 0 0 .3rem; color: var(--ink-2); }
-.opt a { font-weight: 400; }
-
-/* ── 준비·결과 ───────────────────────────────────────── */
-.cols3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem; }
+.cols3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+.cols3 > div { background: var(--node); border: 1px solid var(--line-2); border-radius: var(--radius); padding: 1rem 1.2rem; }
 .promise {
-  margin: 1.6rem 0 0;
-  max-width: 44rem;
-  padding: .9rem 1.1rem;
-  background: var(--memo);
-  border-bottom: 3px solid var(--memo-edge);
-  box-shadow: 0 2px 5px rgba(16, 24, 32, .13);
-  transform: rotate(-.4deg);
+  margin: 1.4rem 0 0; max-width: 46rem; padding: .9rem 1.1rem;
+  background: var(--sticky); border: 1px solid var(--sticky-line); border-radius: 4px;
+  box-shadow: 0 2px 0 var(--sticky-line);
 }
 .outcomes { list-style: none; padding: 0 !important; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
-.outcomes li { margin: 0; background: var(--card); border: 1.5px solid var(--line-2); padding: 1rem 1.2rem; }
+.outcomes li { margin: 0; background: var(--node); border: 2px solid var(--ok-line); border-radius: var(--radius); padding: 1rem 1.2rem; }
 .outcomes p { margin: 0; color: var(--ink-2); }
 
-.foot { margin-top: 3rem; padding-top: 1rem; border-top: 2px solid var(--ink); font-size: .95rem; }
+.foot { margin-top: 3rem; padding-top: 1rem; border-top: 1px dashed var(--node-line); font-size: .95rem; }
 .foot p { margin: 0 0 .4rem; }
 
 @media (max-width: 860px) {
-  .cover { padding: 2.4rem 1.15rem 2.2rem; }
-  .cover-in { grid-template-columns: 1fr; gap: 2rem; }
-  .sheet { margin: 0; padding: 0 1.15rem 2.4rem 1.6rem; box-shadow: none; }
-  .sheet::before { left: .7rem; border-left-width: 1.5px; }
   .flow.wide { display: none; }
   .flow.tall { display: block; }
-  .hero-flow { padding: 1rem .8rem .8rem; }
-  .roles, .cols3, .outcomes { grid-template-columns: 1fr; }
-  .timetable { font-size: .9rem; }
-  .timetable th, .timetable td { padding: .4rem .45rem; }
-  .timetable tbody th { width: 3.2rem; font-size: 1rem; }
-  .timetable td .ps { display: none; }
+  .hero-flow { padding: 1rem .7rem .8rem; }
+  .roles, .cols3, .outcomes, .days { grid-template-columns: 1fr; }
+  .topbar .path { font-size: .8rem; }
 }
 
 @media print {
-  .cover { background: #fff; color: #000; }
-  .label { box-shadow: none; border: 1px solid #000; }
-  .btn, .cta { display: none; }
-  .sheet { box-shadow: none; background: #fff; }
-  .sheet::before { display: none; }
+  .topbar, .cta { display: none; }
+  .hero-flow { background: #fff; }
+  .flow .box, .flow .ran, .flow .w, .flow .back, .flow .bl { animation: none; opacity: 1; }
 }

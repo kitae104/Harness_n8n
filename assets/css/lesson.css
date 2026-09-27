@@ -1,71 +1,68 @@
 /* ══════════════════════════════════════════════════════════
    이 과정(AI 앱 + n8n) 확장 스타일
 
-   style.css(실습 노트)·lecture.css 위에 얹는다.
+   style.css(n8n 캔버스)·lecture.css 위에 얹는다.
    불러오는 순서: style.css → lecture.css → lesson.css
    색·글꼴은 style.css의 :root 토큰을 그대로 쓰고, 여기서는 새 부품만 정의한다.
    흑백 인쇄에서도 구분되도록 박스는 "제목 글자 + 테두리 모양"으로 구분한다.
    ══════════════════════════════════════════════════════════ */
 
-/* 실습 노트(style.css)의 펜 색을 그대로 쓴다: 개념 = 파란 펜, 실수 = 빨간 펜, 막혔을 때 = 메모지 */
+/* n8n 캔버스(style.css)의 색을 그대로 쓴다: 개념 = 파랑, 실수 = 오류 노드 빨강, 막혔을 때 = 스티커 메모 */
 :root {
-  --concept:      var(--pen);
-  --concept-soft: var(--card);
-  --mistake:      var(--red-pen);
-  --mistake-soft: var(--card);
-  --planb:        var(--memo-edge);
+  --concept:      var(--info);
+  --concept-soft: var(--node);
+  --mistake:      var(--err);
+  --mistake-soft: var(--err-soft);
+  --planb:        var(--sticky-line);
 }
 
 /* ── 학습목표 ─────────────────────────────────────────── */
 section[data-section="objectives"] ul { margin: .4rem 0 0; padding-left: 1.2rem; }
 section[data-section="objectives"] li { margin: .15rem 0; }
 
-/* ── 개념 블록: 파란 펜 이중선 ─────────────────────────── */
+/* ── 개념 블록: 파란 이중선 ────────────────────────────── */
 section[data-section="concept"] .sec-title::after {
   content: "10분";
-  font-family: var(--font-hand);
-  font-size: 1.25em;
-  font-weight: 400;
-  line-height: 1;
-  color: var(--pen);
+  padding: .02rem .5rem;
+  border-radius: 999px;
+  background: var(--chip);
+  border: 1px solid var(--line-2);
+  font-size: .72em;
+  font-weight: 700;
+  color: var(--muted);
 }
 .note.concept {
   border: 3px double var(--concept);
   background: var(--concept-soft);
 }
-.note.concept > b:first-child { color: var(--pen); }
+.note.concept > b:first-child { color: var(--concept); }
 
-/* ── 자주 하는 실수: 빨간 펜으로 두른 칸 + 손글씨 제목 ──── */
+/* ── 자주 하는 실수: 오류가 난 노드의 오류 창 ──────────── */
 .note.mistake {
-  position: relative;
-  margin-top: 2.3em !important;  /* 손글씨 제목이 위 테두리 밖으로 나오는 만큼(글자 크기 비례) */
-  padding-top: 1.1em;
-  border: 2.5px solid var(--mistake);
-  border-radius: 14px 8px 16px 10px;
+  padding: 0 1.15rem 1rem;
+  border: 2px solid var(--mistake);
+  border-radius: var(--radius-sm);
   background: var(--mistake-soft);
+  overflow: hidden;
 }
 .note.mistake > b:first-child {
-  position: absolute;
-  top: -1.05em;
-  left: .7rem;
-  margin: 0;
-  padding: 0 .4rem;
-  background: var(--paper);
-  font-family: var(--font-hand);
-  font-size: 1.55em;
-  font-weight: 400;
-  line-height: 1.3;
-  color: var(--mistake);
+  margin: 0 -1.15rem .7rem;
+  padding: .4rem 1.15rem;
+  background: var(--mistake);
+  color: #fff;
+  font-size: .95em;
+}
+.note.mistake > b:first-child::before { content: "⚠ "; }
+@media (prefers-color-scheme: dark) {
+  .note.mistake > b:first-child { color: #2a0f0f; }
 }
 
-/* ── 막혔을 때(플랜 B): 붙여 둔 메모지 ─────────────────── */
+/* ── 막혔을 때(플랜 B): 캔버스 스티커 메모 ─────────────── */
 .note.planb {
-  border: 0;
-  border-bottom: 3px solid var(--memo-edge);
-  border-radius: 2px;
-  background: var(--memo);
-  box-shadow: 0 2px 5px rgba(16, 24, 32, .13);
-  transform: rotate(-.35deg);
+  border: 1px solid var(--planb);
+  border-radius: 4px;
+  background: var(--sticky);
+  box-shadow: 0 2px 0 var(--planb);
 }
 
 /* ── 용어 풀이 ─────────────────────────────────────────── */
@@ -99,10 +96,9 @@ dfn {
   /* 색 대신 모양으로 구분: 배경 제거, 테두리·제목 유지 */
   .note, .note.tip, .note.warn { background: #fff !important; }
   .note.tip  { border: 1px solid #000; border-left: 4px solid #000; }
-  .note.planb { border: 2px dashed #000; box-shadow: none; transform: none; }
-  .note.mistake { border: 2px solid #000; border-left-width: 6px; }
-  .note.mistake > b:first-child { position: static; display: block; padding: 0; font-family: var(--font-body); font-size: 1em; font-weight: 700; background: none; }
-  section[data-section="concept"] .sec-title::after { font-family: var(--font-body); font-size: .8em; }
+  .note.planb { border: 2px dashed #000; box-shadow: none; }
+  .note.mistake { border: 2px solid #000; border-left-width: 6px; padding-top: 1rem; }
+  .note.mistake > b:first-child { margin: 0 0 .3rem; padding: 0; background: none; color: #000; }
   .note.warn { border: 1px solid #000; border-left: 4px dotted #000; }
   .note > b:first-child { text-decoration: underline; }
   code.val { border: 1px solid #000; background: #fff; }

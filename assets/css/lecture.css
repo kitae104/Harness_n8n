@@ -41,14 +41,14 @@ body.lecture-mode ul.bullets > li::before {
   width: .5rem;
   height: .5rem;
   border-radius: 50%;
-  background: var(--pen);
+  background: var(--primary);
 }
 
 /* 확인 문제 — 참여도를 높이기 위한 객관식·단답식 퀴즈 */
 .quiz-item {
-  border: 1.5px solid var(--line-2);
-  border-radius: var(--radius-sm);
-  background: var(--card);
+  border: 2px solid var(--node-line);
+  border-radius: var(--radius);
+  background: var(--node);
   padding: 1.1rem 1.25rem;
   margin: 0 0 1rem;
 }
@@ -62,9 +62,10 @@ body.lecture-mode ul.bullets > li::before {
   display: inline-block;
   margin-right: .5rem;
   padding: .1rem .5rem;
-  border: 1.5px solid var(--pen);
-  border-radius: var(--hand-radius);
-  color: var(--pen);
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  background: var(--chip);
+  color: var(--ink-2);
   font-size: .78rem;
   font-weight: 700;
   vertical-align: middle;
@@ -117,8 +118,8 @@ details.quiz-answer[open] summary::before {
 details.quiz-answer[open] summary { margin-bottom: .5rem; }
 details.quiz-answer .quiz-a {
   padding: .7rem .9rem;
-  border-left: 3px solid var(--red-pen);
-  background: var(--red-soft);
+  border-left: 3px solid var(--ok-line);
+  background: var(--ok-soft);
   border-radius: 0 4px 4px 0;
   font-size: .92rem;
   line-height: 1.6;
@@ -131,9 +132,8 @@ table.tbl {
   width: 100%;
   border-collapse: collapse;
   font-size: .94em;
-  background: var(--card);
-  border-top: 2px solid var(--ink);
-  border-bottom: 2px solid var(--ink);
+  background: var(--node);
+  border: 1px solid var(--line-2);
 }
 table.tbl th,
 table.tbl td {
@@ -144,12 +144,12 @@ table.tbl td {
 }
 table.tbl th {
   background: var(--paper-2);
-  border-bottom: 1.5px solid var(--ink);
+  border-bottom: 1.5px solid var(--line-2);
   font-weight: 700;
   color: var(--ink-2);
   white-space: nowrap;
 }
-table.tbl tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--paper-2) 60%, var(--card)); }
+table.tbl tbody tr:nth-child(even) td { background: var(--paper-2); }
 
 
 /* 좁은 화면(모바일)에서는 원래 읽기용 레이아웃으로 되돌림 */

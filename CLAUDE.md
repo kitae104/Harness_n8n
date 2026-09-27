@@ -12,8 +12,7 @@ lessons.json       교시 명세·상태·작성 순서(authoring_order)
 index.html         사이트 목차(build.py 생성)   instructor-notes.html  강사 준비 목록(build.py 생성, 임시)
 lessons/           교시 교안 {id}.html          workflows/   완성본 JSON {id}.json
 prompts/           AI Studio 프롬프트 {id}-*.md  print/       인쇄 교재·양식(forms/)
-assets/css/        style(실습 노트 디자인, D49)·lecture·lesson·home.css   assets/img/  캡처 fig-*.png
-assets/fonts/      손글씨 부분 글꼴(교육망: 외부 웹폰트 금지)
+assets/css/        style(n8n 캔버스 디자인, D49)·lecture·lesson·home.css   assets/img/  캡처 fig-*.png
 assets/proposal/   제안서 그림 PNG      assets/samples/  실습용 가상 자료(가상 공문 등)
 docs/
   proposal.md        제안서(명세 원본 — PDF 대신 이것을 읽음)
